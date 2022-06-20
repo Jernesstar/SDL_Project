@@ -1,5 +1,5 @@
 #include <iostream>
-#include <SDL.h>
+#include <SDL2/SDL.h>
 
 #define SCREEN_WIDTH 500
 #define SCREEN_HEIGHT 500
@@ -10,7 +10,7 @@ int main(int argc, char** argv)
 
     // Create window, centered in the middle of screen, 500 x 500, resizable
     SDL_Window* window = SDL_CreateWindow("Game window", 
-        SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT);
+        SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, 0);
     // Creating renderer
     SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, 0);
 
