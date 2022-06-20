@@ -1,1 +1,1 @@
-g++ src/*.cpp -o src/main -Ipackages/include -Ipackages/include/SDL2 -Lpackages/lib -lmingw32 -lSDL2main -lSDL2 
+g++ src/*.cpp -o src/main -ISDL/include -ISDL/include/SDL2 -LSDL/lib -lmingw32 -lSDL2main -lSDL2 
