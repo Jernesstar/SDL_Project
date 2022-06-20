@@ -1,0 +1,1 @@
+g++ src/*.cpp -o build/main -I SDL/include/SDL2 -L SDL/lib -l mingw32 -l SDL2main -l SDL2 
