@@ -1,8 +1,8 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 
-#define SCREEN_WIDTH 500
-#define SCREEN_HEIGHT 500
+#define SCREEN_WIDTH 1028
+#define SCREEN_HEIGHT 512
 
 int main(int argc, char** argv)
 {
@@ -29,7 +29,7 @@ int main(int argc, char** argv)
             }
         }
         SDL_RenderClear(renderer);
-        SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255); // Blue
+        SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
         SDL_RenderPresent(renderer);
     }
 
