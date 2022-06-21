@@ -1,1 +1,1 @@
-g++ src/*.cpp -o bin/main -I SDL/include/SDL2 -L SDL/lib -l mingw32 -l SDL2main -l SDL2 -l SDL2_ttf
+g++ src/*.cpp -o bin/main -I SDL/include/SDL2 -L SDL/lib -l mingw32 -l SDL2main -l SDL2 -l SDL2_image -l SDL2_ttf
