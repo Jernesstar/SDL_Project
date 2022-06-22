@@ -5,7 +5,7 @@
 #include <SDL_image.h>
 
 #define SCREEN_WIDTH 1700
-#define SCREEN_HEIGHT 600
+#define SCREEN_HEIGHT 800
 
 int main(int argc, char** argv)
 {
@@ -27,12 +27,9 @@ int main(int argc, char** argv)
     SDL_Surface* image = IMG_Load("resources/start_bg.png");
     SDL_Texture* image_texture = SDL_CreateTextureFromSurface(renderer, image);
 
+    // format: x, y, width, height
     SDL_Rect message_rect = { 128, 256, 500, 40 };
-    SDL_Rect image_rect = { 0, 0, 1700, 600 };
-    // message_rect.w = 500;
-    // message_rect.h = 40;
-    // message_rect.x = 128;
-    // message_rect.y = 256;
+    SDL_Rect image_rect = { 0, 0, 1700, 800 };
 
     SDL_Event event;
     bool running = true;
