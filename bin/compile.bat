@@ -1,1 +1,3 @@
-g++ src/*.cpp -o bin/main -I src/headers -I SDL/include/SDL2 -L SDL/lib -l mingw32 -l SDL2main -l SDL2 -l SDL2_image -l SDL2_ttf -l SDL2_mixer
+@echo off
+MinGW32-make -f bin\Makefile
+MinGW32-make -f bin\Makefile clean

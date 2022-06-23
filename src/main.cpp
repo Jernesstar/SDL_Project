@@ -50,12 +50,14 @@ int main(int argc, char** argv)
     SDL_Rect image_rect = { 0, 0, 1700, 800 };
 
     SDL_Point center = { 500, 850 };
+    int radius = 100;
+    SDL_Color circle_color = { 0, 0, 255};
 
     SDL_Event event;
     bool running = true;
-
     int velocity_x = 0;
     int velocity_y = 0;
+    bool paused = false;
     while(running)
     {
         while(SDL_PollEvent(&event))
@@ -69,31 +71,36 @@ int main(int argc, char** argv)
                     switch (event.key.keysym.sym)
                     {
                         case SDLK_UP:
-                            velocity_x = 0;
                             velocity_y = -10;
                             break;
                         case SDLK_DOWN:
-                            velocity_x = 0;
                             velocity_y = 10;
                             break;
                         case SDLK_LEFT:
                             velocity_x = -10;
-                            velocity_y = 0;
                             break;
                         case SDLK_RIGHT:
                             velocity_x = 10;
-                            velocity_y = 0;
                             break;
+                        case SDLK_RETURN:
+                            paused = !paused;
                     }
             }
         }
         SDL_RenderCopy(renderer, image_texture, NULL, NULL);
         SDL_RenderCopy(renderer, message_texture, NULL, &message_rect);
         
-        center.x += velocity_x;
-        center.y += velocity_y;
-        
-        draw_circle(renderer, center, 100, {0, 0, 255});
+        if(center.x + radius >= SCREEN_WIDTH || center.x - radius <= 0)
+            velocity_x *= -1;
+        if(center.y + radius >= SCREEN_HEIGHT || center.y - radius <= 0)
+            velocity_y *= -1;
+
+        if(paused == false)
+        {
+            center.x += velocity_x;
+            center.y += velocity_y;
+        }
+        draw_circle(renderer, center, radius, circle_color);
         SDL_RenderPresent(renderer);
     }
 
