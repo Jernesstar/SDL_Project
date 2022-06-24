@@ -24,14 +24,13 @@ void draw_circle(SDL_Renderer* renderer, SDL_Point center, int radius, SDL_Color
         }
     }
 }
-Mix_Chunk* music_samples[2];
 
-void GetAudioSamples(char* files[], int file_count)
+void GetAudioSamples(Mix_Chunk* music_samples[], char* files[], int file_count)
 {
     memset(music_samples, 0, sizeof(Mix_Chunk*) * file_count);
 
     Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 1024);
-    Mix_AllocateChannels(4);
+    Mix_AllocateChannels(file_count);
 
     for(int i = 0; i < file_count; i++)
         music_samples[i] = Mix_LoadWAV(files[i]);
@@ -43,8 +42,9 @@ int main(int argc, char** argv)
     TTF_Init();
     IMG_Init(IMG_INIT_PNG);
 
+    Mix_Chunk* music_samples[2];
     char* file_names[] = {"resources/Kick-Drum.wav", "resources/Snare-Drum.wav"};
-    GetAudioSamples(file_names, sizeof(file_names) / sizeof(file_names[0]));
+    GetAudioSamples(music_samples, file_names, sizeof(file_names) / sizeof(file_names[0]));
 
     // Create window, centered in the middle of screen, 500 x 500, resizable
     SDL_Window* window = SDL_CreateWindow("Game window", 
