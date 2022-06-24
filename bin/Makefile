@@ -11,7 +11,7 @@ vpath %.h src/headers
 
 # Uses the ObjectFiles list as a dependency, linking all .o files into one executable
 $(ProgramName): $(ObjectFiles)
-	@g++ $^ -o bin/$(ProgramName) $(C++IncludeFlags) $(C++LibFlags)
+	@g++ $^ -o bin/$(ProgramName).exe $(C++IncludeFlags) $(C++LibFlags)
 
 # Compiling all the .cpp files into .o files
 %.o: %.cpp
