@@ -25,7 +25,7 @@ void draw_circle(SDL_Renderer* renderer, SDL_Point center, int radius, SDL_Color
     }
 }
 
-void GetAudioSamples(Mix_Chunk* music_samples[], char* files[], int file_count)
+void GetAudioSamples(Mix_Chunk* music_samples[], std::string* files, int file_count)
 {
     memset(music_samples, 0, sizeof(Mix_Chunk*) * file_count);
 
@@ -33,7 +33,7 @@ void GetAudioSamples(Mix_Chunk* music_samples[], char* files[], int file_count)
     Mix_AllocateChannels(file_count);
 
     for(int i = 0; i < file_count; i++)
-        music_samples[i] = Mix_LoadWAV(files[i]);
+        music_samples[i] = Mix_LoadWAV(const_cast<char*>(files[i].c_str()));
 }
 
 int main(int argc, char** argv)
@@ -43,8 +43,9 @@ int main(int argc, char** argv)
     IMG_Init(IMG_INIT_PNG);
 
     Mix_Chunk* music_samples[2];
-    char* file_names[] = {"resources/Kick-Drum.wav", "resources/Snare-Drum.wav"};
-    GetAudioSamples(music_samples, file_names, sizeof(file_names) / sizeof(file_names[0]));
+    std::string file_names[2] = {"resources/Kick-Drum.wav", "resources/Snare-Drum.wav"};
+    int files_count = sizeof(file_names) / sizeof(file_names[0]);
+    GetAudioSamples(music_samples, file_names, files_count);
 
     // Create window, centered in the middle of screen, 500 x 500, resizable
     SDL_Window* window = SDL_CreateWindow("Game window", 
@@ -113,7 +114,7 @@ int main(int argc, char** argv)
         
             velocity_x *= -1;
             velocity_x += 0.25 * velocity_x;
-            Mix_PlayChannel(-1, music_samples[0], 0);
+            Mix_PlayChannel(0, music_samples[0], 0);
         }
         if(center.y + radius >= SCREEN_HEIGHT || center.y - radius <= 0)
         {
@@ -122,11 +123,11 @@ int main(int argc, char** argv)
             
             velocity_y *= -1;
             velocity_y += 0.25 * velocity_y;
-            Mix_PlayChannel(-1, music_samples[1], 0);
+            Mix_PlayChannel(1, music_samples[1], 0);
         }
-        if(velocity_x >= 30)
+        if(velocity_x >= 100)
             velocity_x = 10;
-        if(velocity_y >= 30)
+        if(velocity_y >= 100)
             velocity_y = 10;
 
         if(paused == false)
@@ -145,7 +146,7 @@ int main(int argc, char** argv)
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
 
-    for(int i = 0; i <= 2; i++)
+    for(int i = 0; i <= files_count; i++)
         Mix_FreeChunk(music_samples[i]);
 
     Mix_CloseAudio();
