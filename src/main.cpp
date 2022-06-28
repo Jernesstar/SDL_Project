@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 
 #include <SDL.h>
 #include <SDL_ttf.h>
@@ -29,8 +30,7 @@ void GetAudioSamples(Mix_Chunk* music_samples[], std::string* files, int file_co
 {
     memset(music_samples, 0, sizeof(Mix_Chunk*) * file_count);
 
-    Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 1024);
-    Mix_AllocateChannels(file_count);
+    Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, file_count, 1024);
 
     for(int i = 0; i < file_count; i++)
         music_samples[i] = Mix_LoadWAV(const_cast<char*>(files[i].c_str()));
@@ -42,9 +42,9 @@ int main(int argc, char** argv)
     TTF_Init();
     IMG_Init(IMG_INIT_PNG);
 
-    Mix_Chunk* music_samples[2];
-    std::string file_names[2] = {"resources/Kick-Drum.wav", "resources/Snare-Drum.wav"};
+    std::string file_names[] = {"resources/Kick-Drum.wav", "resources/Snare-Drum.wav"};
     int files_count = sizeof(file_names) / sizeof(file_names[0]);
+    Mix_Chunk* music_samples[files_count];
     GetAudioSamples(music_samples, file_names, files_count);
 
     // Create window, centered in the middle of screen, 500 x 500, resizable
@@ -67,7 +67,7 @@ int main(int argc, char** argv)
 
     SDL_Point center = { 500, 850 };
     int radius = 100;
-    SDL_Color circle_color = { 0, 0, 255};
+    SDL_Color circle_color = { 0, 0, 255 };
 
     SDL_Event event;
     bool running = true;
@@ -103,10 +103,7 @@ int main(int argc, char** argv)
                             paused = !paused;
                     }
             }
-        }
-        SDL_RenderCopy(renderer, image_texture, NULL, NULL);
-        SDL_RenderCopy(renderer, message_texture, NULL, &message_rect);
-        
+        }        
         if(center.x + radius >= SCREEN_WIDTH || center.x - radius <= 0)
         {
             if(center.x + radius >= SCREEN_WIDTH) center.x = SCREEN_WIDTH - radius;
@@ -135,7 +132,9 @@ int main(int argc, char** argv)
             center.x += velocity_x;
             center.y += velocity_y;
         }
-        draw_circle(renderer, center, radius, circle_color);
+        SDL_RenderCopy(renderer, image_texture, NULL, NULL);
+        SDL_RenderCopy(renderer, message_texture, NULL, &message_rect);
+        draw_circle(renderer, center, 100, circle_color);
         SDL_RenderPresent(renderer);
     }
 
