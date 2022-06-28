@@ -1,0 +1,78 @@
+SDL_Point center = { 500, 850 };
+int radius = 100;
+SDL_Color circle_color = { 0, 0, 255 };
+
+SDL_Event event;
+bool running = true;
+int velocity_x = 0;
+int velocity_y = 0;
+bool paused = false;
+
+while(running)
+{
+    while(SDL_PollEvent(&event))
+    {
+        switch (event.type)
+        {
+            case SDL_QUIT:
+                running = false;
+                break;
+            case SDL_KEYDOWN:
+                switch (event.key.keysym.sym)
+                {
+                    case SDLK_UP:
+                        velocity_y = -10;
+                        break;
+                    case SDLK_DOWN:
+                        velocity_y = 10;
+                        break;
+                    case SDLK_LEFT:
+                        velocity_x = -10;
+                        break;
+                    case SDLK_RIGHT:
+                        velocity_x = 10;
+                        break;
+                    case SDLK_RETURN:
+                        paused = !paused;
+                }
+                break;
+        }
+    }
+            
+    if(center.x + radius >= SCREEN_WIDTH || center.x - radius <= 0)
+    {
+        if(center.x + radius >= SCREEN_WIDTH) center.x = SCREEN_WIDTH - radius;
+        if(center.x - radius <= 0) center.x = radius;
+
+        velocity_x *= -1;
+        velocity_x += 0.25 * velocity_x;
+        Mix_PlayChannel(0, music_samples[0], 0);
+    }
+    if(center.y + radius >= SCREEN_HEIGHT || center.y - radius <= 0)
+    {
+        if(center.y + radius >= SCREEN_HEIGHT) center.y = SCREEN_HEIGHT - radius;
+        if(center.y - radius <= 0) center.y = radius;
+
+        velocity_y *= -1;
+        velocity_y += 0.25 * velocity_y;
+        Mix_PlayChannel(1, music_samples[1], 0);
+    }
+    if(velocity_x >= 100)
+        velocity_x = 10;
+    if(velocity_y >= 100)
+        velocity_y = 10;
+
+    if(paused == false)
+    {
+        center.x += velocity_x;
+        center.y += velocity_y;
+    }
+
+    draw_circle(renderer, center, radius, color);
+    SDL_RenderPresent(renderer);
+}
+
+
+
+
+
