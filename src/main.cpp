@@ -59,8 +59,6 @@ void Start_Screen()
     // format: x, y, width, height
     SDL_Rect message_rect = {800, 50, 500, 40};
     SDL_Rect image_rect = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
-
-    Entity e(renderer, image);
  
     SDL_Event event;
     bool running = true;
@@ -83,6 +81,8 @@ void Start_Screen()
 
     // for(int i = 0; i <= files_count; i++)
     //     Mix_FreeChunk(music_samples[i]);
+    Entity e(renderer, image);
+    e.~Entity();
 
     SDL_FreeSurface(message_surface);
     SDL_FreeSurface(image);
