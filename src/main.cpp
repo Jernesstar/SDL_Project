@@ -60,6 +60,8 @@ void Start_Screen()
     SDL_Rect message_rect = {800, 50, 500, 40};
     SDL_Rect image_rect = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
 
+    Entity e(renderer, image);
+ 
     SDL_Event event;
     bool running = true;
 
@@ -79,7 +81,6 @@ void Start_Screen()
         SDL_RenderPresent(renderer);
     }
 
-   
     // for(int i = 0; i <= files_count; i++)
     //     Mix_FreeChunk(music_samples[i]);
 
@@ -101,15 +102,18 @@ int main(int argc, char** argv)
     renderer = SDL_CreateRenderer(window, -1, 0);
     pixel_font = TTF_OpenFont("resources/pixel_font.ttf", 15);
 
+    
     Start_Screen();
 
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
 
+    Log::Info("The program is cleaning up", __FILE__, __func__, __LINE__);
     Mix_CloseAudio();
     IMG_Quit();
     TTF_Quit();
     SDL_Quit();
+    Log::Info("The program is terminating", __FILE__, __func__, __LINE__);
 
     return 0;
 }
