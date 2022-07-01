@@ -7,6 +7,7 @@
 #include <SDL_mixer.h>
 
 #include "Entity.h"
+#include "Game.h"
 #include "Log.h"
 #include "Text.h"
 
@@ -83,6 +84,7 @@ void Start_Screen()
                     break;
             }
         }
+        Game game("A", "B", renderer);
         SDL_RenderCopy(renderer, message_text.texture, NULL, &message_text.rect);
         SDL_RenderCopy(renderer, pong_text.texture, NULL, &pong_text.rect);
         SDL_RenderPresent(renderer);
