@@ -8,6 +8,7 @@
 
 #include "Entity.h"
 #include "Log.h"
+#include "Text.h"
 
 #define SCREEN_WIDTH 1700
 #define SCREEN_HEIGHT 1000
@@ -44,9 +45,11 @@ void GetAudioSamples(Mix_Chunk* music_samples[], std::string* files, int file_co
 
 void Start_Screen()
 {
+    std::string message = "Press any key to continue";
     SDL_Color color = {255, 255, 255};
-    SDL_Surface* message_surface = TTF_RenderText_Solid(pixel_font, "Press any key to continue", color);
-    SDL_Texture* message_texture = SDL_CreateTextureFromSurface(renderer, message_surface);
+
+    Text pong_text("Pong", 10, pixel_font, color, renderer);
+    Text message_text("Press any key to continue", 3, pixel_font, color, renderer);
 
     SDL_Surface* image = IMG_Load("resources/start_bg.png");
     SDL_Texture* image_texture = SDL_CreateTextureFromSurface(renderer, image);
@@ -56,9 +59,11 @@ void Start_Screen()
     // Mix_Chunk* music_samples[files_count];
     // GetAudioSamples(music_samples, file_names, files_count);
 
-    // format: x, y, width, height
-    SDL_Rect message_rect = {800, 50, 500, 40};
-    SDL_Rect image_rect = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
+    pong_text.rect.x = (0.5 * SCREEN_WIDTH) - pong_text.center.x;
+    pong_text.rect.y = (0.5 * SCREEN_HEIGHT) - 2 * pong_text.rect.h;
+
+    message_text.rect.x = (0.5 * SCREEN_WIDTH) - message_text.center.x;
+    message_text.rect.y = (0.5 * SCREEN_HEIGHT); 
  
     SDL_Event event;
     bool running = true;
@@ -72,27 +77,27 @@ void Start_Screen()
                 case SDL_QUIT:
                     running = false;
                     break;
+
+                case SDL_KEYDOWN:
+                    running = false;
+                    break;
             }
         }
-        SDL_RenderCopy(renderer, image_texture, NULL, NULL);
-        SDL_RenderCopy(renderer, message_texture, NULL, &message_rect);
+        SDL_RenderCopy(renderer, message_text.texture, NULL, &message_text.rect);
+        SDL_RenderCopy(renderer, pong_text.texture, NULL, &pong_text.rect);
         SDL_RenderPresent(renderer);
     }
 
     // for(int i = 0; i <= files_count; i++)
     //     Mix_FreeChunk(music_samples[i]);
-    Entity e(renderer, image);
-    e.~Entity();
 
-    SDL_FreeSurface(message_surface);
     SDL_FreeSurface(image);
-    SDL_DestroyTexture(message_texture);
     SDL_DestroyTexture(image_texture);
 };
 
 int main(int argc, char** argv)
 {
-    SDL_Init(SDL_INIT_EVERYTHING);
+    SDL_Init(SDL_INIT_AUDIO || SDL_INIT_EVENTS);
     TTF_Init();
     IMG_Init(IMG_INIT_PNG);
 
@@ -101,7 +106,6 @@ int main(int argc, char** argv)
     // Creating renderer, renders to above window, first one supporting flags, no flags
     renderer = SDL_CreateRenderer(window, -1, 0);
     pixel_font = TTF_OpenFont("resources/pixel_font.ttf", 15);
-
     
     Start_Screen();
 

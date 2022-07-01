@@ -14,6 +14,4 @@ Entity::~Entity()
 {
     if(image)
         SDL_DestroyTexture(image);
-    else
-        Log::Warning("Image has already been destroyed", __FILE__, __func__, __LINE__);
 };
