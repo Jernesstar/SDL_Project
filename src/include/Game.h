@@ -1,11 +1,12 @@
-#include <iostream>
+#pragma once
 
-class Game {
+#include "PongGame.h"
+
+static class Game {
+
 public:
-    const std::string player_1_name;
-    const std::string player_2_name;
-    SDL_Renderer* renderer;
+    static PongGame game;
 
-    Game(std::string name_1, std::string name_2, SDL_Renderer* _renderer);
-    ~Game();
-};
+public:
+    Play();
+}

@@ -7,7 +7,7 @@
 #include <SDL_mixer.h>
 
 #include "Entity.h"
-#include "Game.h"
+#include "PongGame.h"
 #include "Log.h"
 #include "Text.h"
 
@@ -18,32 +18,6 @@ SDL_Window* window;
 SDL_Renderer* renderer;
 TTF_Font* pixel_font;
 
-void draw_circle(SDL_Renderer* renderer, SDL_Point center, int radius, SDL_Color color)
-{
-    SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
-    for (int w = 0; w < radius * 2; w++)
-    {
-        for (int h = 0; h < radius * 2; h++)
-        {
-            int dx = radius - w; // horizontal offset
-            int dy = radius - h; // vertical offset
-            if ((dx*dx + dy*dy) <= (radius * radius))
-            {
-                SDL_RenderDrawPoint(renderer, center.x + dx, center.y + dy);
-           }
-       }
-   }
-}
-
-void GetAudioSamples(Mix_Chunk* music_samples[], std::string* files, int file_count)
-{
-    memset(music_samples, 0, sizeof(Mix_Chunk*) * file_count);
-    Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, file_count, 1024);
-
-    for(int i = 0; i < file_count; i++)
-        music_samples[i] = Mix_LoadWAV(const_cast<char*>(files[i].c_str()));
-}
-
 void Start_Screen()
 {
     std::string message = "Press any key to continue";
@@ -51,14 +25,6 @@ void Start_Screen()
 
     Text pong_text("Pong", 10, pixel_font, color, renderer);
     Text message_text("Press any key to continue", 3, pixel_font, color, renderer);
-
-    SDL_Surface* image = IMG_Load("resources/start_bg.png");
-    SDL_Texture* image_texture = SDL_CreateTextureFromSurface(renderer, image);
-
-    // std::string file_names[] = {"resources/Kick-Drum.wav", "resources/Snare-Drum.wav"};
-    // int files_count = sizeof(file_names) / sizeof(file_names[0]);
-    // Mix_Chunk* music_samples[files_count];
-    // GetAudioSamples(music_samples, file_names, files_count);
 
     pong_text.rect.x = (0.5 * SCREEN_WIDTH) - pong_text.center.x;
     pong_text.rect.y = (0.5 * SCREEN_HEIGHT) - 2 * pong_text.rect.h;
@@ -84,18 +50,13 @@ void Start_Screen()
                     break;
             }
         }
-        Game game("A", "B", renderer);
         SDL_RenderCopy(renderer, message_text.texture, NULL, &message_text.rect);
         SDL_RenderCopy(renderer, pong_text.texture, NULL, &pong_text.rect);
         SDL_RenderPresent(renderer);
     }
-
-    // for(int i = 0; i <= files_count; i++)
-    //     Mix_FreeChunk(music_samples[i]);
-
-    SDL_FreeSurface(image);
-    SDL_DestroyTexture(image_texture);
-};
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+    SDL_RenderClear(renderer);
+}
 
 int main(int argc, char** argv)
 {
@@ -110,6 +71,9 @@ int main(int argc, char** argv)
     pixel_font = TTF_OpenFont("resources/pixel_font.ttf", 15);
     
     Start_Screen();
+
+    PongGame game("A", "B", renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
+    game.Run();
 
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
