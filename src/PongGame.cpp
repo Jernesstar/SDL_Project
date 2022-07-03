@@ -17,6 +17,8 @@ PongGame::PongGame(std::string name_1, std::string name_2, SDL_Window* _window, 
     paddle_1 = (SDL_Surface*)malloc(sizeof(SDL_Surface));
     paddle_2 = (SDL_Surface*)malloc(sizeof(SDL_Surface));
 
+    paddle_1 = SDL_CreateRGBSurface(0, 10, 100, 32, 0, 0, 0, 0);
+
     SDL_FillRect(paddle_1, NULL, SDL_MapRGB(paddle_1->format, 255, 255, 255)); 
 }
 
@@ -58,7 +60,11 @@ void PongGame::Run()
     int radius = 20;
     SDL_Color circle_color = { 0, 255, 0 };
 
+    paddle_1->clip_rect.x = SCREEN_WIDTH / 4;
+    paddle_1->clip_rect.y = SCREEN_HEIGHT / 2;
+
     SDL_Surface* screen = SDL_GetWindowSurface(window);
+    SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, paddle_1);
 
     SDL_Event event;
     bool running = true;
@@ -79,10 +85,11 @@ void PongGame::Run()
                     switch (event.key.keysym.sym)
                     {
                         case SDLK_UP:
-                            velocity_y = -10;
+                            paddle_1->clip_rect.y += -15;
                             break;
                         case SDLK_DOWN:
                             velocity_y = 10;
+                            paddle_1->clip_rect.y += 15;
                             break;
                         case SDLK_LEFT:
                             velocity_x = -10;
@@ -118,10 +125,14 @@ void PongGame::Run()
             velocity_y *= -1;
             // velocity_y += 0.25 * velocity_y;
         }
-        if(velocity_x >= 100)
-            velocity_x = 10;
-        if(velocity_y >= 100)
-            velocity_y = 10;
+        if(center.x + radius == paddle_1->clip_rect.x + paddle_1->clip_rect.w)
+        {
+            velocity_x *= -1;
+        }
+        if(center.y + radius == paddle_1->clip_rect.y + paddle_1->clip_rect.h)
+        {
+            velocity_y *= -1;
+        }
 
         if(paused == false)
         {
@@ -132,9 +143,9 @@ void PongGame::Run()
         SDL_RenderClear(renderer);
 
         Draw_Circle(renderer, center, radius, circle_color);
-        SDL_BlitSurface(paddle_1, NULL, screen, NULL);
 
-        SDL_UpdateWindowSurface(window);
+        SDL_RenderCopy(renderer, texture, NULL, &(paddle_1->clip_rect));
+
         SDL_RenderPresent(renderer);
     }
 }
