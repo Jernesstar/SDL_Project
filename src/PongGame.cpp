@@ -7,6 +7,7 @@
 #include "PongGame.h"
 #include "Text.h"
 #include "Entity.h"
+#include "Log.h"
 
 PongGame::PongGame(std::string name_1, std::string name_2, SDL_Window* _window, int width, int height) 
 : player_1_name(name_1), player_2_name(name_2), SCREEN_WIDTH(width), SCREEN_HEIGHT(height)
@@ -56,20 +57,20 @@ void PongGame::GetAudioSamples(Mix_Chunk* music_samples[], std::string* files, i
 
 void PongGame::Run()
 {
-    SDL_Point center = { 500, 850 };
     int radius = 20;
     SDL_Color circle_color = { 0, 255, 0 };
 
     paddle_1->clip_rect.x = SCREEN_WIDTH / 4;
     paddle_1->clip_rect.y = SCREEN_HEIGHT / 2;
+    SDL_Point center = { 700, paddle_1->clip_rect.y + 30 };
 
     SDL_Surface* screen = SDL_GetWindowSurface(window);
     SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, paddle_1);
 
     SDL_Event event;
     bool running = true;
-    int velocity_x = 0;
-    int velocity_y = 0;
+    int velocity_x = -2;
+    int velocity_y = 2;
     bool paused = false;
 
     while(running)
@@ -85,20 +86,16 @@ void PongGame::Run()
                     switch (event.key.keysym.sym)
                     {
                         case SDLK_UP:
-                            paddle_1->clip_rect.y += -15;
+                            if(paddle_1->clip_rect.y > 0)
+                                paddle_1->clip_rect.y += -30;
                             break;
                         case SDLK_DOWN:
-                            velocity_y = 10;
-                            paddle_1->clip_rect.y += 15;
-                            break;
-                        case SDLK_LEFT:
-                            velocity_x = -10;
-                            break;
-                        case SDLK_RIGHT:
-                            velocity_x = 10;
+                            if(paddle_1->clip_rect.y < SCREEN_HEIGHT)
+                                paddle_1->clip_rect.y += 30;
                             break;
                         case SDLK_RETURN:
                             paused = !paused;
+                            break;
                         case SDLK_ESCAPE:
                             running = false;
                             break;
@@ -106,14 +103,18 @@ void PongGame::Run()
                     break;
             }
         }
-                
+
+        if(center.x - radius <= paddle_1->clip_rect.x + paddle_1->clip_rect.w)
+        {
+            if(center.y <= paddle_1->clip_rect.y + paddle_1->clip_rect.h && center.y >= paddle_1->clip_rect.y)
+                velocity_x *= -1;
+        }
         if(center.x + radius >= SCREEN_WIDTH || center.x - radius <= 0)
         {
             if(center.x + radius >= SCREEN_WIDTH) center.x = SCREEN_WIDTH - radius;
             else if(center.x - radius <= 0) center.x = radius;
 
             velocity_x *= -1;
-            // velocity_x += 0.25 * velocity_x;
         }
         if(center.y + radius >= SCREEN_HEIGHT || center.y - radius <= 0)
         {
@@ -123,17 +124,7 @@ void PongGame::Run()
             else if(center.y - radius <= 0) center.y = radius;
 
             velocity_y *= -1;
-            // velocity_y += 0.25 * velocity_y;
         }
-        if(center.x + radius == paddle_1->clip_rect.x + paddle_1->clip_rect.w)
-        {
-            velocity_x *= -1;
-        }
-        if(center.y + radius == paddle_1->clip_rect.y + paddle_1->clip_rect.h)
-        {
-            velocity_y *= -1;
-        }
-
         if(paused == false)
         {
             center.x += velocity_x;
@@ -143,7 +134,6 @@ void PongGame::Run()
         SDL_RenderClear(renderer);
 
         Draw_Circle(renderer, center, radius, circle_color);
-
         SDL_RenderCopy(renderer, texture, NULL, &(paddle_1->clip_rect));
 
         SDL_RenderPresent(renderer);
