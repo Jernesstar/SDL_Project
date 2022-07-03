@@ -8,15 +8,22 @@
 #include "Text.h"
 #include "Entity.h"
 
-PongGame::PongGame(std::string name_1, std::string name_2, SDL_Renderer*& _renderer, int width, int height) 
+PongGame::PongGame(std::string name_1, std::string name_2, SDL_Window* _window, int width, int height) 
 : player_1_name(name_1), player_2_name(name_2), SCREEN_WIDTH(width), SCREEN_HEIGHT(height)
 {  
-    renderer = _renderer;
+    window = _window;
+    renderer = SDL_GetRenderer(_window);
+
+    paddle_1 = (SDL_Surface*)malloc(sizeof(SDL_Surface));
+    paddle_2 = (SDL_Surface*)malloc(sizeof(SDL_Surface));
+
+    SDL_FillRect(paddle_1, NULL, SDL_MapRGB(paddle_1->format, 255, 255, 255)); 
 }
 
 PongGame::~PongGame()
 {
-    
+    SDL_FreeSurface(paddle_1);
+    SDL_FreeSurface(paddle_2);  
 }
 
 void PongGame::Draw_Circle(SDL_Renderer* renderer, SDL_Point center, int radius, SDL_Color color)
@@ -31,7 +38,7 @@ void PongGame::Draw_Circle(SDL_Renderer* renderer, SDL_Point center, int radius,
             if ((dx * dx + dy *dy) <= (radius * radius))
             {
                 SDL_RenderDrawPoint(renderer, center.x + dx, center.y + dy);
-           }
+            }
        }
    }
 }
@@ -48,8 +55,10 @@ void PongGame::GetAudioSamples(Mix_Chunk* music_samples[], std::string* files, i
 void PongGame::Run()
 {
     SDL_Point center = { 500, 850 };
-    int radius = 100;
+    int radius = 20;
     SDL_Color circle_color = { 0, 255, 0 };
+
+    SDL_Surface* screen = SDL_GetWindowSurface(window);
 
     SDL_Event event;
     bool running = true;
@@ -121,7 +130,11 @@ void PongGame::Run()
         }
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
+
         Draw_Circle(renderer, center, radius, circle_color);
+        SDL_BlitSurface(paddle_1, NULL, screen, NULL);
+
+        SDL_UpdateWindowSurface(window);
         SDL_RenderPresent(renderer);
     }
 }

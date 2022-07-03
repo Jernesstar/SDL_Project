@@ -72,18 +72,16 @@ int main(int argc, char** argv)
     
     Start_Screen();
 
-    PongGame game("A", "B", renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
+    PongGame game("A", "B", window, SCREEN_WIDTH, SCREEN_HEIGHT);
     game.Run();
 
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
 
-    Log::Info("The program is cleaning up", __FILE__, __func__, __LINE__);
     Mix_CloseAudio();
     IMG_Quit();
     TTF_Quit();
     SDL_Quit();
-    Log::Info("The program is terminating", __FILE__, __func__, __LINE__);
 
     return 0;
 }
