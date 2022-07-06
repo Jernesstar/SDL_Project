@@ -26,11 +26,11 @@ void Start_Screen()
     Text pong_text("Pong", 10, pixel_font, color, renderer);
     Text message_text("Press any key to continue", 3, pixel_font, color, renderer);
 
-    pong_text.rect.x = (0.5 * SCREEN_WIDTH) - pong_text.center.x;
-    pong_text.rect.y = (0.5 * SCREEN_HEIGHT) - 2 * pong_text.rect.h;
+    pong_text.GetRect()->x = (0.5 * SCREEN_WIDTH) - pong_text.GetRect()->x;
+    pong_text.GetRect()->y = (0.5 * SCREEN_HEIGHT) - 2 * pong_text.GetRect()->h;
 
-    message_text.rect.x = (0.5 * SCREEN_WIDTH) - message_text.center.x;
-    message_text.rect.y = (0.5 * SCREEN_HEIGHT); 
+    message_text.GetRect()->x = (0.5 * SCREEN_WIDTH) - message_text.GetRect()->x;
+    message_text.GetRect()->y = (0.5 * SCREEN_HEIGHT); 
  
     SDL_Event event;
     bool running = true;
@@ -50,8 +50,8 @@ void Start_Screen()
                     break;
             }
         }
-        SDL_RenderCopy(renderer, message_text.texture, NULL, &message_text.rect);
-        SDL_RenderCopy(renderer, pong_text.texture, NULL, &pong_text.rect);
+        SDL_RenderCopy(renderer, *(message_text.GetTexture()), NULL, message_text.GetRect());
+        SDL_RenderCopy(renderer, *(pong_text.GetTexture()), NULL, pong_text.GetRect());
         SDL_RenderPresent(renderer);
     }
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
@@ -61,8 +61,8 @@ void Start_Screen()
 int main(int argc, char** argv)
 {
     SDL_Init(SDL_INIT_AUDIO || SDL_INIT_EVENTS);
-    TTF_Init();
     IMG_Init(IMG_INIT_PNG);
+    TTF_Init();
 
     window = SDL_CreateWindow("Pong", 
         SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, 0);
@@ -79,8 +79,9 @@ int main(int argc, char** argv)
     SDL_DestroyWindow(window);
 
     Mix_CloseAudio();
-    IMG_Quit();
+    
     TTF_Quit();
+    IMG_Quit();
     SDL_Quit();
 
     return 0;

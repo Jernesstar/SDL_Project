@@ -18,7 +18,12 @@ PongGame::PongGame(std::string name_1, std::string name_2, SDL_Window* _window, 
     paddle_1 = (SDL_Surface*)malloc(sizeof(SDL_Surface));
     paddle_2 = (SDL_Surface*)malloc(sizeof(SDL_Surface));
 
-    paddle_1 = SDL_CreateRGBSurface(0, 10, 100, 32, 0, 0, 0, 0);
+    int flags, paddle_width, paddle_height, depth;
+    flags = 0;
+    paddle_width = 10;
+    paddle_height = 500;
+    depth = 32;
+    paddle_1 = SDL_CreateRGBSurface(flags, paddle_width, paddle_height, depth, 0, 0, 0, 0);
 
     SDL_FillRect(paddle_1, NULL, SDL_MapRGB(paddle_1->format, 255, 255, 255)); 
 }
@@ -69,8 +74,8 @@ void PongGame::Run()
 
     SDL_Event event;
     bool running = true;
-    int velocity_x = -2;
-    int velocity_y = 2;
+    int velocity_x = -15;
+    int velocity_y = 15;
     bool paused = false;
 
     while(running)
@@ -104,7 +109,8 @@ void PongGame::Run()
             }
         }
 
-        if(center.x - radius <= paddle_1->clip_rect.x + paddle_1->clip_rect.w)
+        if(center.x - radius <= paddle_1->clip_rect.x + paddle_1->clip_rect.w
+            && center.x - radius >= paddle_1->clip_rect.x)
         {
             if(center.y <= paddle_1->clip_rect.y + paddle_1->clip_rect.h && center.y >= paddle_1->clip_rect.y)
                 velocity_x *= -1;

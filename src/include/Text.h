@@ -5,15 +5,16 @@
 #include <SDL.h>
 #include <SDL_ttf.h>
 
-class Text {
+#include "UI_Element.h"
+
+class Text : public UI_Element {
 
 public:
-    std::string text;
-    SDL_Texture* texture;
-
-    SDL_Rect rect;
-    SDL_Point center;
+    const std::string text;
 
     Text(std::string _text, int size, TTF_Font* _font, SDL_Color color, SDL_Renderer* renderer);
     ~Text();
+
+private:
+    SDL_Point center;
 };
