@@ -10,8 +10,6 @@ Text::Text(std::string _text, uint8_t size, TTF_Font*& _font, SDL_Color& _color,
     texture = SDL_CreateTextureFromSurface(renderer, text_surface);
 
     rect = text_surface->clip_rect;
-    Log::Info(std::to_string(text_surface->clip_rect.x) + " " + std::to_string(text_surface->clip_rect.y));
-
     rect = {rect.x, rect.y, rect.w * size, rect.h * size};
     center = {rect.w / 2, rect.h / 2};
 

@@ -11,8 +11,8 @@
 #include "Log.h"
 #include "Text.h"
 
-#define SCREEN_WIDTH 1700
-#define SCREEN_HEIGHT 1000
+#define SCREEN_WIDTH 1200
+#define SCREEN_HEIGHT 640
 
 SDL_Window* window;
 SDL_Renderer* renderer;
@@ -64,12 +64,11 @@ void Start_Screen()
 
 int main(int argc, char** argv)
 {
-    SDL_Init(SDL_INIT_AUDIO || SDL_INIT_EVENTS);
+    SDL_Init(SDL_INIT_AUDIO | SDL_INIT_EVENTS);
     IMG_Init(IMG_INIT_PNG);
     TTF_Init();
 
-    window = SDL_CreateWindow("Pong", 
-        SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, 0);
+    window = SDL_CreateWindow("Pong", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, 0);
     // Creating renderer, renders to above window, first one supporting flags, no flags
     renderer = SDL_CreateRenderer(window, -1, 0);
     pixel_font = TTF_OpenFont("resources/pixel_font.ttf", 15);
@@ -81,6 +80,7 @@ int main(int argc, char** argv)
 
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
+    TTF_CloseFont(pixel_font);
 
     Mix_CloseAudio();
     
