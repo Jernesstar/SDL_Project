@@ -19,7 +19,7 @@ public:
     SDL_Surface* paddle_2;
 
 public:
-    PongGame(std::string name_1,std::string name_2, SDL_Window* window, int width, int height);
+    PongGame(std::string name_1,std::string name_2, SDL_Window*& window, int width, int height);
     ~PongGame();
 
     void Run();

@@ -1,4 +1,7 @@
 #pragma once
+
+#include <iostream>
+
 class Log {
 public:
     static void Info(std::string message, const char* file, const char* function, int line);

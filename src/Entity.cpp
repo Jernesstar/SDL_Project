@@ -5,9 +5,10 @@
 
 Entity::Entity(SDL_Renderer* renderer, SDL_Texture* _texture) 
 {
-    x, y = (0, 0);
+    rect = {0, 0, 0, 0};
+
     if(_texture)
-        image = SDL_CreateTextureFromSurface(renderer, _texture);
+        texture = _texture;
 }
 Entity::~Entity()
 {

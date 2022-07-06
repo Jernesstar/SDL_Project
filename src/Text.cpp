@@ -1,9 +1,9 @@
 #include "Text.h"
 
-Text::Text(std::string _text, int size, TTF_Font* _font, SDL_Color _color, SDL_Renderer* renderer) 
-: text(_text)
+Text::Text(std::string _text, uint8_t size, TTF_Font*& _font, SDL_Color& _color, SDL_Renderer*& renderer) 
+: UI_Element(), text(_text)
 {
-    SDL_Surface* text_surface = TTF_RenderText_Solid(_font, const_cast<char*>(_text.c_str()), _color);
+    SDL_Surface* text_surface = TTF_RenderText_Solid(_font, _text.c_str(), _color);
     texture = SDL_CreateTextureFromSurface(renderer, text_surface);
 
     rect = text_surface->clip_rect;
@@ -12,9 +12,16 @@ Text::Text(std::string _text, int size, TTF_Font* _font, SDL_Color _color, SDL_R
 
     SDL_FreeSurface(text_surface);
 }
-
 Text::~Text()
 {
     if(texture)
         SDL_DestroyTexture(texture);
+}
+SDL_Rect* Text::GetRect()
+{
+    return &rect;
+}
+SDL_Texture** Text::GetTexture()
+{
+    return &texture;
 }
