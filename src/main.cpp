@@ -26,11 +26,15 @@ void Start_Screen()
     Text pong_text("Pong", 10, pixel_font, color, renderer);
     Text message_text("Press any key to continue", 3, pixel_font, color, renderer);
 
-    pong_text.GetRect()->x = (0.5 * SCREEN_WIDTH) - pong_text.GetRect()->x;
-    pong_text.GetRect()->y = (0.5 * SCREEN_HEIGHT) - 2 * pong_text.GetRect()->h;
+    pong_text.PlaceAt(
+        0.5 * (SCREEN_WIDTH - pong_text.GetRect()->w), 
+        (0.5 * SCREEN_HEIGHT) - 2 * pong_text.GetRect()->h
+    );
 
-    message_text.GetRect()->x = (0.5 * SCREEN_WIDTH) - message_text.GetRect()->x;
-    message_text.GetRect()->y = (0.5 * SCREEN_HEIGHT); 
+    message_text.PlaceAt(
+        0.5 * (SCREEN_WIDTH - message_text.GetRect()->w),
+        0.5 * SCREEN_HEIGHT 
+    );
  
     SDL_Event event;
     bool running = true;
