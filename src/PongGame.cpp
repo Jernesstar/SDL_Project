@@ -2,7 +2,6 @@
 
 #include <SDL.h>
 #include <SDL_ttf.h>
-// #include <SDL_mixer.h>
 
 #include "PongGame.h"
 #include "Text.h"
@@ -27,11 +26,13 @@ PongGame::PongGame(std::string name_1, std::string name_2, SDL_Window*& _window,
 
     SDL_FillRect(paddle_1, NULL, SDL_MapRGB(paddle_1->format, 255, 255, 255)); 
 }
+
 PongGame::~PongGame()
 {
     SDL_FreeSurface(paddle_1);
     SDL_FreeSurface(paddle_2);  
 }
+
 void PongGame::Draw_Circle(SDL_Renderer* renderer, SDL_Point center, int radius, SDL_Color color)
 {
     SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
@@ -48,6 +49,7 @@ void PongGame::Draw_Circle(SDL_Renderer* renderer, SDL_Point center, int radius,
        }
    }
 }
+
 void PongGame::GetAudioSamples(Mix_Chunk* music_samples[], std::string* files, int file_count)
 {
     memset(music_samples, 0, sizeof(Mix_Chunk*) * file_count);
@@ -56,6 +58,7 @@ void PongGame::GetAudioSamples(Mix_Chunk* music_samples[], std::string* files, i
     for(int i = 0; i < file_count; i++)
         music_samples[i] = Mix_LoadWAV(const_cast<char*>(files[i].c_str()));
 }
+
 void PongGame::Run()
 {
     int radius = 20;

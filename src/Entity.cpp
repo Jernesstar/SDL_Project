@@ -10,6 +10,7 @@ Entity::Entity(SDL_Renderer* renderer, SDL_Texture* _texture)
     if(_texture)
         texture = _texture;
 }
+
 Entity::~Entity()
 {
     if(texture)
