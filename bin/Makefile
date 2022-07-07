@@ -9,8 +9,6 @@ ObjectFiles += $(subst src/ui/, bin/obj/, $(patsubst %.cpp, %.o, $(wildcard src/
 
 # Tells make to look for the .cpp files in src and src/ui
 vpath %.cpp src src/ui
-# Tells make to look for the .h files in src/include
-vpath %.h src/include
 
 # Compiling all the .cpp files into .o files
 bin/obj/%.o: %.cpp
@@ -19,7 +17,3 @@ bin/obj/%.o: %.cpp
 # Uses the ObjectFiles list as a dependency, linking all .o files into one executable
 bin/$(ProgramName): $(ObjectFiles)
 	@g++ $^ -o $@.exe $(C++IncludeFlags) $(C++LibFlags)
-
-# Replace "bin/obj/" to "bin\obj\" for all the .o file names, then deleting the .o files
-clean: $(subst bin/obj/, bin\obj\, $(ObjectFiles))
-	@del $^
