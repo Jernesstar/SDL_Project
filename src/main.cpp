@@ -9,7 +9,7 @@
 #include "Entity.h"
 #include "PongGame.h"
 #include "Log.h"
-#include "Text.h"
+#include "UI.h"
 
 #define SCREEN_WIDTH 1200
 #define SCREEN_HEIGHT 640
