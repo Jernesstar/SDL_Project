@@ -43,3 +43,8 @@ SDL_Texture** UI_Element::GetTexture()
 {
     return &texture;
 }
+
+SDL_Point* UI_Element::GetCenter()
+{
+    return &center;
+}

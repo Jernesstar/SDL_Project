@@ -1,7 +1,6 @@
 #include <iostream>
 
 #include "Text.h"
-#include "Log.h"
 
 Text::Text(std::string _text, uint8_t size, TTF_Font*& _font, SDL_Color& _color, SDL_Renderer*& renderer) 
 : UI_Element(), text(_text)
@@ -12,8 +11,7 @@ Text::Text(std::string _text, uint8_t size, TTF_Font*& _font, SDL_Color& _color,
     rect = text_surface->clip_rect;
     rect = {rect.x, rect.y, rect.w * size, rect.h * size};
     center = {rect.w / 2, rect.h / 2};
-
-
+    
     SDL_FreeSurface(text_surface);
 }
 
@@ -45,4 +43,9 @@ SDL_Rect* Text::GetRect()
 SDL_Texture** Text::GetTexture()
 {
     return UI_Element::GetTexture();
+}
+
+SDL_Point* Text::GetCenter()
+{
+    return UI_Element::GetCenter();
 }

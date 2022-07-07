@@ -11,14 +11,15 @@ public:
     void Translate(int8_t delta_x, int8_t delta_y);
     void PlaceAt(uint16_t _x, uint16_t _y);
     
-    SDL_Texture** GetTexture();
     SDL_Rect* GetRect();
+    SDL_Texture** GetTexture();
+    SDL_Point* GetCenter();
 
 protected: 
     UI_Element();
     ~UI_Element();
 
-    SDL_Texture* texture;
     SDL_Rect rect;
+    SDL_Texture* texture;
     SDL_Point center;
 };
