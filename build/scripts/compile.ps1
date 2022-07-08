@@ -1,13 +1,14 @@
-cd $PSScriptRoot
-cd ..
+cd $PSScriptRoot # project_folder\build\scripts
+cd ..\.. # project_folder
 
 $cpp_file_count = 6
 $stopwatch = New-Object System.Diagnostics.Stopwatch
+cls
 echo "`n`tCompiling..."
 
 $stopwatch.Start()
 
-MinGW32-make -f scripts\Makefile
+MinGW32-make -f build\scripts\Makefile
 
 $stopwatch.Stop()
 
