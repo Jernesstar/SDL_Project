@@ -11,6 +11,8 @@
 #include "Log.h"
 #include "UI.h"
 
+using namespace UI;
+
 #define SCREEN_WIDTH 1200
 #define SCREEN_HEIGHT 640
 

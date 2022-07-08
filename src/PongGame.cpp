@@ -22,6 +22,7 @@ PongGame::PongGame(std::string name_1, std::string name_2, SDL_Window*& _window,
     paddle_width = 10;
     paddle_height = 500;
     depth = 32;
+    
     paddle_1 = SDL_CreateRGBSurface(flags, paddle_width, paddle_height, depth, 0, 0, 0, 0);
 
     SDL_FillRect(paddle_1, NULL, SDL_MapRGB(paddle_1->format, 255, 255, 255)); 
