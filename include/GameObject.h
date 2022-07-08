@@ -9,5 +9,5 @@ protected:
     SDL_Rect rect;
 
     GameObject(SDL_Texture* _texture);
-    ~Entity();
+    ~GameObject();
 };

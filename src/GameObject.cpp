@@ -1,18 +1,17 @@
 #include <iostream>
 
-#include "Entity.h"
+#include "GameObject.h"
 #include "Log.h"
 
-Entity::Entity(SDL_Texture* _texture) 
+GameObject::GameObject(SDL_Texture* _texture) 
 {
     rect = {0, 0, 0, 0};
-    std::cout << "gi";
 
     if(_texture)
         texture = _texture;
 }
 
-Entity::~Entity()
+GameObject::~GameObject()
 {
     if(texture)
         SDL_DestroyTexture(texture);
