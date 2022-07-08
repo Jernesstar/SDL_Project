@@ -5,11 +5,9 @@ ProgramName = main
 # Finds all .cpp files, and makes a string with the cpp file's original name, but with the .o extension
 # Replace the "src/" in the file name with "bin/obj/"
 ObjectFiles = $(subst src/, build/obj/, $(patsubst %.cpp, %.o, $(wildcard src/*.cpp)))
-# Replace the "src/ui/" in the file name with "bin/obj/"
-ObjectFiles += $(subst src/ui/, build/obj/, $(patsubst %.cpp, %.o, $(wildcard src/ui/*.cpp)))
 
 # Tells make to look for the .cpp files in src and src/ui
-vpath %.cpp src src/ui
+vpath %.cpp src
 
 # Compiling all the .cpp files into .o files
 build/obj/%.o: %.cpp
