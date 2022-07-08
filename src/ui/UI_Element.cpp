@@ -1,7 +1,7 @@
 #include "UI_Element.h"
 
-namespace UI
-{
+namespace UI {
+    
     UI_Element::UI_Element()
     {
         rect = {0, 0, 0, 0};

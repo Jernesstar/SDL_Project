@@ -63,7 +63,7 @@ void PongGame::GetAudioSamples(Mix_Chunk* music_samples[], std::string* files, i
 void PongGame::Run()
 {
     int radius = 20;
-    SDL_Color circle_color = { 0, 255, 0 };
+    SDL_Color circle_color = { 255, 0, 0 };
 
     paddle_1->clip_rect.x = SCREEN_WIDTH / 4;
     paddle_1->clip_rect.y = SCREEN_HEIGHT / 2;
@@ -72,11 +72,13 @@ void PongGame::Run()
     SDL_Surface* screen = SDL_GetWindowSurface(window);
     SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, paddle_1);
 
+    int speed = 1;
+    int velocity_x = -speed;
+    int velocity_y = speed;
+
     SDL_Event event;
-    bool running = true;
-    int velocity_x = -15;
-    int velocity_y = 15;
     bool paused = false;
+    bool running = true;
 
     while(running)
     {

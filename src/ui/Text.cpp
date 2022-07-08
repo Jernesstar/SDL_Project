@@ -2,8 +2,8 @@
 
 #include "Text.h"
 
-namespace UI
-{
+namespace UI {
+
     Text::Text(std::string _text, uint8_t size, TTF_Font*& _font, SDL_Color& _color, SDL_Renderer*& renderer) : 
     UI_Element(), text(_text)
     {

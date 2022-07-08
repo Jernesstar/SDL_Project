@@ -4,8 +4,7 @@
 
 #include <SDL.h>
 
-namespace UI
-{
+namespace UI {
     class UI_Element {
 
     public:

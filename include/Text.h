@@ -7,8 +7,7 @@
 
 #include "UI_Element.h"
 
-namespace UI
-{
+namespace UI {
     class Text : public UI_Element {
 
     public:
