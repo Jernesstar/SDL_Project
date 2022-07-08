@@ -7,7 +7,7 @@ echo "`n`tCompiling..."
 
 $stopwatch.Start()
 
-MinGW32-make -f bin\Makefile
+MinGW32-make -f scripts\Makefile
 
 $stopwatch.Stop()
 

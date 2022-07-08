@@ -3,17 +3,17 @@ C++LibFlags = -L SDL/lib -l mingw32 -l SDL2main -l SDL2 -l SDL2_image -l SDL2_tt
 ProgramName = main
 # Finds all .cpp files, and makes a string with the cpp file's original name, but with the .o extension
 # Replace the "src/" in the file name with "bin/obj/"
-ObjectFiles = $(subst src/, bin/obj/, $(patsubst %.cpp, %.o, $(wildcard src/*.cpp)))
+ObjectFiles = $(subst src/, build/obj/, $(patsubst %.cpp, %.o, $(wildcard src/*.cpp)))
 # Replace the "src/ui" in the file name with "bin/obj/"
-ObjectFiles += $(subst src/ui/, bin/obj/, $(patsubst %.cpp, %.o, $(wildcard src/ui/*.cpp)))
+ObjectFiles += $(subst src/ui/, build/obj/, $(patsubst %.cpp, %.o, $(wildcard src/ui/*.cpp)))
 
 # Tells make to look for the .cpp files in src and src/ui
 vpath %.cpp src src/ui
 
 # Compiling all the .cpp files into .o files
-bin/obj/%.o: %.cpp
+build/obj/%.o: %.cpp
 	@g++ -c $^ -o $@ $(C++IncludeFlags) $(C++LibFlags)
 
 # Uses the ObjectFiles list as a dependency, linking all .o files into one executable
-bin/$(ProgramName): $(ObjectFiles)
+build/bin/$(ProgramName): $(ObjectFiles)
 	@g++ $^ -o $@.exe $(C++IncludeFlags) $(C++LibFlags)
