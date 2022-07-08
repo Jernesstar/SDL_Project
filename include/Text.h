@@ -1,14 +1,15 @@
 #pragma once
 
+#include "UIElement.h"
+
 #include <iostream>
 
 #include <SDL.h>
 #include <SDL_ttf.h>
 
-#include "UI_Element.h"
-
 namespace UI {
-    class Text : public UI_Element {
+    ///
+    class Text : public UIElement {
 
     public:
         const std::string text;

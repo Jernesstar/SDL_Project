@@ -1,25 +1,25 @@
-#include "UI_Element.h"
+#include "UIElement.h"
 
 namespace UI {
     
-    UI_Element::UI_Element()
+    UIElement::UIElement()
     {
         rect = {0, 0, 0, 0};
         center = {0, 0};
     }
 
-    UI_Element::~UI_Element()
+    UIElement::~UIElement()
     {
         if(texture)
             SDL_DestroyTexture(texture);
     }
 
-    void UI_Element::Scale(int8_t scalar)
+    void UIElement::Scale(int8_t scalar)
     {
         
     }
 
-    void UI_Element::Translate(int8_t delta_x, int8_t delta_y)
+    void UIElement::Translate(int8_t delta_x, int8_t delta_y)
     {
         rect.x += delta_x;
         rect.y += delta_y;
@@ -27,7 +27,7 @@ namespace UI {
         center.y += delta_y;
     }
 
-    void UI_Element::PlaceAt(uint16_t _x, uint16_t _y)
+    void UIElement::PlaceAt(uint16_t _x, uint16_t _y)
     {
         rect.x = _x;
         rect.y = _y;
@@ -36,17 +36,17 @@ namespace UI {
         center = {new_center_x, new_center_y};
     }
 
-    SDL_Rect* UI_Element::GetRect()
+    SDL_Rect* UIElement::GetRect()
     {
         return &rect;
     }
 
-    SDL_Texture** UI_Element::GetTexture()
+    SDL_Texture** UIElement::GetTexture()
     {
         return &texture;
     }
 
-    SDL_Point* UI_Element::GetCenter()
+    SDL_Point* UIElement::GetCenter()
     {
         return &center;
     }

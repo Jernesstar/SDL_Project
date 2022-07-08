@@ -5,7 +5,7 @@
 #include <SDL.h>
 
 namespace UI {
-    class UI_Element {
+    class UIElement {
 
     public:
         void Scale(int8_t scalar);
@@ -17,8 +17,8 @@ namespace UI {
         SDL_Point* GetCenter();
 
     protected: 
-        UI_Element();
-        ~UI_Element();
+        UIElement();
+        ~UIElement();
 
         SDL_Rect rect;
         SDL_Texture* texture;

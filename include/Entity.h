@@ -2,12 +2,12 @@
 
 #include <SDL.h>
 
-class Entity {  
+class GameObject {  
 
 protected:
     SDL_Texture* texture;
     SDL_Rect rect;
 
-    Entity(SDL_Texture* _texture);
+    GameObject(SDL_Texture* _texture);
     ~Entity();
 };

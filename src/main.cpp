@@ -6,12 +6,9 @@
 #include <SDL_image.h>
 #include <SDL_mixer.h>
 
-#include "Entity.h"
 #include "PongGame.h"
 #include "Log.h"
 #include "UI.h"
-
-using namespace UI;
 
 #define SCREEN_WIDTH 1200
 #define SCREEN_HEIGHT 640
@@ -25,8 +22,8 @@ void Start_Screen()
     std::string message = "Press any key to continue";
     SDL_Color color = {255, 255, 255};
 
-    Text pong_text("Pong", 10, pixel_font, color, renderer);
-    Text message_text("Press any key to continue", 3, pixel_font, color, renderer);
+    UI::Text pong_text("Pong", 10, pixel_font, color, renderer);
+    UI::Text message_text("Press any key to continue", 3, pixel_font, color, renderer);
 
     pong_text.PlaceAt(
         0.5 * SCREEN_WIDTH - pong_text.GetCenter()->x, 
