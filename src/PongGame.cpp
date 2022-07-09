@@ -3,10 +3,10 @@
 #include <SDL.h>
 #include <SDL_ttf.h>
 
+#include "GameObject.h"
+#include "Log.h"
 #include "PongGame.h"
 #include "Text.h"
-#include "Entity.h"
-#include "Log.h"
 
 PongGame::PongGame(std::string name_1, std::string name_2, SDL_Window*& _window, int width, int height) 
 : player_1_name(name_1), player_2_name(name_2), SCREEN_WIDTH(width), SCREEN_HEIGHT(height)

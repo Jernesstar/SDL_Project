@@ -8,7 +8,7 @@
 #include <SDL_ttf.h>
 
 namespace UI {
-    ///
+    /// Class that is used to abstract text rendering
     class Text : public UIElement {
 
     public:

@@ -1,5 +1,4 @@
-#include <iostream>
-
+#include "GameObject.h"
 #include "Text.h"
 
 namespace UI {
@@ -13,7 +12,7 @@ namespace UI {
         rect = text_surface->clip_rect;
         rect = {rect.x, rect.y, rect.w * size, rect.h * size};
         center = {rect.w / 2, rect.h / 2};
-        
+
         SDL_FreeSurface(text_surface);
     }
 

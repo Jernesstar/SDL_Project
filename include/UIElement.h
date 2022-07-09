@@ -1,11 +1,11 @@
 #pragma once
 
-#include <iostream>
+#include "GameObject.h"
 
 #include <SDL.h>
 
 namespace UI {
-    class UIElement {
+    class UIElement : public GameObject {
 
     public:
         void Scale(int8_t scalar);
@@ -15,13 +15,9 @@ namespace UI {
         SDL_Rect* GetRect();
         SDL_Texture** GetTexture();
         SDL_Point* GetCenter();
-
-    protected: 
+    
+    protected:
         UIElement();
         ~UIElement();
-
-        SDL_Rect rect;
-        SDL_Texture* texture;
-        SDL_Point center;
     };
 }
