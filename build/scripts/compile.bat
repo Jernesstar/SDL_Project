@@ -11,5 +11,7 @@ if %ERRORLEVEL% == 0 (
 ) else (
     echo.
     echo    An error occurred. Could not compile
-    echo.
+    echo.   
 )
+
+Pause

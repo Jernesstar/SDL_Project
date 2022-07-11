@@ -12,11 +12,11 @@ MinGW32-make -f build\scripts\Makefile
 
 $stopwatch.Stop()
 
-if($LastExitCode -eq 0)
-{
+if($LastExitCode -eq 0) {
     echo "`tSuccessfully compiled $($cpp_file_count) files in $($stopwatch.Elapsed.TotalSeconds) seconds `n"
 }
-else
-{
-    echo "An error occured. Could not compile"
+else {
+    echo "`tAn error occured. Could not compile"
 }
+
+Read-Host -Prompt "`tPress any key to continue..."

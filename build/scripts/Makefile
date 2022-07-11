@@ -11,8 +11,8 @@ vpath %.cpp src
 
 # Compiling all the .cpp files into .o files
 build/obj/%.o: %.cpp
-	@g++ $(C++Flags) -c $^ -o $@ $(C++IncludeFlags)
+	@g++ -c $^ -o $@ $(C++Flags) $(C++IncludeFlags)
 
 # Uses the ObjectFiles list as a dependency, linking all .o files into one executable
 build/bin/$(ProgramName): $(ObjectFiles)
-	@g++ $(C++Flags) $^ -o $@.exe $(C++IncludeFlags) $(C++LibFlags)
+	@g++ $^ -o $@.exe $(C++Flags) $(C++IncludeFlags) $(C++LibFlags)
