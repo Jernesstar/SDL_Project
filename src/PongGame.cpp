@@ -1,11 +1,12 @@
 #include <iostream>
 
+#include "PongGame.h"
+
 #include <SDL.h>
 #include <SDL_ttf.h>
 
 #include "GameObject.h"
 #include "Log.h"
-#include "PongGame.h"
 #include "Text.h"
 
 PongGame::PongGame(std::string name_1, std::string name_2, SDL_Window*& _window, int width, int height) 
@@ -19,11 +20,12 @@ PongGame::PongGame(std::string name_1, std::string name_2, SDL_Window*& _window,
 
     int flags, paddle_width, paddle_height, depth;
     flags = 0;
-    paddle_width = 10;
-    paddle_height = 500;
+    paddle_width = 5;
+    paddle_height = 80;
     depth = 32;
     
     paddle_1 = SDL_CreateRGBSurface(flags, paddle_width, paddle_height, depth, 0, 0, 0, 0);
+    paddle_2 = SDL_CreateRGBSurface(flags, paddle_width, paddle_height, depth, 0, 0, 0, 0);
 
     SDL_FillRect(paddle_1, NULL, SDL_MapRGB(paddle_1->format, 255, 255, 255)); 
 }
@@ -34,22 +36,32 @@ PongGame::~PongGame()
     SDL_FreeSurface(paddle_2);  
 }
 
+void set_pixel(SDL_Surface* surface, int x, int y, Uint32 pixel)
+{
+  Uint32* const target_pixel = (Uint32*)((Uint8*)surface->pixels
+                                            + y * surface->pitch
+                                            + x * surface->format->BytesPerPixel);
+  *(target_pixel) = pixel;
+}
+
 void PongGame::Draw_Circle(SDL_Renderer* renderer, SDL_Point center, int radius, SDL_Color color)
 {
     SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
-    for (int w = 0; w < radius * 2; w++)
+    int dx, dy;
+    for(int w = 0; w <= radius * 2; w++)
     {
-        for (int h = 0; h < radius * 2; h++)
+        for(int h = 0; h <= radius * 2; h++)
         {
-            int dx = radius - w; // horizontal offset
-            int dy = radius - h; // vertical offset
-            if ((dx * dx + dy *dy) <= (radius * radius))
+            dx = radius - w; // horizontal offset
+            dy = radius - h; // vertical offset
+            if((dx * dx + dy * dy) <= (radius * radius))
             {
                 SDL_RenderDrawPoint(renderer, center.x + dx, center.y + dy);
             }
        }
    }
 }
+
 
 void PongGame::GetAudioSamples(Mix_Chunk* music_samples[], std::string* files, int file_count)
 {
@@ -69,7 +81,6 @@ void PongGame::Run()
     paddle_1->clip_rect.y = SCREEN_HEIGHT / 2;
     SDL_Point center = { 700, paddle_1->clip_rect.y + 30 };
 
-    SDL_Surface* screen = SDL_GetWindowSurface(window);
     SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, paddle_1);
 
     int speed = 1;
@@ -93,11 +104,11 @@ void PongGame::Run()
                     switch (event.key.keysym.sym)
                     {
                         case SDLK_UP:
-                            if(paddle_1->clip_rect.y > 0)
+                            if(paddle_1->clip_rect.y - 30 > 0)
                                 paddle_1->clip_rect.y += -30;
                             break;
                         case SDLK_DOWN:
-                            if(paddle_1->clip_rect.y < SCREEN_HEIGHT)
+                            if(paddle_1->clip_rect.y + paddle_1->clip_rect.h < SCREEN_HEIGHT)
                                 paddle_1->clip_rect.y += 30;
                             break;
                         case SDLK_RETURN:

@@ -1,6 +1,6 @@
-#include <iostream>
-
 #include "Log.h"
+
+#include <iostream>
 
 void Log::Info(std::string message, const char* file, const char* function, int line)
 {

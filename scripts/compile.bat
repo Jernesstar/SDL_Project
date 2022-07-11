@@ -14,4 +14,5 @@ if %ERRORLEVEL% == 0 (
     echo.   
 )
 
-Pause
+@REM Pause
+@REM cls
