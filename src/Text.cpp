@@ -20,17 +20,17 @@ Text::~Text()
     UIElement::~UIElement();
 }
 
-void Text::Scale(int8_t scalar)
+void Text::Scale(int32_t scalar)
 {
     UIElement::Scale(scalar);
 }
 
-void Text::Translate(int8_t delta_x, int8_t delta_y)
+void Text::Translate(int32_t delta_x, int32_t delta_y)
 {
     UIElement::Translate(delta_x, delta_y);
 }
 
-void Text::PlaceAt(uint16_t _x, uint16_t _y)
+void Text::PlaceAt(uint32_t _x, uint32_t _y)
 {
     UIElement::PlaceAt(_x, _y);
 }

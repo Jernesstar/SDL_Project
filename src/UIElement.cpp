@@ -12,34 +12,34 @@ UIElement::~UIElement()
     GameObject::~GameObject();
 }
 
-void UIElement::Scale(int8_t scalar)
+void UIElement::Scale(int32_t scalar)
 {
     GameObject::Scale(scalar);
 }
 
-void UIElement::Translate(int8_t delta_x, int8_t delta_y)
+void UIElement::Translate(int32_t delta_x, int32_t delta_y)
 {
     GameObject::Translate(delta_x, delta_y);
 }
 
-void UIElement::PlaceAt(uint16_t _x, uint16_t _y)
+void UIElement::PlaceAt(uint32_t _x, uint32_t _y)
 {
     GameObject::PlaceAt(_x, _y);
 }
 
 SDL_Rect* UIElement::GetRect()
 {
-    return &rect;
+    return GameObject::GetRect();
 }
 
 SDL_Texture** UIElement::GetTexture()
 {
-    return &texture;
+    return GameObject::GetTexture();
 }
 
 SDL_Point* UIElement::GetCenter()
 {
-    return &center;
+    return GameObject::GetCenter();
 }
 
 }

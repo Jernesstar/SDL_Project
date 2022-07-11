@@ -11,12 +11,12 @@ GameObject::~GameObject()
         SDL_DestroyTexture(texture);
 }
 
-void GameObject::Scale(int8_t scalar)
+void GameObject::Scale(int32_t scalar)
 {
     
 }
 
-void GameObject::Translate(int8_t delta_x, int8_t delta_y)
+void GameObject::Translate(int32_t delta_x, int32_t delta_y)
 {
     rect.x += delta_x;
     rect.y += delta_y;
@@ -24,7 +24,7 @@ void GameObject::Translate(int8_t delta_x, int8_t delta_y)
     center.y += delta_y;
 }
 
-void GameObject::PlaceAt(uint16_t _x, uint16_t _y)
+void GameObject::PlaceAt(uint32_t _x, uint32_t _y)
 {
     rect.x = _x;
     rect.y = _y;

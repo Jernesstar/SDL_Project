@@ -79,7 +79,7 @@ void PongGame::Run()
 
     paddle_1->clip_rect.x = SCREEN_WIDTH / 4;
     paddle_1->clip_rect.y = SCREEN_HEIGHT / 2;
-    SDL_Point center = { 700, paddle_1->clip_rect.y + 30 };
+    SDL_Point center = { SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - 250 };
 
     SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, paddle_1);
 
@@ -149,6 +149,10 @@ void PongGame::Run()
             center.x += velocity_x;
             center.y += velocity_y;
         }
+        if(center.x + radius < paddle_1->clip_rect.x)
+        {
+            running = false;
+        }
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
 
@@ -157,4 +161,7 @@ void PongGame::Run()
 
         SDL_RenderPresent(renderer);
     }
+
+    std::cout << "Game over \n";
+    return;
 }
