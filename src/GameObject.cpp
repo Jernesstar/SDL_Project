@@ -33,6 +33,16 @@ void GameObject::PlaceAt(uint32_t _x, uint32_t _y)
     center = {new_center_x, new_center_y};
 }
 
+uint32_t GameObject::GetX()
+{
+    return rect.x;
+}
+
+uint32_t GameObject::GetY()
+{
+    return rect.y;
+}
+
 SDL_Rect* GameObject::GetRect()
 {
     return &rect;
