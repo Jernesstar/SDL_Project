@@ -5,9 +5,9 @@
 #include <SDL.h>
 #include <SDL_ttf.h>
 
-#include "GameObject.h"
 #include "Log.h"
 #include "Text.h"
+#include "Circle.h"
 
 PongGame::PongGame(std::string name_1, std::string name_2, SDL_Window*& _window, int width, int height) 
 : player_1_name(name_1), player_2_name(name_2), SCREEN_WIDTH(width), SCREEN_HEIGHT(height)
@@ -28,20 +28,18 @@ PongGame::PongGame(std::string name_1, std::string name_2, SDL_Window*& _window,
     paddle_2 = SDL_CreateRGBSurface(flags, paddle_width, paddle_height, depth, 0, 0, 0, 0);
 
     SDL_FillRect(paddle_1, NULL, SDL_MapRGB(paddle_1->format, 255, 255, 255)); 
+    SDL_FillRect(paddle_2, NULL, SDL_MapRGB(paddle_2->format, 255, 255, 255));
+
+    uint32_t _radius = 20;
+    SDL_Color circle_color = { 255, 0, 0 };
+
+    GameObjects::Circle ball(_radius, circle_color, renderer, 0, 0);
 }
 
 PongGame::~PongGame()
 {
     SDL_FreeSurface(paddle_1);
     SDL_FreeSurface(paddle_2);  
-}
-
-void set_pixel(SDL_Surface* surface, int x, int y, Uint32 pixel)
-{
-  Uint32* const target_pixel = (Uint32*)((Uint8*)surface->pixels
-                                            + y * surface->pitch
-                                            + x * surface->format->BytesPerPixel);
-  *(target_pixel) = pixel;
 }
 
 void PongGame::Draw_Circle(SDL_Renderer* renderer, SDL_Point center, int radius, SDL_Color color)
@@ -74,9 +72,6 @@ void PongGame::GetAudioSamples(Mix_Chunk* music_samples[], std::string* files, i
 
 void PongGame::Run()
 {
-    int radius = 20;
-    SDL_Color circle_color = { 255, 0, 0 };
-
     paddle_1->clip_rect.x = SCREEN_WIDTH / 4;
     paddle_1->clip_rect.y = SCREEN_HEIGHT / 2;
     SDL_Point center = { SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - 250 };

@@ -2,16 +2,19 @@
 
 namespace GameObjects {
 
-Circle::Circle(uint32_t _radius, SDL_Color _color, uint32_t _x = 0, uint32_t _y = 0)
+Circle::Circle(uint32_t _radius, SDL_Color& _color, SDL_Renderer*& renderer, uint32_t _x = 0, uint32_t _y = 0)
 {
-    radius = _radius;
-    color = _color;
-    center.x = _x;
-    center.y = _y;
+    // radius = _radius;
+    // color = _color;
+    // center.x = _x;
+    // center.y = _y;
 
-    SDL_Surface* circle_surface = (SDL_Surface*)malloc(sizeof(SDL_Surface));
+    // SDL_Surface* circle_surface = (SDL_Surface*)malloc(sizeof(SDL_Surface));
+    // Construct_Circle(circle_surface);
+    // texture = SDL_CreateTextureFromSurface(renderer, circle_surface);
     
-    Construct_Circle(circle_surface)
+    // rect = circle_surface->clip_rect;
+    // SDL_FreeSurface(circle_surface);
 }
 
 void Circle::SetPixel(SDL_Surface*& surface, int x, int y, uint32_t color)
@@ -24,10 +27,10 @@ void Circle::SetPixel(SDL_Surface*& surface, int x, int y, uint32_t color)
 
 void Circle::Construct_Circle(SDL_Surface*& surface)
 {
-    int dx, dy;
-    for(int w = 0; w <= radius * 2; w++)
+    uint32_t dx, dy;
+    for(uint32_t w = 0; w <= radius * 2; w++)
     {
-        for(int h = 0; h <= radius * 2; h++)
+        for(uint32_t h = 0; h <= radius * 2; h++)
         {
             dx = radius - w; // horizontal offset
             dy = radius - h; // vertical offset

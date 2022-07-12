@@ -5,15 +5,15 @@
 class GameObject {  
     
     public:
-        void Scale(int32_t scalar);
-        void Translate(int32_t delta_x, int32_t delta_y);
-        void PlaceAt(uint32_t _x, uint32_t _y);
+        virtual void Scale(int32_t scalar);
+        virtual void Translate(int32_t delta_x, int32_t delta_y);
+        virtual void PlaceAt(uint32_t _x, uint32_t _y);
         
-        uint32_t GetX();
-        uint32_t GetY();
-        SDL_Rect* GetRect();
-        SDL_Texture** GetTexture();
-        SDL_Point* GetCenter();
+        virtual uint32_t GetX();
+        virtual uint32_t GetY();
+        virtual SDL_Rect* GetRect();
+        virtual SDL_Texture** GetTexture();
+        virtual SDL_Point* GetCenter();
 
     protected: 
         SDL_Rect rect;
@@ -24,4 +24,5 @@ class GameObject {
     protected:    
         GameObject();
         ~GameObject();
+
 };

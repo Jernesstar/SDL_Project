@@ -6,6 +6,8 @@
 #include <SDL_ttf.h>
 #include <SDL_mixer.h>
 
+#include "Circle.h"
+
 class PongGame {
 
 public:
@@ -17,6 +19,8 @@ public:
     SDL_Renderer* renderer;
     SDL_Surface* paddle_1;
     SDL_Surface* paddle_2;
+    
+    GameObjects::Circle ball;
 
 public:
     PongGame(std::string name_1,std::string name_2, SDL_Window*& window, int width, int height);

@@ -19,46 +19,46 @@ TTF_Font* pixel_font;
 
 void Start_Screen()
 {
-    std::string message = "Press any key to continue";
-    SDL_Color color = {255, 255, 255};
+    // std::string message = "Press any key to continue";
+    // SDL_Color color = {255, 255, 255};
 
-    UI::Text pong_text("Pong", 10, pixel_font, color, renderer);
-    UI::Text message_text("Press any key to continue", 3, pixel_font, color, renderer);
+    // UI::Text pong_text("Pong", 10, pixel_font, color, renderer);
+    // UI::Text message_text("Press any key to continue", 3, pixel_font, color, renderer);
 
-    pong_text.PlaceAt(
-        0.5 * SCREEN_WIDTH - pong_text.GetCenter()->x, 
-        0.5 * SCREEN_HEIGHT - 2 * pong_text.GetRect()->h
-    );
+    // pong_text.PlaceAt(
+    //     0.5 * SCREEN_WIDTH - pong_text.GetCenter()->x, 
+    //     0.5 * SCREEN_HEIGHT - 2 * pong_text.GetRect()->h
+    // );
 
-    message_text.PlaceAt(
-        0.5 * SCREEN_WIDTH - message_text.GetCenter()->x,
-        0.5 * SCREEN_HEIGHT 
-    );
+    // message_text.PlaceAt(
+    //     0.5 * SCREEN_WIDTH - message_text.GetCenter()->x,
+    //     0.5 * SCREEN_HEIGHT 
+    // );
  
-    SDL_Event event;
-    bool running = true;
+    // SDL_Event event;
+    // bool running = true;
 
-    while(running)
-    {
-        while(SDL_PollEvent(&event))
-        {
-            switch(event.type)
-            {
-                case SDL_QUIT:
-                    running = false;
-                    break;
+    // while(running)
+    // {
+    //     while(SDL_PollEvent(&event))
+    //     {
+    //         switch(event.type)
+    //         {
+    //             case SDL_QUIT:
+    //                 running = false;
+    //                 break;
 
-                case SDL_KEYDOWN:
-                    running = false;
-                    break;
-            }
-        }
-        SDL_RenderCopy(renderer, *(message_text.GetTexture()), NULL, message_text.GetRect());
-        SDL_RenderCopy(renderer, *(pong_text.GetTexture()), NULL, pong_text.GetRect());
-        SDL_RenderPresent(renderer);
-    }
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-    SDL_RenderClear(renderer);
+    //             case SDL_KEYDOWN:
+    //                 running = false;
+    //                 break;
+    //         }
+    //     }
+    //     SDL_RenderCopy(renderer, *(message_text.GetTexture()), NULL, message_text.GetRect());
+    //     SDL_RenderCopy(renderer, *(pong_text.GetTexture()), NULL, pong_text.GetRect());
+    //     SDL_RenderPresent(renderer);
+    // }
+    // SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+    // SDL_RenderClear(renderer);
 }
 
 int main(int argc, char** argv)

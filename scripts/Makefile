@@ -8,6 +8,7 @@ ObjectFiles = $(subst src/, build/obj/, $(patsubst %.cpp, %.o, $(wildcard src/*.
 
 # Tells make to look for the .cpp files in src and src/ui
 vpath %.cpp src
+vpath %.h include SDL/include/SDL2
 
 # Compiling all the .cpp files into .o files
 build/obj/%.o: %.cpp
