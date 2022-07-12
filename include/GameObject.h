@@ -24,5 +24,4 @@ class GameObject {
     protected:    
         GameObject();
         ~GameObject();
-
 };

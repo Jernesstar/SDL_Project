@@ -7,7 +7,7 @@ cls
 echo "`n`tCompiling..."
 $stopwatch.Start()
 
-MinGW32-make -f scripts\Makefile
+MinGW32-make -f .\scripts\MakefileDebug
 
 $stopwatch.Stop()
 if($LastExitCode -eq 0) {

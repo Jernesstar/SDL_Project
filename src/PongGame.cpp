@@ -33,7 +33,7 @@ PongGame::PongGame(std::string name_1, std::string name_2, SDL_Window*& _window,
     uint32_t _radius = 20;
     SDL_Color circle_color = { 255, 0, 0 };
 
-    GameObjects::Circle ball(_radius, circle_color, renderer, 0, 0);
+    GameObjects::Circle ball(_radius, circle_color, renderer, 0, 0); //
 }
 
 PongGame::~PongGame()
@@ -78,6 +78,8 @@ void PongGame::Run()
 
     SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, paddle_1);
 
+    int radius = 20;
+    SDL_Color circle_color = { 255, 0, 0 };
     int speed = 1;
     int velocity_x = -speed;
     int velocity_y = speed;
@@ -152,6 +154,7 @@ void PongGame::Run()
         SDL_RenderClear(renderer);
 
         Draw_Circle(renderer, center, radius, circle_color);
+        // SDL_RenderCopy(renderer, *ball.GetTexture(), NULL, ball.GetRect());
         SDL_RenderCopy(renderer, texture, NULL, &(paddle_1->clip_rect));
 
         SDL_RenderPresent(renderer);

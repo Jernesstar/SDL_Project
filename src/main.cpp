@@ -19,8 +19,8 @@ TTF_Font* pixel_font;
 
 void Start_Screen()
 {
-    // std::string message = "Press any key to continue";
-    // SDL_Color color = {255, 255, 255};
+    std::string message = "Press any key to continue";
+    SDL_Color color = {255, 255, 255};
 
     // UI::Text pong_text("Pong", 10, pixel_font, color, renderer);
     // UI::Text message_text("Press any key to continue", 3, pixel_font, color, renderer);
@@ -74,7 +74,7 @@ int main(int argc, char** argv)
     
     Start_Screen();
 
-    PongGame game("A", "B", window, SCREEN_WIDTH, SCREEN_HEIGHT);
+    PongGame game("A", "B", window, SCREEN_WIDTH, SCREEN_HEIGHT); //
     game.Run();
 
     SDL_DestroyRenderer(renderer);

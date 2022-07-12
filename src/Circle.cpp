@@ -4,30 +4,34 @@ namespace GameObjects {
 
 Circle::Circle(uint32_t _radius, SDL_Color& _color, SDL_Renderer*& renderer, uint32_t _x = 0, uint32_t _y = 0)
 {
-    // radius = _radius;
-    // color = _color;
-    // center.x = _x;
-    // center.y = _y;
+    radius = _radius;
+    color = _color;
+    center.x = _x;
+    center.y = _y;
 
-    // SDL_Surface* circle_surface = (SDL_Surface*)malloc(sizeof(SDL_Surface));
-    // Construct_Circle(circle_surface);
-    // texture = SDL_CreateTextureFromSurface(renderer, circle_surface);
+    int flags, paddle_width, paddle_height, depth;
+    flags = 0;
+    depth = 32;
     
-    // rect = circle_surface->clip_rect;
-    // SDL_FreeSurface(circle_surface);
+    SDL_Surface* circle_surface = SDL_CreateRGBSurface(flags, radius, radius, depth, 0, 0, 0, 0);
+
+    Construct_Circle(circle_surface); // 
+    texture = SDL_CreateTextureFromSurface(renderer, circle_surface);
+    
+    SDL_FreeSurface(circle_surface);
 }
 
-void Circle::SetPixel(SDL_Surface*& surface, int x, int y, uint32_t color)
+void Circle::SetPixel(SDL_Surface*& surface, uint8_t x, uint8_t y, Uint32 color)
 {
-  Uint32* const target_pixel = (Uint32*)((Uint8*)surface->pixels
-                                            + y * surface->pitch
-                                            + x * surface->format->BytesPerPixel);
-  *(target_pixel) = color;
+    Uint32* target_pixel = (Uint32*)((Uint8*)surface->pixels + y * surface->pitch + x * surface->format->BytesPerPixel);
+    target_pixel = &color;
 }
 
 void Circle::Construct_Circle(SDL_Surface*& surface)
-{
+{  
     uint32_t dx, dy;
+    Uint32 _color = SDL_MapRGB(surface->format, color.r, color.g, color.b);
+
     for(uint32_t w = 0; w <= radius * 2; w++)
     {
         for(uint32_t h = 0; h <= radius * 2; h++)
@@ -36,8 +40,7 @@ void Circle::Construct_Circle(SDL_Surface*& surface)
             dy = radius - h; // vertical offset
             if((dx * dx + dy * dy) <= (radius * radius))
             {
-                uint32_t _color = SDL_MapRGB(surface->format, color.r, color.g, color.b);
-                SetPixel(surface, center.x + dx, center.y + dy, _color);
+                SetPixel(surface, (uint8_t)(center.x + dx), (uint8_t)(center.y + dy), _color); //
             }
        }
    }
