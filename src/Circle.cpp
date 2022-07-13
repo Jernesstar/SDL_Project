@@ -1,5 +1,7 @@
 #include "Circle.h"
 
+#include <iostream>
+
 namespace GameObjects {
 
 Circle::Circle(uint32_t _radius, SDL_Color& _color, SDL_Renderer*& renderer, uint32_t _x = 0, uint32_t _y = 0)
@@ -13,21 +15,22 @@ Circle::Circle(uint32_t _radius, SDL_Color& _color, SDL_Renderer*& renderer, uin
     flags = 0;
     depth = 32;
     
-    SDL_Surface* circle_surface = SDL_CreateRGBSurface(flags, radius, radius, depth, 0, 0, 0, 0);
-
-    Construct_Circle(circle_surface); // 
+    SDL_Surface* circle_surface = SDL_CreateRGBSurface(flags, 2 * radius, 2 * radius, 32, 0, 0, 0, 0);
+    Construct_Circle(circle_surface);
     texture = SDL_CreateTextureFromSurface(renderer, circle_surface);
     
     SDL_FreeSurface(circle_surface);
 }
 
-void Circle::SetPixel(SDL_Surface*& surface, uint8_t x, uint8_t y, Uint32 color)
+void Circle::SetPixel(SDL_Surface* surface, uint8_t x, uint8_t y, uint32_t color)
 {
-    Uint32* target_pixel = (Uint32*)((Uint8*)surface->pixels + y * surface->pitch + x * surface->format->BytesPerPixel);
-    target_pixel = &color;
+    uint32_t* target_pixel = (uint32_t*)((uint8_t*)surface->pixels 
+                                            + y * surface->pitch 
+                                            + x * surface->format->BytesPerPixel);
+    *target_pixel = color;
 }
 
-void Circle::Construct_Circle(SDL_Surface*& surface)
+void Circle::Construct_Circle(SDL_Surface* surface)
 {  
     uint32_t dx, dy;
     Uint32 _color = SDL_MapRGB(surface->format, color.r, color.g, color.b);
