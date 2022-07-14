@@ -53,8 +53,8 @@ void Start_Screen()
                     break;
             }
         }
-        SDL_RenderCopy(renderer, *message_text->GetTexture(), message_text->GetRect(), message_text->GetRect());
-        // SDL_RenderCopy(renderer, *pong_text->GetTexture(), NULL, pong_text->GetRect());
+        SDL_RenderCopy(renderer, *pong_text->GetTexture(), NULL, pong_text->GetRect());
+        SDL_RenderCopy(renderer, *message_text->GetTexture(), NULL, message_text->GetRect());
         SDL_RenderPresent(renderer);
     }
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);

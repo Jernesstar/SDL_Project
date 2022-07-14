@@ -16,10 +16,10 @@ Circle::Circle(uint32_t _radius, SDL_Color& _color, SDL_Renderer*& renderer, uin
     depth = 32;
     
     SDL_Surface* circle_surface = SDL_CreateRGBSurface(flags, 2 * radius, 2 * radius, 32, 0, 0, 0, 0);
-    Construct_Circle(circle_surface);
-    texture = SDL_CreateTextureFromSurface(renderer, circle_surface);
+    // Construct_Circle(circle_surface);
+    //texture = SDL_CreateTextureFromSurface(renderer, circle_surface);
     
-    SDL_FreeSurface(circle_surface);
+    //SDL_FreeSurface(circle_surface);
 }
 
 void Circle::SetPixel(SDL_Surface* surface, uint8_t x, uint8_t y, uint32_t color)
@@ -43,7 +43,7 @@ void Circle::Construct_Circle(SDL_Surface* surface)
             dy = radius - h; // vertical offset
             if((dx * dx + dy * dy) <= (radius * radius))
             {
-                SetPixel(surface, (uint8_t)(center.x + dx), (uint8_t)(center.y + dy), _color); //
+                SetPixel(surface, (uint8_t)(center.x + dx), (uint8_t)(center.y + dy), _color);
             }
        }
    }

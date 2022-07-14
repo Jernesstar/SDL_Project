@@ -33,7 +33,7 @@ PongGame::PongGame(std::string name_1, std::string name_2, SDL_Window*& _window,
     uint32_t _radius = 20;
     SDL_Color circle_color = { 255, 0, 0 };
 
-    // GameObjects::Circle ball(_radius, circle_color, renderer, 0, 0); //
+    // GameObjects::Circle ball(_radius, circle_color, renderer, 0, 0);
 }
 
 PongGame::~PongGame()
