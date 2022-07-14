@@ -5,12 +5,10 @@
 #include <SDL.h>
 #include <SDL_ttf.h>
 
-#include "Log.h"
-#include "Text.h"
 #include "Circle.h"
 
-PongGame::PongGame(std::string name_1, std::string name_2, SDL_Window*& _window, int width, int height) 
-: player_1_name(name_1), player_2_name(name_2), SCREEN_WIDTH(width), SCREEN_HEIGHT(height)
+PongGame::PongGame(std::string name_1, std::string name_2, SDL_Window*& _window, int width, int height) : 
+player_1_name(name_1), player_2_name(name_2), SCREEN_WIDTH(width), SCREEN_HEIGHT(height)
 {  
     window = _window;
     renderer = SDL_GetRenderer(_window);
@@ -32,8 +30,6 @@ PongGame::PongGame(std::string name_1, std::string name_2, SDL_Window*& _window,
 
     uint32_t _radius = 20;
     SDL_Color circle_color = { 255, 0, 0 };
-
-    // GameObjects::Circle ball(_radius, circle_color, renderer, 0, 0);
 }
 
 PongGame::~PongGame()
@@ -60,7 +56,6 @@ void PongGame::Draw_Circle(SDL_Renderer* renderer, SDL_Point center, int radius,
    }
 }
 
-
 void PongGame::GetAudioSamples(Mix_Chunk* music_samples[], std::string* files, int file_count)
 {
     memset(music_samples, 0, sizeof(Mix_Chunk*) * file_count);
@@ -74,20 +69,23 @@ void PongGame::Run()
 {
     paddle_1->clip_rect.x = SCREEN_WIDTH / 4;
     paddle_1->clip_rect.y = SCREEN_HEIGHT / 2;
-    SDL_Point center = { SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - 250 };
 
-    SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, paddle_1);
+    SDL_Texture* paddle = SDL_CreateTextureFromSurface(renderer, paddle_1);
 
     int radius = 20;
-    SDL_Color circle_color = { 255, 0, 0 };
     int speed = 1;
     int velocity_x = -speed;
     int velocity_y = speed;
 
+    SDL_Color circle_color = { 255, 0, 0 };
+    SDL_Point center = { SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - 250 };
+
+    GameObjects::Circle ball(2, circle_color, 250, 250);
+    ball.Construct_Circle(renderer);
+
     SDL_Event event;
     bool paused = false;
     bool running = true;
-
     while(running)
     {
         while(SDL_PollEvent(&event))
@@ -154,8 +152,8 @@ void PongGame::Run()
         SDL_RenderClear(renderer);
 
         Draw_Circle(renderer, center, radius, circle_color);
-        // SDL_RenderCopy(renderer, *ball.GetTexture(), NULL, ball.GetRect());
-        SDL_RenderCopy(renderer, texture, NULL, &(paddle_1->clip_rect));
+        SDL_RenderCopy(renderer, paddle, NULL, &paddle_1->clip_rect);
+        SDL_RenderCopy(renderer, *ball.GetTexture(), NULL, ball.GetRect());
 
         SDL_RenderPresent(renderer);
     }

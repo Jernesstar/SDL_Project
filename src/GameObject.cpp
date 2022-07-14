@@ -11,6 +11,14 @@ GameObject::~GameObject()
         SDL_DestroyTexture(texture);
 }
 
+void GameObject::SetPixel(SDL_Surface*& surface, uint32_t x, uint32_t y, uint32_t color)
+{
+    uint32_t* target_pixel = (uint32_t*)((uint8_t*)surface->pixels 
+                                        + (uint8_t)y * surface->pitch 
+                                        + (uint8_t)x * surface->format->BytesPerPixel);
+    *target_pixel = color;
+}
+
 void GameObject::Scale(int32_t scalar)
 {
     

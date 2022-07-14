@@ -6,14 +6,13 @@
 
 namespace GameObjects {
 // Class used to represent a circle
-class Circle : GameObject {
+class Circle : public GameObject {
 
 public:
-    Circle() { }
-    Circle(uint32_t _radius, SDL_Color& _color, SDL_Renderer*& renderer, uint32_t _x, uint32_t _y);
+    Circle();
+    Circle(uint32_t _radius, SDL_Color& _color, uint32_t _x, uint32_t _y);
     
-    void Construct_Circle(SDL_Surface* surface);
-    void SetPixel(SDL_Surface* surface, uint8_t x, uint8_t y, Uint32 pixel);
+    void Construct_Circle(SDL_Renderer* renderer);
 
 private:
     uint32_t radius;
