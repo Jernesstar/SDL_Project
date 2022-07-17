@@ -2,9 +2,6 @@
 
 #include "PongGame.h"
 
-#include <SDL.h>
-#include <SDL_ttf.h>
-
 #include "Circle.h"
 
 PongGame::PongGame(const std::string& name_1, std::string name_2, SDL_Window*& _window, int width, int height) : 
@@ -54,15 +51,6 @@ void PongGame::Draw_Circle(SDL_Renderer* renderer, SDL_Point center, int radius,
             }
        }
    }
-}
-
-void PongGame::GetAudioSamples(Mix_Chunk* music_samples[], std::string* files, int file_count)
-{
-    memset(music_samples, 0, sizeof(Mix_Chunk*) * file_count);
-    Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, file_count, 1024);
-
-    for(int i = 0; i < file_count; i++)
-        music_samples[i] = Mix_LoadWAV(const_cast<char*>(files[i].c_str()));
 }
 
 void PongGame::Run()

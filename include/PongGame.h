@@ -28,6 +28,5 @@ public:
 
     void Run();
     void Draw_Circle(SDL_Renderer* renderer, SDL_Point center, int radius, SDL_Color color);
-    void GetAudioSamples(Mix_Chunk* music_samples[], std::string* files, int file_count);
 
 };
