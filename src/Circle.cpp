@@ -13,6 +13,11 @@ namespace GameObjects {
         color = _color;
         center.x = _x;
         center.y = _y;
+
+        int diameter = 2 * radius;
+        int x = center.x - radius;
+        int y = center.y - radius;
+        rect = {x, y, diameter, diameter};
     }
 
     void Circle::Construct_Circle(SDL_Renderer* renderer)
@@ -21,35 +26,23 @@ namespace GameObjects {
         int depth = 32;
         int _radius = (int)radius;
 
-        SDL_Surface* surface = SDL_CreateRGBSurfaceWithFormat(flags, depth * 2 * _radius, depth * 2 * _radius, depth, SDL_PIXELFORMAT_RGBA32);
+        SDL_Surface* surface = SDL_CreateRGBSurface(flags, 2 * _radius, 2 * _radius, depth, 0, 0, 0, 0);
         SDL_LockSurface(surface);
 
         int dx, dy;
-        // for(int w = 0; w < _radius * 2; w++)
-        // {
-        //     for(int h = 0; h < _radius * 2; h++)
-        //     {
-        //         dx = _radius - w; // horizontal offset
-        //         dy = _radius - h; // vertical offset
-        //         if((dx * dx + dy * dy) <= (_radius * _radius))
-        //         {
-        //             SetPixel(surface, dx, dy, color);
-        //         }
-        //     }
-        // }
-        for(int w = 0; w < _radius * 4; w++)
+        for(int w = 0; w < surface->w; w++)
         {
-            for(int h = 0; h < _radius * 4; h++)
+            for(int h = 0; h < surface->h; h++)
             {
-                SetPixel(surface, h, w, color);
+                dx = _radius - w; // horizontal offset
+                dy = _radius - h; // vertical offset
+                if((dx * dx + dy * dy) <= (_radius * _radius))
+                {
+                    SetPixel(surface, abs(dx), abs(dy), color);
+                }
             }
         }
 
-
-        int diameter = 2 * _radius;
-        int x = center.x - _radius;
-        int y = center.y - _radius;
-        rect = {x, y, diameter, diameter};
 
         SDL_UnlockSurface(surface);
         texture = SDL_CreateTextureFromSurface(renderer, surface);
