@@ -72,17 +72,18 @@ void PongGame::Run()
 
     SDL_Texture* paddle = SDL_CreateTextureFromSurface(renderer, paddle_1);
 
+    SDL_Color circle_color = { 255, 0, 0 };
+    SDL_Point center = { SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - 250 };
+
+    uint32_t _radius = 10;
+    GameObjects::Circle ball(_radius, circle_color, center.x, center.y);
+    ball.Construct_Circle(renderer);
+
     int radius = 20;
     int speed = 1;
     int velocity_x = -speed;
     int velocity_y = speed;
-
-    SDL_Color circle_color = { 255, 0, 0 };
-    SDL_Point center = { SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - 250 };
-
-    GameObjects::Circle ball(2, circle_color, 250, 250);
-    ball.Construct_Circle(renderer);
-
+    
     SDL_Event event;
     bool paused = false;
     bool running = true;
@@ -146,9 +147,9 @@ void PongGame::Run()
         }
         if(center.x + radius < paddle_1->clip_rect.x)
         {
-            running = false;
+            // running = false;
         }
-        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
         SDL_RenderClear(renderer);
 
         Draw_Circle(renderer, center, radius, circle_color);
@@ -157,7 +158,5 @@ void PongGame::Run()
 
         SDL_RenderPresent(renderer);
     }
-
-    std::cout << "Game over \n";
     return;
 }

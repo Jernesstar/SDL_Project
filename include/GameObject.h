@@ -5,7 +5,7 @@
 class GameObject {  
     
     public:
-        virtual void SetPixel(SDL_Surface*& surface, uint32_t x, uint32_t y, uint32_t pixel);
+        virtual void SetPixel(SDL_Surface* surface, int x, int y, SDL_Color color);
 
         virtual void Scale(int32_t scalar);
         virtual void Translate(int32_t delta_x, int32_t delta_y);

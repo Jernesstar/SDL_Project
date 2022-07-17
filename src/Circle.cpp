@@ -19,27 +19,39 @@ void Circle::Construct_Circle(SDL_Renderer* renderer)
 {  
     int flags = 0;
     int depth = 32;
-    SDL_Surface* surface = SDL_CreateRGBSurface(flags, 2 * radius, 2 * radius, depth, 0, 0, 0, 0);
-    
-    uint32_t dx, dy;
-    uint32_t _color = SDL_MapRGB(surface->format, color.r, color.g, color.b);
+    int _radius = (int)radius;
 
-    for(uint32_t w = 0; w <= radius * 2; w++)
+    SDL_Surface* surface = SDL_CreateRGBSurfaceWithFormat(flags, depth * 2 * _radius, depth * 2 * _radius, depth, SDL_PIXELFORMAT_RGBA32);
+    SDL_LockSurface(surface);
+
+    int dx, dy;
+    // for(int w = 0; w < _radius * 2; w++)
+    // {
+    //     for(int h = 0; h < _radius * 2; h++)
+    //     {
+    //         dx = _radius - w; // horizontal offset
+    //         dy = _radius - h; // vertical offset
+    //         if((dx * dx + dy * dy) <= (_radius * _radius))
+    //         {
+    //             SetPixel(surface, dx, dy, color);
+    //         }
+    //     }
+    // }
+    for(int w = 0; w < _radius * 4; w++)
     {
-        for(uint32_t h = 0; h <= radius * 2; h++)
+        for(int h = 0; h < _radius * 4; h++)
         {
-            dx = radius - w; // horizontal offset
-            dy = radius - h; // vertical offset
-            if((dx * dx + dy * dy) <= (radius * radius))
-            {
-                SetPixel(surface, center.x + dx, center.y + dy, _color);
-            }
+            SetPixel(surface, h, w, color);
         }
     }
 
-    int diameter = 2 * radius;
-    int coord = center.x - radius;
-    rect = {diameter, diameter, coord, coord};
+
+    int diameter = 2 * _radius;
+    int x = center.x - _radius;
+    int y = center.y - _radius;
+    rect = {x, y, diameter, diameter};
+
+    SDL_UnlockSurface(surface);
     texture = SDL_CreateTextureFromSurface(renderer, surface);
     SDL_FreeSurface(surface);
 }
