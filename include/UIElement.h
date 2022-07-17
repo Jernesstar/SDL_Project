@@ -5,11 +5,11 @@
 #include <SDL.h>
 
 namespace UI {
-class UIElement : public GameObject {
+    class UIElement : public GameObject {
 
-protected:
-    UIElement();
-    ~UIElement();
-};
+    protected:
+        UIElement();
+        ~UIElement();
+    };
 
 }

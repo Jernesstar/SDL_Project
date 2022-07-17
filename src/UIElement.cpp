@@ -2,14 +2,14 @@
 
 namespace UI {
 
-UIElement::UIElement() : GameObject()
-{
-    
-}
+    UIElement::UIElement() : GameObject()
+    {
+        
+    }
 
-UIElement::~UIElement()
-{
-    GameObject::~GameObject();
-}
+    UIElement::~UIElement()
+    {
+        GameObject::~GameObject();
+    }
 
 }
