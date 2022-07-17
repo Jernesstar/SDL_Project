@@ -7,7 +7,7 @@
 
 #include "Circle.h"
 
-PongGame::PongGame(std::string name_1, std::string name_2, SDL_Window*& _window, int width, int height) : 
+PongGame::PongGame(const std::string& name_1, std::string name_2, SDL_Window*& _window, int width, int height) : 
 player_1_name(name_1), player_2_name(name_2), SCREEN_WIDTH(width), SCREEN_HEIGHT(height)
 {  
     window = _window;

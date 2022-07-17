@@ -17,7 +17,7 @@ namespace UI {
 
     public:
         Text() { }
-        Text(std::string _text, uint8_t size, TTF_Font*& _font, SDL_Color& _color, SDL_Renderer*& renderer);
+        Text(const std::string& _text, uint8_t size, TTF_Font*& _font, SDL_Color& _color, SDL_Renderer*& renderer);
         ~Text();
     };
         

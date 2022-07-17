@@ -1,5 +1,7 @@
 #include "UIElement.h"
 
+#include <iostream>
+
 namespace UI {
 
     UIElement::UIElement() : GameObject()
