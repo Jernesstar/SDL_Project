@@ -23,7 +23,7 @@ public:
     GameObjects::Circle ball;
 
 public:
-    PongGame(const std::string& name_1, std::string name_2, SDL_Window*& window, int width, int height);
+    PongGame(const std::string& name_1, const std::string& name_2, SDL_Window*& window, int width, int height);
     ~PongGame();
 
     void Run();

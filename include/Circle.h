@@ -2,8 +2,6 @@
 
 #include "GameObject.h"
 
-#include <SDL.h>
-
 namespace GameObjects {
     
     // Class used to represent a circle

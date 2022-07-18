@@ -1,7 +1,5 @@
 #include "Circle.h"
 
-#include <iostream>
-
 namespace GameObjects {
 
     Circle::Circle() { }

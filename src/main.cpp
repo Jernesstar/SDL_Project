@@ -6,6 +6,7 @@
 #include <SDL_image.h>
 #include <SDL_mixer.h>
 
+#include "Window.h"
 #include "PongGame.h"
 #include "Log.h"
 #include "UI.h"
@@ -13,8 +14,8 @@
 #define SCREEN_WIDTH 1200
 #define SCREEN_HEIGHT 640
 
-SDL_Window* window;
-SDL_Renderer* renderer;
+Window* window;
+
 TTF_Font* pixel_font;
 
 void Start_Screen()
@@ -22,8 +23,8 @@ void Start_Screen()
     std::string message = "Press any key to continue";
     SDL_Color color = {255, 255, 255};
 
-    UI::Text* pong_text = new UI::Text("Pong", 10, pixel_font, color, renderer);
-    UI::Text* message_text = new UI::Text("Press any key to continue", 3, pixel_font, color, renderer);
+    UI::Text* pong_text = new UI::Text("Pong", 10, pixel_font, color, *window->GetRenderer());
+    UI::Text* message_text = new UI::Text("Press any key to continue", 3, pixel_font, color, *window->GetRenderer());
 
     pong_text->PlaceAt(
         0.5 * SCREEN_WIDTH - pong_text->GetCenter()->x, 
@@ -53,39 +54,25 @@ void Start_Screen()
                     break;
             }
         }
-        SDL_RenderCopy(renderer, *pong_text->GetTexture(), NULL, pong_text->GetRect());
-        SDL_RenderCopy(renderer, *message_text->GetTexture(), NULL, message_text->GetRect());
-        SDL_RenderPresent(renderer);
+        SDL_RenderCopy(*window->GetRenderer(), *pong_text->GetTexture(), NULL, pong_text->GetRect());
+        SDL_RenderCopy(*window->GetRenderer(), *message_text->GetTexture(), NULL, message_text->GetRect());
+        SDL_RenderPresent(*window->GetRenderer());
     }
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-    SDL_RenderClear(renderer);
+    SDL_SetRenderDrawColor(*window->GetRenderer(), 0, 0, 0, 255);
+    SDL_RenderClear(*window->GetRenderer());
 }
 
 int main(int argc, char** argv)
 {
-    SDL_Init(SDL_INIT_EVENTS);
-    TTF_Init();
-
-    window = SDL_CreateWindow(
-        "Pong", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, 0);
-    // Creating renderer, renders to above window, first one supporting flags, no flags
-    renderer = SDL_CreateRenderer(window, -1, 0);
+    window = new Window(SCREEN_WIDTH, SCREEN_HEIGHT, "Pong", SDL_INIT_EVENTS);
     pixel_font = TTF_OpenFont("resources/pixel_font.ttf", 15);
+    PongGame game("A", "B", *window->GetWindow(), SCREEN_WIDTH, SCREEN_HEIGHT);
     
     Start_Screen();
-
-    PongGame game("A", "B", window, SCREEN_WIDTH, SCREEN_HEIGHT); //
     game.Run();
 
-    SDL_DestroyRenderer(renderer);
-    SDL_DestroyWindow(window);
     TTF_CloseFont(pixel_font);
-
-    Mix_CloseAudio();
-    
-    TTF_Quit();
-    IMG_Quit();
-    SDL_Quit();
+    delete window;
 
     return 0;
 }
