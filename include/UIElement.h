@@ -6,9 +6,11 @@ namespace Saddle::UI {
     
 class UIElement : public GameObject {
 
+public:
+    ~UIElement();
+    
 protected:
     UIElement();
-    ~UIElement();
 };
 
 }

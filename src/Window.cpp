@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <exception>
+#include <typeinfo>
 
 namespace Saddle {
 
@@ -31,12 +32,18 @@ Window::~Window()
 template<typename T>
 void Window::AddElement(const T& element)
 {
-    if(T == Sound)
+    if(typeid(element) == typeid(Sound))
+    {
         sounds.push_back(element);
-    else if(T == UI::UIElement)
+    }
+    else if(typeid(element) == typeid(UI::UIElement))
+    {
         ui_elements.push_back(element);
-    else if(T == GameObject)
+    }
+    else if(typeid(element) == typeid(GameObject))
+    {
         game_objects.push_back(element);
+    }
     else
         throw std::invalid_argument("Type parameter 'T' must be GameObject, UIElement, or Sound");
 }
@@ -44,15 +51,21 @@ void Window::AddElement(const T& element)
 template<typename T>
 void Window::RemoveElement(const T& element)
 {
-    if(T == Sound)
-        auto element = std::remove(sounds.begin(), sounds.end(), _ui_element);
-        sounds.erase(element, element);
-    if(T == UI::UIElement)
-        auto element = std::remove(ui_elements.begin(), ui_elements.end(), _ui_element);
-        ui_elements.erase(element, element);
-    if(T == GameObject)
-        auto element = std::remove(game_objects.begin(), game_objects.end(), _ui_element);
-        game_objects.erase(element, element);
+    if(typeid(element) == typeid(Sound))
+    {
+        auto element_to_remove = std::remove(sounds.begin(), sounds.end(), element);
+        sounds.erase(element_to_remove, element_to_remove);
+    }
+    else if(typeid(element) == typeid(UI::UIElement))
+    {
+        auto element_to_remove = std::remove(ui_elements.begin(), ui_elements.end(), element);
+        ui_elements.erase(element_to_remove, element_to_remove);
+    }
+    else if(typeid(element) == typeid(GameObject))
+    {
+        auto element_to_remove = std::remove(game_objects.begin(), game_objects.end(), element);
+        game_objects.erase(element_to_remove, element_to_remove);
+    }
     else
         throw std::invalid_argument("Type parameter 'T' must be GameObject, UIElement, or Sound");
 }

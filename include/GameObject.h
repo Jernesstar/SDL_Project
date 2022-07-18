@@ -7,6 +7,8 @@ namespace Saddle {
 class GameObject {  
     
 public:
+    ~GameObject();
+    
     virtual void SetPixel(SDL_Surface* surface, int x, int y, SDL_Color color);
 
     virtual void Scale(int32_t scalar);
@@ -27,7 +29,6 @@ protected:
 
 protected:    
     GameObject();
-    ~GameObject();
 };
 
 }
