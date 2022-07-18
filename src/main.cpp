@@ -37,7 +37,7 @@ void Start_Screen()
         0.5 * SCREEN_WIDTH - message_text->GetCenter()->x,
         0.5 * SCREEN_HEIGHT 
     );
- 
+
     SDL_Event event;
     bool running = true;
 
@@ -68,6 +68,7 @@ int main(int argc, char** argv)
 {
     window = new Window(SCREEN_WIDTH, SCREEN_HEIGHT, "Pong", SDL_INIT_EVENTS);
     pixel_font = TTF_OpenFont("resources/pixel_font.ttf", 15);
+
     PongGame game("A", "B", *window->GetWindow(), SCREEN_WIDTH, SCREEN_HEIGHT);
     
     Start_Screen();

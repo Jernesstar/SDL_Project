@@ -62,7 +62,7 @@ void PongGame::Run()
     SDL_Color circle_color = { 255, 0, 0 };
     SDL_Point center = { SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - 250 };
 
-    uint32_t _radius = 10;
+    uint32_t _radius = 100;
     Saddle::GameObjects::Circle ball(_radius, circle_color, center.x, center.y);
     ball.Construct_Circle(renderer);
 
