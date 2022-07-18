@@ -2,7 +2,7 @@
 
 #include "GameObject.h"
 
-namespace GameObjects {
+namespace Saddle::GameObjects {
     
     // Class used to represent a circle
     class Circle : public GameObject {

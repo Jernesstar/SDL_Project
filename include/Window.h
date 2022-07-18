@@ -9,6 +9,8 @@
 #include "UI.h"
 #include "Sound.h"
 
+namespace Saddle {
+
 class Window {
 
 public:
@@ -34,3 +36,5 @@ private:
     // std::vector<Sound> sounds;
 
 };
+
+}

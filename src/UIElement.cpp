@@ -2,16 +2,16 @@
 
 #include <iostream>
 
-namespace UI {
+namespace Saddle::UI {
 
-    UIElement::UIElement() : GameObject()
-    {
-        
-    }
+UIElement::UIElement() : GameObject()
+{
+    
+}
 
-    UIElement::~UIElement()
-    {
-        GameObject::~GameObject();
-    }
+UIElement::~UIElement()
+{
+    GameObject::~GameObject();
+}
 
 }

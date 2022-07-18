@@ -20,7 +20,7 @@ public:
     SDL_Surface* paddle_1;
     SDL_Surface* paddle_2;
     
-    GameObjects::Circle ball;
+    Saddle::GameObjects::Circle ball;
 
 public:
     PongGame(const std::string& name_1, const std::string& name_2, SDL_Window*& window, int width, int height);

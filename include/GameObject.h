@@ -2,6 +2,8 @@
 
 #include <SDL.h>
 
+namespace Saddle {
+    // The base game object class. Defines some basic fields and methods for all game objects 
 class GameObject {  
     
 public:
@@ -27,3 +29,5 @@ protected:
     GameObject();
     ~GameObject();
 };
+
+}

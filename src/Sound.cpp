@@ -1,5 +1,7 @@
 #include "Sound.h"
 
+namespace Saddle {
+
 Sound::Sound(const std::string& file_path)
 {
     memset(sound, 0, sizeof(Mix_Chunk*));
@@ -17,4 +19,6 @@ void Sound::Play(int channel = -1, int loops = 0)
     // channel = -1: First available sound channel
     // loops = 0: Play the sound once
     Mix_PlayChannel(channel, sound, loops);
+}
+
 }

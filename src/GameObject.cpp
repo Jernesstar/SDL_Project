@@ -1,5 +1,6 @@
 #include "GameObject.h"
-#include <iostream>
+
+namespace Saddle {
 
 GameObject::GameObject() 
 {
@@ -66,4 +67,6 @@ SDL_Texture** GameObject::GetTexture()
 SDL_Point* GameObject::GetCenter()
 {
     return &center;
+}
+
 }

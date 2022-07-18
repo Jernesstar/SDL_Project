@@ -1,5 +1,7 @@
 #include "Window.h"
 
+namespace Saddle {
+
 Window::Window(int width, int height, const std::string& window_title, Uint32 sdl_init_flags)
 {
     SDL_Init(sdl_init_flags);
@@ -30,4 +32,6 @@ SDL_Renderer** Window::GetRenderer()
 SDL_Window** Window::GetWindow()
 {
     return &window;
+}
+
 }

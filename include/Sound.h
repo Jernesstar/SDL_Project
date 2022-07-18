@@ -5,6 +5,8 @@
 #include <SDL.h>
 #include <SDL_mixer.h>
 
+namespace Saddle {
+
 class Sound {
 
 public:
@@ -16,3 +18,5 @@ public:
 
     void Play(int channel, int loops);
 };
+
+}

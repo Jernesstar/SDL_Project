@@ -1,7 +1,6 @@
 #include <iostream>
 
 #include "PongGame.h"
-
 #include "Circle.h"
 
 PongGame::PongGame(const std::string& name_1, const std::string& name_2, SDL_Window*& _window, int width, int height) : 
@@ -64,7 +63,7 @@ void PongGame::Run()
     SDL_Point center = { SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - 250 };
 
     uint32_t _radius = 10;
-    GameObjects::Circle ball(_radius, circle_color, center.x, center.y);
+    Saddle::GameObjects::Circle ball(_radius, circle_color, center.x, center.y);
     ball.Construct_Circle(renderer);
 
     int radius = 20;
