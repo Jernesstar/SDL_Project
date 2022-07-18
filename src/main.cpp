@@ -64,10 +64,10 @@ void Start_Screen()
 int main(int argc, char** argv)
 {
     SDL_Init(SDL_INIT_EVENTS);
-    // IMG_Init(IMG_INIT_PNG);
     TTF_Init();
 
-    window = SDL_CreateWindow("Pong", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, 0);
+    window = SDL_CreateWindow(
+        "Pong", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, 0);
     // Creating renderer, renders to above window, first one supporting flags, no flags
     renderer = SDL_CreateRenderer(window, -1, 0);
     pixel_font = TTF_OpenFont("resources/pixel_font.ttf", 15);
