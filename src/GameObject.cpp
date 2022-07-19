@@ -1,10 +1,13 @@
 #include "GameObject.h"
 
+#include <SDL.h>
+
 namespace Saddle {
 
 GameObject::GameObject() 
 {
-
+    OnEventClick = [&](SDL_Event& event) { };
+    OnEventKeyPress = [&](SDL_Event& event) { };
 }
 
 GameObject::~GameObject()

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <functional>
+
 #include <SDL.h>
 
 namespace Saddle {
@@ -20,6 +22,13 @@ public:
     virtual SDL_Rect* GetRect();
     virtual SDL_Texture** GetTexture();
     virtual SDL_Point* GetCenter();
+
+    // Will handle the incoming and call one of the below function objects if neccessary
+    // virtual void HandleEvent(SDL_Event& event);
+
+    // Used to customize behavior when the GameObject is clicked
+    std::function<void(SDL_Event&)> OnEventClick;
+    std::function<void(SDL_Event&)> OnEventKeyPress;
 
 protected: 
     SDL_Rect rect;

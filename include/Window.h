@@ -17,11 +17,9 @@ public:
     Window(int width, int height, const std::string& window_title, Uint32 sdl_init_flags);
     ~Window();
 
-    template<typename T>
-    void AddElement(const T& element);
-    
-    template<typename T>
-    void RemoveElement(const T& element);
+    void AddUIElement(UI::UIElement& element);
+    void AddGameObject(GameObject& game_object);
+    void AddSound(Sound& sound);
 
     void RenderUI();
     void RenderGameObjects();
@@ -35,8 +33,8 @@ private:
     SDL_Window* window;
     SDL_Renderer* renderer;
 
-    std::vector<UI::UIElement> ui_elements;
     std::vector<GameObject> game_objects;
+    std::vector<UI::UIElement> ui_elements;
     std::vector<Sound> sounds;
 
 };

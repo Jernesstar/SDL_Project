@@ -29,61 +29,35 @@ Window::~Window()
     SDL_Quit();
 }
 
-template<typename T>
-void Window::AddElement(const T& element)
+void Window::AddUIElement(UI::UIElement& element)
 {
-    if(typeid(element) == typeid(Sound))
-    {
-        sounds.push_back(element);
-    }
-    else if(typeid(element) == typeid(UI::UIElement))
-    {
-        ui_elements.push_back(element);
-    }
-    else if(typeid(element) == typeid(GameObject))
-    {
-        game_objects.push_back(element);
-    }
-    else
-        throw std::invalid_argument("Type parameter 'T' must be GameObject, UIElement, or Sound");
+    ui_elements.push_back(element);
 }
 
-template<typename T>
-void Window::RemoveElement(const T& element)
+void Window::AddGameObject(GameObject& game_object)
 {
-    if(typeid(element) == typeid(Sound))
-    {
-        auto element_to_remove = std::remove(sounds.begin(), sounds.end(), element);
-        sounds.erase(element_to_remove, element_to_remove);
-    }
-    else if(typeid(element) == typeid(UI::UIElement))
-    {
-        auto element_to_remove = std::remove(ui_elements.begin(), ui_elements.end(), element);
-        ui_elements.erase(element_to_remove, element_to_remove);
-    }
-    else if(typeid(element) == typeid(GameObject))
-    {
-        auto element_to_remove = std::remove(game_objects.begin(), game_objects.end(), element);
-        game_objects.erase(element_to_remove, element_to_remove);
-    }
-    else
-        throw std::invalid_argument("Type parameter 'T' must be GameObject, UIElement, or Sound");
+    game_objects.push_back(game_object);
+}
+
+void Window::AddSound(Sound& sound)
+{
+    sounds.push_back(sound);
 }
 
 void Window::RenderUI()
 {
-    for(UI::UIElement& ui_element : ui_elements)
+    for(int i = 0; i < ui_elements.size(); i++)
     {
-        SDL_RenderCopy(renderer, *ui_element.GetTexture(), NULL, ui_element.GetRect());
+        SDL_RenderCopy(renderer, *ui_elements[i].GetTexture(), NULL, ui_elements[i].GetRect());
     }
     SDL_RenderPresent(renderer);
 }
 
 void Window::RenderGameObjects()
 {
-    for(GameObject& game_object : game_objects)
+    for(int i = 0; i < game_objects.size(); i++)
     {
-        SDL_RenderCopy(renderer, *game_object.GetTexture(), NULL, game_object.GetRect());
+        SDL_RenderCopy(renderer, *game_objects[i].GetTexture(), NULL, game_objects[i].GetRect());
     }
     SDL_RenderPresent(renderer);
 }
