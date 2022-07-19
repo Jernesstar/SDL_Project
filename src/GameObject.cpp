@@ -1,7 +1,5 @@
 #include "GameObject.h"
 
-#include <SDL.h>
-
 namespace Saddle {
 
 GameObject::GameObject() 
@@ -45,6 +43,30 @@ void GameObject::PlaceAt(uint32_t _x, uint32_t _y)
     int new_center_x = (rect.x + rect.w) * 0.5;
     int new_center_y = (rect.y + rect.h) * 0.5;
     center = {new_center_x, new_center_y};
+}
+
+void GameObject::HandleEvent(SDL_Event& event)
+{
+    if(event.type == SDL_MOUSEBUTTONDOWN)
+    {
+        int mouse_x = event.button.x;
+        int mouse_y = event.button.y;
+        bool x_coord_is_in_bound = rect.x <= mouse_x && mouse_x <= rect.x + rect.w;
+        bool y_coord_is_in_bound = rect.y <= mouse_y && mouse_y <= rect.y + rect.h;
+
+        if(x_coord_is_in_bound && y_coord_is_in_bound)
+        {
+            if(OnEventClick)
+                OnEventClick(event);
+        }
+
+    }
+
+    else if(event.type == SDL_KEYDOWN)
+    {
+        if(OnEventKeyPress)
+            OnEventKeyPress(event);
+    }
 }
 
 uint32_t GameObject::GetX()

@@ -9,6 +9,12 @@ namespace Saddle {
 class GameObject {  
     
 public:
+    // Used to customize behavior when the GameObject is clicked
+    std::function<void(SDL_Event&)> OnEventClick;
+    // Used to customize behavior when a key is pressed
+    std::function<void(SDL_Event&)> OnEventKeyPress;
+
+public:
     ~GameObject();
     
     virtual void SetPixel(SDL_Surface* surface, int x, int y, SDL_Color color);
@@ -16,6 +22,7 @@ public:
     virtual void Scale(int32_t scalar);
     virtual void Translate(int32_t delta_x, int32_t delta_y);
     virtual void PlaceAt(uint32_t _x, uint32_t _y);
+    virtual void HandleEvent(SDL_Event& event);
     
     virtual uint32_t GetX();
     virtual uint32_t GetY();
@@ -24,11 +31,6 @@ public:
     virtual SDL_Point* GetCenter();
 
     // Will handle the incoming and call one of the below function objects if neccessary
-    // virtual void HandleEvent(SDL_Event& event);
-
-    // Used to customize behavior when the GameObject is clicked
-    std::function<void(SDL_Event&)> OnEventClick;
-    std::function<void(SDL_Event&)> OnEventKeyPress;
 
 protected: 
     SDL_Rect rect;

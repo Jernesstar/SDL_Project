@@ -50,6 +50,7 @@ void Window::RenderUI()
     {
         SDL_RenderCopy(renderer, *ui_elements[i].GetTexture(), NULL, ui_elements[i].GetRect());
     }
+
     SDL_RenderPresent(renderer);
 }
 
@@ -58,14 +59,26 @@ void Window::RenderGameObjects()
     for(int i = 0; i < game_objects.size(); i++)
     {
         SDL_RenderCopy(renderer, *game_objects[i].GetTexture(), NULL, game_objects[i].GetRect());
+        SDL_RenderPresent(renderer);
     }
-    SDL_RenderPresent(renderer);
 }
 
 void Window::RenderScene()
 {
     RenderUI();
     RenderGameObjects();
+}
+
+void Window::HandleEvent(SDL_Event& event)
+{
+    for(int i = 0; i < ui_elements.size(); i++)
+    {
+        ui_elements[i].HandleEvent(event);
+    }
+    for(int i = 0; i < game_objects.size(); i++)
+    {
+        game_objects[i].HandleEvent(event);
+    }
 }
 
 SDL_Renderer** Window::GetRenderer()
