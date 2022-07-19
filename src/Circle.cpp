@@ -4,7 +4,7 @@ namespace Saddle::GameObjects {
 
 Circle::Circle() { }
 
-Circle::Circle(uint32_t _radius, SDL_Color& _color, uint32_t _x = 0, uint32_t _y = 0) :
+Circle::Circle(uint32_t _radius, SDL_Color& _color, SDL_Renderer* renderer, uint32_t _x = 0, uint32_t _y = 0) :
 GameObject()
 {
     radius = _radius;
@@ -16,6 +16,8 @@ GameObject()
     int x = center.x - radius;
     int y = center.y - radius;
     rect = {x, y, diameter, diameter};
+
+    Construct_Circle(renderer);
 }
 
 void Circle::Construct_Circle(SDL_Renderer* renderer)
@@ -36,7 +38,7 @@ void Circle::Construct_Circle(SDL_Renderer* renderer)
             dy = _radius - h; // vertical offset
             if((dx * dx + dy * dy) <= (_radius * _radius))
             {
-                SetPixel(surface, abs(dx), abs(dy), color);
+                SetPixel(surface, (surface->w * 0.5) + dx, (surface->h * 0.5) + dy, color);
             }
         }
     }

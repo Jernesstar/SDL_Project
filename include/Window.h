@@ -14,6 +14,10 @@ namespace Saddle {
 class Window {
 
 public:
+    const int Width, Height;
+
+public:
+    Window();
     Window(int width, int height, const std::string& window_title, Uint32 sdl_init_flags);
     ~Window();
 

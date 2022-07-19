@@ -6,8 +6,10 @@
 
 namespace Saddle {
 
+Window::Window() : Width(0), Height(0)  { }
+
 Window::Window(int width, int height, const std::string& window_title, Uint32 sdl_init_flags) :
-ui_elements(), game_objects(), sounds()
+ui_elements(), game_objects(), sounds(), Width(width), Height(height)
 {
     SDL_Init(sdl_init_flags);
     TTF_Init();
@@ -46,21 +48,22 @@ void Window::AddSound(Sound& sound)
 
 void Window::RenderUI()
 {
+    SDL_RenderClear(renderer);
     for(int i = 0; i < ui_elements.size(); i++)
     {
         SDL_RenderCopy(renderer, *ui_elements[i]->GetTexture(), NULL, ui_elements[i]->GetRect());
     }
-
     SDL_RenderPresent(renderer);
 }
 
 void Window::RenderGameObjects()
 {
+    SDL_RenderClear(renderer);
     for(int i = 0; i < game_objects.size(); i++)
     {
         SDL_RenderCopy(renderer, *game_objects[i]->GetTexture(), NULL, game_objects[i]->GetRect());
-        SDL_RenderPresent(renderer);
     }
+    SDL_RenderPresent(renderer);
 }
 
 void Window::RenderScene()

@@ -9,12 +9,13 @@ namespace Saddle::GameObjects {
 
     public:
         Circle();
-        Circle(uint32_t _radius, SDL_Color& _color, uint32_t _x, uint32_t _y);
+        Circle(uint32_t _radius, SDL_Color& _color, SDL_Renderer* renderer, uint32_t _x, uint32_t _y);
         
-        void Construct_Circle(SDL_Renderer* renderer);
-
     private:
         uint32_t radius;
+
+    private:
+        void Construct_Circle(SDL_Renderer* renderer);
     };
 
 }
