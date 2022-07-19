@@ -31,24 +31,24 @@ Window::~Window()
 
 void Window::AddUIElement(UI::UIElement& element)
 {
-    ui_elements.push_back(element);
+    ui_elements.push_back(&element);
 }
 
 void Window::AddGameObject(GameObject& game_object)
 {
-    game_objects.push_back(game_object);
+    game_objects.push_back(&game_object);
 }
 
 void Window::AddSound(Sound& sound)
 {
-    sounds.push_back(sound);
+    sounds.push_back(&sound);
 }
 
 void Window::RenderUI()
 {
     for(int i = 0; i < ui_elements.size(); i++)
     {
-        SDL_RenderCopy(renderer, *ui_elements[i].GetTexture(), NULL, ui_elements[i].GetRect());
+        SDL_RenderCopy(renderer, *ui_elements[i]->GetTexture(), NULL, ui_elements[i]->GetRect());
     }
 
     SDL_RenderPresent(renderer);
@@ -58,7 +58,7 @@ void Window::RenderGameObjects()
 {
     for(int i = 0; i < game_objects.size(); i++)
     {
-        SDL_RenderCopy(renderer, *game_objects[i].GetTexture(), NULL, game_objects[i].GetRect());
+        SDL_RenderCopy(renderer, *game_objects[i]->GetTexture(), NULL, game_objects[i]->GetRect());
         SDL_RenderPresent(renderer);
     }
 }
@@ -73,11 +73,11 @@ void Window::HandleEvent(SDL_Event& event)
 {
     for(int i = 0; i < ui_elements.size(); i++)
     {
-        ui_elements[i].HandleEvent(event);
+        ui_elements[i]->HandleEvent(event);
     }
     for(int i = 0; i < game_objects.size(); i++)
     {
-        game_objects[i].HandleEvent(event);
+        game_objects[i]->HandleEvent(event);
     }
 }
 

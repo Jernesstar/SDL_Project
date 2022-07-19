@@ -38,13 +38,13 @@ void Start_Screen()
         0.5 * SCREEN_HEIGHT 
     );
 
-    message_text.OnEventClick = [&](SDL_Event& event) {
-        std::cout << "Was clicked on" << "\n";
-    };
-
     window->AddUIElement(pong_text);
     window->AddUIElement(message_text);
 
+    message_text.OnEventClick = [](SDL_Event& event) {
+        std::cout << "Was clicked on" << "\n";
+    };
+    
     SDL_Event event;
     bool running = true;
 

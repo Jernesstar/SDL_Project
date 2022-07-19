@@ -9,9 +9,9 @@ namespace Saddle {
 class GameObject {  
     
 public:
-    // Used to customize behavior when the GameObject is clicked
+    // Used to customize behavior when the GameObject is clicked. Initialize with a lambda function
     std::function<void(SDL_Event&)> OnEventClick;
-    // Used to customize behavior when a key is pressed
+    // Used to customize behavior when a key is pressed. Initialize with a lambda function
     std::function<void(SDL_Event&)> OnEventKeyPress;
 
 public:

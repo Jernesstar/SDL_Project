@@ -18,8 +18,13 @@ public:
     ~Window();
 
     void AddUIElement(UI::UIElement& element);
+    // void RemoveUIElement(UI::UIElement& element);
+
     void AddGameObject(GameObject& game_object);
+    // void RemoveGameObject(GameObject& game_object);
+    
     void AddSound(Sound& sound);
+    // void RemoveSound(Sound& sound);
 
     void RenderUI();
     void RenderGameObjects();
@@ -33,9 +38,9 @@ private:
     SDL_Window* window;
     SDL_Renderer* renderer;
 
-    std::vector<GameObject> game_objects;
-    std::vector<UI::UIElement> ui_elements;
-    std::vector<Sound> sounds;
+    std::vector<UI::UIElement*> ui_elements;
+    std::vector<GameObject*> game_objects;
+    std::vector<Sound*> sounds;
 
 };
 
