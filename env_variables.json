@@ -1,0 +1,20 @@
+{
+    "environment_variables": [
+        {
+            "name": "Anaconda",
+            "value": "C:\\Users\\jercy\\anaconda3;C:\\Users\\jercy\\anaconda3\\Library\\mingw-w64\\bin;C:\\Users\\jercy\\anaconda3\\Library\\usr\\bin;C:\\Users\\jercy\\anaconda3\\Library\\bin;C:\\Users\\jercy\\anaconda3\\Scripts;"
+        },
+        {
+            "name": "Path",
+            "value": "C:\\WINDOWS;C:\\WINDOWS\\system32;C:\\WINDOWS\\System32\\Wbem;C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\;C:\\WINDOWS\\System32\\OpenSSH\\;C:\\Program Files\\dotnet\\;C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319;C:\\Program Files\\Git\\cmd;C:\\Program Files\\GitHub CLI\\gh.exe;C:\\Program Files (x86)\\IncrediBuild;%PYTHONPATH%;C:\\msys64\\mingw64\\bin;%Anaconda%;%SQL_VARIABLES%;C:\\Users\\jercy\\Downloads\\chromedriver_win32\\chromedriver.exe;"
+        },
+        {
+            "name": "PYTHONPATH",
+            "value": "C:\\Program Files\\Python310;C:\\Program Files\\Python310\\Scripts;C:\\Program Files\\Python310\\Lib;C:\\Program Files\\Python310\\Lib\\site-packages;C:\\Program Files\\Python310\\DLLs;C:\\Users\\jercy\\AppData\\Local\\Programs\\Python\\Python39;C:\\Users\\jercy\\AppData\\Local\\Programs\\Python\\Python39\\Scripts;C:\\Users\\jercy\\AppData\\Local\\Programs\\Python\\Python39\\Lib;C:\\Users\\jercy\\AppData\\Local\\Programs\\Python\\Python39\\Lib\\site-packages;C:\\Users\\jercy\\AppData\\Local\\Programs\\Python\\Python39\\DLLs;"
+        },
+        {
+            "name": "SQL_VARIABLES",
+            "value": "C:\\Program Files (x86)\\Microsoft SDKs\\Azure\\CLI2\\wbin;C:\\Program Files\\Microsoft SQL Server\\150\\Tools\\Binn;C:\\Program Files (x86)\\Microsoft SQL Server\\150\\DTS\\Binn\\;C:\\Program Files\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\;C:\\Program Files (x86)\\Microsoft SDKs\\Azure\\CLI2\\wbin;"
+        }
+    ]
+}
