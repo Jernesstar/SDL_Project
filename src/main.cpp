@@ -16,17 +16,13 @@ using namespace Saddle;
 #define SCREEN_WIDTH 1200
 #define SCREEN_HEIGHT 640
 
-Saddle::Window* window;
-
-TTF_Font* pixel_font;
-
-void Start_Screen()
+void Start_Screen(Saddle::Window& window, TTF_Font* pixel_font)
 {
     std::string message = "Press any key to continue";
     SDL_Color color = {255, 255, 255};
 
-    UI::Text pong_text("Pong", pixel_font, 10, color, *window->GetRenderer());
-    UI::Text message_text("Press any key to continue", pixel_font, 3, color, *window->GetRenderer());
+    UI::Text pong_text("Pong", pixel_font, 10, color, *window.GetRenderer());
+    UI::Text message_text("Press any key to continue", pixel_font, 3, color, *window.GetRenderer());
 
     pong_text.PlaceAt(
         0.5 * SCREEN_WIDTH - pong_text.GetCenter()->x, 
@@ -37,9 +33,6 @@ void Start_Screen()
         0.5 * SCREEN_WIDTH - message_text.GetCenter()->x,
         0.5 * SCREEN_HEIGHT 
     );
-
-    window->AddUIElement(pong_text);
-    window->AddUIElement(message_text);
 
     pong_text.OnEventClick = [](SDL_Event& event) {
         std::cout << "Title text was clicked on" << "\n";
@@ -61,9 +54,12 @@ void Start_Screen()
 
     while(running)
     {
+        window.AddUIElement(pong_text);
+        window.AddUIElement(message_text);
+        
         while(SDL_PollEvent(&event))
         {
-            window->HandleEvent(event);
+            window.HandleEvent(event);
             switch(event.type)
             {
                 case SDL_QUIT:
@@ -75,21 +71,21 @@ void Start_Screen()
                     break;
             }
         }
-        window->RenderUI();
+        window.RenderUI();
     }
+    
 }
 
 int main(int argc, char** argv)
 {
-    window = new Saddle::Window(SCREEN_WIDTH, SCREEN_HEIGHT, "Pong", SDL_INIT_EVENTS);
-    pixel_font = TTF_OpenFont("resources/pixel_font.ttf", 15);
+    Saddle::Window window(SCREEN_WIDTH, SCREEN_HEIGHT, "Pong", SDL_INIT_EVENTS);
+    TTF_Font* pixel_font = TTF_OpenFont("resources/pixel_font.ttf", 15);
 
-    Start_Screen();
+    Start_Screen(window, pixel_font);
 
-    // PongGame game("A", "B", *window, SCREEN_WIDTH, SCREEN_HEIGHT);
-    // game.Run();
+    PongGame game("A", "B", window);
+    game.Run();
 
     TTF_CloseFont(pixel_font);
-    delete window;
     return 0;
 }

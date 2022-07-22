@@ -1,9 +1,5 @@
 #include "Window.h"
 
-#include <algorithm>
-#include <exception>
-#include <typeinfo>
-
 namespace Saddle {
 
 Window::Window() : Width(0), Height(0)  { }
@@ -13,7 +9,7 @@ ui_elements(), game_objects(), sounds(), Width(width), Height(height)
 {
     SDL_Init(sdl_init_flags);
     TTF_Init();
-    IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG | IMG_INIT_TIF);
+    // IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG | IMG_INIT_TIF);
 
     window = SDL_CreateWindow(window_title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, 0);
     renderer = SDL_CreateRenderer(window, -1, 0);
@@ -49,9 +45,11 @@ void Window::AddSound(Sound& sound)
 void Window::RenderUI()
 {
     SDL_RenderClear(renderer);
-    for(int i = 0; i < ui_elements.size(); i++)
+    while(ui_elements.size() > 0)
     {
-        SDL_RenderCopy(renderer, *ui_elements[i]->GetTexture(), NULL, ui_elements[i]->GetRect());
+        UI::UIElement* element = ui_elements[ui_elements.size() - 1];
+        SDL_RenderCopy(renderer, *element->GetTexture(), NULL, element->GetRect());
+        ui_elements.pop_back();
     }
     SDL_RenderPresent(renderer);
 }
@@ -59,17 +57,19 @@ void Window::RenderUI()
 void Window::RenderGameObjects()
 {
     SDL_RenderClear(renderer);
-    for(int i = 0; i < game_objects.size(); i++)
+    while(game_objects.size() > 0)
     {
-        SDL_RenderCopy(renderer, *game_objects[i]->GetTexture(), NULL, game_objects[i]->GetRect());
+        GameObject* game_object = game_objects[game_objects.size() - 1];
+        SDL_RenderCopy(renderer, *game_object->GetTexture(), NULL, game_object->GetRect());
+        game_objects.pop_back();
     }
     SDL_RenderPresent(renderer);
 }
 
 void Window::RenderScene()
 {
-    RenderUI();
     RenderGameObjects();
+    RenderUI();
 }
 
 void Window::HandleEvent(SDL_Event& event)
