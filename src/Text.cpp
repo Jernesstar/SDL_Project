@@ -2,7 +2,7 @@
 
 namespace Saddle::UI {
 
-Text::Text(const std::string& _text, uint8_t size, TTF_Font*& _font, SDL_Color& _color, SDL_Renderer*& renderer) : 
+Text::Text(const std::string& _text, TTF_Font* _font, uint8_t size, SDL_Color& _color, SDL_Renderer* renderer) : 
 UIElement(), text(_text)
 {
     SDL_Surface* text_surface = TTF_RenderText_Solid(_font, _text.c_str(), _color);
@@ -13,6 +13,13 @@ UIElement(), text(_text)
     center = {rect.w / 2, rect.h / 2};
 
     SDL_FreeSurface(text_surface);
+}
+
+Text::Text(const std::string& _text, const std::string& font_path, uint8_t size, SDL_Color& _color, SDL_Renderer* renderer) : 
+UIElement(), text(_text)
+{
+    TTF_Font* _font = TTF_OpenFont(font_path.c_str(), size);
+    Text(_text, _font, size, _color, renderer);
 }
 
 Text::~Text()

@@ -19,7 +19,8 @@ public:
 
 public:
     Text() { }
-    Text(const std::string& _text, uint8_t size, TTF_Font*& _font, SDL_Color& _color, SDL_Renderer*& renderer);
+    Text(const std::string& _text, TTF_Font* _font, uint8_t size, SDL_Color& _color, SDL_Renderer* renderer);
+    Text(const std::string& _text, const std::string& font_path, uint8_t size, SDL_Color& _color, SDL_Renderer* renderer);
     ~Text();
 };
         
