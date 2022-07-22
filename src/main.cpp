@@ -6,6 +6,7 @@
 #include <SDL_image.h>
 #include <SDL_mixer.h>
 
+#include "Application.h"
 #include "Window.h"
 #include "PongGame.h"
 #include "Log.h"
@@ -80,6 +81,8 @@ int main(int argc, char** argv)
 {
     Saddle::Window window(SCREEN_WIDTH, SCREEN_HEIGHT, "Pong", SDL_INIT_EVENTS);
     TTF_Font* pixel_font = TTF_OpenFont("resources/pixel_font.ttf", 15);
+    
+    Application::Init();
 
     Start_Screen(window, pixel_font);
 

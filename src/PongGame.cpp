@@ -113,6 +113,8 @@ void PongGame::Run()
         {
             // running = false;
         }
+        SDL_RenderCopy(*window->GetRenderer(), paddle, NULL, &paddle_1->clip_rect);
+        SDL_RenderPresent(*window->GetRenderer());
         window->RenderGameObjects();
     }
     return;
