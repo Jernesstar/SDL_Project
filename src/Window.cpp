@@ -4,8 +4,8 @@ namespace Saddle {
 
 Window::Window() : Width(0), Height(0)  { }
 
-Window::Window(int width, int height, const std::string& window_title, Uint32 sdl_init_flags) :
-ui_elements(), game_objects(), sounds(), Width(width), Height(height)
+Window::Window(int width, int height, const std::string& window_title, Uint32 sdl_init_flags)
+    : ui_elements(), game_objects(), sounds(), Width(width), Height(height)
 {
     SDL_Init(sdl_init_flags);
     TTF_Init();

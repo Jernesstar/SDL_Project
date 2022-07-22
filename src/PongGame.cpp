@@ -1,8 +1,9 @@
 #include "PongGame.h"
 
-PongGame::PongGame(const std::string& name_1, const std::string& name_2, Saddle::Window& _window) : 
-player_1_name(name_1), player_2_name(name_2), SCREEN_WIDTH(_window.Width), SCREEN_HEIGHT(_window.Height)
+PongGame::PongGame(const std::string& name_1, const std::string& name_2, Saddle::Window& _window) 
+    : player_1_name(name_1), player_2_name(name_2), SCREEN_WIDTH(_window.Width), SCREEN_HEIGHT(_window.Height)
 {  
+    window = &_window;
     paddle_1 = (SDL_Surface*)malloc(sizeof(SDL_Surface));
     paddle_2 = (SDL_Surface*)malloc(sizeof(SDL_Surface));
 
@@ -27,17 +28,16 @@ PongGame::~PongGame()
 
 void PongGame::Run()
 {
+    SDL_RenderClear(*window->GetRenderer());
     paddle_1->clip_rect.x = SCREEN_WIDTH / 4;
     paddle_1->clip_rect.y = SCREEN_HEIGHT / 2;
 
-    SDL_Texture* paddle = SDL_CreateTextureFromSurface(*window.GetRenderer(), paddle_1);
+    SDL_Texture* paddle = SDL_CreateTextureFromSurface(*window->GetRenderer(), paddle_1);
 
     uint32_t _radius = 20;
     SDL_Color circle_color = { 255, 0, 0 };
     SDL_Point center = { SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - 250 };
-    Saddle::GameObjects::Circle ball(_radius, circle_color, *window.GetRenderer(), center.x, center.y);
-
-    std::cout << "f";
+    Saddle::GameObjects::Circle ball(_radius, circle_color, *window->GetRenderer(), center.x, center.y);
 
     int radius = 20;
     int speed = 1;
@@ -49,7 +49,7 @@ void PongGame::Run()
     bool running = true;
     while(running)
     {
-        window.AddGameObject(ball);
+        window->AddGameObject(ball);
         while(SDL_PollEvent(&event))
         {
             switch (event.type)
@@ -113,9 +113,7 @@ void PongGame::Run()
         {
             // running = false;
         }
-        SDL_RenderClear(*window.GetRenderer());
-        // window.RenderGameObjects();
-        // SDL_RenderCopy(*window.GetRenderer(), paddle, NULL, &paddle_1->clip_rect);
+        window->RenderGameObjects();
     }
     return;
 }

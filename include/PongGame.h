@@ -16,14 +16,14 @@ public:
     const std::string player_2_name;
     const int SCREEN_WIDTH, SCREEN_HEIGHT;
 
-    Saddle::Window window;
+    Saddle::Window* window;
     SDL_Surface* paddle_1;
     SDL_Surface* paddle_2;
     
     Saddle::GameObjects::Circle ball;
 
 public:
-    PongGame(const std::string& name_1, const std::string& name_2, Saddle::Window& window);
+    PongGame(const std::string& name_1, const std::string& name_2, Saddle::Window& _window);
     ~PongGame();
 
     void Run();
