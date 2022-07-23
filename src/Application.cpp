@@ -14,7 +14,7 @@ Application::~Application()
 
 void Application::Init()
 {
-    app = new Application();
+    instance = new Application();
 }
 
 }

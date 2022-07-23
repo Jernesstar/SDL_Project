@@ -13,7 +13,7 @@ public:
     static void Init();
 
 private:
-    inline static Application* app;
+    inline static Application* instance;
     Saddle::Window window;
     
 private:
