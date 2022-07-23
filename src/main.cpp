@@ -79,11 +79,9 @@ void Start_Screen(Saddle::Window& window, TTF_Font* pixel_font)
 
 int main(int argc, char** argv)
 {
-    Saddle::Window window(SCREEN_WIDTH, SCREEN_HEIGHT, "Pong", SDL_INIT_EVENTS);
+    Saddle::Window window(SCREEN_WIDTH, SCREEN_HEIGHT, "Pong");
     TTF_Font* pixel_font = TTF_OpenFont("resources/pixel_font.ttf", 15);
     
-    Application::Init();
-
     Start_Screen(window, pixel_font);
 
     PongGame game("A", "B", window);

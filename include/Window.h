@@ -11,6 +11,12 @@
 
 namespace Saddle {
 
+struct WindowSpecification {
+
+    int Width, Height, Flags;
+
+};
+
 class Window {
 
 public:
@@ -18,7 +24,7 @@ public:
 
 public:
     Window();
-    Window(int width, int height, const std::string& window_title, Uint32 sdl_init_flags);
+    Window(const WindowSpecification& window_specs);
     ~Window();
 
     void AddUIElement(UI::UIElement& element);
