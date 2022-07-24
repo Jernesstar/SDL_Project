@@ -19,11 +19,11 @@ public:
 
 
 public:
-    static void Init(int sdl_init_flags, int img_init_flags);
+    static void Init(Uint32 sdl_init_flags = SDL_INIT_EVERYTHING, Uint32 img_init_flags = IMG_INIT_JPG | IMG_INIT_PNG | IMG_INIT_TIF | IMG_INIT_WEBP);
 
 private:
-    inline static Application* s_Instance;
-    Saddle::Window* m_Window;
+    inline static Application* instance;
+    Saddle::Window* window;
     const ApplicationSpecification& m_Specification;
     
 private:

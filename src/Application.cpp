@@ -7,12 +7,12 @@ namespace Saddle {
 Application::Application(const ApplicationSpecification& specs)
     : m_Specification(specs)
 {
-    if(!s_Instance)
-        s_Instance = this;
+    if(!instance)
+        instance = this;
     else
         throw std::logic_error("Application already exists!");
 
-    m_Window = new Window(specs.Window_Specs);
+    window = new Window(specs.Window_Specs);
 }
 
 Application::~Application()
@@ -24,7 +24,7 @@ Application::~Application()
     SDL_Quit();
 }
 
-void Application::Init(int sdl_init_flags = SDL_INIT_EVERYTHING, int img_init_flags = IMG_INIT_JPG | IMG_INIT_PNG | IMG_INIT_TIF | IMG_INIT_WEBP)
+void Application::Init(Uint32 sdl_init_flags, Uint32 img_init_flags)
 {
     SDL_Init(sdl_init_flags);
     IMG_Init(img_init_flags);

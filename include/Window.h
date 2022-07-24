@@ -13,7 +13,15 @@ namespace Saddle {
 
 struct WindowSpecification {
 
-    int Width, Height, Flags;
+    const std::string Title;
+    int Width, Height;
+    Uint32 Flags;
+
+    WindowSpecification(const std::string& title = "Window", int width = 1200, int height = 640, Uint32 flags = 0)
+        : Title(title), Width(width), Height(height), Flags(flags) 
+    {
+
+    }
 
 };
 
@@ -24,7 +32,7 @@ public:
 
 public:
     Window();
-    Window(const WindowSpecification& window_specs);
+    Window(const WindowSpecification& specs);
     ~Window();
 
     void AddUIElement(UI::UIElement& element);

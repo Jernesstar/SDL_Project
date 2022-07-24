@@ -17,9 +17,10 @@ using namespace Saddle;
 #define SCREEN_WIDTH 1200
 #define SCREEN_HEIGHT 640
 
-void Start_Screen(Saddle::Window& window, TTF_Font* pixel_font)
+void Start_Screen(Saddle::Window& window)
 {
     std::string message = "Press any key to continue";
+    TTF_Font* pixel_font = TTF_OpenFont("resources/pixel_font.ttf", 15);
     SDL_Color color = {255, 255, 255};
 
     UI::Text pong_text("Pong", pixel_font, 10, color, *window.GetRenderer());
@@ -74,19 +75,19 @@ void Start_Screen(Saddle::Window& window, TTF_Font* pixel_font)
         }
         window.RenderUI();
     }
-    
+    TTF_CloseFont(pixel_font);
 }
 
 int main(int argc, char** argv)
 {
-    Saddle::Window window(SCREEN_WIDTH, SCREEN_HEIGHT, "Pong");
-    TTF_Font* pixel_font = TTF_OpenFont("resources/pixel_font.ttf", 15);
-    
-    Start_Screen(window, pixel_font);
+    Application::Init(SDL_INIT_EVENTS, 0);
+    WindowSpecification specs;
+    Saddle::Window window(specs);
+
+    Start_Screen(window);
 
     PongGame game("A", "B", window);
     game.Run();
 
-    TTF_CloseFont(pixel_font);
     return 0;
 }
