@@ -32,7 +32,7 @@ public:
 
 public:
     Window();
-    Window(const WindowSpecification& specs);
+    Window(const WindowSpecification& specs = WindowSpecification());
     ~Window();
 
     void AddUIElement(UI::UIElement& element);

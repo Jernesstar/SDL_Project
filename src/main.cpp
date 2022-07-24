@@ -80,7 +80,7 @@ void Start_Screen(Saddle::Window& window)
 
 int main(int argc, char** argv)
 {
-    Application::Init(SDL_INIT_EVENTS, 0);
+    Application::Init();
     WindowSpecification specs;
     Saddle::Window window(specs);
 
