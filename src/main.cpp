@@ -11,6 +11,7 @@
 #include "PongGame.h"
 #include "Log.h"
 #include "UI.h"
+#include "Sound.h"
 
 using namespace Saddle;
 
@@ -22,6 +23,8 @@ void Start_Screen(Saddle::Window& window)
     std::string message = "Press any key to continue";
     TTF_Font* pixel_font = TTF_OpenFont("resources/pixel_font.ttf", 15);
     SDL_Color color = {255, 255, 255};
+
+    Sound sound("resources/Snare-Drum.wav");
 
     UI::Text pong_text("Pong", pixel_font, 10, color, *window.GetRenderer());
     UI::Text message_text("Press any key to continue", pixel_font, 3, color, *window.GetRenderer());
@@ -36,8 +39,9 @@ void Start_Screen(Saddle::Window& window)
         0.5 * SCREEN_HEIGHT 
     );
 
-    pong_text.OnEventClick = [](SDL_Event& event) {
-        std::cout << "Title text was clicked on" << "\n";
+    pong_text.OnEventClick = [&sound](SDL_Event& event) {
+        std::cout << "Title text was clicked on, playing sound..." << "\n";
+        sound.Play();
     };
 
     pong_text.OnEventKeyPress = [](SDL_Event& event) {
@@ -81,13 +85,17 @@ void Start_Screen(Saddle::Window& window)
 int main(int argc, char** argv)
 {
     Application::Init();
-    WindowSpecification specs;
-    Saddle::Window window(specs);
+    Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 1024);
+
+    Saddle::Window window(Application::Get().GetWindow());
 
     Start_Screen(window);
 
     PongGame game("A", "B", window);
     game.Run();
+
+    Mix_CloseAudio();
+    Application::Close();
 
     return 0;
 }

@@ -4,7 +4,7 @@ namespace Saddle {
 
 Sound::Sound(const std::string& file_path)
 {
-    memset(sound, 0, sizeof(Mix_Chunk*));
+    // memset(sound, 0, sizeof(Mix_Chunk));
     sound = Mix_LoadWAV(file_path.c_str());
 }
 
@@ -14,7 +14,7 @@ Sound::~Sound()
         Mix_FreeChunk(sound);
 }
 
-void Sound::Play(int channel = -1, int loops = 0)
+void Sound::Play(int channel, int loops)
 {
     // channel = -1: First available sound channel
     // loops = 0: Play the sound once

@@ -23,19 +23,19 @@ struct ApplicationSpecification {
 class Application {
 
 public:
-
-
-public:
     static void Init(const ApplicationSpecification& specification = ApplicationSpecification());
     static void Close();
+    static Application& Get();
+
+    Window& GetWindow();
 
 private:
-    Saddle::Window* m_Window;
-    inline static Application* s_Instance = nullptr;
-    inline static ApplicationSpecification* s_Specification;
+    inline static Application* s_Instance;
+    Saddle::Window m_Window;
+    ApplicationSpecification s_Specification;
     
 private:
-    Application();
+    Application(const ApplicationSpecification& specs);
     ~Application();
 };
     

@@ -4,11 +4,15 @@
 
 namespace Saddle {
 
-Application::Application() { }
+Application::Application(const ApplicationSpecification& specs)
+    : s_Specification(specs), m_Window(specs.Window_Specification)
+{
+
+}
 
 Application::~Application()
 {
-    Mix_CloseAudio();
+    // 
     TTF_Quit();
     IMG_Quit();
     SDL_Quit();
@@ -23,16 +27,22 @@ void Application::Init(const ApplicationSpecification& specification)
     if(s_Instance)
         throw std::logic_error("Application already exists!");
     
-    s_Instance = new Application();
-    s_Instance->m_Window = new Window(specification.Window_Specification);
-    s_Specification = (ApplicationSpecification*)(&specification);
+    s_Instance = new Application(specification);
 }
 
 void Application::Close()
 {
-    delete s_Specification;
-    delete s_Instance->m_Window;
     delete s_Instance;
+}
+
+Application& Application::Get()
+{
+    return *s_Instance;
+}
+
+Window& Application::GetWindow()
+{
+    return m_Window;
 }
 
 }
