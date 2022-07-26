@@ -77,16 +77,27 @@ void Start_Screen(Saddle::Window& window)
     TTF_CloseFont(pixel_font);
 }
 
+class App : public Application {
+
+public:
+    App() : Application() { }
+    ~App() { }
+
+    void Run()
+    {
+        Start_Screen(m_Window);
+        PongGame game("A", "B", m_Window);
+        game.Run();
+    }
+
+};
+
 int main(int argc, char** argv)
 {
     Application::Init();
 
-    Saddle::Window window(Application::Get().GetWindow());
-
-    Start_Screen(window);
-
-    PongGame game("A", "B", window);
-    game.Run();
+    App app;
+    app.Run();
 
     Application::Close();
 

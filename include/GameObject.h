@@ -15,13 +15,15 @@ public:
     std::function<void(SDL_Event&)> OnEventKeyPress;
 
 public:
-    ~GameObject();
+    virtual ~GameObject();
     
     virtual void SetPixel(SDL_Surface* surface, int x, int y, SDL_Color color);
 
     virtual void Scale(int32_t scalar);
     virtual void Translate(int32_t delta_x, int32_t delta_y);
     virtual void PlaceAt(uint32_t _x, uint32_t _y);
+    
+    // Will handle the incoming and call one of the below function objects if neccessary
     virtual void HandleEvent(SDL_Event& event);
     
     virtual uint32_t GetX();
@@ -30,7 +32,6 @@ public:
     virtual SDL_Texture** GetTexture();
     virtual SDL_Point* GetCenter();
 
-    // Will handle the incoming and call one of the below function objects if neccessary
 
 protected: 
     SDL_Rect rect;
