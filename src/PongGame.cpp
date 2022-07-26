@@ -106,8 +106,8 @@ void PongGame::Run()
             center.x += velocity_x;
             center.y += velocity_y;
 
-            ball.GetRect()->x += velocity_x;
-            ball.GetRect()->y += velocity_y;
+            ball.GetRect().x += velocity_x;
+            ball.GetRect().y += velocity_y;
         }
         if(center.x + radius < paddle_1->clip_rect.x)
         {

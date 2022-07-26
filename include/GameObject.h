@@ -23,15 +23,14 @@ public:
     virtual void Translate(int32_t delta_x, int32_t delta_y);
     virtual void PlaceAt(uint32_t _x, uint32_t _y);
     
-    // Will handle the incoming and call one of the below function objects if neccessary
-    virtual void HandleEvent(SDL_Event& event);
+    // Will handle the incoming event and call the user-defined functions OnEventClick or OnEventKeyPress if necessary
+    virtual void OnEvent(SDL_Event& event);
     
     virtual uint32_t GetX();
     virtual uint32_t GetY();
-    virtual SDL_Rect* GetRect();
-    virtual SDL_Texture** GetTexture();
-    virtual SDL_Point* GetCenter();
-
+    virtual SDL_Rect& GetRect();
+    virtual SDL_Texture*& GetTexture();
+    virtual SDL_Point& GetCenter();
 
 protected: 
     SDL_Rect rect;
@@ -41,6 +40,7 @@ protected:
 
 protected:    
     GameObject();
+
 };
 
 }

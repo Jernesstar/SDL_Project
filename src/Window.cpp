@@ -38,7 +38,7 @@ void Window::RenderUI()
     while(ui_elements.size() > 0)
     {
         UI::UIElement* element = ui_elements[ui_elements.size() - 1];
-        SDL_RenderCopy(renderer, *element->GetTexture(), NULL, element->GetRect());
+        SDL_RenderCopy(renderer, element->GetTexture(), NULL, &element->GetRect());
         ui_elements.pop_back();
     }
     SDL_RenderPresent(renderer);
@@ -50,7 +50,7 @@ void Window::RenderGameObjects()
     while(game_objects.size() > 0)
     {
         GameObject* game_object = game_objects[game_objects.size() - 1];
-        SDL_RenderCopy(renderer, *game_object->GetTexture(), NULL, game_object->GetRect());
+        SDL_RenderCopy(renderer, game_object->GetTexture(), NULL, &game_object->GetRect());
         game_objects.pop_back();
     }
     SDL_RenderPresent(renderer);
@@ -66,11 +66,11 @@ void Window::HandleEvent(SDL_Event& event)
 {
     for(int i = 0; i < ui_elements.size(); i++)
     {
-        ui_elements[i]->HandleEvent(event);
+        ui_elements[i]->OnEvent(event);
     }
     for(int i = 0; i < game_objects.size(); i++)
     {
-        game_objects[i]->HandleEvent(event);
+        game_objects[i]->OnEvent(event);
     }
 }
 

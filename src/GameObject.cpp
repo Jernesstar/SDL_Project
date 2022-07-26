@@ -45,7 +45,7 @@ void GameObject::PlaceAt(uint32_t _x, uint32_t _y)
     center = {new_center_x, new_center_y};
 }
 
-void GameObject::HandleEvent(SDL_Event& event)
+void GameObject::OnEvent(SDL_Event& event)
 {
     if(event.type == SDL_MOUSEBUTTONDOWN)
     {
@@ -59,7 +59,6 @@ void GameObject::HandleEvent(SDL_Event& event)
             if(OnEventClick)
                 OnEventClick(event);
         }
-
     }
 
     else if(event.type == SDL_KEYDOWN)
@@ -79,19 +78,19 @@ uint32_t GameObject::GetY()
     return rect.y;
 }
 
-SDL_Rect* GameObject::GetRect()
+SDL_Rect& GameObject::GetRect()
 {
-    return &rect;
+    return rect;
 }
 
-SDL_Texture** GameObject::GetTexture()
+SDL_Texture*& GameObject::GetTexture()
 {
-    return &texture;
+    return texture;
 }
 
-SDL_Point* GameObject::GetCenter()
+SDL_Point& GameObject::GetCenter()
 {
-    return &center;
+    return center;
 }
 
 }

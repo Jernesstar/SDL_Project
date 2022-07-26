@@ -31,12 +31,12 @@ void Start_Screen(Saddle::Window& window)
     UI::Text message_text("Press any key to continue", pixel_font, 3, color, *window.GetRenderer());
 
     pong_text.PlaceAt(
-        0.5 * SCREEN_WIDTH - pong_text.GetCenter()->x, 
-        0.5 * SCREEN_HEIGHT - 2 * pong_text.GetRect()->h
+        0.5 * SCREEN_WIDTH - pong_text.GetCenter().x, 
+        0.5 * SCREEN_HEIGHT - 2 * pong_text.GetRect().h
     );
 
     message_text.PlaceAt(
-        0.5 * SCREEN_WIDTH - message_text.GetCenter()->x,
+        0.5 * SCREEN_WIDTH - message_text.GetCenter().x,
         0.5 * SCREEN_HEIGHT 
     );
 
