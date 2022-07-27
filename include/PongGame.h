@@ -16,7 +16,7 @@ public:
     const std::string player_2_name;
     const int SCREEN_WIDTH, SCREEN_HEIGHT;
 
-    Saddle::Window* window;
+    Saddle::Window window;
     SDL_Surface* paddle_1;
     SDL_Surface* paddle_2;
     

@@ -49,16 +49,16 @@ public:
     void RenderScene();
     void HandleEvent(SDL_Event& event);
 
-    SDL_Renderer** GetRenderer();
-    SDL_Window** GetWindow();
+    SDL_Renderer* GetRenderer();
+    SDL_Window* GetWindow();
 
 private:
-    SDL_Window* window;
-    SDL_Renderer* renderer;
+    SDL_Window* m_Window;
+    SDL_Renderer* m_Renderer;
 
-    std::vector<UI::UIElement*> ui_elements;
-    std::vector<GameObject*> game_objects;
-    std::vector<Sound*> sounds;
+    std::vector<UI::UIElement*> m_UIElements;
+    std::vector<GameObject*> m_GameObjects;
+    std::vector<Sound*> m_Sounds;
 
 };
 
