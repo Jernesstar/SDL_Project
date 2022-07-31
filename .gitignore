@@ -1,5 +1,5 @@
 .vscode/
-Saddle/vendor/
-bin/
-obj/
-*.Makefile
+/Saddle/vendor/
+/bin/
+/obj/
+Makefile
