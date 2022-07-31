@@ -20,14 +20,14 @@ endif
 
 RESCOMP = windres
 TARGETDIR = ../bin
-TARGET = $(TARGETDIR)/Saddle.lib
+TARGET = $(TARGETDIR)/Saddle.dll
 INCLUDES += -Iinclude -Ivendor/SDL2/include/SDL2 -Ivendor/SDL2/include/SDL_image -Ivendor/SDL2/include/SDL_mixer -Ivendor/SDL2/include/SDL_ttf
 FORCE_INCLUDE +=
 ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
 ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
-LIBS += -lSDL2 -lSDL2_image -lSDL2_mixer -lSDL2_ttf
+LIBS += -lmingw32 -lSDL2main -lSDL2 -lSDL2_image -lSDL2_mixer -lSDL2_ttf
 LDDEPS +=
-LINKCMD = $(AR) -rcs "$@" $(OBJECTS)
+LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
 define PREBUILDCMDS
 endef
 define PRELINKCMDS
@@ -40,21 +40,21 @@ OBJDIR = ../obj/Debug/Saddle
 DEFINES += -D_WINDOWS -DWIN32 -DSADDLE_DEBUG
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -g
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -g -std=c++17
-ALL_LDFLAGS += $(LDFLAGS) -Lvendor/SDL2/bin -L/usr/lib64 -m64
+ALL_LDFLAGS += $(LDFLAGS) -Lvendor/SDL2/lib -L/usr/lib64 -m64 -shared -Wl,--out-implib="../bin/Saddle.lib"
 
 else ifeq ($(config),release)
 OBJDIR = ../obj/Release/Saddle
 DEFINES += -D_WINDOWS -DWIN32 -DSADDLE_RELEASE
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -std=c++17
-ALL_LDFLAGS += $(LDFLAGS) -Lvendor/SDL2/bin -L/usr/lib64 -m64 -s
+ALL_LDFLAGS += $(LDFLAGS) -Lvendor/SDL2/lib -L/usr/lib64 -m64 -shared -Wl,--out-implib="../bin/Saddle.lib" -s
 
 else ifeq ($(config),dist)
 OBJDIR = ../obj/Dist/Saddle
 DEFINES += -D_WINDOWS -DWIN32 -DSADDLE_DIST
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -std=c++17
-ALL_LDFLAGS += $(LDFLAGS) -Lvendor/SDL2/bin -L/usr/lib64 -m64 -s
+ALL_LDFLAGS += $(LDFLAGS) -Lvendor/SDL2/lib -L/usr/lib64 -m64 -shared -Wl,--out-implib="../bin/Saddle.lib" -s
 
 endif
 
