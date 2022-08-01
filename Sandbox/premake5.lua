@@ -2,7 +2,7 @@ project "Sandbox"
     kind "ConsoleApp"
     language "C++"
 
-    targetdir ("%{wks.location}/%{prj.name}/vendor/SDL2/bin")
+    targetdir ("%{wks.location}/Saddle/vendor/SDL2/bin")
     objdir ("%{wks.location}/obj")
 
     files
