@@ -4,7 +4,10 @@ namespace Saddle {
 
 Sound::Sound(const std::string& file_path)
 {
-    m_Sound = Mix_LoadWAV(file_path.c_str());
+    std::string path = "Sandbox/";
+    path.append(file_path);
+    
+    m_Sound = Mix_LoadWAV(path.c_str());
 }
 
 Sound::~Sound()

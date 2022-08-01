@@ -4,8 +4,8 @@ namespace Saddle::GameObjects {
 
 Circle::Circle() { }
 
-Circle::Circle(uint32_t _radius, SDL_Color& _color, SDL_Renderer* renderer, uint32_t _x = 0, uint32_t _y = 0) :
-GameObject()
+Circle::Circle(uint32_t _radius, SDL_Color& _color, SDL_Renderer* renderer, uint32_t _x = 0, uint32_t _y = 0)
+    : GameObject()
 {
     radius = _radius;
     color = _color;
