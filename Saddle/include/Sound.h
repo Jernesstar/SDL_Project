@@ -26,7 +26,7 @@ class Sound {
 public:
     Sound(const std::string& file_path);
     ~Sound();
-    void Play(int channel = -1, int loops = 0);
+    void Play(int loops = 0, int channel = -1);
 
 private:
     Mix_Chunk* m_Sound;
