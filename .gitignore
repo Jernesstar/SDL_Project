@@ -1,5 +1,5 @@
 .vscode/
-/Saddle/vendor/
 /bin/
 /obj/
+/Saddle/vendor/
 Makefile

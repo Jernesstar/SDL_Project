@@ -85,7 +85,7 @@ public:
 
     void Run()
     {
-        Start_Screen(m_Window);
+        // Start_Screen(m_Window);
         PongGame game("A", "B", m_Window);
         game.Run();
     }

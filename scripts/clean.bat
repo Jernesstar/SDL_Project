@@ -1,3 +1,5 @@
+@echo off
+
 MinGW32-make clean
 
 del bin\Saddle.lib
