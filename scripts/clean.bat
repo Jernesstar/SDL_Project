@@ -1,4 +1,7 @@
 @echo off
+pushd %~dp0\..\
+
+echo Cleaning project
 
 if exist obj\ (
     rmdir /s /q obj
@@ -21,3 +24,7 @@ if exist Saddle\vendor\SDL2\bin\Saddle.dll (
 if exist Saddle\vendor\SDL2\bin\Sandbox.exe (
     del /q Saddle\vendor\SDL2\bin\Sandbox.exe
 )
+
+echo Project clean
+popd
+Pause
