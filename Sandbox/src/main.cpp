@@ -42,13 +42,18 @@ void Start_Screen(Saddle::Window& window)
     );
 
     pong_text.OnEventClick = [&snare_drum](SDL_Event& event) {
-        std::cout << "Title text was clicked on, playing sound..." << "\n";
+        std::cout << "Title text was clicked on, sound volume: ";
+        std::cout << Mix_VolumeChunk(snare_drum.GetSound(), -1);
+        snare_drum.DecreaseVolume(1);
         snare_drum.Play();
+        std::cout << "\n";
     };
 
-    message_text.OnEventClick = [&kick_drum](SDL_Event& event) {
+    message_text.OnEventClick = [&kick_drum, &snare_drum](SDL_Event& event) {
         std::cout << "Message was clicked on, playing sound..." << "\n";
+        Sound::DecreaseChannelVolume(-1, 1);
         kick_drum.Play();
+        snare_drum.Play();
     };
     
     SDL_Event event;
