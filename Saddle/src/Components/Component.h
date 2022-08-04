@@ -4,6 +4,7 @@ namespace Saddle {
 
 class IComponent {
 
+
 };
 
 }
