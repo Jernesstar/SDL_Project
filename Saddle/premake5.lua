@@ -7,13 +7,16 @@ project "Saddle"
 
     files
     {
-        "src/**.cpp",
-        "include/**.h"
+        "src/**.h",
+        "src/**.cpp"
     }
 
     includedirs
     {
-        "%{wks.location}/%{prj.name}/include",
+        "%{wks.location}/%{prj.name}/src/Components",
+        "%{wks.location}/%{prj.name}/src/Core",
+        "%{wks.location}/%{prj.name}/src/Entities",
+
         "%{wks.location}/%{prj.name}/vendor/SDL2/include/SDL2",
         "%{wks.location}/%{prj.name}/vendor/SDL2/include/SDL_image",
         "%{wks.location}/%{prj.name}/vendor/SDL2/include/SDL_mixer",

@@ -7,14 +7,18 @@ project "Sandbox"
 
     files
     {
-        "src/**.cpp",
-        "include/**.h"
+        "include/**.h",
+        "src/**.cpp"
     }
 
     includedirs
     {
         "include",
-        "%{wks.location}/Saddle/include",
+
+        "%{wks.location}/Saddle/src/Components",
+        "%{wks.location}/Saddle/src/Core",
+        "%{wks.location}/Saddle/src/Entities",
+
         "%{wks.location}/Saddle/vendor/SDL2/include/SDL2",
         "%{wks.location}/Saddle/vendor/SDL2/include/SDL_image",
         "%{wks.location}/Saddle/vendor/SDL2/include/SDL_mixer",
