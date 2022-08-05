@@ -1,13 +1,9 @@
 #pragma once
 
-#include <vector>
+#include <iostream>
 
 #include <SDL.h>
 #include <SDL_image.h>
-
-#include "GameObject.h"
-#include "UI.h"
-#include "Sound.h"
 
 namespace Saddle {
 
@@ -35,30 +31,14 @@ public:
     Window(const WindowSpecification& specs = WindowSpecification());
     ~Window();
 
-    void AddUIElement(UI::UIElement& element);
-    // void RemoveUIElement(UI::UIElement& element);
-
-    void AddGameObject(GameObject& game_object);
-    // void RemoveGameObject(GameObject& game_object);
-    
-    void AddSound(SoundComponent& sound);
-    // void RemoveSound(SoundComponent& sound);
-
-    void RenderUI();
-    void RenderGameObjects();
-    void RenderScene();
     void HandleEvent(SDL_Event& event);
 
-    SDL_Renderer* GetRenderer();
     SDL_Window* GetWindow();
+    SDL_Renderer* GetRenderer();
 
 private:
     SDL_Window* m_Window;
     SDL_Renderer* m_Renderer;
-
-    std::vector<UI::UIElement*> m_UIElements;
-    std::vector<GameObject*> m_GameObjects;
-    std::vector<SoundComponent*> m_Sounds;
 
 };
 

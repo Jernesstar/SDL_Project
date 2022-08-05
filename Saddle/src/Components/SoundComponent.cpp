@@ -1,6 +1,4 @@
-#include "Sound.h"
-
-#include "Audio.h"
+#include "Components.h"
 
 namespace Saddle {
 
@@ -18,8 +16,6 @@ SoundComponent::~SoundComponent()
     if(m_Sound)
         Mix_FreeChunk(m_Sound);
 }
-
-void SoundComponent::OnUpdate() { }
 
 Mix_Chunk* SoundComponent::GetSound()
 {

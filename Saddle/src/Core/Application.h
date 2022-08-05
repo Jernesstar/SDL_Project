@@ -2,6 +2,7 @@
 
 #include "Window.h"
 #include "Audio.h"
+#include "Font.h"
 
 namespace Saddle {
 
