@@ -8,7 +8,7 @@ public:
     virtual void OnUpdate() = 0;
 
 protected:
-    IComponent();
+    IComponent() = default;
     virtual ~IComponent() = default;
 
 };

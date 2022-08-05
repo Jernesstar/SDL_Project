@@ -19,7 +19,7 @@ void Application::Init(const ApplicationSpecification& specs)
     if(s_Instance)
         throw std::logic_error("Application already exists!");
 
-    auto sound_specs = specs.Sound_Specification;
+    auto sound_specs = specs.Audio_Specification;
     
     SDL_Init(specs.SDL_Init_Flags);
     IMG_Init(specs.IMG_Init_Flags);
@@ -37,10 +37,7 @@ void Application::Close()
     SDL_Quit();
 }
 
-void Application::Run()
-{
-
-}
+void Application::Run() { }
 
 Application& Application::Get()
 {

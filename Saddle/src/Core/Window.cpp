@@ -27,7 +27,7 @@ void Window::AddGameObject(GameObject& game_object)
     m_GameObjects.push_back(&game_object);
 }
 
-void Window::AddSound(Sound& sound)
+void Window::AddSound(SoundComponent& sound)
 {
     m_Sounds.push_back(&sound);
 }

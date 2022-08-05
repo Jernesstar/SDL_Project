@@ -41,8 +41,8 @@ public:
     void AddGameObject(GameObject& game_object);
     // void RemoveGameObject(GameObject& game_object);
     
-    void AddSound(Sound& sound);
-    // void RemoveSound(Sound& sound);
+    void AddSound(SoundComponent& sound);
+    // void RemoveSound(SoundComponent& sound);
 
     void RenderUI();
     void RenderGameObjects();
@@ -58,7 +58,7 @@ private:
 
     std::vector<UI::UIElement*> m_UIElements;
     std::vector<GameObject*> m_GameObjects;
-    std::vector<Sound*> m_Sounds;
+    std::vector<SoundComponent*> m_Sounds;
 
 };
 

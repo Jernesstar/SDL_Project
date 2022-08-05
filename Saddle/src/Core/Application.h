@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Window.h"
-#include "Sound.h"
+#include "Audio.h"
 
 namespace Saddle {
 
@@ -11,16 +11,15 @@ struct ApplicationSpecification {
     Uint32 SDL_Init_Flags;
     Uint32 IMG_Init_Flags;
     WindowSpecification Window_Specification;
-    SoundSpecification Sound_Specification;
+    AudioSpecification Audio_Specification;
 
     ApplicationSpecification(
-        const std::string& app_name = "Application", 
-        Uint32 sdl_init_flags = SDL_INIT_EVERYTHING, 
-        Uint32 img_init_flags = IMG_INIT_JPG | IMG_INIT_PNG | IMG_INIT_TIF | IMG_INIT_WEBP,
+        const std::string& app_name = "Application",
+        Uint32 sdl_init_flags = SDL_INIT_EVERYTHING,
         WindowSpecification window_specs = WindowSpecification("Application"),
-        SoundSpecification sound_specs = SoundSpecification()
-    ) : AppName(app_name), SDL_Init_Flags(sdl_init_flags), IMG_Init_Flags(img_init_flags),
-        Window_Specification(window_specs), Sound_Specification(sound_specs) { }
+        AudioSpecification audio_specs = AudioSpecification()
+    ) : AppName(app_name), SDL_Init_Flags(sdl_init_flags), Window_Specification(window_specs), 
+            Audio_Specification(audio_specs) { }
 };
 
 class Application {
