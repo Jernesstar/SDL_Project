@@ -68,14 +68,16 @@
 
 // };
 
-int main(int argc, char** argv)
-{
-    // Application::Init();
+// int main(int argc, char** argv)
+// {
+//     Application::Init();
 
-    // App app;
-    // app.Run();
+//     App app;
+//     app.Run();
 
-    // Application::Close();
+//     Application::Close();
 
-    return 0;
-}
+//     return 0;
+// }
+
+int main(int argc, char** argv) { }
