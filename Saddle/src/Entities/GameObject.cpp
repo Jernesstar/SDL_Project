@@ -23,28 +23,6 @@ void GameObject::SetPixel(SDL_Surface* surface, int x, int y, SDL_Color color)
     *pixel = pixel_color;
 }
 
-void GameObject::Scale(int32_t scalar)
-{
-    
-}
-
-void GameObject::Translate(int32_t delta_x, int32_t delta_y)
-{
-    rect.x += delta_x;
-    rect.y += delta_y;
-    center.x += delta_x;
-    center.y += delta_y;
-}
-
-void GameObject::PlaceAt(uint32_t _x, uint32_t _y)
-{
-    rect.x = _x;
-    rect.y = _y;
-    int new_center_x = (rect.x + rect.w) * 0.5;
-    int new_center_y = (rect.y + rect.h) * 0.5;
-    center = {new_center_x, new_center_y};
-}
-
 void GameObject::OnEvent(SDL_Event& event)
 {
     if(event.type == SDL_MOUSEBUTTONDOWN)
@@ -66,16 +44,6 @@ void GameObject::OnEvent(SDL_Event& event)
         if(OnEventKeyPress)
             OnEventKeyPress(event);
     }
-}
-
-uint32_t GameObject::GetX()
-{
-    return rect.x;
-}
-
-uint32_t GameObject::GetY()
-{
-    return rect.y;
 }
 
 SDL_Rect& GameObject::GetRect()
