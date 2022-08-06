@@ -17,8 +17,6 @@ public:
 public:
     virtual ~GameObject();
     
-    virtual void SetPixel(SDL_Surface* surface, int x, int y, SDL_Color color);
-    
     // Will handle the incoming event and call the user-defined functions OnEventClick or OnEventKeyPress if necessary
     virtual void OnEvent(SDL_Event& event);
     

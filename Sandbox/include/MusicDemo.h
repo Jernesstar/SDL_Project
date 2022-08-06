@@ -1,37 +1,40 @@
-// #include "Application.h"
+#include "Application.h"
+#include "Entity.h"
 
-// class MusicBlock : public Saddle::Entity {
+using namespace Saddle;
 
-// public:
-//     MusicBlock(const std::string& sound_path, int width, int height)
-//         : m_MusicNote(sound_path), m_Width(width), m_Height(height)
-//     {
-//         SDL_Surface* surface = SDL_CreateRGBSurface(0, width, height, 32, 0, 0, 0, 0);
-//         SDL_FillRect(surface, NULL, SDL_MapRGB(surface->format, 255, 255, 255)); 
-//     }
-//     ~MusicBlock() { }
+class MusicBlock : public Entity {
 
-//     void Play()
-//     {
-//         m_MusicNote.Play();
-//     }
+public:
+    MusicBlock(const std::string& sound_path, int width, int height)
+        : m_Width(width), m_Height(height)
+    {
+        SDL_Surface* surface = SDL_CreateRGBSurface(0, width, height, 32, 0, 0, 0, 0);
+        SDL_FillRect(surface, NULL, SDL_MapRGB(surface->format, 255, 255, 255)); 
 
-// private:
-//     Saddle::SoundComponent m_MusicNote;
-//     int m_Width;
-//     int m_Height;
-// };
+        AddComponent<SoundComponent>(sound_path);
+    }
+    ~MusicBlock() { }
 
-// class MusicDemo {
+    void Play()
+    {
+        GetComponent<SoundComponent>().Play();
+    }
 
-// public:
-//     MusicDemo();
-//     ~MusicDemo();
+private:
+    int m_Width;
+    int m_Height;
+};
 
-//     void Run();
+class MusicDemo {
 
-// private:
-//     Saddle::Window m_Window;
+public:
+    MusicDemo();
+    ~MusicDemo();
 
-// };
+    void Run();
 
+private:
+    Saddle::Window m_Window;
+
+};

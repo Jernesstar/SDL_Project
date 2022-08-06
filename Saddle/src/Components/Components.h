@@ -9,7 +9,6 @@
 #include "Font.h"
 
 namespace Saddle {
-
 struct IComponent {
 protected:
     IComponent() = default;
@@ -17,10 +16,11 @@ protected:
 };
 
 struct RectComponent : public IComponent {
-    int width, height;  
+    Uint32 width, height;  
 
     RectComponent() = default;
-    RectComponent(int w, int h) : width(w), height(h) {}
+    RectComponent(Uint32 w, Uint32 h) : width(w), height(h) { }
+    RectComponent(const RectComponent& other) : width(other.width), height(other.height) { }
     
     void Scale(int32_t scalar)
     {  
@@ -30,10 +30,9 @@ struct RectComponent : public IComponent {
 };
 
 struct Coordinate2DComponent : public IComponent {
-    int x, y;
+    Uint32 x, y;
 
-    Coordinate2DComponent() = default;
-    Coordinate2DComponent(int x, int y) : x(x), y(y) { }
+    Coordinate2DComponent(int x = 0, int y = 0) : x(x), y(y) { }
 
     void Translate(int32_t delta_x, int32_t delta_y) 
     { 
@@ -52,6 +51,14 @@ struct TextureComponent : public IComponent {
 
     TextureComponent() = default;
     ~TextureComponent() { SDL_DestroyTexture(texture); };
+};
+
+struct RGBColorComponent : public IComponent {
+    uint8_t r, g, b;
+
+    RGBColorComponent() = default;
+    RGBColorComponent(uint8_t r, uint8_t g, uint8_t b) : r(r), g(g), b(b) { }
+    RGBColorComponent(const RGBColorComponent& other) : r(other.r), g(other.g), b(other.b) { }
 };
 
 struct SoundComponent : public IComponent {
@@ -78,8 +85,8 @@ struct TextComponent : public IComponent {
     Coordinate2DComponent center;
 
     TextComponent() = default;
-    TextComponent(const std::string& _text, Font font, SDL_Color& _color);
-    TextComponent(const std::string& _text, const std::string& font_path, int font_size, SDL_Color& color);
+    TextComponent(const std::string& _text, Font font, RGBColorComponent _color);
+    TextComponent(const std::string& _text, const std::string& font_path, int font_size, RGBColorComponent color);
     ~TextComponent();
 };
 

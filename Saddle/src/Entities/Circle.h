@@ -1,21 +1,22 @@
 #pragma once
 
-#include "GameObject.h"
+#include "Entity.h"
+#include "Components.h"
 
-namespace Saddle::GameObjects {
+namespace Saddle {
     
     // Class used to represent a circle
-    class Circle : public GameObject {
+    class Circle : public Entity {
 
     public:
         Circle();
-        Circle(uint32_t _radius, SDL_Color& _color, SDL_Renderer* renderer, uint32_t _x, uint32_t _y);
+        Circle(uint32_t _radius, RGBColorComponent _color, uint32_t _x = 0, uint32_t _y = 0);
         
     private:
         uint32_t radius;
 
     private:
-        void Construct_Circle(SDL_Renderer* renderer);
+        void Construct_Circle();
     };
 
 }

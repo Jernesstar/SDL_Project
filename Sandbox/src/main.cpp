@@ -1,83 +1,82 @@
-// #include "Application.h"
-// #include "MusicDemo.h"
+#include "Application.h"
+#include "MusicDemo.h"
 
-// using namespace Saddle;
+using namespace Saddle;
 
-// #define SCREEN_WIDTH 1200
-// #define SCREEN_HEIGHT 640
+#define SCREEN_WIDTH 1200
+#define SCREEN_HEIGHT 640
 
-// void Start_Screen()
-// {
-//     Saddle::Window window = Application::Get().GetWindow();
-//     std::string title = "Music Demo";
-//     std::string message = "Press any key to continue";
+void Start_Screen()
+{
+    Saddle::Window window = Application::Get().GetWindow();
+    std::string title = "Music Demo";
+    std::string message = "Press any key to continue";
 
-//     std::string font_path = "resources/pixel_font.ttf";
-//     SDL_Color color = {255, 255, 255};
-//     UI::Text title_text(title, font_path, 8, color, window.GetRenderer());
-//     UI::Text message_text(message, font_path, 5, color, window.GetRenderer());
+    std::string font_path = "Sandbox/resources/pixel_font.ttf";
+    RGBColorComponent color(255, 255, 255);
 
-//     title_text.PlaceAt(
-//         0.5 * SCREEN_WIDTH - title_text.GetCenter().x, 
-//         0.5 * SCREEN_HEIGHT - 2 * title_text.GetRect().h
-//     );
+    Entity title_text;
+    Entity message_text;
 
-//     message_text.PlaceAt(
-//         0.5 * SCREEN_WIDTH - message_text.GetCenter().x,
-//         0.5 * SCREEN_HEIGHT 
-//     );
+    title_text.AddComponent<TextComponent>(title, font_path, 8, color);
+    message_text.AddComponent<TextComponent>(message, font_path, 5, color);
 
-//     SDL_Event event;
-//     bool running = true;
+    title_text.AddComponent<Coordinate2DComponent>(
+        0.5 * SCREEN_WIDTH - 10, 
+        0.5 * SCREEN_HEIGHT - 50
+    );
+    message_text.AddComponent<Coordinate2DComponent>(
+        0.5 * SCREEN_WIDTH - 10,
+        0.5 * SCREEN_HEIGHT
+    );
 
-//     while(running)
-//     {
-//         window.AddUIElement(title_text);
-//         window.AddUIElement(message_text);
+    SDL_Event event;
+    bool running = true;
 
-//         while(SDL_PollEvent(&event))
-//         {
-//             window.HandleEvent(event);
-//             switch(event.type)
-//             {
-//                 case SDL_QUIT:
-//                     running = false;
-//                     break;
+    while(running)
+    {
 
-//                 case SDL_KEYDOWN:
-//                     running = false;
-//                     break;
-//             }
-//         }
-//         window.RenderUI();
-//     }
-// }
+        while(SDL_PollEvent(&event))
+        {
+            window.HandleEvent(event);
+            switch(event.type)
+            {
+                case SDL_QUIT:
+                    running = false;
+                    break;
 
-// class App : public Application {
+                case SDL_KEYDOWN:
+                    running = false;
+                    break;
+            }
+        }
+        
+    }
+}
 
-// public:
-//     App() : Application() { }
-//     ~App() { }
+class App : public Application {
 
-//     void Run()
-//     {
-//         Start_Screen();
-//         MusicDemo demo;
-//         demo.Run();
-//     }
+public:
+    App() : Application() { }
+    ~App() { }
 
-// };
+    void Run()
+    {
+        Start_Screen();
+        MusicDemo demo;
+        demo.Run();
+    }
 
-// int main(int argc, char** argv)
-// {
-//     Application::Init();
+};
 
-//     App app;
-//     app.Run();
+int main(int argc, char** argv)
+{
+    Application::Init();
 
-//     Application::Close();
+    App app;
+    app.Run();
 
-//     return 0;
-// }
+    Application::Close();
 
-int main(int argc, char** argv) { }
+    return 0;
+}
