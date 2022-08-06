@@ -14,17 +14,17 @@ public:
     Entity() : m_Components() {}
     ~Entity() = default;
 
-    template<typename T>
+    template<typename Component>
     bool HasComponent();
 
-    template<typename T, typename... Args>
-    T& AddComponent(Args&&... args);
+    template<typename Component, typename... Args>
+    Component& AddComponent(Args&&... args);
 
-    template<typename T>
+    template<typename Component>
     void RemoveComponent();
     
-    template<typename T>
-    T& GetComponent();
+    template<typename Component>
+    Component& GetComponent();
 
 private:
     std::unordered_map<std::size_t, IComponent*> m_Components;

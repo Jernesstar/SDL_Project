@@ -2,42 +2,44 @@
 
 namespace Saddle {
 
-    template<typename T>
+    template<typename Component>
     bool Entity::HasComponent()
     {
-        if(m_Components.find(typeid(T).hash_code()) == m_Components.end())
+        if(m_Components.find(typeid(Component).hash_code()) == m_Components.end())
             return false;
 
         return true;
     }
 
-    template<typename T, typename... Args>
-    T& Entity::AddComponent(Args&&... args)
+    template<typename Component, typename... Args>
+    Component& Entity::AddComponent(Args&&... args)
     {
-        T* component = nullptr;
-        if(!HasComponent<T>())
+        if(!HasComponent<Component>())
         {
-            component = new T(std::forward<Args>(args)...);
-            m_Components[typeid(T).hash_code()] = component;
+            Component* component = new Component(std::forward<Args>(args)...);
+            m_Components[typeid(Component).hash_code()] = component;
+            return *component;
         }
 
-        return *component;
+        Component empty;
+        return empty;
     }
 
-    template<typename T>
+    template<typename Component>
     void Entity::RemoveComponent()
     {
-        if(HasComponent<T>())
-            m_Components.erase(typeid(T).hash_code());
+        if(HasComponent<Component>())
+            m_Components.erase(typeid(Component).hash_code());
     }
 
-    template<typename T>
-    T& Entity::GetComponent()
+    template<typename Component>
+    Component& Entity::GetComponent()
     {
-        if(HasComponent<T>())
-            return *m_Components[typeid(T).hash_code()];
+        if(HasComponent<Component>())
+            return *m_Components[typeid(Component).hash_code()];
             
-        return *(T*)nullptr;
+        Component empty;
+        return empty;
     }
     
 }

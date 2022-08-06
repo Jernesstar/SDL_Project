@@ -21,6 +21,7 @@ struct RectComponent : public IComponent {
 
     RectComponent() = default;
     RectComponent(int w, int h) : width(w), height(h) {}
+    
     void Scale(int32_t scalar)
     {  
         width *= scalar;
@@ -32,7 +33,7 @@ struct Coordinate2DComponent : public IComponent {
     int x, y;
 
     Coordinate2DComponent() = default;
-    Coordinate2DComponent(int x, int y) : x(x), y(y) {}
+    Coordinate2DComponent(int x, int y) : x(x), y(y) { }
 
     void Translate(int32_t delta_x, int32_t delta_y) 
     { 
@@ -46,27 +47,27 @@ struct Coordinate2DComponent : public IComponent {
     }
 };
 
-struct SoundComponent : public IComponent {
-    SoundComponent(const std::string& file_path);
-    ~SoundComponent();
-
-    Mix_Chunk* GetSound();
-
-    void Play(int loops = 0, int channel = -1);
-    void SetVolume(Uint8 volume);
-    void IncreaseVolume(Uint8 delta);
-    void DecreaseVolume(Uint8 delta);
-
-private:
-    Mix_Chunk* m_Sound;
-    Uint8 m_Volume;
-};
-
 struct TextureComponent : public IComponent {
     SDL_Texture* texture;
 
     TextureComponent() = default;
     ~TextureComponent() { SDL_DestroyTexture(texture); };
+};
+
+struct SoundComponent : public IComponent {
+    SoundComponent(const std::string& file_path);
+    ~SoundComponent() { if(m_Sound) Mix_FreeChunk(m_Sound); }
+
+    Mix_Chunk* GetSound() { return m_Sound; }
+
+    void Play(int loops = 0, int channel = -1);
+    void SetVolume(Uint8 volume);
+    void IncreaseVolume(Uint8 delta) { SetVolume(m_Volume + delta); }
+    void DecreaseVolume(Uint8 delta) { SetVolume(m_Volume - delta); }
+
+private:
+    Mix_Chunk* m_Sound;
+    Uint8 m_Volume;
 };
 
 struct TextComponent : public IComponent {

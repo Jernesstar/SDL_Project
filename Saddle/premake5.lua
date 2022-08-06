@@ -16,6 +16,7 @@ project "Saddle"
         "%{wks.location}/%{prj.name}/src/Components",
         "%{wks.location}/%{prj.name}/src/Core",
         "%{wks.location}/%{prj.name}/src/Entities",
+        "%{wks.location}/%{prj.name}/src/Scene",
 
         "%{wks.location}/%{prj.name}/vendor/SDL2/include/SDL2",
         "%{wks.location}/%{prj.name}/vendor/SDL2/include/SDL_image",
