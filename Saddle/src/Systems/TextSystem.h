@@ -1,3 +1,5 @@
+#pragma once
+
 #include "Entity.h"
 #include "Components.h"
 #include "Font.h"
@@ -6,7 +8,7 @@
 
 namespace Saddle {
 
-class Text {
+class TextSystem {
 
 public:
     static void CreateText(Entity& entity, const std::string& text, Font& font, RGBColorComponent& color)
@@ -24,8 +26,8 @@ public:
     }
 
 private:
-    Text() = delete;
-    ~Text() = delete;
+    TextSystem() = delete;
+    ~TextSystem() = delete;
 };
 
 }

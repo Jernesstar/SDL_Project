@@ -1,5 +1,6 @@
-#include "Application.h"
-#include "Entity.h"
+#include <Application.h>
+#include <Entity.h>
+#include <Systems.h>
 
 using namespace Saddle;
 
@@ -18,7 +19,7 @@ public:
 
     void Play()
     {
-        GetComponent<SoundComponent>().Play();
+        SoundSystem::PlaySound(*this);
     }
 
 private:

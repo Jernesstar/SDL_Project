@@ -2,4 +2,6 @@
 
 namespace Saddle {
     
+Entity::Entity() : components() { }
+
 }

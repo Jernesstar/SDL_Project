@@ -1,6 +1,6 @@
 #include <Application.h>
-#include <Text.h> 
 #include <Font.h>
+#include <Systems.h>
 
 #include "MusicDemo.h"
 
@@ -26,10 +26,10 @@ void Start_Screen()
     RGBColorComponent color = {255, 255, 255};
 
     Font title_font(font_path, 100);
-    Text::CreateText(title_text, title, title_font, color);
+    TextSystem::CreateText(title_text, title, title_font, color);
 
     Font message_font(font_path, 50);
-    Text::CreateText(message_text, message, message_font, color);
+    TextSystem::CreateText(message_text, message, message_font, color);
 
     title_text.AddComponent<Coordinate2DComponent>(
         0.5 * (SCREEN_WIDTH - title_text.GetComponent<RectComponent>().width),
