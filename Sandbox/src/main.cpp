@@ -15,31 +15,28 @@ void Start_Screen()
     std::string title = "Music Demo";
     std::string message = "Press any key to continue";
 
-    std::string font_path = "Sandbox/resources/pixel_font.ttf";
-    
-    RGBColorComponent color = {255, 255, 255};
-
     Entity title_text;
     Entity message_text;
-
     title_text.AddComponent<TextureComponent>();
     message_text.AddComponent<TextureComponent>();
-
     title_text.AddComponent<RectComponent>();
     message_text.AddComponent<RectComponent>();
 
-    Font title_font(font_path, 20);
+    std::string font_path = "Sandbox/resources/pixel_font.ttf";
+    RGBColorComponent color = {255, 255, 255};
+
+    Font title_font(font_path, 100);
     Text::CreateText(title_text, title, title_font, color);
 
-    Font message_font(font_path, 10);
+    Font message_font(font_path, 50);
     Text::CreateText(message_text, message, message_font, color);
 
     title_text.AddComponent<Coordinate2DComponent>(
-        0.5 * SCREEN_WIDTH - 10, 
-        0.5 * SCREEN_HEIGHT - 50
+        0.5 * (SCREEN_WIDTH - title_text.GetComponent<RectComponent>().width),
+        0.5 * SCREEN_HEIGHT - 150
     );
     message_text.AddComponent<Coordinate2DComponent>(
-        0.5 * SCREEN_WIDTH - 10,
+        0.5 * (SCREEN_WIDTH - message_text.GetComponent<RectComponent>().width),
         0.5 * SCREEN_HEIGHT
     );
 
@@ -77,7 +74,7 @@ void Start_Screen()
         sdl_rect = {(int)coord.x, (int)coord.y, (int)rect.width, (int)rect.height};
         SDL_RenderCopy(
             window.GetRenderer(), 
-            title_text.GetComponent<TextureComponent>().texture, 
+            message_text.GetComponent<TextureComponent>().texture, 
             NULL,
             &sdl_rect
         );

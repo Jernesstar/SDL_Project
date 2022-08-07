@@ -89,7 +89,6 @@ struct SoundComponent : public IComponent {
     }
     void IncreaseVolume(Uint8 delta) { SetVolume(Volume + delta); }
     void DecreaseVolume(Uint8 delta) { SetVolume(Volume - delta); }
-
 };
 
 }

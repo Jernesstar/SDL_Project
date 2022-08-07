@@ -9,7 +9,7 @@ namespace Saddle {
 class Text {
 
 public:
-    static void CreateText(Entity& entity, const std::string& text, Font font, RGBColorComponent color)
+    static void CreateText(Entity& entity, const std::string& text, Font& font, RGBColorComponent& color)
     {
         TextureComponent& texture_component = entity.GetComponent<TextureComponent>();
         RectComponent& rect_component = entity.GetComponent<RectComponent>();
@@ -20,8 +20,7 @@ public:
         SDL_FreeSurface(text_surface);
 
         auto clip_rect = text_surface->clip_rect;
-        rect_component = { clip_rect.w, clip_rect.h };
-        rect_component.Scale(font.Size);
+        rect_component = { (Uint32)clip_rect.w, (Uint32)clip_rect.h };
     }
 
 private:
