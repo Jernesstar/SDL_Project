@@ -19,7 +19,7 @@ public:
 
     void Play()
     {
-        SoundSystem::PlaySound(*this);
+        SoundSystem::PlaySound(this);
     }
 
 private:
