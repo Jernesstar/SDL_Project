@@ -3,9 +3,11 @@
 #include <SDL.h>
 #include <SDL_ttf.h>
 
-namespace Saddle {
+#include "Components.h"
 
+namespace Saddle {
 class Font {
+    
 public:
     int Size;
 
@@ -15,12 +17,17 @@ public:
     {
         m_Font = TTF_OpenFont(font_path.c_str(), size);
     }
-    ~Font() { }	
+    ~Font()
+    {
+        TTF_CloseFont(m_Font);
+    }	
 
     TTF_Font* GetFont() { return m_Font; }
-    SDL_Surface* GetSurfaceFromText(const std::string& text, SDL_Color color)
+
+    SDL_Surface* GetSurfaceFromText(const std::string& text, RGBColorComponent& color)
     {
-        return TTF_RenderText_Solid(m_Font, text.c_str(), color); 
+        SDL_Color _color = { color.r, color.g, color.b };
+        return TTF_RenderText_Solid(m_Font, text.c_str(), _color); 
     }
 
 private:

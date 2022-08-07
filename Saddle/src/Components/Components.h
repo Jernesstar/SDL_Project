@@ -6,7 +6,6 @@
 #include <SDL_ttf.h>
 
 #include "Audio.h"
-#include "Font.h"
 
 namespace Saddle {
 struct IComponent {
@@ -18,8 +17,7 @@ protected:
 struct RectComponent : public IComponent {
     Uint32 width, height;  
 
-    RectComponent() = default;
-    RectComponent(Uint32 w, Uint32 h) : width(w), height(h) { }
+    RectComponent(Uint32 w = 0, Uint32 h = 0) : width(w), height(h) { }
     RectComponent(const RectComponent& other) : width(other.width), height(other.height) { }
     
     void Scale(int32_t scalar)
@@ -54,40 +52,45 @@ struct TextureComponent : public IComponent {
 };
 
 struct RGBColorComponent : public IComponent {
-    uint8_t r, g, b;
+    Uint8 r, g, b;
 
     RGBColorComponent() = default;
-    RGBColorComponent(uint8_t r, uint8_t g, uint8_t b) : r(r), g(g), b(b) { }
+    RGBColorComponent(Uint8 r, Uint8 g, Uint8 b) : r(r), g(g), b(b) { }
     RGBColorComponent(const RGBColorComponent& other) : r(other.r), g(other.g), b(other.b) { }
 };
 
 struct SoundComponent : public IComponent {
-    SoundComponent(const std::string& file_path);
-    ~SoundComponent() { if(m_Sound) Mix_FreeChunk(m_Sound); }
+    Mix_Chunk* Sound;
+    Uint8 Volume;
+    
+    SoundComponent(const std::string& file_path)
+        : IComponent()
+    {
+        Sound = Mix_LoadWAV(file_path.c_str());
+        Volume = AUDIO_MAX_VOLUME;
+    }
+    ~SoundComponent() { if(Sound) Mix_FreeChunk(Sound); }
 
-    Mix_Chunk* GetSound() { return m_Sound; }
+    Mix_Chunk* GetSound() { return Sound; }
+    void Play(int loops = 0, int channel = -1)
+    {
+        // loops = 0: Play the sound once
+        // channel = -1: First available sound channel
+        Mix_PlayChannel(channel, Sound, loops);
+    }
+    void SetVolume(Uint8 volume)
+    {
+        Volume = volume;
+        if(volume > AUDIO_MAX_VOLUME)
+            Volume = AUDIO_MAX_VOLUME;
+        else if(volume < AUDIO_MIN_VOLUME)
+            Volume = AUDIO_MIN_VOLUME;
+        
+        Mix_VolumeChunk(Sound, Volume);
+    }
+    void IncreaseVolume(Uint8 delta) { SetVolume(Volume + delta); }
+    void DecreaseVolume(Uint8 delta) { SetVolume(Volume - delta); }
 
-    void Play(int loops = 0, int channel = -1);
-    void SetVolume(Uint8 volume);
-    void IncreaseVolume(Uint8 delta) { SetVolume(m_Volume + delta); }
-    void DecreaseVolume(Uint8 delta) { SetVolume(m_Volume - delta); }
-
-private:
-    Mix_Chunk* m_Sound;
-    Uint8 m_Volume;
-};
-
-struct TextComponent : public IComponent {
-    const std::string text;
-    TextureComponent texture_component; 
-    RectComponent rect_component;
-    Coordinate2DComponent coordinate2D_component;
-    Coordinate2DComponent center;
-
-    TextComponent() = default;
-    TextComponent(const std::string& _text, Font font, RGBColorComponent _color);
-    TextComponent(const std::string& _text, const std::string& font_path, int font_size, RGBColorComponent color);
-    ~TextComponent();
 };
 
 }

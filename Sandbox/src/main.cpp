@@ -1,4 +1,7 @@
-#include "Application.h"
+#include <Application.h>
+#include <Text.h> 
+#include <Font.h>
+
 #include "MusicDemo.h"
 
 using namespace Saddle;
@@ -13,13 +16,24 @@ void Start_Screen()
     std::string message = "Press any key to continue";
 
     std::string font_path = "Sandbox/resources/pixel_font.ttf";
-    RGBColorComponent color(255, 255, 255);
+    
+    RGBColorComponent color = {255, 255, 255};
 
     Entity title_text;
     Entity message_text;
 
-    title_text.AddComponent<TextComponent>(title, font_path, 8, color);
-    message_text.AddComponent<TextComponent>(message, font_path, 5, color);
+    title_text.AddComponent<TextureComponent>();
+    message_text.AddComponent<TextureComponent>();
+
+    title_text.AddComponent<RectComponent>(10, 10);
+    message_text.AddComponent<RectComponent>(10, 10);
+
+    Font title_font(font_path, 45);
+    Text::CreateText(title_text, title, title_font, color);
+    std::cout << title_text.GetComponent<TextureComponent>().texture;
+
+    Font message_font(font_path, 35);
+    Text::CreateText(message_text, message, message_font, color);
 
     title_text.AddComponent<Coordinate2DComponent>(
         0.5 * SCREEN_WIDTH - 10, 
@@ -35,10 +49,8 @@ void Start_Screen()
 
     while(running)
     {
-
         while(SDL_PollEvent(&event))
         {
-            window.HandleEvent(event);
             switch(event.type)
             {
                 case SDL_QUIT:
@@ -50,7 +62,28 @@ void Start_Screen()
                     break;
             }
         }
-        
+        auto rect = title_text.GetComponent<RectComponent>();
+        auto coord = title_text.GetComponent<Coordinate2DComponent>();
+        SDL_Rect sdl_rect = {(int)coord.x, (int)coord.y, (int)rect.width, (int)rect.height};
+
+        SDL_RenderCopy(
+            window.GetRenderer(), 
+            title_text.GetComponent<TextureComponent>().texture, 
+            NULL,
+            NULL
+        );
+
+        rect = message_text.GetComponent<RectComponent>();
+        coord = message_text.GetComponent<Coordinate2DComponent>();
+        sdl_rect = {(int)coord.x, (int)coord.y, (int)rect.width, (int)rect.height};
+        SDL_RenderCopy(
+            window.GetRenderer(), 
+            title_text.GetComponent<TextureComponent>().texture, 
+            NULL,
+            NULL
+        );
+
+        SDL_RenderPresent(window.GetRenderer());
     }
 }
 
