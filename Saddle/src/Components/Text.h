@@ -11,8 +11,8 @@ class Text {
 public:
     static void CreateText(Entity& entity, const std::string& text, Font font, RGBColorComponent color)
     {
-        auto texture_component = entity.GetComponent<TextureComponent>();
-        auto rect_component = entity.GetComponent<RectComponent>();
+        TextureComponent& texture_component = entity.GetComponent<TextureComponent>();
+        RectComponent& rect_component = entity.GetComponent<RectComponent>();
         auto renderer = Application::Get().GetWindow().GetRenderer();
 
         SDL_Surface* text_surface = font.GetSurfaceFromText(text, color);

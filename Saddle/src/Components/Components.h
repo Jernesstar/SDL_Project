@@ -17,7 +17,7 @@ protected:
 struct RectComponent : public IComponent {
     Uint32 width, height;  
 
-    RectComponent(Uint32 w = 0, Uint32 h = 0) : width(w), height(h) { }
+    RectComponent(Uint32 w = 1, Uint32 h = 1) : width(w), height(h) { }
     RectComponent(const RectComponent& other) : width(other.width), height(other.height) { }
     
     void Scale(int32_t scalar)
@@ -48,7 +48,6 @@ struct TextureComponent : public IComponent {
     SDL_Texture* texture;
 
     TextureComponent() = default;
-    ~TextureComponent() { SDL_DestroyTexture(texture); };
 };
 
 struct RGBColorComponent : public IComponent {

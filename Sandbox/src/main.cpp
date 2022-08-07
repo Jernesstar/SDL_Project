@@ -25,14 +25,13 @@ void Start_Screen()
     title_text.AddComponent<TextureComponent>();
     message_text.AddComponent<TextureComponent>();
 
-    title_text.AddComponent<RectComponent>(10, 10);
-    message_text.AddComponent<RectComponent>(10, 10);
+    title_text.AddComponent<RectComponent>();
+    message_text.AddComponent<RectComponent>();
 
-    Font title_font(font_path, 45);
+    Font title_font(font_path, 20);
     Text::CreateText(title_text, title, title_font, color);
-    std::cout << title_text.GetComponent<TextureComponent>().texture;
 
-    Font message_font(font_path, 35);
+    Font message_font(font_path, 10);
     Text::CreateText(message_text, message, message_font, color);
 
     title_text.AddComponent<Coordinate2DComponent>(
@@ -70,7 +69,7 @@ void Start_Screen()
             window.GetRenderer(), 
             title_text.GetComponent<TextureComponent>().texture, 
             NULL,
-            NULL
+            &sdl_rect
         );
 
         rect = message_text.GetComponent<RectComponent>();
@@ -80,7 +79,7 @@ void Start_Screen()
             window.GetRenderer(), 
             title_text.GetComponent<TextureComponent>().texture, 
             NULL,
-            NULL
+            &sdl_rect
         );
 
         SDL_RenderPresent(window.GetRenderer());
