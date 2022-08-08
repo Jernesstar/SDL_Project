@@ -10,10 +10,11 @@ public:
     MusicBlock(const std::string& sound_path, int width, int height)
         : m_Width(width), m_Height(height)
     {
-        SDL_Surface* surface = SDL_CreateRGBSurface(0, width, height, 32, 0, 0, 0, 0);
-        SDL_FillRect(surface, NULL, SDL_MapRGB(surface->format, 255, 255, 255)); 
-
+        AddComponent<TextureComponent>();
+        AddComponent<RGBColorComponent>(255, 255, 255);
         AddComponent<SoundComponent>(sound_path);
+
+        TextureSystem::CreateRectangle(this, width, height);
     }
     ~MusicBlock() { }
 

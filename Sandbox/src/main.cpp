@@ -17,19 +17,23 @@ void Start_Screen()
 
     Entity title_text;
     Entity message_text;
+
     title_text.AddComponent<TextureComponent>();
     message_text.AddComponent<TextureComponent>();
+
     title_text.AddComponent<RectComponent>();
     message_text.AddComponent<RectComponent>();
 
+    title_text.AddComponent<RGBColorComponent>(255, 255, 255);
+    message_text.AddComponent<RGBColorComponent>(255, 255, 255);
+
     std::string font_path = "Sandbox/resources/pixel_font.ttf";
-    RGBColorComponent color = {255, 255, 255};
 
     Font title_font(font_path, 100);
-    TextSystem::CreateText(title_text, title, title_font, color);
+    TextureSystem::CreateText(title_text, title, title_font);
 
     Font message_font(font_path, 50);
-    TextSystem::CreateText(message_text, message, message_font, color);
+    TextureSystem::CreateText(message_text, message, message_font);
 
     title_text.AddComponent<Coordinate2DComponent>(
         0.5 * (SCREEN_WIDTH - title_text.GetComponent<RectComponent>().width),
