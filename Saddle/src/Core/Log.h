@@ -22,12 +22,14 @@ public:
     template<typename... Args>
     static void Error(const std::string& message, Args&&... args)
     {
-        std::cout << message << "\n";
         std::vector<std::string> _args{ args... };
+        
+        std::cout << message << " ";
         for(int i = 0; i < _args.size(); i++)
         {
-            std::cout << _args[i] << "\n";
+            std::cout << _args[i] << " ";
         }
+        std::cout << "\n";
     }
 };
 
