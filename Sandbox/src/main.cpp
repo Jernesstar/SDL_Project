@@ -44,6 +44,12 @@ void Start_Screen()
         0.5 * SCREEN_HEIGHT
     );
 
+    title_text.AddComponent<EventListenerComponent>(
+        [&title_text](SDL_Event& event) { 
+            std::cout << "Title was clicked on\n";
+        }
+    );
+
     SDL_Event event;
     bool running = true;
 
@@ -51,6 +57,7 @@ void Start_Screen()
     {
         while(SDL_PollEvent(&event))
         {
+            EventListenerSystem::OnEvent(title_text, event);
             switch(event.type)
             {
                 case SDL_QUIT:

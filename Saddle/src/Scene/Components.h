@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <functional>
 
 #include <SDL.h>
 #include <SDL_ttf.h>
@@ -51,6 +52,17 @@ struct SoundComponent : public IComponent {
     SoundComponent(const std::string& file_path)
         : IComponent(), Sound(Mix_LoadWAV(file_path.c_str())), Volume(AUDIO_MAX_VOLUME) { }
     ~SoundComponent() { if(Sound) Mix_FreeChunk(Sound); }
+};
+
+struct EventListenerComponent : public IComponent {
+    std::function<void(SDL_Event&)> OnEventClick;
+    std::function<void(SDL_Event&)> OnEventKeyPress;
+
+    EventListenerComponent(
+        std::function<void(SDL_Event&)> on_event_click = [](SDL_Event& event) { }, 
+        std::function<void(SDL_Event&)> on_event_key_press = [](SDL_Event& event) { }
+    )  :  OnEventClick(on_event_click), OnEventKeyPress(on_event_key_press) { }
+    EventListenerComponent(const EventListenerComponent& other) = default;
 };
 
 }
