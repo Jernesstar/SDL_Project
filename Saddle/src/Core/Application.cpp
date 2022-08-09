@@ -1,14 +1,11 @@
 #include "Application.h"
 
-#include <exception>
-
 namespace Saddle {
 
 Application::Application(const ApplicationSpecification& specs)
     : s_Specification(specs), m_Window(specs.Window_Specification)
 {
-    if(s_Instance)
-        throw std::logic_error("Application already exists!");
+    SADDLE_CORE_ASSERT(!s_Instance);
     s_Instance = this;
 }
 
@@ -16,8 +13,7 @@ Application::~Application() { }
 
 void Application::Init(const ApplicationSpecification& specs)
 {    
-    if(s_Instance)
-        throw std::logic_error("Application already exists!");
+    SADDLE_CORE_ASSERT(!s_Instance);
 
     auto sound_specs = specs.Audio_Specification;
     

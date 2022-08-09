@@ -3,6 +3,7 @@
 #include "Window.h"
 #include "Audio.h"
 #include "Font.h"
+#include "Assert.h"
 
 namespace Saddle {
 
