@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ComponentManager.h"
+#include "Scene.h"
 
 namespace Saddle {
 
@@ -8,34 +9,38 @@ class Entity {
 
 public:
     Entity();
+    Entity(Scene& scene);
     ~Entity() = default;
+
+    std::vector<Entity*> QueryScene(std::function<bool(const Entity& entity)> predicate);
 
     template<typename Component>
     bool HasComponent()
     {
-        return components.HasComponent<Component>();
+        return m_Components.HasComponent<Component>();
     }
 
     template<typename Component, typename... Args>
     Component& AddComponent(Args&&... args)
     {
-        return components.AddComponent<Component>(args...);
+        return m_Components.AddComponent<Component>(args...);
     }
 
     template<typename Component>
     void RemoveComponent()
     {
-        components.RemoveComponent<Component>();
+        m_Components.RemoveComponent<Component>();
     }
     
     template<typename Component>
     Component& GetComponent()
     {
-        return components.GetComponent<Component>();
+        return m_Components.GetComponent<Component>();
     }
 
 private:
-    ComponentManager components;
+    ComponentManager m_Components;
+    Scene* m_Scene = nullptr;
 
 };
 

@@ -2,6 +2,14 @@
 
 namespace Saddle {
     
-Entity::Entity() : components() { }
+Entity::Entity() : m_Components() { }
+
+Entity::Entity(Scene& scene) : m_Components(), m_Scene(&scene) { }
+
+std::vector<Entity*> Entity::QueryScene(std::function<bool(const Entity& entity)> predicate)
+{
+    return m_Scene->Query(predicate);
+}
+
 
 }
