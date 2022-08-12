@@ -4,6 +4,8 @@
 #include <vector>
 #include <functional>
 
+#include "TimeStep.h"
+
 namespace Saddle {
 
 class Entity;
@@ -15,11 +17,15 @@ public:
     ~Scene();
 
     // Entity& GetEntityByUUID(UUID entity_ID);
+    void OnUpdate(TimeStep step);
+    void OnSceneRender();
+
+    void AddEntity(Entity& entity);
 
     std::vector<Entity*> Query(std::function<bool(const Entity& entity)> predicate);
 
 private:
-    std::unordered_map<int, Entity*> entities;
+    std::vector<Entity*> entities;
 
 };
 

@@ -5,7 +5,7 @@
 #include "Components.h"
 #include "Font.h"
 
-#include "Utils.h"
+#include "Renderer.h"
 
 namespace Saddle {
 
@@ -62,7 +62,7 @@ public:
                 dy = _radius - h; // vertical offset
                 if((dx * dx + dy * dy) <= (_radius * _radius))
                 {
-                    SetPixel(surface, (surface->w * 0.5) + dx, (surface->h * 0.5) + dy, _color);
+                    Renderer::SetPixel(surface, (surface->w * 0.5) + dx, (surface->h * 0.5) + dy, _color);
                 }
             }
         }
@@ -122,7 +122,7 @@ public:
                 dy = _radius - h; // vertical offset
                 if((dx * dx + dy * dy) <= (_radius * _radius))
                 {
-                    SetPixel(surface, (surface->w * 0.5) + dx, (surface->h * 0.5) + dy, _color);
+                    Renderer::SetPixel(surface, (surface->w * 0.5) + dx, (surface->h * 0.5) + dy, _color);
                 }
             }
         }

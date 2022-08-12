@@ -1,5 +1,6 @@
 #pragma once
 
+#include <iostream>
 #include <vector>
 
 #include "KeyCodes.h"
@@ -17,7 +18,7 @@ class Input {
 
 public:
     static bool IsKeyPressed(Key key);
-    
+
     static bool IsMouseButtonPressed(Mouse mouse_button);
     static MousePosition GetMousePosition();
     static int GetMouseX();
