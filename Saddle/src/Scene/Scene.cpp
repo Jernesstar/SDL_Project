@@ -9,15 +9,18 @@ namespace Saddle {
 Scene::Scene() : entities() { }
 Scene::~Scene() { }
 
-// void Scene::OnUpdate(TimeStep step)
-// {
-//     for(int i = 0; i < entities.size(); i++)
-//     {
-//         Entity& entity = *entities.at(i);
-//         if(entity.HasComponent<EventListenerComponent>())
-//             EventListenerSystem::OnEvent(entity);
-//     }
-// }
+void Scene::OnUpdate()
+{
+    TimeStep ts = TimeStep::GetTime();
+
+    for(int i = 0; i < entities.size(); i++)
+    {
+        Entity& entity = *entities.at(i);
+        if(entity.HasComponent<EventListenerComponent>())
+            EventListenerSystem::OnEvent(entity);
+        entity.OnUpdate(ts);
+    }
+}
 
 void Scene::OnSceneRender()
 {

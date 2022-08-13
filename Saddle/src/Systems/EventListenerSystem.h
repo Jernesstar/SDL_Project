@@ -6,8 +6,9 @@ namespace Saddle {
 class EventListenerSystem {
 
 public:
-    static void OnEvent(Entity& entity, SDL_Event& event)
+    static void OnEvent(Entity& entity)
     {
+        SDL_Event event;
         Coordinate2DComponent& coordinate = entity.GetComponent<Coordinate2DComponent>();
         RectComponent& rect = entity.GetComponent<RectComponent>();
         EventListenerComponent& event_listener = entity.GetComponent<EventListenerComponent>();

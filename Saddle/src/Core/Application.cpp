@@ -15,12 +15,10 @@ void Application::Init(const ApplicationSpecification& specs)
 {    
     SADDLE_CORE_ASSERT(!s_Instance);
 
-    auto sound_specs = specs.Audio_Specification;
-    
     SDL_Init(specs.SDL_Init_Flags);
     IMG_Init(specs.IMG_Init_Flags);
     TTF_Init();
-    Mix_OpenAudio(sound_specs.Frequency, sound_specs.Format, sound_specs.ChannelCount, sound_specs.ChunckSize);
+    Audio::Init(specs.Audio_Specification);
 }
 
 void Application::Close()

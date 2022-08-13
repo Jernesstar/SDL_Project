@@ -58,11 +58,18 @@ struct EventListenerComponent : public IComponent {
     std::function<void(SDL_Event&)> OnEventClick;
     std::function<void(SDL_Event&)> OnEventKeyPress;
 
-    EventListenerComponent(
-        std::function<void(SDL_Event&)> on_event_click = [](SDL_Event& event) { }, 
-        std::function<void(SDL_Event&)> on_event_key_press = [](SDL_Event& event) { }
-    )  :  OnEventClick(on_event_click), OnEventKeyPress(on_event_key_press) { }
+    EventListenerComponent() = default;
     EventListenerComponent(const EventListenerComponent& other) = default;
+    EventListenerComponent& SetClickEventListener(std::function<void(SDL_Event&)> on_event_click)
+    {
+        OnEventClick = on_event_click;
+        return *this;
+    }
+    EventListenerComponent& SetKeyPressEventListener(std::function<void(SDL_Event&)> on_event_key_press)
+    {
+        OnEventKeyPress = on_event_key_press;
+        return *this;
+    }
 };
 
 }

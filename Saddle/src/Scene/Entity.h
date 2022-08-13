@@ -13,6 +13,7 @@ public:
     ~Entity() = default;
 
     std::vector<Entity*> QueryScene(std::function<bool(const Entity& entity)> predicate);
+    void OnUpdate(TimeStep ts);
 
     template<typename Component>
     bool HasComponent()

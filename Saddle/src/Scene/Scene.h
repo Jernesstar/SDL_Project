@@ -17,7 +17,7 @@ public:
     ~Scene();
 
     // Entity& GetEntityByUUID(UUID entity_ID);
-    void OnUpdate(TimeStep step);
+    void OnUpdate();
     void OnSceneRender();
 
     void AddEntity(Entity& entity);
@@ -26,6 +26,7 @@ public:
 
 private:
     std::vector<Entity*> entities;
+    TimeStep m_LastFrameTime;
 
 };
 
