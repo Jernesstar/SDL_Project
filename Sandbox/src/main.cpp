@@ -1,6 +1,7 @@
 #include <Application.h>
 #include <Font.h>
 #include <Systems.h>
+#include <Input.h>
 
 #include "MusicDemo.h"
 
@@ -15,8 +16,13 @@ void Start_Screen()
     std::string title = "Music Demo";
     std::string message = "Press any key to continue";
 
+    Scene scene;
+
     Entity title_text;
     Entity message_text;
+
+    scene.AddEntity(title_text);
+    scene.AddEntity(message_text);
 
     title_text.AddComponent<TextureComponent>();
     message_text.AddComponent<TextureComponent>();
@@ -44,53 +50,26 @@ void Start_Screen()
         0.5 * SCREEN_HEIGHT
     );
 
-    title_text.AddComponent<EventListenerComponent>(
-        [&title_text](SDL_Event& event) { 
-            std::cout << "Title was clicked on\n";
+    title_text.AddComponent<EventListenerComponent>()
+    .SetClickEventListener(
+        [](SDL_Event& event) {
+            std::cout << "This sets the OnClickEvent function object";
+        }
+    )
+    .SetKeyPressEventListener(
+        [](SDL_Event& event) {
+            std::cout << "This sets the OnEventKeyPress function object";
         }
     );
 
-    SDL_Event event;
     bool running = true;
 
     while(running)
     {
-        while(SDL_PollEvent(&event))
-        {
-            EventListenerSystem::OnEvent(title_text, event);
-            switch(event.type)
-            {
-                case SDL_QUIT:
-                    running = false;
-                    break;
-
-                case SDL_KEYDOWN:
-                    running = false;
-                    break;
-            }
-        }
-        auto rect = title_text.GetComponent<RectComponent>();
-        auto coord = title_text.GetComponent<Coordinate2DComponent>();
-        SDL_Rect sdl_rect = {(int)coord.x, (int)coord.y, (int)rect.width, (int)rect.height};
-
-        SDL_RenderCopy(
-            window.GetRenderer(), 
-            title_text.GetComponent<TextureComponent>().texture, 
-            NULL,
-            &sdl_rect
-        );
-
-        rect = message_text.GetComponent<RectComponent>();
-        coord = message_text.GetComponent<Coordinate2DComponent>();
-        sdl_rect = {(int)coord.x, (int)coord.y, (int)rect.width, (int)rect.height};
-        SDL_RenderCopy(
-            window.GetRenderer(), 
-            message_text.GetComponent<TextureComponent>().texture, 
-            NULL,
-            &sdl_rect
-        );
-
-        SDL_RenderPresent(window.GetRenderer());
+        if(Input::IsKeyPressed(Key::RETURN))
+            running = false;
+        
+        scene.OnSceneRender();
     }
 }
 

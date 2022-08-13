@@ -18,6 +18,7 @@ project "Sandbox"
         "%{wks.location}/Saddle/src/Components",
         "%{wks.location}/Saddle/src/Core",
         "%{wks.location}/Saddle/src/Entities",
+        "%{wks.location}/Saddle/src/Renderer",
         "%{wks.location}/Saddle/src/Scene",
         "%{wks.location}/Saddle/src/Systems",
 
