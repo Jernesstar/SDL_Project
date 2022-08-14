@@ -4,7 +4,7 @@ pushd %~dp0\..\
 if exist Makefile (
     MinGW32-make
 
-    if %errorlevel% == 0 (
+    if $? == 0 (
         echo Compiled project successfully
     )
     

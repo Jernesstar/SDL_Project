@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <functional>
+#include <cmath>
 
 #include <SDL.h>
 #include <SDL_ttf.h>
@@ -16,13 +17,6 @@ protected:
     ~IComponent() = default;
 };
 
-struct RectComponent : public IComponent {
-    Uint32 width, height;  
-
-    RectComponent(Uint32 w = 1, Uint32 h = 1) : width(w), height(h) { }
-    RectComponent(const RectComponent& other) : width(other.width), height(other.height) { }
-};
-
 struct Coordinate2DComponent : public IComponent {
     Uint32 x, y;
 
@@ -30,11 +24,43 @@ struct Coordinate2DComponent : public IComponent {
     Coordinate2DComponent(const Coordinate2DComponent& other) : x(other.x), y(other.y) { }
 };
 
-struct TextureComponent : public IComponent {
-    SDL_Texture* texture;
+struct EventListenerComponent : public IComponent {
+    std::function<void(SDL_Event&)> OnEventClick;
+    std::function<void(SDL_Event&)> OnEventKeyPress;
 
-    TextureComponent() = default;
-    ~TextureComponent() { if(texture) SDL_DestroyTexture(texture); }
+    EventListenerComponent() = default;
+    EventListenerComponent(const EventListenerComponent& other) = default;
+    EventListenerComponent& SetClickEventListener(std::function<void(SDL_Event&)> on_event_click)
+    {
+        OnEventClick = on_event_click;
+        return *this;
+    }
+    EventListenerComponent& SetKeyPressEventListener(std::function<void(SDL_Event&)> on_event_key_press)
+    {
+        OnEventKeyPress = on_event_key_press;
+        return *this;
+    }
+};
+
+struct PhysicsBodyComponent : public IComponent {
+    float Speed;
+    float VelocityX;
+    float VelocityY;
+    float Bounciness;
+
+    PhysicsBodyComponent(float velocity_x = 0.0f, float velocity_y = 0.0f, float bounciness = 0.0f) 
+        : VelocityX(velocity_x), VelocityY(velocity_y), Bounciness(bounciness)
+    {
+        // Distance formula + speed formula: sqrt(a^2 + b^2) / time
+        Speed = pow((VelocityX * VelocityX) + (VelocityY * VelocityY), 0.5) / 1;
+    }
+};
+
+struct RectComponent : public IComponent {
+    Uint32 Width, Height;  
+
+    RectComponent(Uint32 w = 1, Uint32 h = 1) : Width(w), Height(h) { }
+    RectComponent(const RectComponent& other) : Width(other.Width), Height(other.Height) { }
 };
 
 struct RGBColorComponent : public IComponent {
@@ -54,22 +80,11 @@ struct SoundComponent : public IComponent {
     ~SoundComponent() { if(Sound) Mix_FreeChunk(Sound); }
 };
 
-struct EventListenerComponent : public IComponent {
-    std::function<void(SDL_Event&)> OnEventClick;
-    std::function<void(SDL_Event&)> OnEventKeyPress;
+struct TextureComponent : public IComponent {
+    SDL_Texture* texture;
 
-    EventListenerComponent() = default;
-    EventListenerComponent(const EventListenerComponent& other) = default;
-    EventListenerComponent& SetClickEventListener(std::function<void(SDL_Event&)> on_event_click)
-    {
-        OnEventClick = on_event_click;
-        return *this;
-    }
-    EventListenerComponent& SetKeyPressEventListener(std::function<void(SDL_Event&)> on_event_key_press)
-    {
-        OnEventKeyPress = on_event_key_press;
-        return *this;
-    }
+    TextureComponent() = default;
+    ~TextureComponent() { if(texture) SDL_DestroyTexture(texture); }
 };
 
 }

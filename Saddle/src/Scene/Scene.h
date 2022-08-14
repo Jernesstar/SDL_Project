@@ -26,7 +26,7 @@ public:
 
 private:
     std::vector<Entity*> entities;
-    TimeStep m_LastFrameTime;
+    float m_LastFrameTime;
 
 };
 

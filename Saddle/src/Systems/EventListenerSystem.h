@@ -17,8 +17,8 @@ public:
         {
             int mouse_x = event.button.x;
             int mouse_y = event.button.y;
-            bool x_coord_is_in_bound = coordinate.x <= mouse_x && mouse_x <= coordinate.x + rect.width;
-            bool y_coord_is_in_bound = coordinate.y <= mouse_y && mouse_y <= coordinate.y + rect.width;
+            bool x_coord_is_in_bound = coordinate.x <= mouse_x && mouse_x <= coordinate.x + rect.Width;
+            bool y_coord_is_in_bound = coordinate.y <= mouse_y && mouse_y <= coordinate.y + rect.Width;
 
             if(x_coord_is_in_bound && y_coord_is_in_bound)
             {

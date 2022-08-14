@@ -11,7 +11,7 @@ public:
 
     operator float() const { return m_Time; }
 
-    static TimeStep GetTime()
+    static float GetTime()
     {
         // Note: Implement getting the current time
         return 0;

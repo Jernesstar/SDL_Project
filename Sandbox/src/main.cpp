@@ -42,11 +42,11 @@ void Start_Screen()
     TextureSystem::CreateText(message_text, message, message_font);
 
     title_text.AddComponent<Coordinate2DComponent>(
-        0.5 * (SCREEN_WIDTH - title_text.GetComponent<RectComponent>().width),
+        0.5 * (SCREEN_WIDTH - title_text.GetComponent<RectComponent>().Width),
         0.5 * SCREEN_HEIGHT - 150
     );
     message_text.AddComponent<Coordinate2DComponent>(
-        0.5 * (SCREEN_WIDTH - message_text.GetComponent<RectComponent>().width),
+        0.5 * (SCREEN_WIDTH - message_text.GetComponent<RectComponent>().Width),
         0.5 * SCREEN_HEIGHT
     );
 

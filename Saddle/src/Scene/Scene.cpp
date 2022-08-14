@@ -11,14 +11,15 @@ Scene::~Scene() { }
 
 void Scene::OnUpdate()
 {
-    TimeStep ts = TimeStep::GetTime();
+    float time = TimeStep::GetTime();
+    TimeStep ts = time - m_LastFrameTime;
+    m_LastFrameTime = time;
 
     for(int i = 0; i < entities.size(); i++)
     {
         Entity& entity = *entities.at(i);
         if(entity.HasComponent<EventListenerComponent>())
             EventListenerSystem::OnEvent(entity);
-        entity.OnUpdate(ts);
     }
 }
 
@@ -32,7 +33,7 @@ void Scene::OnSceneRender()
             auto& rect_component = entity.GetComponent<RectComponent>();
             auto& coordinate = entity.GetComponent<Coordinate2DComponent>();
             auto& texture = entity.GetComponent<TextureComponent>();
-            SDL_Rect rect = { coordinate.x, coordinate.y, rect_component.width, rect_component.height };
+            SDL_Rect rect = { coordinate.x, coordinate.y, rect_component.Width, rect_component.Height };
             Renderer::DrawTexture(rect, texture.texture);
         }
     }

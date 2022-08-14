@@ -11,15 +11,15 @@ public:
     void Scale(Entity& entity, int32_t scalar)
     {  
         RectComponent& rect_component = entity.GetComponent<RectComponent>();
-        rect_component.width *= scalar;
-        rect_component.height *= scalar;
+        rect_component.Width *= scalar;
+        rect_component.Height *= scalar;
     }
 
     void Scale(Entity* entity, int32_t scalar)
     {  
         RectComponent& rect_component = entity->GetComponent<RectComponent>();
-        rect_component.width *= scalar;
-        rect_component.height *= scalar;
+        rect_component.Width *= scalar;
+        rect_component.Height *= scalar;
     }
 };
 
