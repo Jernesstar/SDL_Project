@@ -4,18 +4,24 @@ namespace Saddle {
 
 enum class EventType {
     KeyPressedEvent,
-    KeyReleasedEvent
+    KeyReleasedEvent,
+    MouseMovedEvent,
+    MouseScrolledEvent,
+    MouseButtonPressedEvent,
+    MouseButtonReleasedEvent,
 };
 
-class Event {
-
-public:
+struct Event {
     const EventType Type;
     bool Handled = false;
 
-public:
+    bool Is(EventType type)
+    {
+        return this->Type == type;
+    }
+
+protected:
     Event(EventType type) : Type(type) { }
-    virtual ~Event() = default;
 };
 
 }

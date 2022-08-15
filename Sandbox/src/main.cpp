@@ -66,7 +66,7 @@ void Start_Screen()
 
     while(running)
     {
-        if(Input::IsKeyPressed(Key::RETURN))
+        if(Input::IsKeyPressed(KeyCode::RETURN))
             running = false;
         
         scene.OnSceneRender();

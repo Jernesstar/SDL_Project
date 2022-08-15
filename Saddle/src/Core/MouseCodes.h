@@ -2,7 +2,7 @@
 
 namespace Saddle {
 
-enum Mouse {
+enum MouseCode {
     // From SDL_mouse.h
 
     BUTTON_LEFT = 1,

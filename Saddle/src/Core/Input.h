@@ -1,11 +1,7 @@
 #pragma once
 
-#include <iostream>
-#include <vector>
-
 #include "KeyCodes.h"
 #include "MouseCodes.h"
-
 
 namespace Saddle {
 
@@ -17,9 +13,9 @@ struct MousePosition {
 class Input {
 
 public:
-    static bool IsKeyPressed(Key key);
+    static bool IsKeyPressed(KeyCode key);
 
-    static bool IsMouseButtonPressed(Mouse mouse_button);
+    static bool IsMouseButtonPressed(MouseCode mouse_button);
     static MousePosition GetMousePosition();
     static int GetMouseX();
     static int GetMouseY();

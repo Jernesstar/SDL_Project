@@ -6,10 +6,10 @@ namespace Saddle {
 class KeyEvent : public Event {
 
 public:
-    const Saddle::Key Key;
+    const KeyCode Key;
 
 protected:
-    KeyEvent(Saddle::Key key, EventType type) : Event(type), Key(key) { }
+    KeyEvent(KeyCode key, EventType type) : Event(type), Key(key) { }
 };
 
 class KeyPressedEvent : public KeyEvent {
@@ -18,13 +18,18 @@ public:
     bool IsRepeat = false;
     
 public:
-    KeyPressedEvent(Saddle::Key key) : KeyEvent(key, EventType::KeyPressedEvent) { }
+    KeyPressedEvent(KeyCode key) : KeyEvent(key, EventType::KeyPressedEvent) { }
 };
 
 class KeyReleasedEvent : public KeyEvent {
 
 public:
-    KeyReleasedEvent(Saddle::Key key) : KeyEvent(key, EventType::KeyReleasedEvent) { }
+    KeyReleasedEvent(KeyCode key) : KeyEvent(key, EventType::KeyReleasedEvent) { }
 };
+
+void t()
+{
+    
+}
 
 }

@@ -2,7 +2,7 @@
 
 namespace Saddle {
 
-enum Key {
+enum KeyCode {
     // From SDL_scancode.h
 
     // Letter keys
