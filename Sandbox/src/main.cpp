@@ -33,7 +33,7 @@ void Start_Screen()
     title_text.AddComponent<RGBColorComponent>(255, 255, 255);
     message_text.AddComponent<RGBColorComponent>(255, 255, 255);
 
-    std::string font_path = "Sandbox/resources/pixel_font.ttf";
+    std::string font_path = "Sandbox/assets/pixel_font.ttf";
 
     Font title_font(font_path, 100);
     TextureSystem::CreateText(title_text, title, title_font);

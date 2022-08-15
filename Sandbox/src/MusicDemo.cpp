@@ -7,6 +7,6 @@ MusicDemo::~MusicDemo() { }
 
 void MusicDemo::Run()
 {   
-    MusicBlock kick_drum("Sandbox/resources/Kick-Drum.wav", 50, 50);
-    MusicBlock snare_drum("Sandbox/resources/Snare-Drum.wav", 50, 50);
+    MusicBlock kick_drum("Sandbox/asstes/Kick-Drum.wav", 50, 50);
+    MusicBlock snare_drum("Sandbox/assets/Snare-Drum.wav", 50, 50);
 }
