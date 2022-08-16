@@ -1,36 +1,57 @@
+#include "Events.h"
+
 #include "Components.h"
 #include "Entity.h"
+
+#include "Input.h"
 
 namespace Saddle {
 
 class EventListenerSystem {
 
 public:
-    static void OnEvent(Entity& entity)
+    static void OnEvent(Entity& entity, Event event)
     {
-        SDL_Event event;
-        Coordinate2DComponent& coordinate = entity.GetComponent<Coordinate2DComponent>();
-        RectComponent& rect = entity.GetComponent<RectComponent>();
         EventListenerComponent& event_listener = entity.GetComponent<EventListenerComponent>();
 
-        if(event.type == SDL_MOUSEBUTTONDOWN)
+        if(event.IsInCategory(EventCategory::MouseEvent))
         {
-            int mouse_x = event.button.x;
-            int mouse_y = event.button.y;
-            bool x_coord_is_in_bound = coordinate.x <= mouse_x && mouse_x <= coordinate.x + rect.Width;
-            bool y_coord_is_in_bound = coordinate.y <= mouse_y && mouse_y <= coordinate.y + rect.Width;
+            Coordinate2DComponent& coordinate = entity.GetComponent<Coordinate2DComponent>();
+            RectComponent& rect = entity.GetComponent<RectComponent>();
 
-            if(x_coord_is_in_bound && y_coord_is_in_bound)
+            auto [mouse_x, mouse_y] = Input::GetMousePosition();
+            bool x_coordinate_is_in_bound = coordinate.x <= mouse_x && mouse_x <= coordinate.x + rect.Width;
+            bool y_coordinate_is_in_bound = coordinate.y <= mouse_y && mouse_y <= coordinate.y + rect.Width;
+
+            if(x_coordinate_is_in_bound && y_coordinate_is_in_bound)
             {
-                if(event_listener.OnEventClick)
-                    event_listener.OnEventClick(event);
+                if(event.Is(EventType::MouseButtonPressedEvent) && 
+                    event_listener.EventCallbacks[EventType::MouseButtonPressedEvent])
+                {
+                    event_listener.EventCallbacks[EventType::MouseButtonPressedEvent](event);
+                }
+
+                if(event.Is(EventType::MouseButtonReleasedEvent) &&
+                    event_listener.EventCallbacks[EventType::MouseButtonReleasedEvent])
+                {
+                    event_listener.EventCallbacks[EventType::MouseButtonReleasedEvent](event);
+                }
             }
         }
-
-        else if(event.type == SDL_KEYDOWN)
+        
+        else if(event.IsInCategory(EventCategory::KeyEvent))
         {
-            if(event_listener.OnEventKeyPress)
-                event_listener.OnEventKeyPress(event);
+            if(event.Is(EventType::KeyPressedEvent) &&
+                event_listener.EventCallbacks[EventType::KeyPressedEvent])
+            {
+                event_listener.EventCallbacks[EventType::KeyPressedEvent](event);
+            }
+
+            else if(event.Is(EventType::KeyReleasedEvent) &&
+                event_listener.EventCallbacks[EventType::KeyReleasedEvent])
+            {
+                event_listener.EventCallbacks[EventType::KeyReleasedEvent](event);
+            }
         }
     }
 

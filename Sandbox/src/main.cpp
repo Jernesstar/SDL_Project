@@ -2,6 +2,7 @@
 #include <Font.h>
 #include <Systems.h>
 #include <Input.h>
+#include <Events.h>
 
 #include "MusicDemo.h"
 
@@ -51,15 +52,10 @@ void Start_Screen()
     );
 
     title_text.AddComponent<EventListenerComponent>()
-    .SetClickEventListener(
-        [](SDL_Event& event) {
-            std::cout << "This sets the OnClickEvent function object";
-        }
-    )
-    .SetKeyPressEventListener(
-        [](SDL_Event& event) {
-            std::cout << "This sets the OnEventKeyPress function object";
-        }
+    .On<MouseButtonPressedEvent>(
+        [](MouseButtonPressedEvent& event) {
+            std::cout << event.MouseButton << "\n";
+        }   
     );
 
     bool running = true;
@@ -69,6 +65,7 @@ void Start_Screen()
         if(Input::IsKeyPressed(KeyCode::RETURN))
             running = false;
         
+        scene.OnUpdate();
         scene.OnSceneRender();
     }
 }

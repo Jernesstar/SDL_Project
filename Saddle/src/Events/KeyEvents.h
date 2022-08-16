@@ -1,3 +1,5 @@
+#pragma once
+
 #include "Event.h"
 #include "KeyCodes.h"
 
@@ -9,7 +11,7 @@ public:
     const KeyCode Key;
 
 protected:
-    KeyEvent(KeyCode key, EventType type) : Event(type), Key(key) { }
+    KeyEvent(KeyCode key, EventType type) : Event(EventCategory::KeyEvent, type), Key(key) { }
 };
 
 class KeyPressedEvent : public KeyEvent {
@@ -26,10 +28,5 @@ class KeyReleasedEvent : public KeyEvent {
 public:
     KeyReleasedEvent(KeyCode key) : KeyEvent(key, EventType::KeyReleasedEvent) { }
 };
-
-void t()
-{
-    
-}
 
 }

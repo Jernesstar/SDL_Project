@@ -8,6 +8,7 @@
 #include <SDL_ttf.h>
 
 #include "Audio.h"
+#include "Events.h"
 
 namespace Saddle {
     
@@ -25,21 +26,29 @@ struct Coordinate2DComponent : public IComponent {
 };
 
 struct EventListenerComponent : public IComponent {
-    std::function<void(SDL_Event&)> OnEventClick;
-    std::function<void(SDL_Event&)> OnEventKeyPress;
+    std::unordered_map<EventType, std::function<void(Event&)>> EventCallbacks;
 
     EventListenerComponent() = default;
     EventListenerComponent(const EventListenerComponent& other) = default;
-    EventListenerComponent& SetClickEventListener(std::function<void(SDL_Event&)> on_event_click)
+
+    template<typename TEvent>
+    EventListenerComponent& On(const std::function<void(TEvent&)>& event_callback)
     {
-        OnEventClick = on_event_click;
+        EventType event_type = event_type_map[typeid(TEvent).hash_code()];
+        EventCallbacks[event_type] = *(std::function<void(Event&)>*)&event_callback;
         return *this;
     }
-    EventListenerComponent& SetKeyPressEventListener(std::function<void(SDL_Event&)> on_event_key_press)
+
+private:
+    inline static std::unordered_map<std::size_t, EventType> event_type_map = 
     {
-        OnEventKeyPress = on_event_key_press;
-        return *this;
-    }
+        { typeid(KeyPressedEvent).hash_code(),            EventType::KeyPressedEvent },
+        { typeid(KeyReleasedEvent).hash_code(),           EventType::KeyReleasedEvent },
+        { typeid(MouseMovedEvent).hash_code(),            EventType::MouseMovedEvent },
+        { typeid(MouseScrolledEvent).hash_code(),         EventType::MouseScrolledEvent },
+        { typeid(MouseButtonPressedEvent).hash_code(),    EventType::MouseButtonPressedEvent },
+        { typeid(MouseButtonReleasedEvent).hash_code(),   EventType::MouseButtonReleasedEvent }
+    };
 };
 
 struct PhysicsBodyComponent : public IComponent {
@@ -66,7 +75,6 @@ struct RectComponent : public IComponent {
 struct RGBColorComponent : public IComponent {
     Uint8 r, g, b;
 
-    RGBColorComponent() = default;
     RGBColorComponent(Uint8 r, Uint8 g, Uint8 b) : r(r), g(g), b(b) { }
     RGBColorComponent(const RGBColorComponent& other) : r(other.r), g(other.g), b(other.b) { }
 };
