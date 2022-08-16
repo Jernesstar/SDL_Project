@@ -10,7 +10,7 @@ namespace Saddle {
 class EventListenerSystem {
 
 public:
-    static void OnEvent(Entity& entity, Event event)
+    static void OnEvent(Entity& entity, Event& event)
     {
         EventListenerComponent& event_listener = entity.GetComponent<EventListenerComponent>();
 
@@ -25,16 +25,18 @@ public:
 
             if(x_coordinate_is_in_bound && y_coordinate_is_in_bound)
             {
-                if(event.Is(EventType::MouseButtonPressedEvent) && 
-                    event_listener.EventCallbacks[EventType::MouseButtonPressedEvent])
+                if(event.Is(EventType::MouseButtonPressedEvent) &&
+                    event_listener.MouseButtonPressedEvent)
                 {
-                    event_listener.EventCallbacks[EventType::MouseButtonPressedEvent](event);
+                    auto _event = *((MouseButtonPressedEvent*)(&event));
+                    event_listener.MouseButtonPressedEvent(_event);
                 }
 
                 if(event.Is(EventType::MouseButtonReleasedEvent) &&
-                    event_listener.EventCallbacks[EventType::MouseButtonReleasedEvent])
+                    event_listener.MouseButtonReleasedEvent)
                 {
-                    event_listener.EventCallbacks[EventType::MouseButtonReleasedEvent](event);
+                    auto _event = *((MouseButtonReleasedEvent*)(&event));
+                    event_listener.MouseButtonReleasedEvent(_event);
                 }
             }
         }
@@ -42,15 +44,17 @@ public:
         else if(event.IsInCategory(EventCategory::KeyEvent))
         {
             if(event.Is(EventType::KeyPressedEvent) &&
-                event_listener.EventCallbacks[EventType::KeyPressedEvent])
+                event_listener.KeyPressedEvent)
             {
-                event_listener.EventCallbacks[EventType::KeyPressedEvent](event);
+                auto _event = *((KeyPressedEvent*)(&event));
+                event_listener.KeyPressedEvent(_event);
             }
 
             else if(event.Is(EventType::KeyReleasedEvent) &&
-                event_listener.EventCallbacks[EventType::KeyReleasedEvent])
+                event_listener.KeyReleasedEvent)
             {
-                event_listener.EventCallbacks[EventType::KeyReleasedEvent](event);
+                auto _event = *((KeyReleasedEvent*)(&event));
+                event_listener.KeyReleasedEvent(_event);
             }
         }
     }

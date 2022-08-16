@@ -26,29 +26,15 @@ struct Coordinate2DComponent : public IComponent {
 };
 
 struct EventListenerComponent : public IComponent {
-    std::unordered_map<EventType, std::function<void(Event&)>> EventCallbacks;
+    std::function<void(KeyPressedEvent& event)> KeyPressedEvent;
+    std::function<void(KeyReleasedEvent& event)> KeyReleasedEvent;
+    std::function<void(MouseMovedEvent& event)> MouseMovedEvent;
+    std::function<void(MouseScrolledEvent& event)> MouseScrolledEvent;
+    std::function<void(MouseButtonPressedEvent& event)> MouseButtonPressedEvent;
+    std::function<void(MouseButtonReleasedEvent& event)> MouseButtonReleasedEvent;
 
     EventListenerComponent() = default;
     EventListenerComponent(const EventListenerComponent& other) = default;
-
-    template<typename TEvent>
-    EventListenerComponent& On(const std::function<void(TEvent&)>& event_callback)
-    {
-        EventType event_type = event_type_map[typeid(TEvent).hash_code()];
-        EventCallbacks[event_type] = *(std::function<void(Event&)>*)&event_callback;
-        return *this;
-    }
-
-private:
-    inline static std::unordered_map<std::size_t, EventType> event_type_map = 
-    {
-        { typeid(KeyPressedEvent).hash_code(),            EventType::KeyPressedEvent },
-        { typeid(KeyReleasedEvent).hash_code(),           EventType::KeyReleasedEvent },
-        { typeid(MouseMovedEvent).hash_code(),            EventType::MouseMovedEvent },
-        { typeid(MouseScrolledEvent).hash_code(),         EventType::MouseScrolledEvent },
-        { typeid(MouseButtonPressedEvent).hash_code(),    EventType::MouseButtonPressedEvent },
-        { typeid(MouseButtonReleasedEvent).hash_code(),   EventType::MouseButtonReleasedEvent }
-    };
 };
 
 struct PhysicsBodyComponent : public IComponent {

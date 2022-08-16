@@ -52,11 +52,9 @@ void Start_Screen()
     );
 
     title_text.AddComponent<EventListenerComponent>()
-    .On<MouseButtonPressedEvent>(
-        [](MouseButtonPressedEvent& event) {
-            std::cout << event.MouseButton << "\n";
-        }   
-    );
+    .MouseButtonPressedEvent = [](MouseButtonPressedEvent& event) {
+        std::cout << event.MouseButton << "\n";
+    };
 
     bool running = true;
 
