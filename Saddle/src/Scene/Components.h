@@ -8,7 +8,8 @@
 #include <SDL_ttf.h>
 
 #include "Audio.h"
-#include "Events.h"
+#include "KeyEvents.h"
+#include "MouseEvents.h"
 
 namespace Saddle {
     

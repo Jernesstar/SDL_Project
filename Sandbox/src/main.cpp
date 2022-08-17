@@ -13,33 +13,32 @@ using namespace Saddle;
 
 void Start_Screen()
 {
-    Saddle::Window window = Application::Get().GetWindow();
     std::string title = "Music Demo";
     std::string message = "Press any key to continue";
 
     Scene scene;
-
     Entity title_text;
     Entity message_text;
-
     scene.AddEntity(title_text);
     scene.AddEntity(message_text);
 
     title_text.AddComponent<TextureComponent>();
-    message_text.AddComponent<TextureComponent>();
-
     title_text.AddComponent<RectComponent>();
+    title_text.AddComponent<RGBColorComponent>(0, 255, 255);
+    title_text.AddComponent<EventListenerComponent>()
+    .MouseButtonPressedEvent = [](MouseButtonPressedEvent& event) {
+        std::cout << event.MouseButton << "\n";
+    };
+    
+    message_text.AddComponent<TextureComponent>();
     message_text.AddComponent<RectComponent>();
-
-    title_text.AddComponent<RGBColorComponent>(255, 255, 255);
-    message_text.AddComponent<RGBColorComponent>(255, 255, 255);
+    message_text.AddComponent<RGBColorComponent>(0, 255, 255);
 
     std::string font_path = "Sandbox/assets/pixel_font.ttf";
-
     Font title_font(font_path, 100);
-    TextureSystem::CreateText(title_text, title, title_font);
-
     Font message_font(font_path, 50);
+
+    TextureSystem::CreateText(title_text, title, title_font);
     TextureSystem::CreateText(message_text, message, message_font);
 
     title_text.AddComponent<Coordinate2DComponent>(
@@ -51,18 +50,20 @@ void Start_Screen()
         0.5 * SCREEN_HEIGHT
     );
 
-    title_text.AddComponent<EventListenerComponent>()
-    .MouseButtonPressedEvent = [](MouseButtonPressedEvent& event) {
-        std::cout << event.MouseButton << "\n";
-    };
-
     bool running = true;
 
     while(running)
     {
         if(Input::IsKeyPressed(KeyCode::RETURN))
             running = false;
-        
+
+        EventDispatcher::RegisterEventListener<MouseButtonPressedEvent>(
+            [](MouseButtonPressedEvent& event) {
+                std::cout << "Mouse button " << event.MouseButton << " was pressed\n";
+            }
+        );
+        EventDispatcher::DispatchEvents();
+
         scene.OnUpdate();
         scene.OnSceneRender();
     }

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <unordered_map>
+
 namespace Saddle {
 
 enum class EventCategory {
@@ -22,15 +24,8 @@ struct Event {
     const EventType Type;
     bool Handled = false;
 
-    bool IsInCategory(EventCategory category)
-    {
-        return this->Category == category;
-    }
-    
-    bool Is(EventType type)
-    {
-        return this->Type == type;
-    }
+    bool IsInCategory(EventCategory category) { return this->Category == category; }
+    bool Is(EventType type) { return this->Type == type; }
 
 protected:
     Event(EventCategory category, EventType type) : Category(category), Type(type) { }

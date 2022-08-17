@@ -15,15 +15,12 @@ void Scene::OnUpdate()
     TimeStep ts = time - m_LastFrameTime;
     m_LastFrameTime = time;
     
-    // Test data
-    MouseButtonPressedEvent event(MouseCode::BUTTON_LEFT);
-
-    for(int i = 0; i < entities.size(); i++)
-    {
-        Entity& entity = *entities.at(i);
-        if(entity.HasComponent<EventListenerComponent>())
-            EventListenerSystem::OnEvent(entity, event);
-    }
+    // for(int i = 0; i < entities.size(); i++)
+    // {
+    //     Entity& entity = *entities.at(i);
+    //     if(entity.HasComponent<EventListenerComponent>())
+    //         EventListenerSystem::OnEvent(entity);
+    // }
 }
 
 void Scene::OnSceneRender()
