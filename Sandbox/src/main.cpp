@@ -19,15 +19,13 @@ void Start_Screen()
     Scene scene;
     Entity title_text;
     Entity message_text;
-    scene.AddEntity(title_text);
-    scene.AddEntity(message_text);
 
     title_text.AddComponent<TextureComponent>();
     title_text.AddComponent<RectComponent>();
     title_text.AddComponent<RGBColorComponent>(0, 255, 255);
     title_text.AddComponent<EventListenerComponent>()
     .MouseButtonPressedEvent = [](MouseButtonPressedEvent& event) {
-        std::cout << event.MouseButton << "\n";
+        std::cout << "Title Text was clicked" << "\n";
     };
     
     message_text.AddComponent<TextureComponent>();
@@ -50,6 +48,15 @@ void Start_Screen()
         0.5 * SCREEN_HEIGHT
     );
 
+    scene.AddEntity(title_text);
+    scene.AddEntity(message_text);
+    
+    EventDispatcher::RegisterEventListener<MouseButtonPressedEvent>(
+        [](MouseButtonPressedEvent& event) {
+            std::cout << "Mouse button " << event.MouseButton << " was pressed\n";
+        }
+    );
+
     bool running = true;
 
     while(running)
@@ -57,11 +64,6 @@ void Start_Screen()
         if(Input::IsKeyPressed(KeyCode::RETURN))
             running = false;
 
-        EventDispatcher::RegisterEventListener<MouseButtonPressedEvent>(
-            [](MouseButtonPressedEvent& event) {
-                std::cout << "Mouse button " << event.MouseButton << " was pressed\n";
-            }
-        );
         EventDispatcher::DispatchEvents();
 
         scene.OnUpdate();

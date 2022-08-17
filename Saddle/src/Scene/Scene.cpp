@@ -15,12 +15,10 @@ void Scene::OnUpdate()
     TimeStep ts = time - m_LastFrameTime;
     m_LastFrameTime = time;
     
-    // for(int i = 0; i < entities.size(); i++)
-    // {
-    //     Entity& entity = *entities.at(i);
-    //     if(entity.HasComponent<EventListenerComponent>())
-    //         EventListenerSystem::OnEvent(entity);
-    // }
+    for(int i = 0; i < entities.size(); i++)
+    {
+        Entity& entity = *entities.at(i);
+    }
 }
 
 void Scene::OnSceneRender()
@@ -43,6 +41,16 @@ void Scene::OnSceneRender()
 void Scene::AddEntity(Entity& entity)
 {
     entities.push_back(&entity);
+
+    // Note: Place this in a method that regularly updates the all Entity
+    if(entity.HasComponent<EventListenerComponent>())
+    {
+        EventDispatcher::RegisterEventListener<MouseButtonPressedEvent>(
+            [&entity](MouseButtonPressedEvent& event) {
+                EventListenerSystem::OnEvent(entity, event);
+            }
+        );
+    }
 }
 
 std::vector<Entity*> Scene::Query(std::function<bool(const Entity& entity)> predicate)

@@ -17,6 +17,7 @@ public:
     ~Scene();
 
     // Entity& GetEntityByUUID(UUID entity_ID);
+    
     void OnUpdate();
     void OnSceneRender();
 

@@ -66,5 +66,4 @@ void EventDispatcher::RegisterEventListener<MouseButtonReleasedEvent>(std::funct
     mouse_button_released_event_callbacks.push_back(event_callback);
 }
 
-
 }
