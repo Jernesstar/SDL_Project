@@ -28,6 +28,8 @@ public:
 private:
     Mix_Chunk* m_Sound;
     Uint8 m_Volume;
+
+    friend class SoundSystem;
 };
 
 }

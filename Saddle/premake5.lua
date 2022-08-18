@@ -13,6 +13,7 @@ project "Saddle"
 
     includedirs
     {
+        "%{wks.location}/%{prj.name}/src/Audio",
         "%{wks.location}/%{prj.name}/src/Core",
         "%{wks.location}/%{prj.name}/src/Events",
         "%{wks.location}/%{prj.name}/src/Renderer",

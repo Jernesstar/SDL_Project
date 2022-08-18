@@ -8,6 +8,7 @@
 #include <SDL_ttf.h>
 
 #include "Audio.h"
+#include "Sound.h"
 #include "KeyEvents.h"
 #include "MouseEvents.h"
 
@@ -67,12 +68,10 @@ struct RGBColorComponent : public IComponent {
 };
 
 struct SoundComponent : public IComponent {
-    Mix_Chunk* Sound;
-    Uint8 Volume;
+    Sound Sound;
     
-    SoundComponent(const std::string& file_path)
-        : IComponent(), Sound(Mix_LoadWAV(file_path.c_str())), Volume(AUDIO_MAX_VOLUME) { }
-    ~SoundComponent() { if(Sound) Mix_FreeChunk(Sound); }
+    SoundComponent(const std::string& file_path) : IComponent(), Sound(file_path) { }
+    ~SoundComponent() = default;
 };
 
 struct TextureComponent : public IComponent {

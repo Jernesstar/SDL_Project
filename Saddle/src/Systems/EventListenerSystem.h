@@ -21,19 +21,17 @@ public:
 
             auto [mouse_x, mouse_y] = Input::GetMousePosition();
             bool x_coordinate_is_in_bound = coordinate.x <= mouse_x && mouse_x <= coordinate.x + rect.Width;
-            bool y_coordinate_is_in_bound = coordinate.y <= mouse_y && mouse_y <= coordinate.y + rect.Width;
+            bool y_coordinate_is_in_bound = coordinate.y <= mouse_y && mouse_y <= coordinate.y + rect.Height;
 
             if(x_coordinate_is_in_bound && y_coordinate_is_in_bound)
             {
-                if(event.Is(EventType::MouseButtonPressedEvent) &&
-                    event_listener.MouseButtonPressedEvent)
+                if(event.Is(EventType::MouseButtonPressedEvent) && event_listener.MouseButtonPressedEvent)
                 {
                     auto _event = *((MouseButtonPressedEvent*)(&event));
                     event_listener.MouseButtonPressedEvent(_event);
                 }
 
-                if(event.Is(EventType::MouseButtonReleasedEvent) &&
-                    event_listener.MouseButtonReleasedEvent)
+                if(event.Is(EventType::MouseButtonReleasedEvent) && event_listener.MouseButtonReleasedEvent)
                 {
                     auto _event = *((MouseButtonReleasedEvent*)(&event));
                     event_listener.MouseButtonReleasedEvent(_event);
@@ -43,15 +41,13 @@ public:
         
         else if(event.IsInCategory(EventCategory::KeyEvent))
         {
-            if(event.Is(EventType::KeyPressedEvent) &&
-                event_listener.KeyPressedEvent)
+            if(event.Is(EventType::KeyPressedEvent) && event_listener.KeyPressedEvent)
             {
                 auto _event = *((KeyPressedEvent*)(&event));
                 event_listener.KeyPressedEvent(_event);
             }
 
-            else if(event.Is(EventType::KeyReleasedEvent) &&
-                event_listener.KeyReleasedEvent)
+            else if(event.Is(EventType::KeyReleasedEvent) && event_listener.KeyReleasedEvent)
             {
                 auto _event = *((KeyReleasedEvent*)(&event));
                 event_listener.KeyReleasedEvent(_event);

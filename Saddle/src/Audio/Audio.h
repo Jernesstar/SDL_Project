@@ -17,7 +17,7 @@ struct AudioSpecification {
         Uint16 format = MIX_DEFAULT_FORMAT, 
         int channel_count = MIX_DEFAULT_CHANNELS, 
         int chunck_size = 1024
-    ) : Frequency(frequency), Format(format),  ChannelCount(channel_count), ChunckSize(chunck_size) { }
+    ) : Frequency(frequency), Format(format), ChannelCount(channel_count), ChunckSize(chunck_size) { }
 
 };
 
