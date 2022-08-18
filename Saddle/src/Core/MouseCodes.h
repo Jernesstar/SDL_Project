@@ -2,12 +2,14 @@
 
 namespace Saddle {
 
-enum MouseCode {
+using MouseCode = unsigned char; // uint8_t
+
+enum Mouse : MouseCode {
     // From SDL_mouse.h
 
-    BUTTON_LEFT = 1,
-    BUTTON_MIDDLE = 2,
-    BUTTON_RIGHT = 3
+    LeftButton = 1,
+    MiddleButton = 2,
+    RightButton = 3
 };
 
 }

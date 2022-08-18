@@ -2,7 +2,9 @@
 
 namespace Saddle {
 
-enum KeyCode {
+using KeyCode = unsigned char; // uint8_t
+
+enum Key : KeyCode {
     // From SDL_scancode.h
 
     // Letter keys
@@ -34,17 +36,17 @@ enum KeyCode {
     Z = 29,
 
     // Symbol keys
-    MINUS = 45, /* - */
-    EQUALS = 46, /* = */
-    LEFTBRACKET = 47, /* [ */
-    RIGHTBRACKET = 48, /* ] */
-    BACKSLASH = 49, /* \ */ 
-    SEMICOLON = 51, /* ; */
-    APOSTROPHE = 52, /* ' */
-    BACKTICK = 53, /* ` */
-    COMMA = 54, /* , */
-    PERIOD = 55, /* . */
-    SLASH = 56, /* / */
+    Minus = 45, /* - */
+    Equals = 46, /* = */
+    LeftBracket = 47, /* [ */
+    RightBracket = 48, /* ] */
+    Backslash = 49, /* \ */ 
+    Semicolon = 51, /* ; */
+    Apostrophe = 52, /* ' */
+    Backtick = 53, /* ` */
+    Comma = 54, /* , */
+    Period = 55, /* . */
+    ForwardSlash = 56, /* / */
 
     // Number keys
     N_1 = 30, /* 1 */
@@ -84,40 +86,40 @@ enum KeyCode {
     F23 = 114,
     F24 = 115,
 
-    RETURN = 40,
-    ESCAPE = 41,
-    BACKSPACE = 42,
-    TAB = 43,
-    SPACE = 44,
-    CAPSLOCK = 57,
-    PRINTSCREEN = 70,
-    SCROLLLOCK = 71,
-    PAUSE = 72,
-    INSERT = 73,
-    HOME = 74,
-    PAGEUP = 75,
-    DELETE = 76,
-    END = 77,
-    PAGEDOWN = 78,
-    NUMLOCK = 83,
+    Return = 40,
+    Escape = 41,
+    Backspace = 42,
+    Tab = 43,
+    Space = 44,
+    CapsLock = 57,
+    PrintScreen = 70,
+    ScrollLock = 71,
+    Pause = 72,
+    Insert = 73,
+    Home = 74,
+    PageUp = 75,
+    Delete = 76,
+    End = 77,
+    PageDown = 78,
+    NumLock = 83,
 
-    LEFT_CTRL = 224,
-    RIGHT_CTRL = 228,
-    LEFT_SHIFT = 225,
-    RIGHT_SHIFT = 229,
-    LEFT_ALT = 226, 
-    RIGHT_ALT = 230,
-    WINDOWS_KEY = 227, /* LGUI in SDL */
+    LeftCtrl = 224,
+    RightCtrl = 228,
+    LeftShift = 225,
+    RightShift = 229,
+    LeftAlt = 226, 
+    RightAlt = 230,
+    WindowsKey = 227, /* LGUI in SDL */
     
-    MUTE = 127,
-    VOLUMEUP = 128,
-    VOLUMEDOWN = 129,
+    Mute = 127,
+    VolumeUp = 128,
+    VolumeDown = 129,
 
     // Directional keys
-    RIGHT = 79,
-    LEFT = 80,
-    DOWN = 81,
-    UP = 82,
+    Right = 79,
+    Left = 80,
+    Down = 81,
+    Up = 82,
     
     // Keypad
     KP_1 = 89,
@@ -130,14 +132,14 @@ enum KeyCode {
     KP_8 = 96,
     KP_9 = 97,
     KP_0 = 98,
-    KP_DIVIDE = 84,
-    KP_MULTIPLY = 85,
-    KP_MINUS = 86,
-    KP_PLUS = 87,
-    KP_ENTER = 88,
-    KP_PERIOD = 99,
-    KP_EQUALS = 103,
-    KP_COMMA = 133,
+    KP_Divide = 84,
+    KP_Multiply = 85,
+    KP_Minus = 86,
+    KP_Plus = 87,
+    KP_Enter = 88,
+    KP_Period = 99,
+    KP_Equals = 103,
+    KP_Comma = 133,
 };
 
 }
