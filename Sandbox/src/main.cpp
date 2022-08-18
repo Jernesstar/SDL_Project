@@ -83,13 +83,8 @@ void Start_Screen()
 
     while(running)
     {
-        if(Input::IsKeyPressed(Key::LeftCtrl) || Input::IsKeyPressed(Key::RightCtrl))
-        {
-            if(Input::IsKeyPressed(Key::LeftShift) || Input::IsKeyPressed(Key::RightShift))
-            {
-                if(Input::IsKeyPressed(Key::E)) running = false;
-            }
-        }
+        if(Input::AreKeysPressed(Key::Ctrl, Key::Alt, Key::Shift, Key::E))
+            running = false;
 
         EventDispatcher::DispatchEvents();
 

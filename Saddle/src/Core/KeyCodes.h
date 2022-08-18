@@ -2,7 +2,7 @@
 
 namespace Saddle {
 
-using KeyCode = unsigned char; // uint8_t
+using KeyCode = unsigned short; // uint16_t
 
 enum Key : KeyCode {
     // From SDL_scancode.h
@@ -140,6 +140,11 @@ enum Key : KeyCode {
     KP_Period = 99,
     KP_Equals = 103,
     KP_Comma = 133,
+
+    // General case between two buttons
+    Ctrl = LeftCtrl + RightCtrl,
+    Shift = LeftShift + RightShift,
+    Alt = LeftAlt + RightAlt,
 };
 
 }

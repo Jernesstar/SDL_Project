@@ -8,7 +8,40 @@ bool Input::IsKeyPressed(KeyCode key)
 {
     SDL_PumpEvents();
     const Uint8* keyboard_state = SDL_GetKeyboardState(nullptr);
+
+    // Special cases
+    if(key == Key::Ctrl) return keyboard_state[Key::LeftCtrl] || keyboard_state[Key::RightCtrl];
+    if(key == Key::Shift) return keyboard_state[Key::LeftShift] || keyboard_state[Key::RightShift];
+    if(key == Key::Alt) return keyboard_state[Key::LeftAlt] || keyboard_state[Key::RightAlt];
+
     return keyboard_state[key]; // Will return 1 if key was pressed, 0 otherwise
+}
+
+bool Input::AreKeysPressed(KeyCode key1, KeyCode key2)
+{
+    if(IsKeyPressed(key1))
+    {
+        if(IsKeyPressed(key2)) return true;
+    }
+    return false;
+}
+
+bool Input::AreKeysPressed(KeyCode key1, KeyCode key2, KeyCode key3)
+{
+    if(AreKeysPressed(key1, key2))
+    {
+        if(IsKeyPressed(key3)) return true;
+    }
+    return false;
+}
+
+bool Input::AreKeysPressed(KeyCode key1, KeyCode key2, KeyCode key3, KeyCode key4)
+{
+    if(AreKeysPressed(key1, key2, key3))
+    {
+        if(IsKeyPressed(key4)) return true;
+    }
+    return false;
 }
 
 bool Input::IsMouseButtonPressed(MouseCode mouse_button)

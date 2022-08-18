@@ -14,6 +14,9 @@ class Input {
 
 public:
     static bool IsKeyPressed(KeyCode key);
+    static bool AreKeysPressed(KeyCode key1, KeyCode key2);
+    static bool AreKeysPressed(KeyCode key1, KeyCode key2, KeyCode key3);
+    static bool AreKeysPressed(KeyCode key1, KeyCode key2, KeyCode key, KeyCode key4);
 
     static bool IsMouseButtonPressed(MouseCode mouse_button);
     static MousePosition GetMousePosition();
