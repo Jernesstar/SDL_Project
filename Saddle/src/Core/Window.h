@@ -24,7 +24,7 @@ struct WindowSpecification {
 class Window {
 
 public:
-    const int Width, Height;
+    int Width, Height;
 
 public:
     Window();

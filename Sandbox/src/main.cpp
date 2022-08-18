@@ -8,8 +8,8 @@
 
 using namespace Saddle;
 
-#define SCREEN_WIDTH 1200
-#define SCREEN_HEIGHT 640
+#define SCREEN_WIDTH Application::Get().GetWindow().Width
+#define SCREEN_HEIGHT Application::Get().GetWindow().Height
 
 void Start_Screen()
 {
@@ -61,6 +61,24 @@ void Start_Screen()
         }
     );
 
+    EventDispatcher::RegisterEventListener<WindowResizedEvent>(
+        [&title_text, &message_text](WindowResizedEvent& event) {
+            std::cout << "New width: " << event.Width << ", New height: " << event.Height << "\n";
+            SCREEN_WIDTH = event.Width;
+            SCREEN_HEIGHT = event.Height;
+
+            auto& [x1, y1] = title_text.GetComponent<Coordinate2DComponent>();
+            auto width1 = title_text.GetComponent<RectComponent>().Width;
+            x1 = 0.5 * (SCREEN_WIDTH - width1);
+            y1 = 0.5 * SCREEN_HEIGHT - 150;
+
+            auto& [x2, y2] = message_text.GetComponent<Coordinate2DComponent>();
+            auto width2 = message_text.GetComponent<RectComponent>().Width;
+            x2 = 0.5 * (SCREEN_WIDTH - width2);
+            y2 = 0.5 * SCREEN_HEIGHT;
+        }
+    );
+
     bool running = true;
 
     while(running)
@@ -78,7 +96,7 @@ void Start_Screen()
 class App : public Application {
 
 public:
-    App() : Application() { }
+    App(const ApplicationSpecification& specs = ApplicationSpecification()) : Application(specs) { }
     ~App() { }
 
     void Run()
@@ -92,9 +110,12 @@ public:
 
 int main(int argc, char** argv)
 {
-    Application::Init();
+    WindowSpecification window_specs("Sandbox", 1200, 640, SDL_WINDOW_RESIZABLE);
+    ApplicationSpecification app_specs("Sandbox", SDL_INIT_EVENTS, window_specs);
 
-    App app;
+    Application::Init(app_specs);
+
+    App app(app_specs);
     app.Run();
 
     Application::Close();

@@ -43,6 +43,7 @@ void EventDispatcher::DispatchEvents()
             {
                 // On a Window resized event, data1 and data2 will have the new width and height of the window
                 WindowResizedEvent event((int)SDL_event.window.data1, (int)SDL_event.window.data2);
+                Dispatch<WindowResizedEvent>(window_resized_event_callbacks, event);
             }
         }   
         if(SDL_event.type == SDL_QUIT)
