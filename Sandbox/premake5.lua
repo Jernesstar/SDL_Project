@@ -15,6 +15,7 @@ project "Sandbox"
     {
         "include",
 
+        "%{wks.location}/Saddle/src/Audio",
         "%{wks.location}/Saddle/src/Core",
         "%{wks.location}/Saddle/src/Events",
         "%{wks.location}/Saddle/src/Renderer",

@@ -20,17 +20,20 @@ void Start_Screen()
     Entity title_text;
     Entity message_text;
 
-    title_text.AddComponent<TextureComponent>();
-    title_text.AddComponent<RectComponent>();
-    title_text.AddComponent<RGBColorComponent>(0, 255, 255);
+    title_text.AddComponent<SoundComponent>("Sandbox/assets/Kick-Drum.wav");
+
     title_text.AddComponent<EventListenerComponent>()
-    .MouseButtonPressedEvent = [](MouseButtonPressedEvent& event) {
-        std::cout << "Title Text was clicked" << "\n";
+    .MouseButtonPressedEvent = [&title_text](MouseButtonPressedEvent& event) {
+        std::cout << "Title Text was clicked. Playing sound\n";
+        title_text.GetComponent<SoundComponent>().Sound.Play();
     };
     
+    title_text.AddComponent<TextureComponent>();
+    title_text.AddComponent<RectComponent>();
+    title_text.AddComponent<RGBColorComponent>(255, 255, 255);
     message_text.AddComponent<TextureComponent>();
     message_text.AddComponent<RectComponent>();
-    message_text.AddComponent<RGBColorComponent>(0, 255, 255);
+    message_text.AddComponent<RGBColorComponent>(255, 255, 255);
 
     std::string font_path = "Sandbox/assets/pixel_font.ttf";
     Font title_font(font_path, 100);
@@ -50,12 +53,6 @@ void Start_Screen()
 
     scene.AddEntity(title_text);
     scene.AddEntity(message_text);
-    
-    EventDispatcher::RegisterEventListener<MouseButtonPressedEvent>(
-        [](MouseButtonPressedEvent& event) {
-            std::cout << "Mouse button " << event.MouseButton << " was pressed\n";
-        }
-    );
 
     bool running = true;
 

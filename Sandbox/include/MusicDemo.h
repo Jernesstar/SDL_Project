@@ -14,7 +14,7 @@ public:
         AddComponent<RGBColorComponent>(255, 255, 255);
         AddComponent<SoundComponent>(sound_path);
 
-        TextureSystem::CreateRectangle(this, width, height);
+        TextureSystem::CreateRectangle(*this, width, height);
     }
     ~MusicBlock() { }
 
