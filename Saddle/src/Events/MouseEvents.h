@@ -6,9 +6,10 @@
 namespace Saddle {
 
 struct MouseMovedEvent : public Event {
-    const float x, y;
+    const int x; /**< The amount scrolled horizontally, positive to the right and negative to the left, with float precision */
+    const int y; /* The amount scrolled vertically, positive away from the user and negative toward the user, with float precision*/
 
-    MouseMovedEvent(float x, float y)
+    MouseMovedEvent(int x, int y)
         : Event(EventCategory::MouseEvent, EventType::MouseMovedEvent), x(x), y(y) { }
 };
 

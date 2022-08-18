@@ -42,11 +42,36 @@ void Scene::AddEntity(Entity& entity)
 {
     entities.push_back(&entity);
 
-    // Note: Place this in a method that regularly updates the all Entity
+    // Note: Place this in a method that regularly updates all the Entities
     if(entity.HasComponent<EventListenerComponent>())
     {
+        EventDispatcher::RegisterEventListener<KeyPressedEvent>(
+            [&entity](KeyPressedEvent& event) {
+                EventListenerSystem::OnEvent(entity, event);
+            }
+        );
+        EventDispatcher::RegisterEventListener<KeyReleasedEvent>(
+            [&entity](KeyReleasedEvent& event) {
+                EventListenerSystem::OnEvent(entity, event);
+            }
+        );
+        EventDispatcher::RegisterEventListener<MouseMovedEvent>(
+            [&entity](MouseMovedEvent& event) {
+                EventListenerSystem::OnEvent(entity, event);
+            }
+        );
+        EventDispatcher::RegisterEventListener<MouseScrolledEvent>(
+            [&entity](MouseScrolledEvent& event) {
+                EventListenerSystem::OnEvent(entity, event);
+            }
+        );
         EventDispatcher::RegisterEventListener<MouseButtonPressedEvent>(
             [&entity](MouseButtonPressedEvent& event) {
+                EventListenerSystem::OnEvent(entity, event);
+            }
+        );
+        EventDispatcher::RegisterEventListener<MouseButtonReleasedEvent>(
+            [&entity](MouseButtonReleasedEvent& event) {
                 EventListenerSystem::OnEvent(entity, event);
             }
         );

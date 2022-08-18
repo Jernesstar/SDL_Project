@@ -17,6 +17,16 @@ void EventDispatcher::DispatchEvents()
             KeyReleasedEvent event((KeyCode)SDL_event.key.keysym.sym);
             Dispatch<KeyReleasedEvent>(key_released_event_callbacks, event);
         }
+        if(SDL_event.type == SDL_MOUSEMOTION)
+        {
+            MouseMovedEvent event(SDL_event.motion.x, SDL_event.motion.y);
+            Dispatch<MouseMovedEvent>(mouse_moved_event_callbacks, event);
+        }
+        if(SDL_event.type == SDL_MOUSEWHEEL)
+        {
+            MouseScrolledEvent event(SDL_event.wheel.preciseX, SDL_event.wheel.preciseY);
+            Dispatch<MouseScrolledEvent>(mouse_scrolled_event_callbacks, event);
+        }
         if(SDL_event.type == SDL_MOUSEBUTTONDOWN)
         {
             MouseButtonPressedEvent event((MouseCode)SDL_event.button.button);
@@ -26,6 +36,19 @@ void EventDispatcher::DispatchEvents()
         {
             MouseButtonReleasedEvent event((MouseCode)SDL_event.button.button);
             Dispatch<MouseButtonReleasedEvent>(mouse_button_released_event_callbacks, event);
+        }
+        if(SDL_event.type == SDL_WINDOWEVENT)
+        {
+            if(SDL_event.window.event == SDL_WINDOWEVENT_RESIZED)
+            {
+                // On a Window resized event, data1 and data2 will have the new width and height of the window
+                WindowResizedEvent event((int)SDL_event.window.data1, (int)SDL_event.window.data2);
+            }
+        }   
+        if(SDL_event.type == SDL_QUIT)
+        {
+            WindowClosedEvent event;
+            Dispatch<WindowClosedEvent>(window_closed_event_callbacks, event);
         }
     }
 }
@@ -64,6 +87,18 @@ template<>
 void EventDispatcher::RegisterEventListener<MouseButtonReleasedEvent>(std::function<void(MouseButtonReleasedEvent&)> event_callback)
 {
     mouse_button_released_event_callbacks.push_back(event_callback);
+}
+
+template<>
+void EventDispatcher::RegisterEventListener<WindowResizedEvent>(std::function<void(WindowResizedEvent&)> event_callback)
+{
+    window_resized_event_callbacks.push_back(event_callback);
+}
+
+template<>
+void EventDispatcher::RegisterEventListener<WindowClosedEvent>(std::function<void(WindowClosedEvent&)> event_callback)
+{
+    window_closed_event_callbacks.push_back(event_callback);
 }
 
 }

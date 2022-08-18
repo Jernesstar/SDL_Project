@@ -9,6 +9,7 @@
 #include "Event.h"
 #include "KeyEvents.h"
 #include "MouseEvents.h"
+#include "ApplicationEvents.h"
 #include "Assert.h"
 
 namespace Saddle {
@@ -28,6 +29,8 @@ private:
     inline static std::vector<std::function<void(MouseScrolledEvent&)>> mouse_scrolled_event_callbacks = {};
     inline static std::vector<std::function<void(MouseButtonPressedEvent&)>> mouse_button_pressed_event_callbacks = {};
     inline static std::vector<std::function<void(MouseButtonReleasedEvent&)>> mouse_button_released_event_callbacks = {};
+    inline static std::vector<std::function<void(WindowResizedEvent&)>> window_resized_event_callbacks = {};
+    inline static std::vector<std::function<void(WindowClosedEvent&)>> window_closed_event_callbacks = {};
 
 private:
     template<typename T>

@@ -1,7 +1,5 @@
 #pragma once
 
-#include <unordered_map>
-
 namespace Saddle {
 
 enum class EventCategory {
@@ -17,6 +15,9 @@ enum class EventType {
     MouseScrolledEvent,
     MouseButtonPressedEvent,
     MouseButtonReleasedEvent,
+    WindowResizedEvent,
+    WindowClosedEvent,
+    ApplicationClosedEvent
 };
 
 struct Event {
@@ -26,6 +27,9 @@ struct Event {
 
     bool IsInCategory(EventCategory category) { return this->Category == category; }
     bool Is(EventType type) { return this->Type == type; }
+
+    template<typename TEvent>
+    TEvent& CastAs() { return *((TEvent*)(this)); }
 
 protected:
     Event(EventCategory category, EventType type) : Category(category), Type(type) { }

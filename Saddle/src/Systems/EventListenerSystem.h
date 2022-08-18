@@ -27,14 +27,12 @@ public:
             {
                 if(event.Is(EventType::MouseButtonPressedEvent) && event_listener.MouseButtonPressedEvent)
                 {
-                    auto _event = *((MouseButtonPressedEvent*)(&event));
-                    event_listener.MouseButtonPressedEvent(_event);
+                    event_listener.MouseButtonPressedEvent(event.CastAs<MouseButtonPressedEvent>());
                 }
 
                 if(event.Is(EventType::MouseButtonReleasedEvent) && event_listener.MouseButtonReleasedEvent)
                 {
-                    auto _event = *((MouseButtonReleasedEvent*)(&event));
-                    event_listener.MouseButtonReleasedEvent(_event);
+                    event_listener.MouseButtonReleasedEvent(event.CastAs<MouseButtonReleasedEvent>());
                 }
             }
         }
@@ -43,14 +41,12 @@ public:
         {
             if(event.Is(EventType::KeyPressedEvent) && event_listener.KeyPressedEvent)
             {
-                auto _event = *((KeyPressedEvent*)(&event));
-                event_listener.KeyPressedEvent(_event);
+                event_listener.KeyPressedEvent(event.CastAs<KeyPressedEvent>());
             }
 
             else if(event.Is(EventType::KeyReleasedEvent) && event_listener.KeyReleasedEvent)
             {
-                auto _event = *((KeyReleasedEvent*)(&event));
-                event_listener.KeyReleasedEvent(_event);
+                event_listener.KeyReleasedEvent(event.CastAs<KeyReleasedEvent>());
             }
         }
     }

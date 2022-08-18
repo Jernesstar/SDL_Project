@@ -54,6 +54,13 @@ void Start_Screen()
     scene.AddEntity(title_text);
     scene.AddEntity(message_text);
 
+    EventDispatcher::RegisterEventListener<WindowClosedEvent>(
+        [](WindowClosedEvent& event) {
+            std::cout << "Application closing\n";
+            Application::Close();
+        }
+    );
+
     bool running = true;
 
     while(running)
