@@ -1,9 +1,7 @@
-#include "Events.h"
-
-#include "Components.h"
-#include "Entity.h"
-
-#include "Input.h"
+#include "Saddle/Scene/Components.h"
+#include "Saddle/Scene/Entity.h"
+#include "Saddle/Events/Events.h"
+#include "Saddle/Core/Input.h"
 
 namespace Saddle {
 

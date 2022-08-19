@@ -3,7 +3,7 @@
 #include <SDL.h>
 #include <SDL_ttf.h>
 
-#include "Components.h"
+#include "Saddle/Scene/Components.h"
 
 namespace Saddle {
 class Font { 

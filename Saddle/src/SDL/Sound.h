@@ -2,9 +2,7 @@
 
 #include <iostream>
 
-#include <SDL_mixer.h>
-
-#include "Audio.h"
+#include "Saddle/Core/Audio.h"
 
 namespace Saddle {
 

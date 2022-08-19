@@ -1,6 +1,6 @@
-#include <Application.h>
-#include <Entity.h>
-#include <Systems.h>
+#include <Saddle/Core/Application.h>
+#include <Saddle/Scene/Entity.h>
+#include <Saddle/Systems/Systems.h>
 
 using namespace Saddle;
 

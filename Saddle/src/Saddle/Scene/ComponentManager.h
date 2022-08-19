@@ -5,7 +5,7 @@
 #include <utility>
 
 #include "Components.h"
-#include "Assert.h"
+#include "Saddle/Core/Assert.h"
 
 namespace Saddle {
 

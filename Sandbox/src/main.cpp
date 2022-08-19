@@ -1,8 +1,8 @@
-#include <Application.h>
-#include <Font.h>
-#include <Systems.h>
-#include <Input.h>
-#include <Events.h>
+#include <SDL/Font.h>
+#include <Saddle/Core/Application.h>
+#include <Saddle/Events/Events.h>
+#include <Saddle/Core/Input.h>
+#include <Saddle/Systems/Systems.h>
 
 #include "MusicDemo.h"
 

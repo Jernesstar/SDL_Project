@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Entity.h"
-#include "Components.h"
+#include "Saddle/Scene/Entity.h"
+#include "Saddle/Scene/Components.h"
 
 namespace Saddle {
 

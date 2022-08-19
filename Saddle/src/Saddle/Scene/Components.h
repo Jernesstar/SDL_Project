@@ -7,10 +7,10 @@
 #include <SDL.h>
 #include <SDL_ttf.h>
 
-#include "Audio.h"
-#include "Sound.h"
-#include "KeyEvents.h"
-#include "MouseEvents.h"
+#include "SDL/Sound.h"
+#include "Saddle/Core/Audio.h"
+#include "Saddle/Events/KeyEvents.h"
+#include "Saddle/Events/MouseEvents.h"
 
 namespace Saddle {
     

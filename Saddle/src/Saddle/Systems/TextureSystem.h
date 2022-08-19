@@ -1,11 +1,10 @@
 #pragma once
 
-#include "Application.h"
-#include "Entity.h"
-#include "Components.h"
-#include "Font.h"
-
-#include "Renderer.h"
+#include "SDL/Font.h"
+#include "Saddle/Core/Application.h"
+#include "Saddle/Scene/Components.h"
+#include "Saddle/Scene/Entity.h"
+#include "Saddle/Renderer/Renderer.h"
 
 namespace Saddle {
 

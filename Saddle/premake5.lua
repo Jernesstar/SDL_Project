@@ -13,17 +13,12 @@ project "Saddle"
 
     includedirs
     {
-        "%{wks.location}/%{prj.name}/src/Audio",
-        "%{wks.location}/%{prj.name}/src/Core",
-        "%{wks.location}/%{prj.name}/src/Events",
-        "%{wks.location}/%{prj.name}/src/Renderer",
-        "%{wks.location}/%{prj.name}/src/Scene",
-        "%{wks.location}/%{prj.name}/src/Systems",
+        "%{wks.location}/%{prj.name}/src",
 
-        "%{wks.location}/%{prj.name}/vendor/SDL2/include/SDL2",
-        "%{wks.location}/%{prj.name}/vendor/SDL2/include/SDL_image",
-        "%{wks.location}/%{prj.name}/vendor/SDL2/include/SDL_mixer",
-        "%{wks.location}/%{prj.name}/vendor/SDL2/include/SDL_ttf"
+        "%{wks.location}/Saddle/vendor/SDL2/include/SDL2",
+        "%{wks.location}/Saddle/vendor/SDL2/include/SDL_image",
+        "%{wks.location}/Saddle/vendor/SDL2/include/SDL_mixer",
+        "%{wks.location}/Saddle/vendor/SDL2/include/SDL_ttf"
     }
 
     libdirs

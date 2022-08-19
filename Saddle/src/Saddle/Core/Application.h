@@ -1,10 +1,10 @@
 #pragma once
 
 #include "Assert.h"
-#include "Audio.h"
-#include "Font.h"
-#include "Renderer.h"
 #include "Window.h"
+#include "SDL/Font.h"
+#include "Saddle/Core/Audio.h"
+#include "Saddle/Renderer/Renderer.h"
 
 namespace Saddle {
 

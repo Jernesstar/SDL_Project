@@ -13,14 +13,9 @@ project "Sandbox"
 
     includedirs
     {
-        "include",
+        "%{wks.location}/%{prj.name}/include",
 
-        "%{wks.location}/Saddle/src/Audio",
-        "%{wks.location}/Saddle/src/Core",
-        "%{wks.location}/Saddle/src/Events",
-        "%{wks.location}/Saddle/src/Renderer",
-        "%{wks.location}/Saddle/src/Scene",
-        "%{wks.location}/Saddle/src/Systems",
+        "%{wks.location}/Saddle/src",
 
         "%{wks.location}/Saddle/vendor/SDL2/include/SDL2",
         "%{wks.location}/Saddle/vendor/SDL2/include/SDL_image",
