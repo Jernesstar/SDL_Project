@@ -6,7 +6,6 @@
 namespace Saddle {
 
 class Coordinate2DSystem {
-
 public:
     void Translate(Entity& entity, int32_t delta_x, int32_t delta_y) 
     { 

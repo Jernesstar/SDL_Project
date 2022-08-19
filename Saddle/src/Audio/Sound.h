@@ -9,7 +9,6 @@
 namespace Saddle {
 
 class Sound {
-
 public:
     const std::string Path;
 

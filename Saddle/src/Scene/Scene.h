@@ -11,7 +11,6 @@ namespace Saddle {
 class Entity;
 
 class Scene {
-
 public:
     Scene();
     ~Scene();
@@ -28,7 +27,6 @@ public:
 private:
     std::vector<Entity*> entities;
     float m_LastFrameTime;
-
 };
 
 }

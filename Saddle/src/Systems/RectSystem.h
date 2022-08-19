@@ -6,7 +6,6 @@
 namespace Saddle {
 
 class RectSystem {
-
 public:
     void Scale(Entity& entity, int32_t scalar)
     {  

@@ -6,10 +6,9 @@
 #include "Components.h"
 
 namespace Saddle {
-class Font {
-    
+class Font { 
 public:
-    int Size;
+    const int Size;
 
 public:
     Font(const std::string& font_path, int size)
@@ -17,6 +16,7 @@ public:
     {
         m_Font = TTF_OpenFont(font_path.c_str(), size);
     }
+
     ~Font()
     {
         TTF_CloseFont(m_Font);
@@ -32,7 +32,6 @@ public:
 
 private:
     TTF_Font* m_Font;
-
 };
 
 }

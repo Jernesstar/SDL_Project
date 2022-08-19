@@ -10,7 +10,6 @@
 namespace Saddle {
 
 class ComponentManager {
-
 public:
     ComponentManager() : m_Components() { }
     ~ComponentManager() = default;
@@ -59,7 +58,6 @@ private:
     {
         return typeid(Component).hash_code();
     }
-
 };
 
 }

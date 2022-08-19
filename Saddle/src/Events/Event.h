@@ -30,7 +30,7 @@ struct Event {
 
     template<typename TEvent>
     TEvent& CastAs() { return *((TEvent*)(this)); }
-
+    
 protected:
     Event(EventCategory category, EventType type) : Category(category), Type(type) { }
 };

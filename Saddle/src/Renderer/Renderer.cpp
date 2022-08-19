@@ -3,10 +3,11 @@
 
 namespace Saddle {
 
+void Renderer::Init() { s_Renderer = Application::Get().GetWindow().GetRenderer(); }
+
 void Renderer::DrawTexture(SDL_Rect& rect, SDL_Texture* texture)
 {
-    auto renderer = Application::Get().GetWindow().GetRenderer();
-    SDL_RenderCopy(renderer, texture, nullptr, &rect);
+    SDL_RenderCopy(s_Renderer, texture, nullptr, &rect);
 }
 
 void Renderer::SetPixel(SDL_Surface* surface, int x, int y, SDL_Color color)
@@ -20,8 +21,7 @@ void Renderer::SetPixel(SDL_Surface* surface, int x, int y, SDL_Color color)
 
 void Renderer::Render()
 {
-    auto renderer = Application::Get().GetWindow().GetRenderer();
-    SDL_RenderPresent(renderer);
+    SDL_RenderPresent(s_Renderer);
 }
 
 }

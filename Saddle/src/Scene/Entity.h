@@ -6,7 +6,6 @@
 namespace Saddle {
 
 class Entity {
-
 public:
     Entity();
     Entity(Scene& scene);
@@ -41,7 +40,6 @@ public:
 private:
     ComponentManager m_Components;
     Scene* m_Scene = nullptr;
-
 };
 
 }

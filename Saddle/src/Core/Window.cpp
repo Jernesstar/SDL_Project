@@ -18,12 +18,7 @@ Window::~Window()
     SDL_DestroyWindow(m_Window);
 }
 
-void Window::HandleEvent(SDL_Event& event)
-{
-    
-}
-
-SDL_Window* Window::GetWindow()
+SDL_Window* Window::GetNativeWindow()
 {
     return m_Window;
 }

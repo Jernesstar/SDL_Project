@@ -8,7 +8,6 @@
 namespace Saddle {
 
 class EventListenerSystem {
-
 public:
     static void OnEvent(Entity& entity, Event& event)
     {
@@ -50,7 +49,6 @@ public:
             }
         }
     }
-
 };
 
 }

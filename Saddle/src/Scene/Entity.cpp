@@ -11,5 +11,4 @@ std::vector<Entity*> Entity::QueryScene(std::function<bool(const Entity& entity)
     return m_Scene->Query(predicate);
 }
 
-
 }

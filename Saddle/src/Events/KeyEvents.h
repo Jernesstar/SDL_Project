@@ -6,7 +6,6 @@
 namespace Saddle {
 
 class KeyEvent : public Event {
-
 public:
     const KeyCode Key;
 
@@ -15,7 +14,6 @@ protected:
 };
 
 class KeyPressedEvent : public KeyEvent {
-
 public:
     bool IsRepeat = false;
     
@@ -24,7 +22,6 @@ public:
 };
 
 class KeyReleasedEvent : public KeyEvent {
-
 public:
     KeyReleasedEvent(KeyCode key) : KeyEvent(key, EventType::KeyReleasedEvent) { }
 };

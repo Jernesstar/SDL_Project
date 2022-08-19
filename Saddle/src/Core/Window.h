@@ -8,21 +8,15 @@
 namespace Saddle {
 
 struct WindowSpecification {
-
     const std::string Title;
     int Width, Height;
     Uint32 Flags;
 
     WindowSpecification(const std::string& title = "Window", int width = 1200, int height = 640, Uint32 flags = 0)
-        : Title(title), Width(width), Height(height), Flags(flags) 
-    {
-
-    }
-
+        : Title(title), Width(width), Height(height), Flags(flags) { }
 };
 
 class Window {
-
 public:
     int Width, Height;
 
@@ -31,15 +25,12 @@ public:
     Window(const WindowSpecification& specs = WindowSpecification());
     ~Window();
 
-    void HandleEvent(SDL_Event& event);
-
-    SDL_Window* GetWindow();
+    SDL_Window* GetNativeWindow();
     SDL_Renderer* GetRenderer();
 
 private:
     SDL_Window* m_Window;
     SDL_Renderer* m_Renderer;
-
 };
 
 }

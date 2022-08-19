@@ -24,13 +24,17 @@ public:
     {
         std::vector<std::string> _args{ args... };
         
-        std::cout << message << " ";
+        std::cout << "[Error]: " << message << " ";
         for(int i = 0; i < _args.size(); i++)
         {
             std::cout << _args[i] << " ";
         }
         std::cout << "\n";
     }
+
+private:
+    Log() = delete;
+    ~Log() = delete; 
 };
 
 }

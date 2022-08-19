@@ -5,7 +5,6 @@
 namespace Saddle {
 
 class TimeStep {
-
 public:
     TimeStep(float time = 0.0f) : m_Time(time) { }
 
@@ -19,7 +18,6 @@ public:
 
 private:
     float m_Time;
-
 };
 
 }

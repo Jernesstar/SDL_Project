@@ -1,14 +1,14 @@
 #pragma once
 
-#include "Window.h"
+#include "Assert.h"
 #include "Audio.h"
 #include "Font.h"
-#include "Assert.h"
+#include "Renderer.h"
+#include "Window.h"
 
 namespace Saddle {
 
 struct ApplicationSpecification {
-
     std::string AppName;
     Uint32 SDL_Init_Flags;
     Uint32 IMG_Init_Flags;
@@ -25,14 +25,15 @@ struct ApplicationSpecification {
 };
 
 class Application {
-
 public:
     ~Application();
+
     static void Init(const ApplicationSpecification& specification = ApplicationSpecification());
     static void Close();
-    static Application& Get();
 
+    static Application& Get();
     virtual Window& GetWindow();
+
     virtual void Run();
 
 private:
@@ -40,11 +41,10 @@ private:
 
 protected:
     Saddle::Window m_Window;
-    ApplicationSpecification s_Specification;
+    const ApplicationSpecification s_Specification;
 
 protected:
     Application(const ApplicationSpecification& specs = ApplicationSpecification());
-
 };
     
 }

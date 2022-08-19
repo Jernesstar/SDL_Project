@@ -24,7 +24,7 @@ struct MouseButtonEvent : public Event {
     const MouseCode MouseButton;
 
 protected:
-    MouseButtonEvent(MouseCode button, EventType type)
+    MouseButtonEvent(MouseCode button, EventType type) 
         : Event(EventCategory::MouseEvent, type), MouseButton(button) { }
 };
 

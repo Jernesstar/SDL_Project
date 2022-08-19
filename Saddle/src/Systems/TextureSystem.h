@@ -10,7 +10,6 @@
 namespace Saddle {
 
 class TextureSystem {
-
 public:
     static void CreateText(Entity& entity, const std::string& text, Font& font)
     {
@@ -51,7 +50,7 @@ public:
 
         SDL_Surface* surface = SDL_CreateRGBSurface(flags, 2 * _radius, 2 * _radius, depth, 0, 0, 0, 0);
         SDL_Color _color = {color.r, color.g, color.b};
-
+        
         int dx, dy;
         SDL_LockSurface(surface);
         for(int w = 0; w < surface->w; w++)

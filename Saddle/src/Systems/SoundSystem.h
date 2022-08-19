@@ -6,7 +6,6 @@
 namespace Saddle {
 
 class SoundSystem {
-
 public:
     static void PlaySound(Entity& entity, int loops = 0, int channel = -1)
     {

@@ -1,5 +1,7 @@
 #include "Audio.h"
 
+namespace Saddle {
+
 void Audio::Init(AudioSpecification specs)
 {
     Mix_OpenAudio(specs.Frequency, specs.Format, specs.ChannelCount, specs.ChunckSize);
@@ -30,4 +32,6 @@ void Audio::DecreaseChannelVolume(int channel, Uint8 delta)
         m_Channels[channel] = AUDIO_MAX_VOLUME;
 
     SetChannelVolume(channel, m_Channels[channel] - delta);
+}
+
 }

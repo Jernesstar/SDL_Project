@@ -2,9 +2,7 @@
 
 namespace Saddle {
 
-Sound::Sound(const std::string& path)
-    : Path(path) { m_Sound = Mix_LoadWAV(path.c_str()); }
-
+Sound::Sound(const std::string& path) : Path(path) { m_Sound = Mix_LoadWAV(path.c_str()); }
 Sound::~Sound() { if(m_Sound) Mix_FreeChunk(m_Sound); }
 
 void Sound::Play(int loops, int channel) { Mix_PlayChannel(channel, m_Sound, loops); }
