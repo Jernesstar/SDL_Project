@@ -11,6 +11,7 @@
 #include "Saddle/Core/Audio.h"
 #include "Saddle/Events/KeyEvents.h"
 #include "Saddle/Events/MouseEvents.h"
+#include "Saddle/Events/ApplicationEvents.h"
 
 namespace Saddle {
     
@@ -28,12 +29,14 @@ struct Coordinate2DComponent : public IComponent {
 };
 
 struct EventListenerComponent : public IComponent {
-    std::function<void(KeyPressedEvent& event)> KeyPressedEvent;
-    std::function<void(KeyReleasedEvent& event)> KeyReleasedEvent;
-    std::function<void(MouseMovedEvent& event)> MouseMovedEvent;
-    std::function<void(MouseScrolledEvent& event)> MouseScrolledEvent;
-    std::function<void(MouseButtonPressedEvent& event)> MouseButtonPressedEvent;
-    std::function<void(MouseButtonReleasedEvent& event)> MouseButtonReleasedEvent;
+    std::function<void(KeyPressedEvent& event)> OnKeyPressed;
+    std::function<void(KeyReleasedEvent& event)> OnKeyReleased;
+    std::function<void(MouseMovedEvent& event)> OnMouseMoved;
+    std::function<void(MouseScrolledEvent& event)> OnMouseScrolled;
+    std::function<void(MouseButtonPressedEvent& event)> OnMouseButtonPressed;
+    std::function<void(MouseButtonReleasedEvent& event)> OnMouseButtonReleased;
+    std::function<void(WindowResizedEvent& event)> OnWindowResized;
+    std::function<void(WindowClosedEvent& event)> OnWindowClosed;
 
     EventListenerComponent() = default;
     EventListenerComponent(const EventListenerComponent& other) = default;

@@ -20,14 +20,25 @@ void Start_Screen()
     Entity title_text;
     Entity message_text;
 
-    title_text.AddComponent<SoundComponent>("Sandbox/assets/Kick-Drum.wav");
-
-    title_text.AddComponent<EventListenerComponent>()
-    .MouseButtonPressedEvent = [&title_text](MouseButtonPressedEvent& event) {
-        std::cout << "Title Text was clicked. Playing sound\n";
-        title_text.GetComponent<SoundComponent>().Sound.Play();
+    auto& event_listener1 = title_text.AddComponent<EventListenerComponent>();
+    event_listener1.OnWindowResized = [&title_text](WindowResizedEvent& event) {
+        auto& [x, y] = title_text.GetComponent<Coordinate2DComponent>();
+        auto width = title_text.GetComponent<RectComponent>().Width;
+        x = 0.5 * (SCREEN_WIDTH - width);
+        y = 0.5 * SCREEN_HEIGHT - 150;
     };
-    
+
+    auto& event_listener2 = message_text.AddComponent<EventListenerComponent>();
+    event_listener2.OnWindowResized = [&message_text](WindowResizedEvent& event) {
+        auto& [x, y] = message_text.GetComponent<Coordinate2DComponent>();
+        auto width = message_text.GetComponent<RectComponent>().Width;
+        x = 0.5 * (SCREEN_WIDTH - width);
+        y = 0.5 * SCREEN_HEIGHT;
+    };
+
+    title_text.AddComponent<SoundComponent>("Sandbox/assets/Kick-Drum.wav");
+    message_text.AddComponent<SoundComponent>("Sandbox/assets/Snare-Drum.wav");
+
     title_text.AddComponent<TextureComponent>();
     title_text.AddComponent<RectComponent>();
     title_text.AddComponent<RGBColorComponent>(255, 255, 255);
@@ -54,28 +65,15 @@ void Start_Screen()
     scene.AddEntity(title_text);
     scene.AddEntity(message_text);
 
-    EventDispatcher::RegisterEventListener<WindowClosedEvent>(
-        [](WindowClosedEvent& event) {
-            std::cout << "Application closing\n";
-            Application::Close();
+    EventDispatcher::RegisterEventListener<MouseMovedEvent>(
+        [](MouseMovedEvent& event) {
+            std::cout << "Mouse moved to: " << "[X: " << event.x << "], [Delta Y: " << event.y << "]\n";
         }
     );
 
-    EventDispatcher::RegisterEventListener<WindowResizedEvent>(
-        [&title_text, &message_text](WindowResizedEvent& event) {
-            std::cout << "New width: " << event.Width << ", New height: " << event.Height << "\n";
-            SCREEN_WIDTH = event.Width;
-            SCREEN_HEIGHT = event.Height;
-
-            auto& [x1, y1] = title_text.GetComponent<Coordinate2DComponent>();
-            auto width1 = title_text.GetComponent<RectComponent>().Width;
-            x1 = 0.5 * (SCREEN_WIDTH - width1);
-            y1 = 0.5 * SCREEN_HEIGHT - 150;
-
-            auto& [x2, y2] = message_text.GetComponent<Coordinate2DComponent>();
-            auto width2 = message_text.GetComponent<RectComponent>().Width;
-            x2 = 0.5 * (SCREEN_WIDTH - width2);
-            y2 = 0.5 * SCREEN_HEIGHT;
+    EventDispatcher::RegisterEventListener<MouseScrolledEvent>(
+        [](MouseScrolledEvent& event) {
+            std::cout << "Mouse scrolled by: " << "[X: " << event.DeltaScrollX << "], [Y: " << event.DeltaScrollY << "]\n"; 
         }
     );
 

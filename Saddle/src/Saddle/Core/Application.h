@@ -2,9 +2,7 @@
 
 #include "Assert.h"
 #include "Window.h"
-#include "SDL/Font.h"
 #include "Saddle/Core/Audio.h"
-#include "Saddle/Renderer/Renderer.h"
 
 namespace Saddle {
 

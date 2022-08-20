@@ -1,4 +1,8 @@
 #include "Application.h"
+#include "SDL/Font.h"
+#include "Saddle/Events/ApplicationEvents.h"
+#include "Saddle/Events/EventDispatcher.h"
+#include "Saddle/Renderer/Renderer.h"
 
 namespace Saddle {
 
@@ -9,6 +13,12 @@ Application::Application(const ApplicationSpecification& specs)
     
     s_Instance = this;
     Renderer::Init();
+
+    EventDispatcher::RegisterEventListener<WindowClosedEvent>(
+        [](WindowClosedEvent& event) {
+            Application::Close();
+        }
+    );
 }
 
 Application::~Application() { }

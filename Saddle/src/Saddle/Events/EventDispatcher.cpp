@@ -29,12 +29,12 @@ void EventDispatcher::DispatchEvents()
         }
         if(SDL_event.type == SDL_MOUSEBUTTONDOWN)
         {
-            MouseButtonPressedEvent event((MouseCode)SDL_event.button.button);
+            MouseButtonPressedEvent event((MouseCode)SDL_event.button.button, SDL_event.button.x, SDL_event.button.y);
             Dispatch<MouseButtonPressedEvent>(mouse_button_pressed_event_callbacks, event);
         }
         if(SDL_event.type == SDL_MOUSEBUTTONUP)
         {
-            MouseButtonReleasedEvent event((MouseCode)SDL_event.button.button);
+            MouseButtonReleasedEvent event((MouseCode)SDL_event.button.button, SDL_event.button.x, SDL_event.button.y);
             Dispatch<MouseButtonReleasedEvent>(mouse_button_released_event_callbacks, event);
         }
         if(SDL_event.type == SDL_WINDOWEVENT)
@@ -101,5 +101,20 @@ void EventDispatcher::RegisterEventListener<WindowClosedEvent>(std::function<voi
 {
     window_closed_event_callbacks.push_back(event_callback);
 }
+
+template<>
+void EventDispatcher::RegisterEventListener<Event>(std::function<void(Event&)> event_callback)
+{
+    key_pressed_event_callbacks.push_back(event_callback);
+    key_pressed_event_callbacks.push_back(event_callback);
+    key_released_event_callbacks.push_back(event_callback);
+    mouse_moved_event_callbacks.push_back(event_callback);
+    mouse_scrolled_event_callbacks.push_back(event_callback);
+    mouse_button_pressed_event_callbacks.push_back(event_callback);
+    mouse_button_released_event_callbacks.push_back(event_callback);
+    window_resized_event_callbacks.push_back(event_callback);
+    window_closed_event_callbacks.push_back(event_callback);
+}
+
 
 }
