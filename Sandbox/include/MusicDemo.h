@@ -8,11 +8,10 @@ class MusicBlock : public Entity {
 
 public:
     MusicBlock(const std::string& sound_path, int width, int height)
-        : m_Width(width), m_Height(height)
+        : m_Sound(sound_path), m_Width(width), m_Height(height)
     {
         AddComponent<TextureComponent>();
         AddComponent<RGBColorComponent>(255, 255, 255);
-        AddComponent<SoundComponent>(sound_path);
 
         TextureSystem::CreateRectangle(*this, width, height);
     }
@@ -20,12 +19,12 @@ public:
 
     void Play()
     {
-        SoundSystem::PlaySound(*this);
+        m_Sound.Play();
     }
 
 private:
-    int m_Width;
-    int m_Height;
+    int m_Width, m_Height;
+    Sound m_Sound;
 };
 
 class MusicDemo {

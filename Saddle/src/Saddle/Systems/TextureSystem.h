@@ -18,7 +18,7 @@ public:
         auto renderer = Application::Get().GetWindow().GetRenderer();
 
         SDL_Surface* text_surface = font.GetSurfaceFromText(text, color_component);
-        texture_component.texture = SDL_CreateTextureFromSurface(renderer, text_surface);
+        texture_component.texture.m_Texture = SDL_CreateTextureFromSurface(renderer, text_surface);
         SDL_FreeSurface(text_surface);
 
         auto clip_rect = text_surface->clip_rect;
@@ -34,7 +34,7 @@ public:
 
         SDL_Surface* surface = SDL_CreateRGBSurface(0, width, height, depth, r_mask, g_mask, b_mask, a_mask);
         SDL_FillRect(surface, NULL, SDL_MapRGB(surface->format, color.r, color.g, color.b));
-        texture_component.texture = SDL_CreateTextureFromSurface(renderer, surface);
+        texture_component.texture.m_Texture = SDL_CreateTextureFromSurface(renderer, surface);
     }
 
     static void CreateCircle(Entity& entity, int radius)
@@ -66,7 +66,7 @@ public:
         }
         SDL_UnlockSurface(surface);
 
-        texture_component.texture = SDL_CreateTextureFromSurface(renderer, surface);
+        texture_component.texture.m_Texture = SDL_CreateTextureFromSurface(renderer, surface);
         SDL_FreeSurface(surface);
     }
 };

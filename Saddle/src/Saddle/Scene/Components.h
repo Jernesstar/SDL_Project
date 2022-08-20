@@ -7,7 +7,10 @@
 #include <SDL.h>
 #include <SDL_ttf.h>
 
+#include "SDL/Coordinate2D.h"
+#include "SDL/Rect.h"
 #include "SDL/Sound.h"
+#include "SDL/Texture2D.h"
 #include "Saddle/Core/Audio.h"
 #include "Saddle/Events/KeyEvents.h"
 #include "Saddle/Events/MouseEvents.h"
@@ -22,10 +25,9 @@ protected:
 };
 
 struct Coordinate2DComponent : public IComponent {
-    Uint32 x, y;
+    Coordinate2D Coordinate2D;
 
-    Coordinate2DComponent(int x = 0, int y = 0) : x(x), y(y) { }
-    Coordinate2DComponent(const Coordinate2DComponent& other) : x(other.x), y(other.y) { }
+    Coordinate2DComponent(int x = 0, int y = 0) : Coordinate2D(x, y) { }
 };
 
 struct EventListenerComponent : public IComponent {
@@ -57,10 +59,9 @@ struct PhysicsBodyComponent : public IComponent {
 };
 
 struct RectComponent : public IComponent {
-    Uint32 Width, Height;  
+    Rect Rect;
 
-    RectComponent(Uint32 w = 1, Uint32 h = 1) : Width(w), Height(h) { }
-    RectComponent(const RectComponent& other) : Width(other.Width), Height(other.Height) { }
+    RectComponent(int width, int height) : Rect(width, height) { }
 };
 
 struct RGBColorComponent : public IComponent {
@@ -78,10 +79,10 @@ struct SoundComponent : public IComponent {
 };
 
 struct TextureComponent : public IComponent {
-    SDL_Texture* texture;
+    Texture2D texture;
 
     TextureComponent() = default;
-    ~TextureComponent() { if(texture) SDL_DestroyTexture(texture); }
+    ~TextureComponent() = default;
 };
 
 }

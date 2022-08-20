@@ -5,9 +5,10 @@ namespace Saddle {
 
 void Renderer::Init() { s_Renderer = Application::Get().GetWindow().GetRenderer(); }
 
-void Renderer::DrawTexture(SDL_Rect& rect, SDL_Texture* texture)
+void Renderer::DrawTexture(Texture2D texture, Coordinate2D coordinate, Rect rect)
 {
-    SDL_RenderCopy(s_Renderer, texture, nullptr, &rect);
+    SDL_Rect SDL_rect = { (int)coordinate.x, (int)coordinate.y, (int)rect.Width, (int)rect.Height };
+    SDL_RenderCopy(s_Renderer, texture.m_Texture, nullptr, &SDL_rect);
 }
 
 void Renderer::SetPixel(SDL_Surface* surface, int x, int y, SDL_Color color)

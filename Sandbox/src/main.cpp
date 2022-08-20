@@ -1,4 +1,5 @@
 #include <SDL/Font.h>
+#include <SDL/Texture2D.h>
 #include <Saddle/Core/Application.h>
 #include <Saddle/Events/Events.h>
 #include <Saddle/Core/Input.h>
@@ -81,7 +82,7 @@ void Start_Screen()
 
     while(running)
     {
-        if(Input::AreKeysPressed(Key::Ctrl, Key::Alt, Key::Shift, Key::E))
+        if(Input::IsKeyPressed(Key::E))
             running = false;
 
         EventDispatcher::DispatchEvents();

@@ -28,11 +28,10 @@ void Scene::OnSceneRender()
         Entity& entity = *entities.at(i);
         if(entity.HasComponent<TextureComponent>())
         {
-            auto& rect_component = entity.GetComponent<RectComponent>();
-            auto& coordinate = entity.GetComponent<Coordinate2DComponent>();
-            auto& texture = entity.GetComponent<TextureComponent>();
-            SDL_Rect rect = { (int)coordinate.x, (int)coordinate.y, (int)rect_component.Width, (int)rect_component.Height };
-            Renderer::DrawTexture(rect, texture.texture);
+            auto& coordinate = entity.GetComponent<Coordinate2DComponent>().Coordinate2D;
+            auto& rect = entity.GetComponent<RectComponent>().Rect;
+            auto& texture = entity.GetComponent<TextureComponent>().texture;
+            Renderer::DrawTexture(texture, coordinate, rect);
         }
     }
     Renderer::Render();
