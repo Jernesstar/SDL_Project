@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Assert.h"
 #include "Window.h"
 #include "Saddle/Core/Audio.h"
 
@@ -38,11 +37,11 @@ private:
     inline static Application* s_Instance;
 
 protected:
+    inline static ApplicationSpecification* s_Specification;
     Saddle::Window m_Window;
-    const ApplicationSpecification s_Specification;
 
 protected:
-    Application(const ApplicationSpecification& specs = ApplicationSpecification());
+    Application();
 };
     
 }

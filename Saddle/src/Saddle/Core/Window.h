@@ -13,7 +13,7 @@ struct WindowSpecification {
     Uint32 Flags;
 
     WindowSpecification(const std::string& title = "Window", int width = 1200, int height = 640, Uint32 flags = 0)
-        : Title(title), Width(width), Height(height), Flags(flags) { }
+        : Title(title), Width(width), Height(height), Flags(flags) { }  
 };
 
 class Window {

@@ -7,8 +7,6 @@
 #include <SDL.h>
 #include <SDL_ttf.h>
 
-#include "SDL/Coordinate2D.h"
-#include "SDL/Rect.h"
 #include "SDL/Sound.h"
 #include "SDL/Texture2D.h"
 #include "Saddle/Core/Audio.h"
@@ -25,9 +23,9 @@ protected:
 };
 
 struct Coordinate2DComponent : public IComponent {
-    Coordinate2D Coordinate2D;
+    int x, y;
 
-    Coordinate2DComponent(int x = 0, int y = 0) : Coordinate2D(x, y) { }
+    Coordinate2DComponent(int x = 0, int y = 0) : x(x), y(y) { }
 };
 
 struct EventListenerComponent : public IComponent {
@@ -59,9 +57,9 @@ struct PhysicsBodyComponent : public IComponent {
 };
 
 struct RectComponent : public IComponent {
-    Rect Rect;
+    int Width, Height;
 
-    RectComponent(int width, int height) : Rect(width, height) { }
+    RectComponent(int width = 1, int height = 1) : Width(width), Height(height) { }
 };
 
 struct RGBColorComponent : public IComponent {
@@ -79,7 +77,7 @@ struct SoundComponent : public IComponent {
 };
 
 struct TextureComponent : public IComponent {
-    Texture2D texture;
+    Texture2D Texture;
 
     TextureComponent() = default;
     ~TextureComponent() = default;

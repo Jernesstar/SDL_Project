@@ -20,26 +20,7 @@ void Start_Screen()
     Scene scene;
     Entity title_text;
     Entity message_text;
-
-    auto& event_listener1 = title_text.AddComponent<EventListenerComponent>();
-    event_listener1.OnWindowResized = [&title_text](WindowResizedEvent& event) {
-        auto& [x, y] = title_text.GetComponent<Coordinate2DComponent>();
-        auto width = title_text.GetComponent<RectComponent>().Width;
-        x = 0.5 * (SCREEN_WIDTH - width);
-        y = 0.5 * SCREEN_HEIGHT - 150;
-    };
-
-    auto& event_listener2 = message_text.AddComponent<EventListenerComponent>();
-    event_listener2.OnWindowResized = [&message_text](WindowResizedEvent& event) {
-        auto& [x, y] = message_text.GetComponent<Coordinate2DComponent>();
-        auto width = message_text.GetComponent<RectComponent>().Width;
-        x = 0.5 * (SCREEN_WIDTH - width);
-        y = 0.5 * SCREEN_HEIGHT;
-    };
-
-    title_text.AddComponent<SoundComponent>("Sandbox/assets/Kick-Drum.wav");
-    message_text.AddComponent<SoundComponent>("Sandbox/assets/Snare-Drum.wav");
-
+    
     title_text.AddComponent<TextureComponent>();
     title_text.AddComponent<RectComponent>();
     title_text.AddComponent<RGBColorComponent>(255, 255, 255);
@@ -66,24 +47,11 @@ void Start_Screen()
     scene.AddEntity(title_text);
     scene.AddEntity(message_text);
 
-    EventDispatcher::RegisterEventListener<MouseMovedEvent>(
-        [](MouseMovedEvent& event) {
-            std::cout << "Mouse moved to: " << "[X: " << event.x << "], [Delta Y: " << event.y << "]\n";
-        }
-    );
-
-    EventDispatcher::RegisterEventListener<MouseScrolledEvent>(
-        [](MouseScrolledEvent& event) {
-            std::cout << "Mouse scrolled by: " << "[X: " << event.DeltaScrollX << "], [Y: " << event.DeltaScrollY << "]\n"; 
-        }
-    );
-
     bool running = true;
 
     while(running)
     {
-        if(Input::IsKeyPressed(Key::E))
-            running = false;
+        if(Input::IsKeyPressed(Key::E)) running = false;
 
         EventDispatcher::DispatchEvents();
 
@@ -95,14 +63,14 @@ void Start_Screen()
 class App : public Application {
 
 public:
-    App(const ApplicationSpecification& specs = ApplicationSpecification()) : Application(specs) { }
+    App() : Application() { }
     ~App() { }
 
     void Run()
     {
         Start_Screen();
-        MusicDemo demo;
-        demo.Run();
+        // MusicDemo demo;
+        // demo.Run();
     }
 
 };
@@ -114,7 +82,7 @@ int main(int argc, char** argv)
 
     Application::Init(app_specs);
 
-    App app(app_specs);
+    App app;
     app.Run();
 
     Application::Close();

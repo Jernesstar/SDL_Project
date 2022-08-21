@@ -17,21 +17,21 @@ void Scene::OnUpdate()
     
     for(int i = 0; i < entities.size(); i++)
     {
-        Entity& entity = *entities.at(i);
+        // Entity& entity = *entities.at(i);
     }
 }
 
 void Scene::OnSceneRender()
 {
+    Renderer::Clear();
     for(int i = 0; i < entities.size(); i++)
     {
         Entity& entity = *entities.at(i);
         if(entity.HasComponent<TextureComponent>())
-        {
-            auto& coordinate = entity.GetComponent<Coordinate2DComponent>().Coordinate2D;
-            auto& rect = entity.GetComponent<RectComponent>().Rect;
-            auto& texture = entity.GetComponent<TextureComponent>().texture;
-            Renderer::DrawTexture(texture, coordinate, rect);
+        { 
+            Coordinate2D coordinate = entity.GetComponent<Coordinate2DComponent>();
+            Texture2D& texture = entity.GetComponent<TextureComponent>().Texture;
+            Renderer::DrawTexture(texture, coordinate);
         }
     }
     Renderer::Render();

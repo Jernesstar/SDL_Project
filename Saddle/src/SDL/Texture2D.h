@@ -13,7 +13,7 @@ public:
 
 private:
     int m_Width, m_Height;
-    SDL_Texture* m_Texture;
+    SDL_Texture* m_Texture = nullptr;
 
     friend class Renderer;
     friend class TextureSystem;

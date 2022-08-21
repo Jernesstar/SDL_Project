@@ -1,13 +1,18 @@
 #include "Renderer.h"
+#include "Saddle/Core/Assert.h"
 #include "Saddle/Core/Application.h"
 
 namespace Saddle {
 
 void Renderer::Init() { s_Renderer = Application::Get().GetWindow().GetRenderer(); }
 
-void Renderer::DrawTexture(Texture2D texture, Coordinate2D coordinate, Rect rect)
+void Renderer::Clear() { SDL_RenderClear(s_Renderer); }
+
+void Renderer::DrawTexture(Texture2D& texture, Coordinate2D& coordinate)
 {
-    SDL_Rect SDL_rect = { (int)coordinate.x, (int)coordinate.y, (int)rect.Width, (int)rect.Height };
+    SADDLE_CORE_ASSERT(texture.m_Texture != nullptr, "Texture is invalid");
+    
+    SDL_Rect SDL_rect = { coordinate.x, coordinate.y, texture.m_Width, texture.m_Height };
     SDL_RenderCopy(s_Renderer, texture.m_Texture, nullptr, &SDL_rect);
 }
 

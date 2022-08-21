@@ -7,6 +7,8 @@ void Audio::Init(AudioSpecification specs)
     Mix_OpenAudio(specs.Frequency, specs.Format, specs.ChannelCount, specs.ChunckSize);
 }
 
+void Audio::Shutdown() { Mix_CloseAudio(); }
+
 void Audio::SetChannelVolume(int channel, Uint8 volume)
 {
     m_Channels[channel] = volume;
