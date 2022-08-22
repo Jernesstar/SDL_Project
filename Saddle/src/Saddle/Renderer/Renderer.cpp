@@ -8,11 +8,12 @@ void Renderer::Init() { s_Renderer = Application::Get().GetWindow().GetRenderer(
 
 void Renderer::Clear() { SDL_RenderClear(s_Renderer); }
 
-void Renderer::DrawTexture(Texture2D& texture, Coordinate2D& coordinate)
+void Renderer::DrawTexture(Texture2D& texture, Coordinate2D coordinate)
 {
     SADDLE_CORE_ASSERT(texture.m_Texture != nullptr, "Texture is invalid");
-    
+
     SDL_Rect SDL_rect = { coordinate.x, coordinate.y, texture.Width, texture.Height };
+    // Note: Maybe switch to SDL_RenderCopyF for floating-point precision rendering
     SDL_RenderCopy(s_Renderer, texture.m_Texture, nullptr, &SDL_rect);
 }
 

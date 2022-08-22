@@ -1,7 +1,7 @@
 #include "Application.h"
 
 #include "Assert.h"
-#include "Image.h"
+#include "SDL/Image.h"
 #include "SDL/Font.h"
 #include "Saddle/Events/ApplicationEvents.h"
 #include "Saddle/Events/EventDispatcher.h"

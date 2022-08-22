@@ -3,7 +3,7 @@
 #include <SDL.h>
 #include <SDL_image.h>
 
-#include "Application.h"
+#include "Saddle/Core/Application.h"
 
 namespace Saddle {
 
@@ -13,10 +13,10 @@ void Image::Shutdown() { IMG_Quit(); }
 Texture2D Image::Load(const std::string& file_path)
 {
     auto renderer = Application::Get().GetWindow().GetRenderer();
-    SDL_Texture* SDL_texture = IMG_LoadTexture(renderer, file_path.c_str());
-    Texture2D texture;
-    texture.m_Texture = SDL_texture;
+    SDL_Surface* surface = IMG_Load(file_path.c_str());
 
+    Texture2D texture(surface);
+    SDL_FreeSurface(surface);
     return texture;
 }
 

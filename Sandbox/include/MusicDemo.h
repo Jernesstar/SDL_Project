@@ -4,7 +4,7 @@
 #include <Saddle/Systems/Systems.h>
 
 using namespace Saddle;
-
+    
 class MusicBlock : public Entity {
 public:
     MusicBlock(const std::string& sound_path, int width, int height, int r = 255, int g = 255, int b = 255)

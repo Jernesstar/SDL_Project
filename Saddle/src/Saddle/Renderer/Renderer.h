@@ -12,7 +12,7 @@ class Renderer {
 public:
     static void Init();
     static void Clear();
-    static void DrawTexture(Texture2D& texture, Coordinate2D& coordinate);
+    static void DrawTexture(Texture2D& texture, Coordinate2D coordinate);
     static void Render();
     static void SetPixel(SDL_Surface* surface, int x, int y, SDL_Color color);
 

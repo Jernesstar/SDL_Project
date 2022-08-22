@@ -20,7 +20,7 @@ bool Start_Screen()
     Scene scene;
     Entity title_text;
     Entity message_text;
-    
+
     title_text.AddComponent<TextureComponent>();
     title_text.AddComponent<RectComponent>();
     title_text.AddComponent<RGBColorComponent>(255, 255, 255);
@@ -79,7 +79,8 @@ public:
 int main(int argc, char** argv)
 {
     WindowSpecification window_specs("Sandbox", 1200, 640, SDL_WINDOW_RESIZABLE);
-    ApplicationSpecification app_specs("Sandbox", SDL_INIT_EVERYTHING, window_specs);
+    ApplicationSpecification app_specs("Sandbox", SDL_INIT_EVENTS | SDL_INIT_VIDEO, 
+        IMG_INIT_JPG | IMG_INIT_PNG | IMG_INIT_TIF | IMG_INIT_WEBP, window_specs);
 
     Application::Init(app_specs);
 

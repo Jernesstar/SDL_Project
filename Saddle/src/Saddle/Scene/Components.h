@@ -9,7 +9,7 @@
 
 #include "SDL/Sound.h"
 #include "SDL/Texture2D.h"
-#include "Saddle/Core/Audio.h"
+#include "SDL/Audio.h"
 #include "Saddle/Events/KeyEvents.h"
 #include "Saddle/Events/MouseEvents.h"
 #include "Saddle/Events/ApplicationEvents.h"
