@@ -1,6 +1,7 @@
 #include "Application.h"
 
 #include "Assert.h"
+#include "Image.h"
 #include "SDL/Font.h"
 #include "Saddle/Events/ApplicationEvents.h"
 #include "Saddle/Events/EventDispatcher.h"
@@ -15,12 +16,6 @@ Application::Application()
     
     s_Instance = this;
     Renderer::Init();
-
-    EventDispatcher::RegisterEventListener<WindowClosedEvent>(
-        [](WindowClosedEvent& event) {
-            Application::Close();
-        }
-    );
 }
 
 Application::~Application() { }
@@ -32,10 +27,16 @@ void Application::Init(const ApplicationSpecification& specs)
     s_Specification = (ApplicationSpecification*)(&specs);
     
     SDL_Init(specs.SDL_Init_Flags);
-    IMG_Init(specs.IMG_Init_Flags);
     TTF_Init();
 
+    Image::Init(specs.IMG_Init_Flags);
     Audio::Init(specs.Audio_Specification);
+
+    EventDispatcher::RegisterEventListener<WindowClosedEvent>(
+        [](WindowClosedEvent& event) {
+            Application::Close();
+        }
+    );
 }
 
 void Application::Close()
@@ -43,9 +44,9 @@ void Application::Close()
     delete s_Instance;
 
     Audio::Shutdown();
+    Image::Shutdown();
     
     TTF_Quit();
-    IMG_Quit();
     SDL_Quit();
 
     exit(0);

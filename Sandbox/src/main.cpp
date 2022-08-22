@@ -12,7 +12,7 @@ using namespace Saddle;
 #define SCREEN_WIDTH Application::Get().GetWindow().Width
 #define SCREEN_HEIGHT Application::Get().GetWindow().Height
 
-void Start_Screen()
+bool Start_Screen()
 {
     std::string title = "Music Demo";
     std::string message = "Press any key to continue";
@@ -28,7 +28,7 @@ void Start_Screen()
     message_text.AddComponent<RectComponent>();
     message_text.AddComponent<RGBColorComponent>(255, 255, 255);
 
-    std::string font_path = "Sandbox/assets/pixel_font.ttf";
+    std::string font_path = "Sandbox/assets/fonts/pixel_font.ttf";
     Font title_font(font_path, 100);
     Font message_font(font_path, 50);
 
@@ -48,43 +48,44 @@ void Start_Screen()
     scene.AddEntity(message_text);
 
     bool running = true;
-
     while(running)
     {
-        if(Input::IsKeyPressed(Key::E)) running = false;
+        if(Input::IsKeyPressed(Key::Return)) return true;
+        if(Input::IsKeyPressed(Key::Escape)) return false;
 
         EventDispatcher::DispatchEvents();
 
-        scene.OnUpdate();
         scene.OnSceneRender();
     }
+    return false;
 }
 
 class App : public Application {
-
 public:
     App() : Application() { }
     ~App() { }
 
     void Run()
     {
-        Start_Screen();
-        // MusicDemo demo;
-        // demo.Run();
+        bool wants_to_play = Start_Screen();
+        if(wants_to_play)
+        {
+            MusicDemo demo;
+            demo.Run();
+        }
     }
-
 };
 
 int main(int argc, char** argv)
 {
     WindowSpecification window_specs("Sandbox", 1200, 640, SDL_WINDOW_RESIZABLE);
-    ApplicationSpecification app_specs("Sandbox", SDL_INIT_EVENTS, window_specs);
+    ApplicationSpecification app_specs("Sandbox", SDL_INIT_EVERYTHING, window_specs);
 
     Application::Init(app_specs);
 
     App app;
     app.Run();
-
+    
     Application::Close();
 
     return 0;

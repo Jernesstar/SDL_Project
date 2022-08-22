@@ -40,6 +40,8 @@ public:
 private:
     ComponentManager m_Components;
     Scene* m_Scene = nullptr;
+
+    friend class Scene;
 };
 
 }

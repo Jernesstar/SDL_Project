@@ -12,9 +12,11 @@ void Renderer::DrawTexture(Texture2D& texture, Coordinate2D& coordinate)
 {
     SADDLE_CORE_ASSERT(texture.m_Texture != nullptr, "Texture is invalid");
     
-    SDL_Rect SDL_rect = { coordinate.x, coordinate.y, texture.m_Width, texture.m_Height };
+    SDL_Rect SDL_rect = { coordinate.x, coordinate.y, texture.Width, texture.Height };
     SDL_RenderCopy(s_Renderer, texture.m_Texture, nullptr, &SDL_rect);
 }
+
+void Renderer::Render() { SDL_RenderPresent(s_Renderer); }
 
 void Renderer::SetPixel(SDL_Surface* surface, int x, int y, SDL_Color color)
 {
@@ -23,11 +25,6 @@ void Renderer::SetPixel(SDL_Surface* surface, int x, int y, SDL_Color color)
                                     + (y * surface->pitch) 
                                     + (x * surface->format->BitsPerPixel));
     *pixel = pixel_color;
-}
-
-void Renderer::Render()
-{
-    SDL_RenderPresent(s_Renderer);
 }
 
 }

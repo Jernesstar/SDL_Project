@@ -13,17 +13,17 @@ class TextureSystem {
 public:
     static void CreateText(Entity& entity, const std::string& text, Font& font)
     {
+        auto renderer = Application::Get().GetWindow().GetRenderer();
         TextureComponent& texture_component = entity.GetComponent<TextureComponent>();
         RectComponent& rect_component = entity.GetComponent<RectComponent>();
         RGBColorComponent& color_component = entity.GetComponent<RGBColorComponent>();
-        auto renderer = Application::Get().GetWindow().GetRenderer();
 
         SDL_Surface* text_surface = font.GetSurfaceFromText(text, color_component);
         texture_component.Texture.m_Texture = SDL_CreateTextureFromSurface(renderer, text_surface);
         auto clip_rect = text_surface->clip_rect;
         
-        texture_component.Texture.m_Width = clip_rect.w;
-        texture_component.Texture.m_Height = clip_rect.h;
+        texture_component.Texture.Width = clip_rect.w;
+        texture_component.Texture.Height = clip_rect.h;
         rect_component = { clip_rect.w, clip_rect.h };
         
         SDL_FreeSurface(text_surface);
@@ -32,22 +32,26 @@ public:
     static void CreateRectangle(Entity& entity, int width, int height, int depth = 32, 
         int r_mask = 0, int g_mask = 0, int b_mask = 0, int a_mask = 0)
     {
+        auto renderer = Application::Get().GetWindow().GetRenderer();
         TextureComponent& texture_component = entity.GetComponent<TextureComponent>();
         RGBColorComponent& color = entity.GetComponent<RGBColorComponent>();
-        auto renderer = Application::Get().GetWindow().GetRenderer();
 
         SDL_Surface* surface = SDL_CreateRGBSurface(0, width, height, depth, r_mask, g_mask, b_mask, a_mask);
-        int result_code = SDL_FillRect(surface, NULL, SDL_MapRGB(surface->format, color.r, color.g, color.b));
-        SADDLE_CORE_ASSERT(result_code == 0, "Could not create the surface");
+        SDL_FillRect(surface, nullptr, SDL_MapRGB(surface->format, color.r, color.g, color.b));
         texture_component.Texture.m_Texture = SDL_CreateTextureFromSurface(renderer, surface);
+
+        auto rect = surface->clip_rect;
+        texture_component.Texture.Width = rect.w;
+        texture_component.Texture.Height = rect.h;
+        
         SADDLE_CORE_ASSERT(texture_component.Texture.m_Texture != nullptr, "Could not create texture");
     }
 
     static void CreateCircle(Entity& entity, int radius)
     {
+        auto renderer = Application::Get().GetWindow().GetRenderer();
         RGBColorComponent& color = entity.GetComponent<RGBColorComponent>();
         TextureComponent& texture_component = entity.GetComponent<TextureComponent>();
-        auto renderer = Application::Get().GetWindow().GetRenderer();
 
         int flags = 0;
         int depth = 32;

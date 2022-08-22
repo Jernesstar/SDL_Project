@@ -11,14 +11,14 @@ Scene::~Scene() { }
 
 void Scene::OnUpdate()
 {
-    float time = TimeStep::GetTime();
-    TimeStep ts = time - m_LastFrameTime;
-    m_LastFrameTime = time;
+    // float time = TimeStep::GetTime();
+    // TimeStep ts = time - m_LastFrameTime;
+    // m_LastFrameTime = time;
     
-    for(int i = 0; i < entities.size(); i++)
-    {
-        // Entity& entity = *entities.at(i);
-    }
+    // for(int i = 0; i < entities.size(); i++)
+    // {
+    //     Entity& entity = *entities.at(i);
+    // }
 }
 
 void Scene::OnSceneRender()
@@ -40,6 +40,7 @@ void Scene::OnSceneRender()
 void Scene::AddEntity(Entity& entity)
 {
     entities.push_back(&entity);
+    entity.m_Scene = this;
 
     // Note: Place this in a method that regularly updates all the Entities
     if(entity.HasComponent<EventListenerComponent>())
