@@ -17,7 +17,7 @@ public:
     ~Texture2D();
 
     Texture2D& operator=(Texture2D&& other);
-    Texture2D& operator=(const Texture2D& other) = delete;
+    Texture2D& operator=(const Texture2D& other) = default;
 
 private:
     SDL_Texture* m_Texture;

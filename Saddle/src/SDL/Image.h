@@ -10,6 +10,7 @@ public:
     static void Shutdown();
 
     static Texture2D Load(const std::string& file_path);
+    static Texture2D Load(const std::string& file_path, int width, int height);
 
 private:
     Image() = delete;

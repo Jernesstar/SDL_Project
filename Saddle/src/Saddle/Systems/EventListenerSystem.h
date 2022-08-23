@@ -28,6 +28,9 @@ public:
         {
             if(event.Is(EventType::MouseButtonPressedEvent) || event.Is(EventType::MouseButtonReleasedEvent))
             {
+                if(!entity.HasComponent<Coordinate2DComponent>() || !entity.HasComponent<RectComponent>())
+                    return;
+
                 Coordinate2DComponent& coordinate = entity.GetComponent<Coordinate2DComponent>();
                 RectComponent& rect = entity.GetComponent<RectComponent>();
 

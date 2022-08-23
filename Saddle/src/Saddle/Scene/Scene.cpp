@@ -11,14 +11,14 @@ Scene::~Scene() { }
 
 void Scene::OnUpdate()
 {
-    // float time = TimeStep::GetTime();
-    // TimeStep ts = time - m_LastFrameTime;
-    // m_LastFrameTime = time;
-    
-    // for(int i = 0; i < entities.size(); i++)
-    // {
-    //     Entity& entity = *entities.at(i);
-    // }
+    float time = TimeStep::GetTime();
+    TimeStep ts = time - m_LastFrameTime;
+    m_LastFrameTime = time;
+
+    for(int i = 0; i < entities.size(); i++)
+    {
+        Entity& entity = *entities.at(i);
+    }
 }
 
 void Scene::OnSceneRender()

@@ -11,17 +11,30 @@ MusicDemo::~MusicDemo() { }
 
 void MusicDemo::Run()
 {   
+    Entity background;
     MusicBlock kick_drum("Sandbox/assets/sounds/Kick-Drum.wav", 70, 70);
     MusicBlock snare_drum("Sandbox/assets/sounds/Snare-Drum.wav", 70, 70);
-    kick_drum.AddComponent<Coordinate2DComponent>(1200, 100);
-    snare_drum.AddComponent<Coordinate2DComponent>(240, 100);
-
-    Entity background;
+    
     background.AddComponent<Coordinate2DComponent>();
-    auto& component = background.AddComponent<TextureComponent>();
-    component.Texture = Image::Load("Sandbox/assets/graphics/start_bg.png");
-    component.Texture.Width = 1200;
-    component.Texture.Height = 640;
+    kick_drum.AddComponent<Coordinate2DComponent>(0, 100);
+    snare_drum.AddComponent<Coordinate2DComponent>(0, 300);
+
+    auto& component1 = background.AddComponent<TextureComponent>();
+    auto& component2 = kick_drum.GetComponent<TextureComponent>();
+    auto& component3 = snare_drum.GetComponent<TextureComponent>();
+
+    int w = Application::Get().GetWindow().Width;
+    int h = Application::Get().GetWindow().Height;
+    component1.Texture = Image::Load("Sandbox/assets/graphics/start_bg.png", w, h);
+    component2.Texture = Image::Load("Sandbox/assets/graphics/kick_drum.png", 70, 70);    
+    component3.Texture = Image::Load("Sandbox/assets/graphics/snare_drum.jpg", 70, 70);
+
+    background.AddComponent<EventListenerComponent>()
+    .OnWindowResized = [&background](WindowResizedEvent& event) {
+        auto& texture = background.GetComponent<TextureComponent>();
+        texture.Texture.Width = event.Width;
+        texture.Texture.Height = event.Height;
+    };
 
     m_Scene.AddEntity(background);
     m_Scene.AddEntity(kick_drum);
@@ -31,10 +44,10 @@ void MusicDemo::Run()
     while(running)
     {
         if(Input::IsKeyPressed(Key::Escape)) running = false;
-        if(Input::IsKeyPressed(Key::Left)) kick_drum.GetComponent<Coordinate2DComponent>().x -= 15;
         
         EventDispatcher::DispatchEvents();
 
+        m_Scene.OnUpdate();
         m_Scene.OnSceneRender();
     }
 }

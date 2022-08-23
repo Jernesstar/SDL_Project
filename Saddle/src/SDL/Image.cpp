@@ -12,11 +12,17 @@ void Image::Shutdown() { IMG_Quit(); }
 
 Texture2D Image::Load(const std::string& file_path)
 {
-    auto renderer = Application::Get().GetWindow().GetRenderer();
     SDL_Surface* surface = IMG_Load(file_path.c_str());
-
     Texture2D texture(surface);
     SDL_FreeSurface(surface);
+    return texture;
+}
+
+Texture2D Image::Load(const std::string& file_path, int width, int height)
+{
+    Texture2D texture = Load(file_path);
+    texture.Width = width;
+    texture.Height = height;
     return texture;
 }
 

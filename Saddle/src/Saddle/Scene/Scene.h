@@ -26,7 +26,7 @@ public:
 
 private:
     std::vector<Entity*> entities;
-    float m_LastFrameTime;
+    float m_LastFrameTime = 0;
 };
 
 }

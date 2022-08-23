@@ -1,6 +1,6 @@
 #pragma once
 
-#include <chrono>
+#include <SDL.h>
 
 namespace Saddle {
 
@@ -12,8 +12,7 @@ public:
 
     static float GetTime()
     {
-        // Note: Implement getting the current time
-        return 0;
+        return (float)SDL_GetTicks();
     }
 
 private:

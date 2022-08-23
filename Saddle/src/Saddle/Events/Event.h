@@ -3,8 +3,8 @@
 namespace Saddle {
 
 enum EventCategory {
-    MouseEvent = 0x0001,
-    KeyEvent = 0x0010,
+    MouseEvent       = 0x0001,
+    KeyEvent         = 0x0010,
     ApplicationEvent = 0x0100
 };
 
