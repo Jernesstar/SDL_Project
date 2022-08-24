@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Window.h"
+#include "SDL/Window.h"
 #include "SDL/Audio.h"
 
 namespace Saddle {
