@@ -54,6 +54,8 @@ void EventDispatcher::DispatchEvents()
     }
 }
 
+// Note: Register callback only if it does not already exist in the list
+
 template<>
 void EventDispatcher::RegisterEventListener<KeyPressedEvent>(std::function<void(KeyPressedEvent&)> event_callback)
 {

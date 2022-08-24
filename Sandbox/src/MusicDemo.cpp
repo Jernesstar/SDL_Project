@@ -12,12 +12,12 @@ MusicDemo::~MusicDemo() { }
 void MusicDemo::Run()
 {   
     Entity background;
-    MusicBlock kick_drum("Sandbox/assets/sounds/Kick-Drum.wav", 70, 70);
-    MusicBlock snare_drum("Sandbox/assets/sounds/Snare-Drum.wav", 70, 70);
+    MusicBlock kick_drum("Sandbox/assets/sounds/Kick-Drum.wav", 70.0f, 70.0f);
+    MusicBlock snare_drum("Sandbox/assets/sounds/Snare-Drum.wav", 70.0f, 70.0f);
     
     background.AddComponent<Coordinate2DComponent>();
-    kick_drum.AddComponent<Coordinate2DComponent>(0, 100);
-    snare_drum.AddComponent<Coordinate2DComponent>(0, 300);
+    kick_drum.AddComponent<Coordinate2DComponent>(0.0f, 100.24f);
+    snare_drum.AddComponent<Coordinate2DComponent>(0.0f, 300.0f);
 
     auto& component1 = background.AddComponent<TextureComponent>();
     auto& component2 = kick_drum.GetComponent<TextureComponent>();
@@ -26,8 +26,8 @@ void MusicDemo::Run()
     int w = Application::Get().GetWindow().Width;
     int h = Application::Get().GetWindow().Height;
     component1.Texture = Image::Load("Sandbox/assets/graphics/start_bg.png", w, h);
-    component2.Texture = Image::Load("Sandbox/assets/graphics/kick_drum.png", 70, 70);    
-    component3.Texture = Image::Load("Sandbox/assets/graphics/snare_drum.jpg", 70, 70);
+    component2.Texture = Image::Load("Sandbox/assets/graphics/kick_drum.png", 70.0f, 70.0f);    
+    component3.Texture = Image::Load("Sandbox/assets/graphics/snare_drum.jpg", 70.0f, 70.0f);
 
     background.AddComponent<EventListenerComponent>()
     .OnWindowResized = [&background](WindowResizedEvent& event) {
@@ -44,6 +44,8 @@ void MusicDemo::Run()
     while(running)
     {
         if(Input::IsKeyPressed(Key::Escape)) running = false;
+
+        kick_drum.GetComponent<Coordinate2DComponent>().x += 0.1f;
         
         EventDispatcher::DispatchEvents();
 

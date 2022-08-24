@@ -10,10 +10,12 @@ namespace Saddle {
 struct WindowSpecification {
     const std::string Title;
     int Width, Height;
-    Uint32 Flags;
+    Uint32 WindowFlags;
+    Uint32 RendererFlags;
 
-    WindowSpecification(const std::string& title = "Window", int width = 1200, int height = 640, Uint32 flags = 0)
-        : Title(title), Width(width), Height(height), Flags(flags) { }  
+    WindowSpecification(const std::string& title = "Window", int width = 1200, int height = 640, 
+        Uint32 window_flags = 0, Uint32 renderer_flags = 0
+    ) : Title(title), Width(width), Height(height), WindowFlags(window_flags), RendererFlags(renderer_flags) { }  
 };
 
 class Window {

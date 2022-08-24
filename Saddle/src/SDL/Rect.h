@@ -5,9 +5,9 @@
 namespace Saddle {
 
 struct Rect {
-    int Width, Height;
+    float Width, Height;
 
-    Rect(int width, int height) : Width(width), Height(height) { }
+    Rect(float width, float height) : Width(width), Height(height) { }
     Rect(const RectComponent& component) : Width(component.Width), Height(component.Height) { } 
 };
 

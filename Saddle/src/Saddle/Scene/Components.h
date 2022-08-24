@@ -23,9 +23,9 @@ protected:
 };
 
 struct Coordinate2DComponent : public IComponent {
-    int x, y;
+    float x, y;
 
-    Coordinate2DComponent(int x = 0, int y = 0) : x(x), y(y) { }
+    Coordinate2DComponent(float x = 0, float y = 0) : x(x), y(y) { }
 };
 
 struct EventListenerComponent : public IComponent {
@@ -57,9 +57,9 @@ struct PhysicsBodyComponent : public IComponent {
 };
 
 struct RectComponent : public IComponent {
-    int Width, Height;
+    float Width, Height;
 
-    RectComponent(int width = 1, int height = 1) : Width(width), Height(height) { }
+    RectComponent(float width = 1, float height = 1) : Width(width), Height(height) { }
 };
 
 struct RGBColorComponent : public IComponent {

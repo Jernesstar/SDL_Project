@@ -18,11 +18,12 @@ Texture2D Image::Load(const std::string& file_path)
     return texture;
 }
 
-Texture2D Image::Load(const std::string& file_path, int width, int height)
+Texture2D Image::Load(const std::string& file_path, int width, int height, int angle)
 {
     Texture2D texture = Load(file_path);
     texture.Width = width;
     texture.Height = height;
+    texture.Angle = angle;
     return texture;
 }
 

@@ -10,10 +10,9 @@ Window::Window(const WindowSpecification& specs)
     : Width(specs.Width), Height(specs.Height)
 {
     m_Window = SDL_CreateWindow(
-        specs.Title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, Width, Height, specs.Flags);
+        specs.Title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, Width, Height, specs.WindowFlags);
     
-    // Note: Maybe have some renderer flags
-    m_Renderer = SDL_CreateRenderer(m_Window, -1, 0);
+    m_Renderer = SDL_CreateRenderer(m_Window, -1, specs.RendererFlags);
 
     EventDispatcher::RegisterEventListener<WindowResizedEvent>(
         [this](WindowResizedEvent& event) {

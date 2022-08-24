@@ -78,7 +78,7 @@ public:
 
 int main(int argc, char** argv)
 {
-    WindowSpecification window_specs("Sandbox", 1200, 640, SDL_WINDOW_RESIZABLE);
+    WindowSpecification window_specs("Sandbox", 1200, 640, SDL_WINDOW_RESIZABLE, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
     ApplicationSpecification app_specs("Sandbox", SDL_INIT_EVENTS | SDL_INIT_VIDEO, 
         IMG_INIT_JPG | IMG_INIT_PNG | IMG_INIT_TIF | IMG_INIT_WEBP, window_specs);
 
