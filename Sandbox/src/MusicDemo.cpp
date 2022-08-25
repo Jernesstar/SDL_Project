@@ -45,7 +45,7 @@ void MusicDemo::Run()
     {
         if(Input::IsKeyPressed(Key::Escape)) running = false;
 
-        kick_drum.GetComponent<Coordinate2DComponent>().x += 0.1f;
+        kick_drum.GetComponent<Coordinate2DComponent>().x += 1.0f;
         
         EventDispatcher::DispatchEvents();
 

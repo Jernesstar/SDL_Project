@@ -1,19 +1,22 @@
 project "Saddle"
     kind "SharedLib"
     language "C++"
+    cppdialect "C++17"
 
-    targetdir ("%{wks.location}/%{prj.name}/vendor/SDL2/bin")
+    targetdir ("%{wks.location}/bin")
     objdir ("%{wks.location}/obj")
 
     files
     {
         "src/**.h",
-        "src/**.cpp"
+        "src/**.cpp",
+
+        "vendor/SDL2/include/**.h"
     }
 
     includedirs
     {
-        "%{wks.location}/%{prj.name}/src",
+        "src",
 
         "%{wks.location}/Saddle/vendor/SDL2/include/SDL2",
         "%{wks.location}/Saddle/vendor/SDL2/include/SDL_image",
@@ -29,33 +32,28 @@ project "Saddle"
     links
     {
         "mingw32",
-        "SDL2main",
-        "SDL2",
-        "SDL2_image",
-        "SDL2_mixer",
-        "SDL2_ttf"
+        "winmm",
+        "ws2_32",
+        "wsock32",
+        "glu32",
+        "dinput8",
+        "dxguid", 
+        "dxerr8", 
+        "user32", 
+        "gdi32", 
+        "imm32",
+        "ole32", 
+        "oleaut32", 
+        "shell32", 
+        "version", 
+        "uuid",
+        "setupapi",
+        "usp10",
+        "rpcrt4",
+
+        "SDL2main:static",
+        "SDL2:static",
+        "SDL2_image:static",
+        "SDL2_mixer:static",
+        "SDL2_ttf:static",
     }
-
-    filter "system:windows"
-        cppdialect "C++17"
-        staticruntime "On"
-        systemversion "latest"
-
-        defines
-        {
-            "_WINDOWS",
-            "WIN32"
-        }
-
-    filter "configurations:Debug"
-        defines "SADDLE_DEBUG"
-        symbols "On"
-
-    filter "configurations:Release"
-        defines "SADDLE_RELEASE"
-        optimize "On"
-
-    filter "configurations:Dist"
-        defines "SADDLE_DIST"
-        optimize "On"
-        
