@@ -1,6 +1,7 @@
 project "Sandbox"
     kind "ConsoleApp"
     language "C++"
+    cppdialect "C++17"
 
     targetdir ("%{wks.location}/Saddle/vendor/SDL2/bin")
     objdir ("%{wks.location}/obj")
@@ -8,19 +9,19 @@ project "Sandbox"
     files
     {
         "include/**.h",
-        "src/**.cpp"
+        "src/**.cpp",
     }
 
     includedirs
     {
-        "%{wks.location}/%{prj.name}/include",
+        "include",
 
         "%{wks.location}/Saddle/src",
 
-        "%{wks.location}/Saddle/vendor/SDL2/include/SDL2",
-        "%{wks.location}/Saddle/vendor/SDL2/include/SDL_image",
-        "%{wks.location}/Saddle/vendor/SDL2/include/SDL_mixer",
-        "%{wks.location}/Saddle/vendor/SDL2/include/SDL_ttf"
+        "%{Includes.SDL2}",
+        "%{Includes.SDL_image}",
+        "%{Includes.SDL_mixer}",
+        "%{Includes.SDL_ttf}"
     }
 
     libdirs
@@ -31,34 +32,11 @@ project "Sandbox"
     links
     {
         "Saddle",
-        "mingw32",
+
+        "mingw32:static",
         "SDL2main",
         "SDL2",
         "SDL2_image",
         "SDL2_mixer",
         "SDL2_ttf"
     }
-
-    filter "system:windows"
-        cppdialect "C++17"
-        staticruntime "On"
-        systemversion "latest"
-
-        defines
-        {
-            "_WINDOWS",
-            "WIN32"
-        }
-
-    filter "configurations:Debug"
-        defines "SADDLE_DEBUG"
-        symbols "On"
-
-    filter "configurations:Release"
-        defines "SADDLE_RELEASE"
-        optimize "On"
-
-    filter "configurations:Dist"
-        defines "SADDLE_DIST"
-        optimize "On"
-        

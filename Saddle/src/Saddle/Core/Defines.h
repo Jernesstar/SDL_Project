@@ -7,7 +7,6 @@
 #endif
 
 #include "Application.h"
-#include <stdlib.h>
 
-#define SADDLE_ERROR_CLOSE() { Application::Close(); exit(1); }
+#define SADDLE_ERROR_CLOSE() { Application::Close(); }
 #define SADDLE_EXPAND_MACRO(x) x

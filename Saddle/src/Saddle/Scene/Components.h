@@ -40,6 +40,7 @@ struct EventListenerComponent : public IComponent {
 
     EventListenerComponent() = default;
     EventListenerComponent(const EventListenerComponent& other) = default;
+    
 };
 
 struct PhysicsBodyComponent : public IComponent {

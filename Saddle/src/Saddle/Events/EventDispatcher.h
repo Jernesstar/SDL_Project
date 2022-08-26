@@ -19,7 +19,10 @@ public:
     template<typename TEvent>
     static void RegisterEventListener(std::function<void(TEvent&)> event_callback);
 
-    static void DispatchEvents();
+    template<typename TEvent>
+    static void UnregisterEventListener(std::function<void(TEvent&)> event_callback);
+
+    static void PollEvents();
 
 private:
     inline static std::vector<std::function<void(KeyPressedEvent&)>> key_pressed_event_callbacks = {};
