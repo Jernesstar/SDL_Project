@@ -1,5 +1,5 @@
 project "Saddle"
-    kind "SharedLib"
+    kind "StaticLib"
     language "C++"
     cppdialect "C++17"
 
@@ -9,26 +9,24 @@ project "Saddle"
     files
     {
         "src/**.h",
-        "src/**.cpp",
-
-        "vendor/SDL2/include/**.h"
+        "src/**.cpp"
     }
 
     includedirs
     {
         "src",
 
-        "%{wks.location}/Saddle/vendor/SDL2/include/SDL2",
-        "%{wks.location}/Saddle/vendor/SDL2/include/SDL_image",
-        "%{wks.location}/Saddle/vendor/SDL2/include/SDL_mixer",
-        "%{wks.location}/Saddle/vendor/SDL2/include/SDL_ttf"
+        "%{Includes.SDL2}",
+        "%{Includes.SDL_image}",
+        "%{Includes.SDL_mixer}",
+        "%{Includes.SDL_ttf}"
     }
 
     libdirs
     {
         "vendor/SDL2/lib"
     }
-
+    
     links
     {
         "mingw32",
@@ -37,15 +35,15 @@ project "Saddle"
         "wsock32",
         "glu32",
         "dinput8",
-        "dxguid", 
-        "dxerr8", 
-        "user32", 
-        "gdi32", 
+        "dxguid",
+        "dxerr8",
+        "user32",
+        "gdi32",
         "imm32",
-        "ole32", 
-        "oleaut32", 
-        "shell32", 
-        "version", 
+        "ole32",
+        "oleaut32",
+        "shell32",
+        "version",
         "uuid",
         "setupapi",
         "usp10",
@@ -55,5 +53,10 @@ project "Saddle"
         "SDL2:static",
         "SDL2_image:static",
         "SDL2_mixer:static",
-        "SDL2_ttf:static",
+        "SDL2_ttf:static"
     }
+
+    -- links
+    -- {
+    --     "SDL2"
+    -- }

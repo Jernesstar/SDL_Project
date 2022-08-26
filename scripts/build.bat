@@ -9,7 +9,7 @@ if exist Makefile (
     )
     
 ) else (
-    echo Makefile not found. Be sure to run run_premake.bat before calling compile.bat
+    echo Makefile not found. Be sure to run run_premake.bat before calling build.bat
 )
 
 popd

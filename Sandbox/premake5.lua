@@ -9,7 +9,7 @@ project "Sandbox"
     files
     {
         "include/**.h",
-        "src/**.cpp"
+        "src/**.cpp",
     }
 
     includedirs
@@ -18,19 +18,13 @@ project "Sandbox"
 
         "%{wks.location}/Saddle/src",
 
-        "%{wks.location}/Saddle/vendor/SDL2/include/SDL2",
-        "%{wks.location}/Saddle/vendor/SDL2/include/SDL_image",
-        "%{wks.location}/Saddle/vendor/SDL2/include/SDL_mixer",
-        "%{wks.location}/Saddle/vendor/SDL2/include/SDL_ttf"
+        "%{Includes.SDL2}",
+        "%{Includes.SDL_image}",
+        "%{Includes.SDL_mixer}",
+        "%{Includes.SDL_ttf}"
     }
 
     links
     {
         "Saddle"
-    }
-
-    linkoptions
-    {
-        "-mwindows",
-        "-municode"
     }
