@@ -47,7 +47,7 @@ void MusicDemo::Run()
 
         kick_drum.GetComponent<Coordinate2DComponent>().x += 1.0f;
         
-        EventDispatcher::DispatchEvents();
+        EventDispatcher::PollEvents();
 
         m_Scene.OnUpdate();
         m_Scene.OnSceneRender();

@@ -3,7 +3,7 @@ project "Sandbox"
     language "C++"
     cppdialect "C++17"
 
-    targetdir ("%{wks.location}/bin")
+    targetdir ("%{wks.location}/Saddle/vendor/SDL2/bin")
     objdir ("%{wks.location}/obj")
 
     files
@@ -24,7 +24,19 @@ project "Sandbox"
         "%{Includes.SDL_ttf}"
     }
 
+    libdirs
+    {
+        "%{wks.location}/Saddle/vendor/SDL2/lib"
+    }
+
     links
     {
-        "Saddle"
+        "Saddle",
+
+        "mingw32:static",
+        "SDL2main",
+        "SDL2",
+        "SDL2_image",
+        "SDL2_mixer",
+        "SDL2_ttf"
     }
