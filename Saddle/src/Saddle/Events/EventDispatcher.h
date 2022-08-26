@@ -19,8 +19,8 @@ public:
     template<typename TEvent>
     static void RegisterEventListener(std::function<void(TEvent&)> event_callback);
 
-    template<typename TEvent>
-    static void UnregisterEventListener(std::function<void(TEvent&)> event_callback);
+    // template<typename TEvent>
+    // static void UnregisterEventListener(std::function<void(TEvent&)> event_callback);
 
     static void PollEvents();
 

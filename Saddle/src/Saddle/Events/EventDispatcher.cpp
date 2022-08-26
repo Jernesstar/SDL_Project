@@ -63,11 +63,11 @@ void EventDispatcher::RegisterEventListener<KeyPressedEvent>(std::function<void(
 {
     key_pressed_event_callbacks.push_back(event_callback);
 }
-template<>
-void EventDispatcher::UnregisterEventListener<KeyPressedEvent>(std::function<void(KeyPressedEvent&)> event_callback)
-{
-    key_pressed_event_callbacks.erase(std::remove(key_pressed_event_callbacks.begin(), key_pressed_event_callbacks.end(), event_callback), key_pressed_event_callbacks.end());
-}
+// template<>
+// void EventDispatcher::UnregisterEventListener<KeyPressedEvent>(std::function<void(KeyPressedEvent&)> event_callback)
+// {
+//     key_pressed_event_callbacks.erase(std::remove(key_pressed_event_callbacks.begin(), key_pressed_event_callbacks.end(), event_callback), key_pressed_event_callbacks.end());
+// }
 
 template<>
 void EventDispatcher::RegisterEventListener<KeyReleasedEvent>(std::function<void(KeyReleasedEvent&)> event_callback)
