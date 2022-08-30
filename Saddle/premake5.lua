@@ -37,6 +37,11 @@ project "Saddle"
         "SDL2_ttf"
     }
 
+    buildoptions
+    {
+        "-fexceptions"
+    }
+
     -- links
     -- {
     --     "SDL2"

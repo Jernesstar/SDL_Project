@@ -21,7 +21,7 @@ Texture2D::Texture2D(Texture2D&& other)
     : Width(other.Width), Height(other.Height), Angle(other.Angle), m_Texture(other.m_Texture)
 { other.m_Texture = nullptr; }
 
-Texture2D::~Texture2D() { if(m_Texture) SDL_DestroyTexture(m_Texture); }
+Texture2D::~Texture2D() { if(m_Texture) SDL_DestroyTexture(m_Texture); m_Texture = nullptr; }
 
 Texture2D& Texture2D::operator=(Texture2D&& other)
 {

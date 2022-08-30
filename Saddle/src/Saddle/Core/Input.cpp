@@ -51,6 +51,16 @@ bool Input::IsMouseButtonPressed(MouseCode mouse_button)
     return button_mask & SDL_BUTTON(mouse_button); // Return 1 if mouse_button is pressed, else 0
 }
 
+bool Input::MousePressedOn(const Rect& rect, const Coordinate2D& coordinate)
+{
+    // Check if the entity was clicked on
+    auto [mouse_x, mouse_y] = Input::GetMousePosition();
+    bool x_coordinate_is_in_bound = coordinate.x <= mouse_x && mouse_x <= coordinate.x + rect.Width;
+    bool y_coordinate_is_in_bound = coordinate.y <= mouse_y && mouse_y <= coordinate.y + rect.Height;
+
+    return x_coordinate_is_in_bound && y_coordinate_is_in_bound;
+}
+
 MousePosition Input::GetMousePosition()
 {
     SDL_PumpEvents();

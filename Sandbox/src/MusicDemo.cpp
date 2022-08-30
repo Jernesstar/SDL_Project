@@ -10,7 +10,7 @@ MusicDemo::MusicDemo()
 MusicDemo::~MusicDemo() { }
 
 void MusicDemo::Run()
-{   
+{
     Entity background;
     MusicBlock kick_drum("Sandbox/assets/sounds/Kick-Drum.wav", 70.0f, 70.0f);
     MusicBlock snare_drum("Sandbox/assets/sounds/Snare-Drum.wav", 70.0f, 70.0f);
@@ -45,8 +45,8 @@ void MusicDemo::Run()
     {
         if(Input::IsKeyPressed(Key::Escape)) running = false;
 
-        kick_drum.GetComponent<Coordinate2DComponent>().x += 1.0f;
-        snare_drum.GetComponent<Coordinate2DComponent>().x += 1.0f;
+        kick_drum.GetComponent<Coordinate2DComponent>().x += 0.3f;
+        snare_drum.GetComponent<Coordinate2DComponent>().x += 0.4f;
         
         EventSystem::PollEvents();
 

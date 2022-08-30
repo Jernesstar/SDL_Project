@@ -14,8 +14,8 @@ namespace Saddle {
     
 struct IComponent {
 protected:
-    IComponent() = default;
     ~IComponent() = default;
+    IComponent() = default;
 };
 
 struct Coordinate2DComponent : public IComponent {
@@ -38,15 +38,16 @@ struct EventListenerComponent : public IComponent {
     EventListenerComponent(const EventListenerComponent& other) = default;
     ~EventListenerComponent()
     {
-        OnKeyPressed          = [](KeyPressedEvent& event) {};
-        OnKeyReleased         = [](KeyReleasedEvent& event) {};
-        OnMouseMoved          = [](MouseMovedEvent& event) {};
-        OnMouseScrolled       = [](MouseScrolledEvent& event) {};
-        OnMouseButtonPressed  = [](MouseButtonPressedEvent& event) {};
-        OnMouseButtonReleased = [](MouseButtonReleasedEvent& event) {};
-        OnWindowResized       = [](WindowResizedEvent& event) {};
-        OnWindowClosed        = [](WindowClosedEvent& event) {};
-    } 
+        std::cout << "Destroying functions\n";
+        OnKeyPressed          = nullptr;
+        OnKeyReleased         = nullptr;
+        OnMouseMoved          = nullptr;
+        OnMouseScrolled       = nullptr;
+        OnMouseButtonPressed  = nullptr;
+        OnMouseButtonReleased = nullptr;
+        OnWindowResized       = nullptr;
+        OnWindowClosed        = nullptr;
+    }
 };
 
 struct PhysicsBodyComponent : public IComponent {

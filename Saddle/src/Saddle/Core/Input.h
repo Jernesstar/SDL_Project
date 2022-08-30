@@ -3,6 +3,9 @@
 #include "KeyCodes.h"
 #include "MouseCodes.h"
 
+#include "SDL/Rect.h"
+#include "SDL/Coordinate2D.h"
+
 namespace Saddle {
 
 struct MousePosition {
@@ -18,6 +21,7 @@ public:
     static bool AreKeysPressed(KeyCode key1, KeyCode key2, KeyCode key, KeyCode key4);
 
     static bool IsMouseButtonPressed(MouseCode mouse_button);
+    static bool MousePressedOn(const Rect& rect, const Coordinate2D& coordinate);
 
     static MousePosition GetMousePosition();
     static int GetMouseX();

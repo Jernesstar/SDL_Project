@@ -39,25 +39,23 @@ bool Start_Screen()
         0.5 * (SCREEN_WIDTH - title_text.GetComponent<RectComponent>().Width),
         0.5 * SCREEN_HEIGHT - 150
     );
-    // title_text.AddComponent<EventListenerComponent>()
-    // .OnWindowResized = [&title_text](WindowResizedEvent& event) {
-    //     auto& x = title_text.GetComponent<Coordinate2DComponent>().x;
-    //     auto& y = title_text.GetComponent<Coordinate2DComponent>().y;
-    //     x = 0.5 * (SCREEN_WIDTH - title_text.GetComponent<RectComponent>().Width);
-    //     y = 0.5 * SCREEN_HEIGHT - 150;
-    // };
+    title_text.AddComponent<EventListenerComponent>()
+    .OnWindowResized = [&title_text](WindowResizedEvent& event) {
+        auto& [x, y] = title_text.GetComponent<Coordinate2DComponent>();
+        x = 0.5 * (event.Width - title_text.GetComponent<RectComponent>().Width);
+        y = 0.5 * event.Height - 150;
+    };
 
     message_text.AddComponent<Coordinate2DComponent>(
         0.5 * (SCREEN_WIDTH - message_text.GetComponent<RectComponent>().Width),
         0.5 * SCREEN_HEIGHT
     );
-    // message_text.AddComponent<EventListenerComponent>()
-    // .OnWindowResized = [&message_text](WindowResizedEvent& event) {
-    //     auto& x = message_text.GetComponent<Coordinate2DComponent>().x;
-    //     auto& y = message_text.GetComponent<Coordinate2DComponent>().y;
-    //     x = 0.5 * (SCREEN_WIDTH - message_text.GetComponent<RectComponent>().Width);
-    //     y = 0.5 * SCREEN_HEIGHT;
-    // };
+    message_text.AddComponent<EventListenerComponent>()
+    .OnWindowResized = [&message_text](WindowResizedEvent& event) {
+        auto& [x, y] = message_text.GetComponent<Coordinate2DComponent>();
+        x = 0.5 * (event.Width - message_text.GetComponent<RectComponent>().Width);
+        y = 0.5 * event.Height;
+    };
 
     scene.AddEntity(title_text);
     scene.AddEntity(message_text);
@@ -93,7 +91,7 @@ public:
 
 int main(int argc, char** argv)
 {
-    WindowSpecification window_specs("Sandbox", 1200, 640, SDL_WINDOW_RESIZABLE, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+    WindowSpecification window_specs("Sandbox", 1200, 640, SDL_WINDOW_RESIZABLE, SDL_RENDERER_ACCELERATED);
     ApplicationSpecification app_specs("Sandbox", SDL_INIT_EVENTS | SDL_INIT_VIDEO, 
         IMG_INIT_JPG | IMG_INIT_PNG | IMG_INIT_TIF | IMG_INIT_WEBP, window_specs);
 

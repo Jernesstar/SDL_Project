@@ -40,3 +40,8 @@ project "Sandbox"
         "SDL2_mixer",
         "SDL2_ttf"
     }
+
+    buildoptions
+    {
+        "-fexceptions"
+    }

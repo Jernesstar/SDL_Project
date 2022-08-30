@@ -40,8 +40,9 @@ private:
     {
         for(int i = 0; i < vector.size(); i++)
         {
-            auto& func = vector[i];
-            func(event);
+            auto func = vector[i];
+            if(func)
+                func(event);
         }
     }
 };

@@ -26,31 +26,14 @@ public:
 
         else if(event.IsInCategory(EventCategory::MouseEvent))
         {
-            if(event.Is(EventType::MouseButtonPressedEvent) || event.Is(EventType::MouseButtonReleasedEvent))
+            if(event.Is(EventType::MouseButtonPressedEvent) && event_listener.OnMouseButtonPressed)
             {
-                if(!entity.HasComponent<Coordinate2DComponent>() || !entity.HasComponent<RectComponent>())
-                    return;
+                event_listener.OnMouseButtonPressed(event.CastAs<MouseButtonPressedEvent>());
+            }
 
-                Coordinate2DComponent& coordinate = entity.GetComponent<Coordinate2DComponent>();
-                RectComponent& rect = entity.GetComponent<RectComponent>();
-
-                // Check if the entity was clicked on
-                auto [mouse_x, mouse_y] = Input::GetMousePosition();
-                bool x_coordinate_is_in_bound = coordinate.x <= mouse_x && mouse_x <= coordinate.x + rect.Width;
-                bool y_coordinate_is_in_bound = coordinate.y <= mouse_y && mouse_y <= coordinate.y + rect.Height;
-
-                if(x_coordinate_is_in_bound && y_coordinate_is_in_bound)
-                {
-                    if(event.Is(EventType::MouseButtonPressedEvent) && event_listener.OnMouseButtonPressed)
-                    {
-                        event_listener.OnMouseButtonPressed(event.CastAs<MouseButtonPressedEvent>());
-                    }
-
-                    if(event.Is(EventType::MouseButtonReleasedEvent) && event_listener.OnMouseButtonReleased)
-                    {
-                        event_listener.OnMouseButtonReleased(event.CastAs<MouseButtonReleasedEvent>());
-                    }
-                }
+            if(event.Is(EventType::MouseButtonReleasedEvent) && event_listener.OnMouseButtonReleased)
+            {
+                event_listener.OnMouseButtonReleased(event.CastAs<MouseButtonReleasedEvent>());
             }
 
             if(event.Is(EventType::MouseMovedEvent) && event_listener.OnMouseMoved)
@@ -64,7 +47,7 @@ public:
             }
         }
 
-        else if(event.IsInCategory(EventCategory::ApplicationEvent))
+        else if(event.IsInCategory(EventCategory::WindowEvent))
         {
             if(event.Is(EventType::WindowResizedEvent) && event_listener.OnWindowResized)
             {
@@ -75,6 +58,11 @@ public:
             {
                 event_listener.OnWindowClosed(event.CastAs<WindowClosedEvent>());
             }
+        }
+
+        else if(event.IsInCategory(EventCategory::ApplicationEvent))
+        {
+            
         }
     }
 };
