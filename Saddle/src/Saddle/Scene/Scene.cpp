@@ -45,7 +45,7 @@ void Scene::AddEntity(Entity& entity)
     // Note: Place this in a method that regularly updates all the Entities
     if(entity.HasComponent<EventListenerComponent>())
     {
-        EventDispatcher::RegisterEventListener<Event>(
+        EventSystem::RegisterEventListener<Event>(
             [&entity](Event& event) {
                 EventListenerSystem::OnEvent(entity, event);
             }

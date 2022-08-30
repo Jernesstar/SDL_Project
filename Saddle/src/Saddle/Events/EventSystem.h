@@ -17,7 +17,7 @@ namespace Saddle {
 template<typename TEvent>
 using EventCallback = std::function<void(TEvent&)>;
 
-class EventDispatcher {
+class EventSystem {
 public:
     template<typename TEvent>
     static void RegisterEventListener(const EventCallback<TEvent>& event_callback);

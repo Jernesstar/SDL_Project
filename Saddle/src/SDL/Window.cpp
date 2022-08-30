@@ -1,6 +1,6 @@
 #include "Window.h"
 
-#include "Saddle/Events/EventDispatcher.h"
+#include "Saddle/Events/EventSystem.h"
 
 namespace Saddle {
 
@@ -14,7 +14,7 @@ Window::Window(const WindowSpecification& specs)
     
     m_Renderer = SDL_CreateRenderer(m_Window, -1, specs.RendererFlags);
 
-    EventDispatcher::RegisterEventListener<WindowResizedEvent>(
+    EventSystem::RegisterEventListener<WindowResizedEvent>(
         [this](WindowResizedEvent& event) {
             this->Width = event.Width;
             this->Height = event.Height;

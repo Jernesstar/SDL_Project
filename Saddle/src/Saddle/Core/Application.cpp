@@ -4,7 +4,7 @@
 #include "SDL/Image.h"
 #include "SDL/Font.h"
 #include "Saddle/Events/ApplicationEvents.h"
-#include "Saddle/Events/EventDispatcher.h"
+#include "Saddle/Events/EventSystem.h"
 #include "Saddle/Renderer/Renderer.h"
 
 namespace Saddle {
@@ -32,7 +32,7 @@ void Application::Init(const ApplicationSpecification& specs)
     Image::Init(specs.IMG_Init_Flags);
     Audio::Init(specs.Audio_Specification);
 
-    EventDispatcher::RegisterEventListener<WindowClosedEvent>(
+    EventSystem::RegisterEventListener<WindowClosedEvent>(
         [](WindowClosedEvent& event) {
             Application::Close();
         }

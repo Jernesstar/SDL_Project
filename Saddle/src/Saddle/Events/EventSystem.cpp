@@ -1,10 +1,10 @@
-#include "EventDispatcher.h"
+#include "EventSystem.h"
 
 #include <algorithm>
 
 #define REGISTER_EVENT_LISTENER(event_type) \
 template<> \
-void EventDispatcher::RegisterEventListener<event_type>(const EventCallback<event_type>& event_callback) \
+void EventSystem::RegisterEventListener<event_type>(const EventCallback<event_type>& event_callback) \
 { \
     auto& vec = event_type##Callbacks; \
     vec.push_back(event_callback); \
@@ -12,24 +12,26 @@ void EventDispatcher::RegisterEventListener<event_type>(const EventCallback<even
 
 namespace Saddle {
 
-void EventDispatcher::PollEvents()
+void EventSystem::PollEvents()
 {
+    SDL_PumpEvents();
+
     SDL_Event SDL_event;
     while(SDL_PollEvent(&SDL_event))
     {
         if(SDL_event.type == SDL_KEYDOWN)
         {
-            KeyPressedEvent event((KeyCode)SDL_event.key.keysym.sym);
+            KeyPressedEvent event((KeyCode)SDL_event.key.keysym.scancode);
             Dispatch<KeyPressedEvent>(KeyPressedEventCallbacks, event);
         }
         if(SDL_event.type == SDL_KEYUP)
         {
-            KeyReleasedEvent event((KeyCode)SDL_event.key.keysym.sym);
+            KeyReleasedEvent event((KeyCode)SDL_event.key.keysym.scancode);
             Dispatch<KeyReleasedEvent>(KeyReleasedEventCallbacks, event);
         }
         if(SDL_event.type == SDL_MOUSEMOTION)
         {
-            MouseMovedEvent event(SDL_event.motion.x, SDL_event.motion.y);
+            MouseMovedEvent event((int)SDL_event.motion.x, (int)SDL_event.motion.y);
             Dispatch<MouseMovedEvent>(MouseMovedEventCallbacks, event);
         }
         if(SDL_event.type == SDL_MOUSEWHEEL)
@@ -39,12 +41,12 @@ void EventDispatcher::PollEvents()
         }
         if(SDL_event.type == SDL_MOUSEBUTTONDOWN)
         {
-            MouseButtonPressedEvent event((MouseCode)SDL_event.button.button, SDL_event.button.x, SDL_event.button.y);
+            MouseButtonPressedEvent event((MouseCode)SDL_event.button.button, (int)SDL_event.button.x, (int)SDL_event.button.y);
             Dispatch<MouseButtonPressedEvent>(MouseButtonPressedEventCallbacks, event);
         }
         if(SDL_event.type == SDL_MOUSEBUTTONUP)
         {
-            MouseButtonReleasedEvent event((MouseCode)SDL_event.button.button, SDL_event.button.x, SDL_event.button.y);
+            MouseButtonReleasedEvent event((MouseCode)SDL_event.button.button, (int)SDL_event.button.x, (int)SDL_event.button.y);
             Dispatch<MouseButtonReleasedEvent>(MouseButtonReleasedEventCallbacks, event);
         }
         if(SDL_event.type == SDL_WINDOWEVENT)
@@ -74,14 +76,14 @@ REGISTER_EVENT_LISTENER(WindowResizedEvent);
 REGISTER_EVENT_LISTENER(WindowClosedEvent);
 
 template<>
-void EventDispatcher::RegisterEventListener<KeyEvent>(const EventCallback<KeyEvent>& event_callback)
+void EventSystem::RegisterEventListener<KeyEvent>(const EventCallback<KeyEvent>& event_callback)
 {
     RegisterEventListener<KeyPressedEvent>(event_callback);
     RegisterEventListener<KeyReleasedEvent>(event_callback);
 }
 
 template<>
-void EventDispatcher::RegisterEventListener<MouseEvent>(const EventCallback<MouseEvent>& event_callback)
+void EventSystem::RegisterEventListener<MouseEvent>(const EventCallback<MouseEvent>& event_callback)
 {
     RegisterEventListener<MouseMovedEvent>(event_callback);
     RegisterEventListener<MouseScrolledEvent>(event_callback);
@@ -90,14 +92,14 @@ void EventDispatcher::RegisterEventListener<MouseEvent>(const EventCallback<Mous
 }
 
 template<>
-void EventDispatcher::RegisterEventListener<WindowEvent>(const EventCallback<WindowEvent>& event_callback)
+void EventSystem::RegisterEventListener<WindowEvent>(const EventCallback<WindowEvent>& event_callback)
 {
     RegisterEventListener<WindowResizedEvent>(event_callback);
     RegisterEventListener<WindowClosedEvent>(event_callback);
 }
 
 template<>
-void EventDispatcher::RegisterEventListener<Event>(const EventCallback<Event>& event_callback)
+void EventSystem::RegisterEventListener<Event>(const EventCallback<Event>& event_callback)
 {
     RegisterEventListener<KeyEvent>(event_callback);
     RegisterEventListener<MouseEvent>(event_callback);
@@ -105,7 +107,7 @@ void EventDispatcher::RegisterEventListener<Event>(const EventCallback<Event>& e
 }
 
 // template<>
-// void EventDispatcher::UnregisterEventListener<KeyPressedEvent>(std::function<void(KeyPressedEvent&)> event_callback)
+// void EventSystem::UnregisterEventListener<KeyPressedEvent>(std::function<void(KeyPressedEvent&)> event_callback)
 // {
 //
 // }
