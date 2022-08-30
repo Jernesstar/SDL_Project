@@ -36,6 +36,12 @@ void MusicDemo::Run()
         texture.Texture.Height = event.Height;
     };
 
+    EventSystem::RegisterEventListener<KeyPressedEvent>(
+        [](KeyPressedEvent& event) {
+            std::cout << (Input::IsKeyPressed(event.Key)) << "\n";
+        }
+    );
+
     m_Scene.AddEntity(background);
     m_Scene.AddEntity(kick_drum);
     m_Scene.AddEntity(snare_drum);
@@ -47,7 +53,7 @@ void MusicDemo::Run()
 
         kick_drum.GetComponent<Coordinate2DComponent>().x += 1.0f;
         
-        EventDispatcher::PollEvents();
+        EventSystem::PollEvents();
 
         m_Scene.OnUpdate();
         m_Scene.OnSceneRender();

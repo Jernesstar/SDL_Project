@@ -39,25 +39,25 @@ bool Start_Screen()
         0.5 * (SCREEN_WIDTH - title_text.GetComponent<RectComponent>().Width),
         0.5 * SCREEN_HEIGHT - 150
     );
-    title_text.AddComponent<EventListenerComponent>()
-    .OnWindowResized = [&title_text](WindowResizedEvent& event) {
-        auto& x = title_text.GetComponent<Coordinate2DComponent>().x;
-        auto& y = title_text.GetComponent<Coordinate2DComponent>().y;
-        x = 0.5 * (SCREEN_WIDTH - title_text.GetComponent<RectComponent>().Width);
-        y = 0.5 * SCREEN_HEIGHT - 150;
-    };
+    // title_text.AddComponent<EventListenerComponent>()
+    // .OnWindowResized = [&title_text](WindowResizedEvent& event) {
+    //     auto& x = title_text.GetComponent<Coordinate2DComponent>().x;
+    //     auto& y = title_text.GetComponent<Coordinate2DComponent>().y;
+    //     x = 0.5 * (SCREEN_WIDTH - title_text.GetComponent<RectComponent>().Width);
+    //     y = 0.5 * SCREEN_HEIGHT - 150;
+    // };
 
     message_text.AddComponent<Coordinate2DComponent>(
         0.5 * (SCREEN_WIDTH - message_text.GetComponent<RectComponent>().Width),
         0.5 * SCREEN_HEIGHT
     );
-    message_text.AddComponent<EventListenerComponent>()
-    .OnWindowResized = [&message_text](WindowResizedEvent& event) {
-        auto& x = message_text.GetComponent<Coordinate2DComponent>().x;
-        auto& y = message_text.GetComponent<Coordinate2DComponent>().y;
-        x = 0.5 * (SCREEN_WIDTH - message_text.GetComponent<RectComponent>().Width);
-        y = 0.5 * SCREEN_HEIGHT;
-    };
+    // message_text.AddComponent<EventListenerComponent>()
+    // .OnWindowResized = [&message_text](WindowResizedEvent& event) {
+    //     auto& x = message_text.GetComponent<Coordinate2DComponent>().x;
+    //     auto& y = message_text.GetComponent<Coordinate2DComponent>().y;
+    //     x = 0.5 * (SCREEN_WIDTH - message_text.GetComponent<RectComponent>().Width);
+    //     y = 0.5 * SCREEN_HEIGHT;
+    // };
 
     scene.AddEntity(title_text);
     scene.AddEntity(message_text);
@@ -68,7 +68,7 @@ bool Start_Screen()
         if(Input::IsKeyPressed(Key::Return)) return true;
         if(Input::IsKeyPressed(Key::Escape)) return false;
 
-        EventDispatcher::PollEvents();
+        EventSystem::PollEvents();
 
         scene.OnSceneRender();
     }
