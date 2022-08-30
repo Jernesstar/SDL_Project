@@ -106,10 +106,13 @@ void EventSystem::RegisterEventListener<Event>(const EventCallback<Event>& event
     RegisterEventListener<WindowEvent>(event_callback);
 }
 
-// template<>
-// void EventSystem::UnregisterEventListener<KeyPressedEvent>(std::function<void(KeyPressedEvent&)> event_callback)
-// {
-//
-// }
+// UNREGISTER_EVENT_LISTENER(KeyPressedEvent);
+// UNREGISTER_EVENT_LISTENER(KeyReleasedEvent);
+// UNREGISTER_EVENT_LISTENER(MouseMovedEvent);
+// UNREGISTER_EVENT_LISTENER(MouseScrolledEvent);
+// UNREGISTER_EVENT_LISTENER(MouseButtonPressedEvent);
+// UNREGISTER_EVENT_LISTENER(MouseButtonReleasedEvent);
+// UNREGISTER_EVENT_LISTENER(WindowResizedEvent);
+// UNREGISTER_EVENT_LISTENER(WindowClosedEvent);
 
 }

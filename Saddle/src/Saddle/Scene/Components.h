@@ -1,18 +1,14 @@
 #pragma once
 
-#include <iostream>
 #include <functional>
 #include <cmath>
-
-#include <SDL.h>
-#include <SDL_ttf.h>
 
 #include "SDL/Sound.h"
 #include "SDL/Texture2D.h"
 #include "SDL/Audio.h"
 #include "Saddle/Events/KeyEvents.h"
 #include "Saddle/Events/MouseEvents.h"
-#include "Saddle/Events/ApplicationEvents.h"
+#include "Saddle/Events/WindowEvents.h"
 
 namespace Saddle {
     
@@ -40,7 +36,17 @@ struct EventListenerComponent : public IComponent {
 
     EventListenerComponent() = default;
     EventListenerComponent(const EventListenerComponent& other) = default;
-    
+    ~EventListenerComponent()
+    {
+        OnKeyPressed          = [](KeyPressedEvent& event) {};
+        OnKeyReleased         = [](KeyReleasedEvent& event) {};
+        OnMouseMoved          = [](MouseMovedEvent& event) {};
+        OnMouseScrolled       = [](MouseScrolledEvent& event) {};
+        OnMouseButtonPressed  = [](MouseButtonPressedEvent& event) {};
+        OnMouseButtonReleased = [](MouseButtonReleasedEvent& event) {};
+        OnWindowResized       = [](WindowResizedEvent& event) {};
+        OnWindowClosed        = [](WindowClosedEvent& event) {};
+    } 
 };
 
 struct PhysicsBodyComponent : public IComponent {

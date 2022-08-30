@@ -3,7 +3,7 @@
 #include "Assert.h"
 #include "SDL/Image.h"
 #include "SDL/Font.h"
-#include "Saddle/Events/ApplicationEvents.h"
+#include "Saddle/Events/WindowEvents.h"
 #include "Saddle/Events/EventSystem.h"
 #include "Saddle/Renderer/Renderer.h"
 

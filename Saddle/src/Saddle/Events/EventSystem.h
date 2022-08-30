@@ -6,11 +6,11 @@
 
 #include <SDL.h>
 
+#include "Assert.h"
 #include "Event.h"
 #include "KeyEvents.h"
 #include "MouseEvents.h"
-#include "ApplicationEvents.h"
-#include "Assert.h"
+#include "WindowEvents.h"
 
 namespace Saddle {
 
@@ -21,9 +21,6 @@ class EventSystem {
 public:
     template<typename TEvent>
     static void RegisterEventListener(const EventCallback<TEvent>& event_callback);
-
-    // template<typename TEvent>
-    // static void UnregisterEventListener(EventCallback<TEvent> event_callback);
 
     static void PollEvents();
 
@@ -41,8 +38,9 @@ private:
     template<typename TEvent>
     static void Dispatch(std::vector<EventCallback<TEvent>> vector, TEvent& event)
     {
-        for(auto func : vector)
+        for(int i = 0; i < vector.size(); i++)
         {
+            auto& func = vector[i];
             func(event);
         }
     }
