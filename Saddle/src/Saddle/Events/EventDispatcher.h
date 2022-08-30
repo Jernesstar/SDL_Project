@@ -14,29 +14,32 @@
 
 namespace Saddle {
 
+template<typename TEvent>
+using EventCallback = std::function<void(TEvent&)>;
+
 class EventDispatcher {
 public:
     template<typename TEvent>
-    static void RegisterEventListener(std::function<void(TEvent&)> event_callback);
+    static void RegisterEventListener(const EventCallback<TEvent>& event_callback);
 
     // template<typename TEvent>
-    // static void UnregisterEventListener(std::function<void(TEvent&)> event_callback);
+    // static void UnregisterEventListener(EventCallback<TEvent> event_callback);
 
     static void PollEvents();
 
 private:
-    inline static std::vector<std::function<void(KeyPressedEvent&)>> key_pressed_event_callbacks = {};
-    inline static std::vector<std::function<void(KeyReleasedEvent&)>> key_released_event_callbacks = {};
-    inline static std::vector<std::function<void(MouseMovedEvent&)>> mouse_moved_event_callbacks = {};
-    inline static std::vector<std::function<void(MouseScrolledEvent&)>> mouse_scrolled_event_callbacks = {};
-    inline static std::vector<std::function<void(MouseButtonPressedEvent&)>> mouse_button_pressed_event_callbacks = {};
-    inline static std::vector<std::function<void(MouseButtonReleasedEvent&)>> mouse_button_released_event_callbacks = {};
-    inline static std::vector<std::function<void(WindowResizedEvent&)>> window_resized_event_callbacks = {};
-    inline static std::vector<std::function<void(WindowClosedEvent&)>> window_closed_event_callbacks = {};
+    inline static std::vector<EventCallback<KeyPressedEvent>> KeyPressedEventCallbacks = {};
+    inline static std::vector<EventCallback<KeyReleasedEvent>> KeyReleasedEventCallbacks = {};
+    inline static std::vector<EventCallback<MouseMovedEvent>> MouseMovedEventCallbacks = {};
+    inline static std::vector<EventCallback<MouseScrolledEvent>> MouseScrolledEventCallbacks = {};
+    inline static std::vector<EventCallback<MouseButtonPressedEvent>> MouseButtonPressedEventCallbacks = {};
+    inline static std::vector<EventCallback<MouseButtonReleasedEvent>> MouseButtonReleasedEventCallbacks = {};
+    inline static std::vector<EventCallback<WindowResizedEvent>> WindowResizedEventCallbacks = {};
+    inline static std::vector<EventCallback<WindowClosedEvent>> WindowClosedEventCallbacks = {};
 
 private:
-    template<typename T>
-    static void Dispatch(std::vector<std::function<void(T&)>> vector, T& event)
+    template<typename TEvent>
+    static void Dispatch(std::vector<EventCallback<TEvent>> vector, TEvent& event)
     {
         for(auto func : vector)
         {

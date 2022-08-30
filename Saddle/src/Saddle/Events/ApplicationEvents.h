@@ -4,22 +4,24 @@
 
 namespace Saddle {
 
-class ApplicationEvent : public Event {
+struct ApplicationEvent : public Event {
 protected:
     ApplicationEvent(EventType type) : Event(EventCategory::ApplicationEvent, type) { }
 };
 
-class WindowResizedEvent : public ApplicationEvent {
-public:
-    const int Width, Height;
-
-public:
-    WindowResizedEvent(int width, int height) : ApplicationEvent(EventType::WindowResizedEvent), Width(width), Height(height) { }
+struct WindowEvent : public Event {
+protected:
+    WindowEvent(EventType type) : Event(EventCategory::WindowEvent, type) { }
 };
 
-class WindowClosedEvent : public ApplicationEvent {
-public:
-    WindowClosedEvent() : ApplicationEvent(EventType::WindowClosedEvent) { }
+struct WindowResizedEvent : public WindowEvent {
+    const int Width, Height;
+
+    WindowResizedEvent(int width, int height) : WindowEvent(EventType::WindowResizedEvent), Width(width), Height(height) { }
+};
+
+struct WindowClosedEvent : public WindowEvent {
+    WindowClosedEvent() : WindowEvent(EventType::WindowClosedEvent) { }
 };
 
 // Note: Add more Window events

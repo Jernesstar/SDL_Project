@@ -2,10 +2,11 @@
 
 namespace Saddle {
 
-enum EventCategory {
-    MouseEvent       = 0x0001,
-    KeyEvent         = 0x0010,
-    ApplicationEvent = 0x0100
+enum class EventCategory {
+    MouseEvent,
+    KeyEvent,
+    WindowEvent,
+    ApplicationEvent,
 };
 
 enum class EventType {
@@ -25,7 +26,7 @@ struct Event {
     const EventType Type;
     bool Handled = false;
 
-    bool IsInCategory(EventCategory category) { return this->Category & category; }
+    bool IsInCategory(EventCategory category) { return this->Category == category; }
     bool Is(EventType type) { return this->Type == type; }
 
     template<typename TEvent>
