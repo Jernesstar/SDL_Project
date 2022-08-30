@@ -3,7 +3,7 @@
 #include <SDL.h>
 #include <SDL_ttf.h>
 
-#include "Saddle/Scene/Components.h"
+#include "RGBColor.h"
 
 namespace Saddle {
     
@@ -16,7 +16,7 @@ public:
     ~Font();
 
     TTF_Font* GetFont();
-    SDL_Surface* GetSurfaceFromText(const std::string& text, RGBColorComponent& color);
+    SDL_Surface* GetSurfaceFromText(const std::string& text, const RGBColor& color);
 
 private:
     TTF_Font* m_Font;

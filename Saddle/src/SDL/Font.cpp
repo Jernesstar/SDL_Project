@@ -11,7 +11,7 @@ Font::~Font() { TTF_CloseFont(m_Font); }
 
 TTF_Font* Font::GetFont() { return m_Font; }
 
-SDL_Surface* Font::GetSurfaceFromText(const std::string& text, RGBColorComponent& color)
+SDL_Surface* Font::GetSurfaceFromText(const std::string& text, const RGBColor& color)
 {
     SDL_Color _color = { color.r, color.g, color.b };
     return TTF_RenderText_Solid(m_Font, text.c_str(), _color); 
