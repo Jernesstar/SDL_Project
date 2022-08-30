@@ -1,3 +1,4 @@
+#include "Saddle/Core/Assert.h"
 #include "Saddle/Scene/Components.h"
 #include "Saddle/Scene/Entity.h"
 #include "Saddle/Events/Events.h"
@@ -9,6 +10,7 @@ class EventListenerSystem {
 public:
     static void OnEvent(Entity& entity, Event& event)
     {
+        SADDLE_CORE_ASSERT(entity.HasComponent<EventListenerComponent>());
         EventListenerComponent& event_listener = entity.GetComponent<EventListenerComponent>();
 
         if(event.IsInCategory(EventCategory::KeyEvent))

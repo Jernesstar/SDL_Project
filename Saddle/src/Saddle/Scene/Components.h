@@ -36,18 +36,7 @@ struct EventListenerComponent : public IComponent {
 
     EventListenerComponent() = default;
     EventListenerComponent(const EventListenerComponent& other) = default;
-    ~EventListenerComponent()
-    {
-        std::cout << "Destroying functions\n";
-        OnKeyPressed          = nullptr;
-        OnKeyReleased         = nullptr;
-        OnMouseMoved          = nullptr;
-        OnMouseScrolled       = nullptr;
-        OnMouseButtonPressed  = nullptr;
-        OnMouseButtonReleased = nullptr;
-        OnWindowResized       = nullptr;
-        OnWindowClosed        = nullptr;
-    }
+    ~EventListenerComponent() = default;
 };
 
 struct PhysicsBodyComponent : public IComponent {

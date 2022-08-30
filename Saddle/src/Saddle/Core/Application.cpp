@@ -31,12 +31,6 @@ void Application::Init(const ApplicationSpecification& specs)
 
     Image::Init(specs.IMG_Init_Flags);
     Audio::Init(specs.Audio_Specification);
-
-    EventSystem::RegisterEventListener<WindowClosedEvent>(
-        [](WindowClosedEvent& event) {
-            Application::Close();
-        }
-    );
 }
 
 void Application::Close()

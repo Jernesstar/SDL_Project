@@ -1,5 +1,7 @@
 #include "Window.h"
 
+#include "Saddle/Core/Application.h"
+
 #include "Saddle/Events/EventSystem.h"
 
 namespace Saddle {
@@ -14,12 +16,18 @@ Window::Window(const WindowSpecification& specs)
     
     m_Renderer = SDL_CreateRenderer(m_Window, -1, specs.RendererFlags);
 
-    EventSystem::RegisterEventListener<WindowResizedEvent>(
+    EventSystem::PriorityWindowClosedEventCallbacks.push_back(
+        [](WindowClosedEvent& event) {
+            Application::Close();
+        }
+    );
+    EventSystem::PriorityWindowResizedEventCallbacks.push_back(
         [this](WindowResizedEvent& event) {
             this->Width = event.Width;
             this->Height = event.Height;
         }
     );
+
 }
 
 Window::~Window()

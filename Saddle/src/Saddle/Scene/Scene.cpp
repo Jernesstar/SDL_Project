@@ -7,7 +7,7 @@
 namespace Saddle {
 
 Scene::Scene() : entities() { }
-Scene::~Scene() { }
+Scene::~Scene() { EventSystem::Reset(); }
 
 void Scene::OnUpdate()
 {
@@ -15,10 +15,10 @@ void Scene::OnUpdate()
     TimeStep ts = time - m_LastFrameTime;
     m_LastFrameTime = time;
 
-    for(int i = 0; i < entities.size(); i++)
-    {
-        Entity& entity = *entities.at(i);
-    }
+    // for(int i = 0; i < entities.size(); i++)
+    // {
+    //     Entity& entity = *entities.at(i);
+    // }
 }
 
 void Scene::OnSceneRender()

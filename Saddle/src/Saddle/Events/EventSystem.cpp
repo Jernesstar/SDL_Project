@@ -22,31 +22,37 @@ void EventSystem::PollEvents()
         if(SDL_event.type == SDL_KEYDOWN)
         {
             KeyPressedEvent event((KeyCode)SDL_event.key.keysym.scancode);
+            Dispatch<KeyPressedEvent>(PriorityKeyPressedEventCallbacks, event);
             Dispatch<KeyPressedEvent>(KeyPressedEventCallbacks, event);
         }
         if(SDL_event.type == SDL_KEYUP)
         {
             KeyReleasedEvent event((KeyCode)SDL_event.key.keysym.scancode);
+            Dispatch<KeyReleasedEvent>(PriorityKeyReleasedEventCallbacks, event);
             Dispatch<KeyReleasedEvent>(KeyReleasedEventCallbacks, event);
         }
         if(SDL_event.type == SDL_MOUSEMOTION)
         {
             MouseMovedEvent event((int)SDL_event.motion.x, (int)SDL_event.motion.y);
+            Dispatch<MouseMovedEvent>(PriorityMouseMovedEventCallbacks, event);
             Dispatch<MouseMovedEvent>(MouseMovedEventCallbacks, event);
         }
         if(SDL_event.type == SDL_MOUSEWHEEL)
         {
             MouseScrolledEvent event(SDL_event.wheel.preciseX, SDL_event.wheel.preciseY);
+            Dispatch<MouseScrolledEvent>(PriorityMouseScrolledEventCallbacks, event);
             Dispatch<MouseScrolledEvent>(MouseScrolledEventCallbacks, event);
         }
         if(SDL_event.type == SDL_MOUSEBUTTONDOWN)
         {
             MouseButtonPressedEvent event((MouseCode)SDL_event.button.button, (int)SDL_event.button.x, (int)SDL_event.button.y);
+            Dispatch<MouseButtonPressedEvent>(PriorityMouseButtonPressedEventCallbacks, event);
             Dispatch<MouseButtonPressedEvent>(MouseButtonPressedEventCallbacks, event);
         }
         if(SDL_event.type == SDL_MOUSEBUTTONUP)
         {
             MouseButtonReleasedEvent event((MouseCode)SDL_event.button.button, (int)SDL_event.button.x, (int)SDL_event.button.y);
+            Dispatch<MouseButtonReleasedEvent>(PriorityMouseButtonReleasedEventCallbacks, event);
             Dispatch<MouseButtonReleasedEvent>(MouseButtonReleasedEventCallbacks, event);
         }
         if(SDL_event.type == SDL_WINDOWEVENT)
@@ -55,12 +61,14 @@ void EventSystem::PollEvents()
             {
                 // On a Window resized event, data1 and data2 will have the new width and height of the window
                 WindowResizedEvent event((int)SDL_event.window.data1, (int)SDL_event.window.data2);
+                Dispatch<WindowResizedEvent>(PriorityWindowResizedEventCallbacks, event);
                 Dispatch<WindowResizedEvent>(WindowResizedEventCallbacks, event);
             }
-        }   
+        }
         if(SDL_event.type == SDL_QUIT)
         {
             WindowClosedEvent event;
+            Dispatch<WindowClosedEvent>(PriorityWindowClosedEventCallbacks, event);
             Dispatch<WindowClosedEvent>(WindowClosedEventCallbacks, event);
         }
     }
@@ -106,13 +114,16 @@ void EventSystem::RegisterEventListener<Event>(const EventCallback<Event>& event
     RegisterEventListener<WindowEvent>(event_callback);
 }
 
-// UNREGISTER_EVENT_LISTENER(KeyPressedEvent);
-// UNREGISTER_EVENT_LISTENER(KeyReleasedEvent);
-// UNREGISTER_EVENT_LISTENER(MouseMovedEvent);
-// UNREGISTER_EVENT_LISTENER(MouseScrolledEvent);
-// UNREGISTER_EVENT_LISTENER(MouseButtonPressedEvent);
-// UNREGISTER_EVENT_LISTENER(MouseButtonReleasedEvent);
-// UNREGISTER_EVENT_LISTENER(WindowResizedEvent);
-// UNREGISTER_EVENT_LISTENER(WindowClosedEvent);
+void EventSystem::Reset()
+{
+    KeyPressedEventCallbacks.clear();
+    KeyReleasedEventCallbacks.clear();
+    MouseMovedEventCallbacks.clear();
+    MouseScrolledEventCallbacks.clear();
+    MouseButtonPressedEventCallbacks.clear();
+    MouseButtonReleasedEventCallbacks.clear();
+    WindowResizedEventCallbacks.clear();
+    WindowClosedEventCallbacks.clear();
+}
 
 }
