@@ -7,11 +7,10 @@ namespace Saddle {
 class Texture2D {
 public:
     float Width = 0, Height = 0;
-    double Angle = 0;
     
 public:
     Texture2D() = default;
-    Texture2D(SDL_Surface* surface, double angle = 0);
+    Texture2D(SDL_Surface* surface);
     Texture2D(Texture2D&& other);
     Texture2D(const Texture2D& other) = delete;
     ~Texture2D();

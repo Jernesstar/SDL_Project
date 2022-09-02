@@ -7,8 +7,8 @@
 
 namespace Saddle {
 
-Texture2D::Texture2D(SDL_Surface* surface, double angle)
-    : Width(surface->w), Height(surface->h), Angle(angle)
+Texture2D::Texture2D(SDL_Surface* surface)
+    : Width(surface->w), Height(surface->h)
 {
     // Note: Maybe move Window::m_Renderer to Renderer class
     auto renderer = Application::Get().GetWindow().GetRenderer();
@@ -18,7 +18,7 @@ Texture2D::Texture2D(SDL_Surface* surface, double angle)
 }
 
 Texture2D::Texture2D(Texture2D&& other)
-    : Width(other.Width), Height(other.Height), Angle(other.Angle), m_Texture(other.m_Texture)
+    : Width(other.Width), Height(other.Height), m_Texture(other.m_Texture)
 { other.m_Texture = nullptr; }
 
 Texture2D::~Texture2D() { if(m_Texture) SDL_DestroyTexture(m_Texture); m_Texture = nullptr; }
@@ -30,7 +30,6 @@ Texture2D& Texture2D::operator=(Texture2D&& other)
 
     this->Width  = other.Width;
     this->Height = other.Height;
-    this->Angle  = other.Angle;
     this->m_Texture = other.m_Texture;
 
     other.m_Texture = nullptr;

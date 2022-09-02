@@ -2,9 +2,9 @@
 
 #include <SDL.h>
 
-#include "SDL/Coordinate2D.h"
-#include "SDL/Rect.h"
 #include "SDL/Texture2D.h"
+#include "SDL/Transform.h"
+#include "SDL/RGBColor.h"
 
 namespace Saddle {
 
@@ -12,9 +12,9 @@ class Renderer {
 public:
     static void Init();
     static void Clear();
-    static void DrawTexture(Texture2D& texture, Coordinate2D coordinate);
+    static void DrawTexture(const Texture2D& texture, const Transform& transform);
     static void Render();
-    static void SetPixel(SDL_Surface* surface, int x, int y, SDL_Color color);
+    static void SetPixel(SDL_Surface* surface, int x, int y, RGBColor color);
 
 private:
     inline static SDL_Renderer* s_Renderer;

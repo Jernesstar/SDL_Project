@@ -27,10 +27,10 @@ void Scene::OnSceneRender()
     for(int i = 0; i < entities.size(); i++)
     {
         Entity& entity = *entities.at(i);
-        if(entity.HasComponent<TextureComponent>())
+        if(entity.HasComponent<TextureComponent>() && entity.HasComponent<TransformComponent>())
         { 
-            Coordinate2D coordinate = entity.GetComponent<Coordinate2DComponent>();
             Texture2D& texture = entity.GetComponent<TextureComponent>().Texture;
+            Transform coordinate = entity.GetComponent<TransformComponent>();
             Renderer::DrawTexture(texture, coordinate);
         }
     }

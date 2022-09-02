@@ -3,11 +3,12 @@
 #include <functional>
 #include <cmath>
 
+#include "SDL/Audio.h"
 #include "SDL/Sound.h"
 #include "SDL/Texture2D.h"
-#include "SDL/Audio.h"
 #include "Saddle/Events/KeyEvents.h"
 #include "Saddle/Events/MouseEvents.h"
+#include "Saddle/Core/Vector.h"
 #include "Saddle/Events/WindowEvents.h"
 
 namespace Saddle {
@@ -18,45 +19,39 @@ protected:
     IComponent() = default;
 };
 
-struct Coordinate2DComponent : public IComponent {
-    float x, y;
-
-    Coordinate2DComponent(float x = 0, float y = 0) : x(x), y(y) { }
-};
-
 struct EventListenerComponent : public IComponent {
-    std::function<void(KeyPressedEvent& event)> OnKeyPressed;
-    std::function<void(KeyReleasedEvent& event)> OnKeyReleased;
-    std::function<void(MouseMovedEvent& event)> OnMouseMoved;
-    std::function<void(MouseScrolledEvent& event)> OnMouseScrolled;
-    std::function<void(MouseButtonPressedEvent& event)> OnMouseButtonPressed;
+    std::function<void(KeyPressedEvent& event)>          OnKeyPressed;
+    std::function<void(KeyReleasedEvent& event)>         OnKeyReleased;
+    std::function<void(MouseMovedEvent& event)>          OnMouseMoved;
+    std::function<void(MouseScrolledEvent& event)>       OnMouseScrolled;
+    std::function<void(MouseButtonPressedEvent& event)>  OnMouseButtonPressed;
     std::function<void(MouseButtonReleasedEvent& event)> OnMouseButtonReleased;
-    std::function<void(WindowResizedEvent& event)> OnWindowResized;
-    std::function<void(WindowClosedEvent& event)> OnWindowClosed;
+    std::function<void(WindowResizedEvent& event)>       OnWindowResized;
+    std::function<void(WindowClosedEvent& event)>        OnWindowClosed;
 
     EventListenerComponent() = default;
     EventListenerComponent(const EventListenerComponent& other) = default;
     ~EventListenerComponent() = default;
 };
 
-struct PhysicsBodyComponent : public IComponent {
-    float Speed;
-    float VelocityX;
-    float VelocityY;
-    float Bounciness;
-
-    PhysicsBodyComponent(float velocity_x = 0.0f, float velocity_y = 0.0f, float bounciness = 0.0f) 
-        : VelocityX(velocity_x), VelocityY(velocity_y), Bounciness(bounciness)
-    {
-        // Distance formula + speed formula: sqrt(a^2 + b^2) / time
-        Speed = pow((VelocityX * VelocityX) + (VelocityY * VelocityY), 0.5) / 1;
-    }
-};
-
 struct RectComponent : public IComponent {
     float Width, Height;
 
     RectComponent(float width = 1, float height = 1) : Width(width), Height(height) { }
+};
+
+struct RigidBodyComponent : public IComponent {
+    float Speed, VelocityX, VelocityY, Bounciness;
+
+    RigidBodyComponent(float velocity_x = 0.0f, float velocity_y = 0.0f, float bounciness = 0.0f) 
+        : VelocityX(velocity_x), VelocityY(velocity_y), Bounciness(bounciness)
+    { CalculateSpeed(); }
+
+    void CalculateSpeed()
+    {
+        // Distance formula + speed formula: sqrt(a^2 + b^2) / time
+        Speed = pow((VelocityX * VelocityX) + (VelocityY * VelocityY), 0.5) / 1;
+    }
 };
 
 struct RGBColorComponent : public IComponent {
@@ -78,6 +73,14 @@ struct TextureComponent : public IComponent {
 
     TextureComponent() = default;
     ~TextureComponent() = default;
+};
+
+struct TransformComponent : public IComponent {
+    Vector2D Coordinate = { 0.0f, 0.0f };
+    float Rotation = 0;
+    Vector2D Scale = { 1, 1 };
+
+    TransformComponent() = default;
 };
 
 }

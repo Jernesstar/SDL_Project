@@ -3,7 +3,7 @@
 #include <SDL.h>
 #include <SDL_ttf.h>
 
-#include "RGBColor.h"
+#include "SDL/RGBColor.h"
 
 namespace Saddle {
     

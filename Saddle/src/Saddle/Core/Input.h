@@ -4,26 +4,22 @@
 #include "MouseCodes.h"
 
 #include "SDL/Rect.h"
-#include "SDL/Coordinate2D.h"
+#include "SDL/Transform.h"
+#include "Saddle/Core/Vector.h"
 
 namespace Saddle {
 
-struct MousePosition {
-    int x;
-    int y;
-};
-
 class Input {
 public:
-    static bool IsKeyPressed(KeyCode key);
-    static bool AreKeysPressed(KeyCode key1, KeyCode key2);
-    static bool AreKeysPressed(KeyCode key1, KeyCode key2, KeyCode key3);
-    static bool AreKeysPressed(KeyCode key1, KeyCode key2, KeyCode key, KeyCode key4);
+    static bool KeyPressed(KeyCode key);
+    static bool KeysPressed(KeyCode key1, KeyCode key2);
+    static bool KeysPressed(KeyCode key1, KeyCode key2, KeyCode key3);
+    static bool KeysPressed(KeyCode key1, KeyCode key2, KeyCode key, KeyCode key4);
 
-    static bool IsMouseButtonPressed(MouseCode mouse_button);
-    static bool MousePressedOn(const Rect& rect, const Coordinate2D& coordinate);
+    static bool MouseButtonPressed(MouseCode mouse_button);
+    static bool MousePressedOn(const Rect& rect, const Transform& transform);
 
-    static MousePosition GetMousePosition();
+    static Vector2D GetMousePosition();
     static int GetMouseX();
     static int GetMouseY();
 

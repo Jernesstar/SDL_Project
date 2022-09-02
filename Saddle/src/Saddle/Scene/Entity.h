@@ -9,7 +9,7 @@ class Entity {
 public:
     Entity();
     Entity(Scene& scene);
-    ~Entity() { }
+    ~Entity() = default;
 
     std::vector<Entity*> QueryScene(std::function<bool(const Entity& entity)> predicate);
 

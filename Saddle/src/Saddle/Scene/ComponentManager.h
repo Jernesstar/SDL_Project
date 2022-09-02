@@ -26,7 +26,7 @@ public:
     template<typename Component, typename... Args>
     Component& AddComponent(Args&&... args)
     {
-        SADDLE_CORE_ASSERT(!HasComponent<Component>(), "Entity already has component '" + std::string(typeid(Component).name()) + "'");
+        SADDLE_CORE_ASSERT(!HasComponent<Component>(), "AddComponent(): Entity already has component '" + std::string(typeid(Component).name()) + "'");
 
         Component* component = new Component(std::forward<Args>(args)...);
         m_Components[Hash<Component>()] = component;
@@ -36,7 +36,7 @@ public:
     template<typename Component>
     void RemoveComponent()
     {
-        SADDLE_CORE_ASSERT(HasComponent<Component>(), "Entity does not have component '" + std::string(typeid(Component).name()) + "'");
+        SADDLE_CORE_ASSERT(HasComponent<Component>(), "RemoveComponent(): Entity does not have component '" + std::string(typeid(Component).name()) + "'");
 
         m_Components.erase(Hash<Component>());
     }
@@ -44,10 +44,13 @@ public:
     template<typename Component>
     Component& GetComponent()
     {
-        SADDLE_CORE_ASSERT(HasComponent<Component>(), "Entity does not have component '" + std::string(typeid(Component).name()) + "'");
+        SADDLE_CORE_ASSERT(HasComponent<Component>(), "GetComponent(): Entity does not have component '" + std::string(typeid(Component).name()) + "'");
         
         return *(Component*)m_Components[Hash<Component>()];
     }
+
+    // template<typename... Component>
+    
 
 private:
     std::unordered_map<std::size_t, IComponent*> m_Components;

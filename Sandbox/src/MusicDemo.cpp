@@ -15,10 +15,6 @@ void MusicDemo::Run()
     MusicBlock kick_drum("Sandbox/assets/sounds/Kick-Drum.wav", 70.0f, 70.0f);
     MusicBlock snare_drum("Sandbox/assets/sounds/Snare-Drum.wav", 70.0f, 70.0f);
     
-    background.AddComponent<Coordinate2DComponent>();
-    kick_drum.AddComponent<Coordinate2DComponent>(0.0f, 100.0f);
-    snare_drum.AddComponent<Coordinate2DComponent>(0.0f, 300.0f);
-
     auto& component1 = background.AddComponent<TextureComponent>();
     auto& component2 = kick_drum.GetComponent<TextureComponent>();
     auto& component3 = snare_drum.GetComponent<TextureComponent>();
@@ -43,11 +39,8 @@ void MusicDemo::Run()
     bool running = true;
     while(running)
     {
-        if(Input::IsKeyPressed(Key::Escape)) running = false;
+        if(Input::KeyPressed(Key::Escape)) running = false;
 
-        kick_drum.GetComponent<Coordinate2DComponent>().x += 0.3f;
-        snare_drum.GetComponent<Coordinate2DComponent>().x += 0.4f;
-        
         EventSystem::PollEvents();
 
         m_Scene.OnSceneRender();

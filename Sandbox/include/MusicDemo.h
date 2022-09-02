@@ -18,7 +18,7 @@ public:
 
         AddComponent<EventListenerComponent>()
         .OnMouseButtonPressed = [this](MouseButtonPressedEvent& event) {
-            if(Input::MousePressedOn(GetComponent<RectComponent>(), GetComponent<Coordinate2DComponent>()))
+            if(Input::MousePressedOn(GetComponent<RectComponent>(), GetComponent<TransformComponent>()))
                 Play();
         };
         
