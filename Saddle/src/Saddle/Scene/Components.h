@@ -81,6 +81,9 @@ struct TransformComponent : public IComponent {
     Vector2D Scale = { 1, 1 };
 
     TransformComponent() = default;
+    TransformComponent(Vector2D coordinate) : Coordinate(coordinate) { }
+    TransformComponent(Vector2D coordinate, float rotation, Vector2D scale) 
+        : Coordinate(coordinate), Rotation(rotation), Scale(scale) { }
 };
 
 }

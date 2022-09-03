@@ -17,12 +17,17 @@ void TextureSystem::CreateText(Entity& entity, const std::string& text, Font& fo
 
     SDL_Surface* text_surface = font.GetSurfaceFromText(text, color_component);
     texture_component.Texture.m_Texture = SDL_CreateTextureFromSurface(renderer, text_surface);
-    auto rect = text_surface->clip_rect;
     
+    auto rect = text_surface->clip_rect;
     texture_component.Texture.Width = rect.w * transform_component.Scale.x;
     texture_component.Texture.Height = rect.h * transform_component.Scale.y;
-    rect_component = { (float)rect.w * transform_component.Scale.x, 
-        (float)rect.h * transform_component.Scale.y };
+    
+    if(entity.HasComponent<RectComponent>())
+    {
+        RectComponent& rect_component = entity.GetComponent<RectComponent>();
+        rect_component = { (float)rect.w * transform_component.Scale.x, 
+            (float)rect.h * transform_component.Scale.y };
+    }
 
     SDL_FreeSurface(text_surface);
 }
@@ -31,7 +36,6 @@ void TextureSystem::CreateRectangle(Entity& entity, int width, int height, int d
     int r_mask, int g_mask, int b_mask, int a_mask)
 {
     auto renderer = Application::Get().GetWindow().GetRenderer();
-    RectComponent& rect_component = entity.GetComponent<RectComponent>();
     RGBColorComponent& color = entity.GetComponent<RGBColorComponent>();
     TextureComponent& texture_component = entity.GetComponent<TextureComponent>();
     TransformComponent& transform_component = entity.GetComponent<TransformComponent>();
@@ -43,9 +47,13 @@ void TextureSystem::CreateRectangle(Entity& entity, int width, int height, int d
     auto rect = surface->clip_rect;
     texture_component.Texture.Width = rect.w * transform_component.Scale.x;
     texture_component.Texture.Height = rect.h * transform_component.Scale.y;
-    rect_component = { (float)rect.w * transform_component.Scale.x, 
-        (float)rect.h * transform_component.Scale.y };
 
+    if(entity.HasComponent<RectComponent>())
+    {
+        RectComponent& rect_component = entity.GetComponent<RectComponent>();
+        rect_component = { (float)rect.w * transform_component.Scale.x, 
+            (float)rect.h * transform_component.Scale.y };
+    }
     
     SADDLE_CORE_ASSERT(texture_component.Texture.m_Texture != nullptr, "Could not create texture");
 }

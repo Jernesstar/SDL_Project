@@ -12,6 +12,7 @@ public:
     {
         AddComponent<TextureComponent>();
         AddComponent<RGBColorComponent>(r, g, b);
+        AddComponent<TransformComponent>();
         AddComponent<RectComponent>(width, height);
 
         TextureSystem::CreateRectangle(*this, width, height);

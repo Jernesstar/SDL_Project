@@ -5,6 +5,12 @@
 
 namespace Saddle {
 
+
+// Todo: Set up the dependencies of all systems in a visible way
+// struct TextureSystemDependencies {
+
+// };
+
 class TextureSystem {
 public:
     static void CreateText(Entity& entity, const std::string& text, Font& font);

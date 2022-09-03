@@ -4,6 +4,9 @@
 #include <Saddle/Scene/Scene.h>
 #include <SDL/Image.h>
 
+#define SCREEN_WIDTH Application::Get().GetWindow().Width
+#define SCREEN_HEIGHT Application::Get().GetWindow().Height
+
 MusicDemo::MusicDemo()
     : m_Scene() { }
 
@@ -25,6 +28,10 @@ void MusicDemo::Run()
     component2.Texture = Image::Load("Sandbox/assets/graphics/kick_drum.png", 70.0f, 70.0f);
     component3.Texture = Image::Load("Sandbox/assets/graphics/snare_drum.jpg", 70.0f, 70.0f);
 
+    background.AddComponent<TransformComponent>();
+    kick_drum.GetComponent<TransformComponent>().Coordinate = { 0, 70.0f };
+    snare_drum.GetComponent<TransformComponent>().Coordinate = { 0, 210.0f };
+
     background.AddComponent<EventListenerComponent>()
     .OnWindowResized = [&background](WindowResizedEvent& event) {
         auto& texture = background.GetComponent<TextureComponent>();
@@ -40,6 +47,10 @@ void MusicDemo::Run()
     while(running)
     {
         if(Input::KeyPressed(Key::Escape)) running = false;
+
+        auto& rotation = kick_drum.GetComponent<TransformComponent>().Rotation;
+
+        rotation += 0.5f;
 
         EventSystem::PollEvents();
 

@@ -24,9 +24,12 @@ bool Start_Screen()
     title_text.AddComponent<TextureComponent>();
     title_text.AddComponent<RectComponent>();
     title_text.AddComponent<RGBColorComponent>(255, 255, 255);
+    title_text.AddComponent<TransformComponent>();
+    
     message_text.AddComponent<TextureComponent>();
     message_text.AddComponent<RectComponent>();
     message_text.AddComponent<RGBColorComponent>(255, 255, 255);
+    message_text.AddComponent<TransformComponent>();
 
     std::string font_path = "Sandbox/assets/fonts/pixel_font.ttf";
     Font title_font(font_path, 100);
@@ -35,27 +38,28 @@ bool Start_Screen()
     TextureSystem::CreateText(title_text, title, title_font);
     TextureSystem::CreateText(message_text, message, message_font);
 
-    // title_text.AddComponent<Coordinate2DComponent>(
-    //     0.5 * (SCREEN_WIDTH - title_text.GetComponent<RectComponent>().Width),
-    //     0.5 * SCREEN_HEIGHT - 150
-    // );
-    // title_text.AddComponent<EventListenerComponent>()
-    // .OnWindowResized = [&title_text](WindowResizedEvent& event) {
-    //     auto& [x, y] = title_text.GetComponent<Coordinate2DComponent>();
-    //     x = 0.5 * (event.Width - title_text.GetComponent<RectComponent>().Width);
-    //     y = 0.5 * event.Height - 150;
-    // };
+    title_text.GetComponent<TransformComponent>().Coordinate = Vector2D{ 
+        0.5f * (SCREEN_WIDTH - title_text.GetComponent<RectComponent>().Width),
+        0.5f * SCREEN_HEIGHT - 150.0f
+    };
 
-    // message_text.AddComponent<Coordinate2DComponent>(
-    //     0.5 * (SCREEN_WIDTH - message_text.GetComponent<RectComponent>().Width),
-    //     0.5 * SCREEN_HEIGHT
-    // );
-    // message_text.AddComponent<EventListenerComponent>()
-    // .OnWindowResized = [&message_text](WindowResizedEvent& event) {
-    //     auto& [x, y] = message_text.GetComponent<Coordinate2DComponent>();
-    //     x = 0.5 * (event.Width - message_text.GetComponent<RectComponent>().Width);
-    //     y = 0.5 * event.Height;
-    // };
+    message_text.GetComponent<TransformComponent>().Coordinate = Vector2D{ 
+        0.5f * (SCREEN_WIDTH - message_text.GetComponent<RectComponent>().Width),
+        0.5f * SCREEN_HEIGHT
+    };
+
+    title_text.AddComponent<EventListenerComponent>()
+    .OnWindowResized = [&title_text](WindowResizedEvent& event) {
+        auto& [x, y] = title_text.GetComponent<TransformComponent>().Coordinate;
+        x = 0.5f * (event.Width - title_text.GetComponent<RectComponent>().Width);
+        y = 0.5f * event.Height - 150.0f;
+    };
+    message_text.AddComponent<EventListenerComponent>()
+    .OnWindowResized = [&message_text](WindowResizedEvent& event) {
+        auto& [x, y] = message_text.GetComponent<TransformComponent>().Coordinate;
+        x = 0.5f * (event.Width - message_text.GetComponent<RectComponent>().Width);
+        y = 0.5f * event.Height;
+    };
 
     scene.AddEntity(title_text);
     scene.AddEntity(message_text);
