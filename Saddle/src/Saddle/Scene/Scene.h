@@ -4,7 +4,7 @@
 #include <vector>
 #include <functional>
 
-#include "Saddle/Core/TimeStep.h"
+#include "Saddle/Core/Time.h"
 
 namespace Saddle {
 
@@ -26,7 +26,7 @@ public:
 
 private:
     std::vector<Entity*> entities;
-    float m_LastFrameTime = 0;
+    TimePoint m_LastFrameTime;
 };
 
 }

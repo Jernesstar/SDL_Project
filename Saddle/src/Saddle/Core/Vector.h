@@ -14,13 +14,13 @@ struct Vector2D {
     Vector2D(Vector2D&& other) = default;
     Vector2D& operator =(Vector2D&& other) = default;
 
-    Vector2D operator *(int scalar)
+    Vector2D operator *(float scalar)
     {
         float _x = x * scalar, _y = y * scalar;
         return {_x, _y};
     }
 
-    void operator *=(int scalar)
+    void operator *=(float scalar)
     {
         auto vec = *this * scalar;
         x = vec.x; y = vec.y;
@@ -53,13 +53,13 @@ struct Vector3D {
     Vector3D(Vector3D&& other) = default;
     Vector3D& operator=(Vector3D&& other) = default;
     
-    Vector3D operator *(int scalar)
+    Vector3D operator *(float scalar)
     {
         float _x = x * scalar, _y = y * scalar, _z = z * scalar;
         return {_x, _y, _z};
     }
 
-    void operator *=(int scalar)
+    void operator *=(float scalar)
     {
         auto vec = *this * scalar;
         x = vec.x; y = vec.y; z = vec.z;

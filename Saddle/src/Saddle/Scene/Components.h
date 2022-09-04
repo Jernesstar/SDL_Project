@@ -41,16 +41,17 @@ struct RectComponent : public IComponent {
 };
 
 struct RigidBodyComponent : public IComponent {
-    float Speed, VelocityX, VelocityY, Bounciness;
+    Vector2D Velocity = { 0.0f, 0.0f };
+    float Speed = 0, RotationSpeed = 0, Bounciness = 0;
 
-    RigidBodyComponent(float velocity_x = 0.0f, float velocity_y = 0.0f, float bounciness = 0.0f) 
-        : VelocityX(velocity_x), VelocityY(velocity_y), Bounciness(bounciness)
+    RigidBodyComponent(Vector2D velocity = Vector2D{ 0.0f, 0.0f }, float rotation_speed = 0.0f, float bounciness = 0.0f) 
+        : RotationSpeed(rotation_speed), Bounciness(bounciness)
     { CalculateSpeed(); }
 
     void CalculateSpeed()
     {
-        // Distance formula + speed formula: sqrt(a^2 + b^2) / time
-        Speed = pow((VelocityX * VelocityX) + (VelocityY * VelocityY), 0.5) / 1;
+        // Magnitude of velocity vector
+        Speed = pow((double)(Velocity.x * Velocity.x) + (double)(Velocity.y * Velocity.y), 0.5);
     }
 };
 

@@ -6,12 +6,16 @@
 
 namespace Saddle {
 
+struct EventListenerSystemDependencies {
+    EventListenerComponent* event_listener_component;
+};
+
 class EventListenerSystem {
 public:
     static void OnEvent(Entity& entity, Event& event)
     {
         SADDLE_CORE_ASSERT(entity.HasComponent<EventListenerComponent>());
-        EventListenerComponent& event_listener = entity.GetComponent<EventListenerComponent>();
+        auto& event_listener = entity.GetComponent<EventListenerComponent>();
 
         if(event.IsInCategory(EventCategory::KeyEvent))
         {
@@ -66,6 +70,12 @@ public:
         {
             
         }
+    }
+
+private:
+    static EventListenerSystemDependencies GetDependencies(Entity& entity)
+    {
+        return { &entity.GetComponent<EventListenerComponent>() };
     }
 };
 

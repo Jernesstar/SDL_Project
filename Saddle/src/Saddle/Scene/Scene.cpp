@@ -3,6 +3,7 @@
 
 #include "Saddle/Renderer/Renderer.h"
 #include "Saddle/Systems/EventListenerSystem.h"
+#include "Saddle/Systems/PhysicsSystem.h"
 
 namespace Saddle {
 
@@ -11,14 +12,18 @@ Scene::~Scene() { EventSystem::Reset(); }
 
 void Scene::OnUpdate()
 {
-    float time = TimeStep::GetTime();
-    TimeStep ts = time - m_LastFrameTime;
+    TimePoint time = Time::GetTime();
+    TimeStep ts = time - (m_LastFrameTime != 0 ? m_LastFrameTime : Time::GetTime());
     m_LastFrameTime = time;
 
-    // for(int i = 0; i < entities.size(); i++)
-    // {
-    //     Entity& entity = *entities.at(i);
-    // }
+    for(int i = 0; i < entities.size(); i++)
+    {
+        Entity& entity = *entities.at(i);
+        if(entity.HasComponent<RigidBodyComponent>() && entity.HasComponent<TransformComponent>())
+        {
+            PhysicsSystem::Update(entity, ts);
+        }
+    }
 }
 
 void Scene::OnSceneRender()
@@ -30,8 +35,8 @@ void Scene::OnSceneRender()
         if(entity.HasComponent<TextureComponent>() && entity.HasComponent<TransformComponent>())
         { 
             Texture2D& texture = entity.GetComponent<TextureComponent>().Texture;
-            Transform coordinate = entity.GetComponent<TransformComponent>();
-            Renderer::DrawTexture(texture, coordinate);
+            Transform transform = entity.GetComponent<TransformComponent>();
+            Renderer::DrawTexture(texture, transform);
         }
     }
     Renderer::Render();
