@@ -28,11 +28,11 @@ void PhysicsSystem::ApplyForce(Entity& entity, float force, float angle)
     
     // If the angle of the incoming force is in the right half of the unit circle, 
     // we want the resulting ratio to be negative and push the entity to the left
-    if(cosine >= 0.0f) x_ratio *= -1;
+    if(cosine > 0.0f) x_ratio *= -1;
 
     // If the angle of the incoming force is in the bottom half of the unit circle,
     // we want the result ratio to be negative and push the entity up
-    if(sine <= 0.0f) y_ratio *= -1;
+    if(sine < 0.0f) y_ratio *= -1;
 
     rigidbody->Velocity += Vector2D{ x_ratio, y_ratio } * force;
 }
