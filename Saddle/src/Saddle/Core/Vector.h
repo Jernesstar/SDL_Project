@@ -16,8 +16,7 @@ struct Vector2D {
 
     Vector2D operator *(float scalar)
     {
-        float _x = x * scalar, _y = y * scalar;
-        return {_x, _y};
+        return {x * scalar, y * scalar};
     }
 
     void operator *=(float scalar)
@@ -28,8 +27,7 @@ struct Vector2D {
 
     Vector2D operator +(const Vector2D& other)
     {
-        float _x = x + other.x, _y = y + other.y;
-        return {_x, _y};
+        return {x + other.x, y + other.y};
     }
 
     void operator +=(const Vector2D& other)
@@ -55,8 +53,7 @@ struct Vector3D {
     
     Vector3D operator *(float scalar)
     {
-        float _x = x * scalar, _y = y * scalar, _z = z * scalar;
-        return {_x, _y, _z};
+        return {x * scalar, y * scalar, z * scalar};
     }
 
     void operator *=(float scalar)
@@ -67,8 +64,7 @@ struct Vector3D {
 
     Vector3D operator +(const Vector3D& other)
     {
-        float _x = x + other.x, _y = y + other.y, _z = z + other.z;
-        return {_x, _y, _z};
+        return {x + other.x, y + other.y, z + other.z};
     }
 
     void operator +=(const Vector3D& other)
