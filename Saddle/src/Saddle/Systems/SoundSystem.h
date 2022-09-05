@@ -4,6 +4,10 @@
 
 namespace Saddle {
 
+struct SoundSystemDependencies {
+    SoundComponent* sound_component;
+};
+
 class SoundSystem {
 public:
     // loops = 0: Play the sound once
@@ -12,6 +16,20 @@ public:
     static void SetSoundVolume(Entity& entity, Uint8 volume);
     static void IncreaseVolume(Entity& entity, Uint8 delta);
     static void DecreaseVolume(Entity& entity, Uint8 delta);
+
+    static bool HasDependencies(Entity& entity)
+    {
+        return entity.HasComponent<SoundComponent>();
+    }
+
+private:
+    SoundSystem() = delete;
+    ~SoundSystem() = delete;
+
+    static SoundSystemDependencies GetDependencies(Entity& entity)
+    {
+        return { &entity.GetComponent<SoundComponent>() };
+    }
 };
 
 }

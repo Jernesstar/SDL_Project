@@ -17,6 +17,11 @@ public:
     static void ApplyForce(Entity& entity, float force, float angle);
     static void Update(Entity& entity, TimeStep ts);
 
+    static bool HasDependencies(Entity& entity)
+    {
+        return entity.HasComponent<RigidBodyComponent>() && entity.HasComponent<TransformComponent>();
+    }
+    
 private:
     inline static float Gravity = 0;
 
@@ -24,7 +29,10 @@ private:
     PhysicsSystem() = delete;
     ~PhysicsSystem() = delete;
 
-    static PhysicsSystemDependencies GetDependencies(Entity& entity);
+    static PhysicsSystemDependencies GetDependencies(Entity& entity)
+    {
+        return { &entity.GetComponent<RigidBodyComponent>(), &entity.GetComponent<TransformComponent>() };
+    }
 };
 
 }

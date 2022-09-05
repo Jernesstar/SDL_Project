@@ -39,12 +39,12 @@ bool Start_Screen()
     TextureSystem::CreateText(message_text, message, message_font);
 
     title_text.GetComponent<TransformComponent>().Coordinate = Vector2D{ 
-        0.5f * (SCREEN_WIDTH - title_text.GetComponent<RectComponent>().Width),
+        0.5f * (SCREEN_WIDTH - title_text.GetComponent<TextureComponent>().Texture.Width),
         0.5f * SCREEN_HEIGHT - 150.0f
     };
 
     message_text.GetComponent<TransformComponent>().Coordinate = Vector2D{ 
-        0.5f * (SCREEN_WIDTH - message_text.GetComponent<RectComponent>().Width),
+        0.5f * (SCREEN_WIDTH - message_text.GetComponent<TextureComponent>().Texture.Width),
         0.5f * SCREEN_HEIGHT
     };
 
