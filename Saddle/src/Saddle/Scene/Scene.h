@@ -17,8 +17,9 @@ public:
 
     // Entity& GetEntityByUUID(UUID entity_ID);
     
-    void OnUpdate();
-    void OnSceneRender();
+    void Update();
+    void Render();
+    void Pause();
 
     void AddEntity(Entity& entity);
 

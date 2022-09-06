@@ -19,6 +19,14 @@ if exist Sandbox\Makefile (
     del /q Sandbox\Makefile
 )
 
+if exist .\Saddle\vendor\SDL2\bin\Saddle.lib (
+    del .\Saddle\vendor\SDL2\bin\Saddle.lib
+)
+
+if exist .\Saddle\vendor\SDL2\bin\Sandbox.exe (
+    del .\Saddle\vendor\SDL2\bin\Sandbox.exe
+)
+
 echo Project clean
 popd
 Pause

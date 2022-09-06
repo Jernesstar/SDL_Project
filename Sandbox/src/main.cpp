@@ -72,7 +72,7 @@ bool Start_Screen()
 
         EventSystem::PollEvents();
 
-        scene.OnSceneRender();
+        scene.Render();
     }
     return false;
 }

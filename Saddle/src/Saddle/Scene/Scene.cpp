@@ -10,7 +10,7 @@ namespace Saddle {
 Scene::Scene() : entities() { }
 Scene::~Scene() { EventSystem::Reset(); }
 
-void Scene::OnUpdate()
+void Scene::Update()
 {
     TimePoint time = Time::GetTime();
     TimeStep ts = time - (m_LastFrameTime != 0 ? m_LastFrameTime : Time::GetTime());
@@ -19,14 +19,14 @@ void Scene::OnUpdate()
     for(int i = 0; i < entities.size(); i++)
     {
         Entity& entity = *entities.at(i);
-        if(entity.HasComponent<RigidBodyComponent>() && entity.HasComponent<TransformComponent>())
+        if(PhysicsSystem::HasDependencies(entity))
         {
             PhysicsSystem::Update(entity, ts);
         }
     }
 }
 
-void Scene::OnSceneRender()
+void Scene::Render()
 {
     Renderer::Clear();
     for(int i = 0; i < entities.size(); i++)
@@ -41,6 +41,8 @@ void Scene::OnSceneRender()
     }
     Renderer::Render();
 }
+
+void Scene::Pause() { m_LastFrameTime = Time::GetTime(); }
 
 void Scene::AddEntity(Entity& entity)
 {
