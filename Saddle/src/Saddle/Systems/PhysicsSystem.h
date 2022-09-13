@@ -11,7 +11,6 @@ struct PhysicsSystemDependencies {
 };
 
 class PhysicsSystem {
-
 public:
     static void SetGravity(float gravity);
     static void ApplyForce(Entity& entity, float force, float angle);

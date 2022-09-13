@@ -29,12 +29,11 @@ void MusicDemo::Run()
     component3.Texture = Image::Load("Sandbox/assets/graphics/snare_drum.jpg", 70.0f, 70.0f);
 
     background.AddComponent<TransformComponent>();
-    kick_drum.GetComponent<TransformComponent>().Coordinate = { 0.0f, 0.0f };
+    kick_drum.GetComponent<TransformComponent>().Coordinate = { 600, 320 };
     snare_drum.GetComponent<TransformComponent>().Coordinate = { 300.0f, 500.0f };
 
     auto& rigidbody = kick_drum.AddComponent<RigidBodyComponent>();
     rigidbody.RotationSpeed = 5.0f;
-    rigidbody.Velocity = Vector2D{ 1.0f, 1.0f } * 0.05f;
 
     auto& rigidbody2 = snare_drum.AddComponent<RigidBodyComponent>();
 
@@ -54,15 +53,17 @@ void MusicDemo::Run()
 
     while(running)
     {
-        EventSystem::PollEvents();
         if(Input::KeyPressed(Key::Escape)) running = false;
         if(Input::KeyPressed(Key::Return)) paused = !paused;
 
-        if(!paused)
-        {
-            m_Scene.Update();
-            m_Scene.Render();
-        }
-        else m_Scene.Pause();
+        EventSystem::PollEvents();
+
+        if(kick_drum.GetComponent<TransformComponent>().Coordinate.x < SCREEN_WIDTH * 0.5)
+            PhysicsSystem::ApplyForce(kick_drum, 0.5f, 180.0f);
+        else
+            PhysicsSystem::ApplyForce(kick_drum, 0.5f, 360.0f);
+
+        m_Scene.Update();
+        m_Scene.Render();
     }
 }

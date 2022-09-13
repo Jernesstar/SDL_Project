@@ -1,7 +1,6 @@
 #pragma once
 
 #include <functional>
-#include <cmath>
 
 #include "SDL/Audio.h"
 #include "SDL/Sound.h"
@@ -20,18 +19,19 @@ protected:
 };
 
 struct EventListenerComponent : public IComponent {
-    std::function<void(KeyPressedEvent& event)>          OnKeyPressed;
-    std::function<void(KeyReleasedEvent& event)>         OnKeyReleased;
-    std::function<void(MouseMovedEvent& event)>          OnMouseMoved;
-    std::function<void(MouseScrolledEvent& event)>       OnMouseScrolled;
-    std::function<void(MouseButtonPressedEvent& event)>  OnMouseButtonPressed;
-    std::function<void(MouseButtonReleasedEvent& event)> OnMouseButtonReleased;
-    std::function<void(WindowResizedEvent& event)>       OnWindowResized;
-    std::function<void(WindowClosedEvent& event)>        OnWindowClosed;
+    template<typename TEvent>
+    using Callback = std::function<void(TEvent&)>;
+
+    Callback<KeyPressedEvent>          OnKeyPressed;
+    Callback<KeyReleasedEvent>         OnKeyReleased;
+    Callback<MouseMovedEvent>          OnMouseMoved;
+    Callback<MouseScrolledEvent>       OnMouseScrolled;
+    Callback<MouseButtonPressedEvent>  OnMouseButtonPressed;
+    Callback<MouseButtonReleasedEvent> OnMouseButtonReleased;
+    Callback<WindowResizedEvent>       OnWindowResized;
+    Callback<WindowClosedEvent>        OnWindowClosed;
 
     EventListenerComponent() = default;
-    EventListenerComponent(const EventListenerComponent& other) = default;
-    ~EventListenerComponent() = default;
 };
 
 struct RectComponent : public IComponent {
@@ -41,18 +41,11 @@ struct RectComponent : public IComponent {
 };
 
 struct RigidBodyComponent : public IComponent {
-    Vector2D Velocity = { 0.0f, 0.0f };
-    float Speed = 0, RotationSpeed = 0, Bounciness = 0;
+    Vector2D Velocity;
+    float Speed, RotationSpeed, Bounciness;
 
-    RigidBodyComponent(Vector2D velocity = Vector2D{ 0.0f, 0.0f }, float rotation_speed = 0.0f, float bounciness = 0.0f) 
-        : RotationSpeed(rotation_speed), Bounciness(bounciness)
-    { CalculateSpeed(); }
-
-    void CalculateSpeed()
-    {
-        // Magnitude of velocity vector
-        Speed = pow((double)(Velocity.x * Velocity.x) + (double)(Velocity.y * Velocity.y), 0.5);
-    }
+    RigidBodyComponent(const Vector2D& velocity = Vector2D(), float rotation_speed = 0.0f, float bounciness = 0.0f) 
+        : RotationSpeed(rotation_speed), Bounciness(bounciness) { Speed = Velocity.Magnitude(); }
 };
 
 struct RGBColorComponent : public IComponent {
@@ -65,25 +58,21 @@ struct RGBColorComponent : public IComponent {
 struct SoundComponent : public IComponent {
     Sound Sound;
     
-    SoundComponent(const std::string& file_path) : IComponent(), Sound(file_path) { }
-    ~SoundComponent() = default;
+    SoundComponent(const std::string& file_path) : Sound(file_path) { }
 };
 
 struct TextureComponent : public IComponent {
     Texture2D Texture;
 
     TextureComponent() = default;
-    ~TextureComponent() = default;
 };
 
 struct TransformComponent : public IComponent {
-    Vector2D Coordinate = { 0.0f, 0.0f };
-    float Rotation = 0;
-    Vector2D Scale = { 1, 1 };
+    Vector2D Coordinate;
+    float Rotation;
+    Vector2D Scale;
 
-    TransformComponent() = default;
-    TransformComponent(Vector2D coordinate) : Coordinate(coordinate) { }
-    TransformComponent(Vector2D coordinate, float rotation, Vector2D scale) 
+    TransformComponent(const Vector2D& coordinate = Vector2D(), float rotation = 0.0f, const Vector2D& scale = Vector2D(1, 1)) 
         : Coordinate(coordinate), Rotation(rotation), Scale(scale) { }
 };
 

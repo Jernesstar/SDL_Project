@@ -26,6 +26,9 @@ public:
     }
 
 private:
+    TextureSystem() = delete;
+    ~TextureSystem() = delete;
+
     static TextureSystemDependencies GetDependencies(Entity& entity)
     {
         return { Application::Get().GetWindow().GetRenderer(), 

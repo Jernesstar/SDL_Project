@@ -1,18 +1,27 @@
 #pragma once
 
 #include <iostream>
+#include <cmath>
 
 namespace Saddle {
 
 struct Vector2D {
     float x, y;
 
-    Vector2D() : x(0), y(0) { }
-    Vector2D(float x, float y) : x(x), y(y) { }
+    Vector2D(float x = 0, float y = 0) : x(x), y(y) { }
 
-    Vector2D(const Vector2D& other) = default;
-    Vector2D(Vector2D&& other) = default;
-    Vector2D& operator =(Vector2D&& other) = default;
+    Vector2D operator +(const Vector2D& other)
+    {
+        return {x + other.x, y + other.y};
+    }
+
+    void operator +=(const Vector2D& other)
+    {
+        auto vec = *this + other;
+        x = vec.x; y = vec.y;
+    }
+
+    // Subtraction here
 
     Vector2D operator *(float scalar)
     {
@@ -25,15 +34,14 @@ struct Vector2D {
         x = vec.x; y = vec.y;
     }
 
-    Vector2D operator +(const Vector2D& other)
+    float operator *(const Vector2D& other)
     {
-        return {x + other.x, y + other.y};
+        return (x * other.x) + (y * other.y); 
     }
 
-    void operator +=(const Vector2D& other)
+    float Magnitude()
     {
-        auto vec = *this + other;
-        x = vec.x; y = vec.y;
+        return sqrtf((*this) * (*this));
     }
 };
 
@@ -45,12 +53,21 @@ inline std::ostream& operator <<(std::ostream& os, const Vector2D& vec2)
 struct Vector3D {
     float x, y, z;
 
-    Vector3D() : x(0), y(0), z(0) { }
-    Vector3D(float x, float y, float z) : x(x), y(y), z(z) { }
-    Vector3D(const Vector3D& other) = default;
-    Vector3D(Vector3D&& other) = default;
-    Vector3D& operator=(Vector3D&& other) = default;
-    
+    Vector3D(float x = 0, float y = 0, float z = 0) : x(x), y(y), z(z) { }
+
+    Vector3D operator +(const Vector3D& other)
+    {
+        return {x + other.x, y + other.y, z + other.z};
+    }
+
+    void operator +=(const Vector3D& other)
+    {
+        auto vec = *this + other;
+        x = vec.x; y = vec.y; z = vec.z;
+    }
+
+    // Subtraction here
+
     Vector3D operator *(float scalar)
     {
         return {x * scalar, y * scalar, z * scalar};
@@ -62,15 +79,14 @@ struct Vector3D {
         x = vec.x; y = vec.y; z = vec.z;
     }
 
-    Vector3D operator +(const Vector3D& other)
+    float operator *(const Vector3D& other)
     {
-        return {x + other.x, y + other.y, z + other.z};
+        return (x * other.x) + (y * other.y) + (z * other.x); 
     }
 
-    void operator +=(const Vector3D& other)
+    float Magnitude()
     {
-        auto vec = *this + other;
-        x = vec.x; y = vec.y; z = vec.z;
+        return sqrtf((*this) * (*this));
     }
 };
 
