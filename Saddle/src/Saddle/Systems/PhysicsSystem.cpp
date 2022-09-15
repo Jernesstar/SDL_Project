@@ -35,7 +35,7 @@ void PhysicsSystem::ApplyForce(Entity& entity, float force, float angle)
     if(sine < 0.0f) y_ratio *= -1;
 
     rigidbody->Velocity += Vector2D{ x_ratio, y_ratio } * force;
-    rigidbody->Speed = rigidbody->Velocity.Magnitude();
+    rigidbody->Speed = Magnitude(rigidbody->Velocity);
 }
 
 void PhysicsSystem::Update(Entity& entity, TimeStep ts)
