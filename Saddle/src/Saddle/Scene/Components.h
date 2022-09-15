@@ -45,7 +45,7 @@ struct RigidBodyComponent : public IComponent {
     float Speed, RotationSpeed, Bounciness;
 
     RigidBodyComponent(const Vector2D& velocity = Vector2D(), float rotation_speed = 0.0f, float bounciness = 0.0f) 
-        : RotationSpeed(rotation_speed), Bounciness(bounciness) { Speed = Velocity.Magnitude(); }
+        : RotationSpeed(rotation_speed), Bounciness(bounciness) { Speed = Magnitude(Velocity); }
 };
 
 struct RGBColorComponent : public IComponent {

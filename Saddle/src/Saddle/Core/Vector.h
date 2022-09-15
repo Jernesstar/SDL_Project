@@ -41,52 +41,38 @@ struct Vector3D {
     }
 };
 
-// Vector2D functions
+// Vector2D operators
 
-inline Vector2D operator +(const Vector2D& vec, const Vector2D& vec2)
-{
-    return {vec.x + vec2.x, vec.y + vec2.y};
-}
+inline float operator *(const Vector2D& vec, const Vector2D& vec2) { return (vec.x * vec2.x) + (vec.y * vec2.y); }
+inline float operator /(const Vector2D& vec, const Vector2D& vec2) { return (vec.x / vec2.x) + (vec.y / vec2.y); }
 
-// Subtraction here
+inline Vector2D operator +(const Vector2D& vec, const Vector2D& vec2) { return {vec.x + vec2.x, vec.y + vec2.y}; }
+inline Vector2D operator -(const Vector2D& vec, const Vector2D& vec2) { return {vec.x - vec2.x, vec.y - vec2.y}; }
+inline Vector2D operator *(const Vector2D& vec, float scalar) { return {vec.x * scalar, vec.y * scalar}; }
+inline Vector2D operator /(const Vector2D& vec, float scalar) { return {vec.x / scalar, vec.y / scalar}; }
 
-inline Vector2D operator *(const Vector2D& vec, float scalar)
-{
-    return {vec.x * scalar, vec.y * scalar};
-}
+// Vector3D operators
 
-inline float operator *(const Vector2D& vec, const Vector2D& vec2)
-{
-    return (vec.x * vec2.x) + (vec.y * vec2.y); 
-}
+inline float operator *(const Vector3D& vec, const Vector3D& vec2) { return (vec.x * vec2.x) + (vec.y * vec2.y) + (vec.z * vec2.z);  }
+inline float operator /(const Vector3D& vec, const Vector3D& vec2) { return (vec.x / vec2.x) + (vec.y / vec2.y) + (vec.z / vec2.z);  }
+
+inline Vector3D operator +(const Vector3D& vec, const Vector3D& vec2) { return {vec.x + vec2.x, vec.y + vec2.y, vec.z + vec2.z}; }
+inline Vector3D operator -(const Vector3D& vec, const Vector3D& vec2) { return {vec.x - vec2.x, vec.y - vec2.y, vec.z - vec2.z}; }
+inline Vector3D operator *(const Vector3D& vec, float scalar) { return {vec.x * scalar, vec.y * scalar, vec.z * scalar}; }
+inline Vector3D operator /(const Vector3D& vec, float scalar) { return {vec.x / scalar, vec.y / scalar, vec.z / scalar}; }
 
 inline float Magnitude(const Vector2D& vec) { return sqrtf(vec * vec); }
-
-inline std::ostream& operator <<(std::ostream& os, const Vector2D& vec2)
-{
-    return os << "{ " << vec2.x << ", " << vec2.y << " }";
-}
-
-// Vector3D functions
-
-inline Vector3D operator +(const Vector3D& vec, const Vector3D& vec2)
-{
-    return {vec.x + vec2.x, vec.y + vec2.y, vec.z + vec2.z};
-}
-
-// Subtraction here
-
-inline Vector3D operator *(const Vector3D& vec, float scalar)
-{
-    return {vec.x * scalar, vec.y * scalar, vec.z * scalar};
-}
-
-inline float operator *(const Vector3D& vec, const Vector3D& vec2)
-{
-    return (vec.x * vec2.x) + (vec.y * vec2.y) + (vec.z * vec2.x); 
-}
-
 inline float Magnitude(const Vector3D& vec) { return sqrtf(vec * vec); }
+
+// Note: Implement these methods
+inline Vector2D CrossProduct(const Vector2D& vec, const Vector2D& vec2) { return {}; }
+inline Vector3D CrossProduct(const Vector3D& vec, const Vector3D& vec2) { return {}; }
+
+// For Debugging
+inline std::ostream& operator <<(std::ostream& os, const Vector2D& vec3)
+{
+    return os << "{ " << vec3.x << ", " << vec3.y << " }";
+}
 
 inline std::ostream& operator <<(std::ostream& os, const Vector3D& vec3)
 {
