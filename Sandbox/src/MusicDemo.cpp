@@ -1,6 +1,7 @@
 #include "MusicDemo.h"
 
 #include <Saddle/Core/Input.h>
+#include <Saddle/Math/Vector.h>
 #include <Saddle/Scene/Scene.h>
 #include <SDL/Image.h>
 
@@ -29,7 +30,7 @@ void MusicDemo::Run()
     component3.Texture = Image::Load("Sandbox/assets/graphics/snare_drum.jpg", 70.0f, 70.0f);
 
     background.AddComponent<TransformComponent>();
-    kick_drum.GetComponent<TransformComponent>().Coordinate = { 600, 320 };
+    kick_drum.GetComponent<TransformComponent>().Coordinate = { 600.0f, 0.0f };
     snare_drum.GetComponent<TransformComponent>().Coordinate = { 300.0f, 500.0f };
 
     auto& rigidbody = kick_drum.AddComponent<RigidBodyComponent>();
@@ -51,6 +52,7 @@ void MusicDemo::Run()
     bool running = true;
     bool paused = false;
 
+    PhysicsSystem::ApplyForce(kick_drum, 0.05f, 90.0f);
     while(running)
     {
         if(Input::KeyPressed(Key::Escape)) running = false;
@@ -58,10 +60,9 @@ void MusicDemo::Run()
 
         EventSystem::PollEvents();
 
-        if(kick_drum.GetComponent<TransformComponent>().Coordinate.x < SCREEN_WIDTH * 0.5)
-            PhysicsSystem::ApplyForce(kick_drum, 0.5f, 180.0f);
-        else
-            PhysicsSystem::ApplyForce(kick_drum, 0.5f, 360.0f);
+        auto& transform = kick_drum.GetComponent<TransformComponent>();
+        auto& rigidbody = kick_drum.GetComponent<RigidBodyComponent>();
+        std::cout << AngleBetweenVectors(transform.Coordinate, rigidbody.Velocity) << "\n";
 
         m_Scene.Update();
         m_Scene.Render();

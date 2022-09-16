@@ -59,6 +59,13 @@ float Magnitude(const Vector3D& vec);
 Vector2D CrossProduct(const Vector2D& vec1, const Vector2D& vec2);
 Vector3D CrossProduct(const Vector3D& vec1, const Vector3D& vec2);
 
+float AngleBetweenVectors(const Vector2D& vec1, const Vector2D& vec2);
+float AngleBetweenVectors(const Vector3D& vec1, const Vector3D& vec2);
+
+// Note: This still needs to be correctly implemented
+// a × b
+Vector3D CrossProduct(const Vector3D& vec1, const Vector3D& vec2);
+
 // Debugging
 std::ostream& operator <<(std::ostream& os, const Vector2D& vec3);
 std::ostream& operator <<(std::ostream& os, const Vector3D& vec3);

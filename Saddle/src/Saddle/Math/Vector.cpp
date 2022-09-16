@@ -27,12 +27,14 @@ Vector3D operator /(const Vector3D& vec, float scalar) { return { vec.x / scalar
 // Assigment operators
 
 // Vector2D
+
 void operator +=(Vector2D& vec1, const Vector2D& vec2) { vec1 = vec1 + vec2; }
 void operator -=(Vector2D& vec1, const Vector2D& vec2) { vec1 = vec1 - vec2; }
 void operator *=(Vector2D& vec1, float scalar) { vec1 = vec1 * scalar; }
 void operator /=(Vector2D& vec1, float scalar) { vec1 = vec1 / scalar; }
 
 // Vector3D
+
 void operator +=(Vector3D& vec1, const Vector3D& vec2) { vec1 = vec1 + vec2; }
 void operator -=(Vector3D& vec1, const Vector3D& vec2) { vec1 = vec1 - vec2; }
 void operator *=(Vector3D& vec1, float scalar) { vec1 = vec1 * scalar; }
@@ -50,18 +52,14 @@ float Magnitude(const Vector3D& vec) { return sqrtf(vec * vec); }
 float AngleBetweenVectors(const Vector2D& vec1, const Vector2D& vec2) { return std::acos((vec1 * vec2) / (Magnitude(vec1) * Magnitude(vec2))); }
 float AngleBetweenVectors(const Vector3D& vec1, const Vector3D& vec2) { return std::acos((vec1 * vec2) / (Magnitude(vec1) * Magnitude(vec2))); }
 
-// Note: These still need to be correctly implemented
-Vector2D CrossProduct(const Vector2D& vec1, const Vector2D& vec2)
-{
-    Vector2D unit_vector = {};
-
-    return { Magnitude(vec1) * Magnitude(vec2) * AngleBetweenVectors(vec1, vec2) * unit_vector };
-}
+// a × b
 Vector3D CrossProduct(const Vector3D& vec1, const Vector3D& vec2)
 {
-    Vector3D unit_vector = {};
+    Vector3D î = { 1, 0, 0 };
+    Vector3D ĵ = { 0, 1, 0 };
+    Vector3D k̂ = { 0, 0, 1 };
 
-    return { Magnitude(vec1) * Magnitude(vec2) * AngleBetweenVectors(vec1, vec2) * unit_vector };
+    return { Magnitude(vec1) * Magnitude(vec2) * AngleBetweenVectors(vec1, vec2) * k̂ };
 }
 
 // Debugging
