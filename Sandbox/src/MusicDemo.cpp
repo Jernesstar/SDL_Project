@@ -60,10 +60,6 @@ void MusicDemo::Run()
 
         EventSystem::PollEvents();
 
-        auto& transform = kick_drum.GetComponent<TransformComponent>();
-        auto& rigidbody = kick_drum.GetComponent<RigidBodyComponent>();
-        std::cout << AngleBetweenVectors(transform.Coordinate, rigidbody.Velocity) << "\n";
-
         m_Scene.Update();
         m_Scene.Render();
     }

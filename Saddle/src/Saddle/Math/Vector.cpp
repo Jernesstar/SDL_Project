@@ -53,10 +53,17 @@ float AngleBetweenVectors(const Vector2D& vec1, const Vector2D& vec2) { return s
 float AngleBetweenVectors(const Vector3D& vec1, const Vector3D& vec2) { return std::acos((vec1 * vec2) / (Magnitude(vec1) * Magnitude(vec2))); }
 
 // a × b
-Vector3D CrossProduct(const Vector3D& vec1, const Vector3D& vec2)
+Vector3D CrossProduct(const Vector2D& vec1, const Vector2D& vec2)
 {
     Vector3D î = { 1, 0, 0 };
     Vector3D ĵ = { 0, 1, 0 };
+    Vector3D k̂ = { 0, 0, 1 };
+
+    return { };
+}
+// a × b
+Vector3D CrossProduct(const Vector3D& vec1, const Vector3D& vec2)
+{
     Vector3D k̂ = { 0, 0, 1 };
 
     return { Magnitude(vec1) * Magnitude(vec2) * AngleBetweenVectors(vec1, vec2) * k̂ };

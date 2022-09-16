@@ -62,7 +62,6 @@ Vector3D CrossProduct(const Vector3D& vec1, const Vector3D& vec2);
 float AngleBetweenVectors(const Vector2D& vec1, const Vector2D& vec2);
 float AngleBetweenVectors(const Vector3D& vec1, const Vector3D& vec2);
 
-// Note: This still needs to be correctly implemented
 // a × b
 Vector3D CrossProduct(const Vector3D& vec1, const Vector3D& vec2);
 

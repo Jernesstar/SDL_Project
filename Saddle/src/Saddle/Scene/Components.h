@@ -7,7 +7,7 @@
 #include "SDL/Texture2D.h"
 #include "Saddle/Events/KeyEvents.h"
 #include "Saddle/Events/MouseEvents.h"
-#include "Saddle/Core/Vector.h"
+#include "Saddle/Math/Vector.h"
 #include "Saddle/Events/WindowEvents.h"
 
 namespace Saddle {

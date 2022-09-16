@@ -5,7 +5,7 @@
 
 #include "SDL/Rect.h"
 #include "SDL/Transform.h"
-#include "Saddle/Core/Vector.h"
+#include "Saddle/Math/Vector.h"
 
 namespace Saddle {
 

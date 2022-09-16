@@ -1,7 +1,5 @@
 #include "EventSystem.h"
 
-#include <algorithm>
-
 #define REGISTER_EVENT_LISTENER(event_type) \
 template<> \
 void EventSystem::RegisterEventListener<event_type>(const EventCallback<event_type>& event_callback) \
