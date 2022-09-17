@@ -3,7 +3,7 @@ project "Saddle"
     language "C++"
     cppdialect "C++17"
 
-    targetdir ("%{wks.location}/Saddle/vendor/SDL2/bin")
+    targetdir ("%{wks.location}/bin")
     objdir ("%{wks.location}/obj")
 
     files
@@ -16,33 +16,12 @@ project "Saddle"
     {
         "src",
 
-        "%{Includes.SDL2}",
-        "%{Includes.SDL_image}",
-        "%{Includes.SDL_mixer}",
-        "%{Includes.SDL_ttf}"
-    }
-
-    libdirs
-    {
-        "vendor/SDL2/lib",
+        "%{Includes.glm}",
+        "%{Includes.glfw}/deps",
+        "%{Includes.glfw}/include",
     }
     
     links
     {
-        "mingw32:static",
-        
-        "SDL2",
-        "SDL2_image",
-        "SDL2_mixer",
-        "SDL2_ttf"
+        "glfw"
     }
-
-    buildoptions
-    {
-        "-fexceptions"
-    }
-
-    -- links
-    -- {
-    --     "SDL2"
-    -- }

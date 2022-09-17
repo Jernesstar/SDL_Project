@@ -21,7 +21,9 @@ project "Sandbox"
         "%{Includes.SDL2}",
         "%{Includes.SDL_image}",
         "%{Includes.SDL_mixer}",
-        "%{Includes.SDL_ttf}"
+        "%{Includes.SDL_ttf}",
+
+        "%{Includes.glm}",
     }
 
     libdirs
@@ -39,9 +41,4 @@ project "Sandbox"
         "SDL2_image",
         "SDL2_mixer",
         "SDL2_ttf"
-    }
-
-    buildoptions
-    {
-        "-fexceptions"
     }

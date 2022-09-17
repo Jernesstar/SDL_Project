@@ -56,7 +56,7 @@ float Magnitude(const Vector2D& vec);
 float Magnitude(const Vector3D& vec);
 
 // Note: Implement these methods
-Vector2D CrossProduct(const Vector2D& vec1, const Vector2D& vec2);
+Vector3D CrossProduct(const Vector2D& vec1, const Vector2D& vec2);
 Vector3D CrossProduct(const Vector3D& vec1, const Vector3D& vec2);
 
 float AngleBetweenVectors(const Vector2D& vec1, const Vector2D& vec2);

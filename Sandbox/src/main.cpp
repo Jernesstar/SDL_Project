@@ -5,6 +5,8 @@
 #include <Saddle/Core/Input.h>
 #include <Saddle/Systems/Systems.h>
 
+#include <glm/glm.hpp>
+
 #include "MusicDemo.h"
 
 using namespace Saddle;
