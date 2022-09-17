@@ -8,8 +8,10 @@ project "Saddle"
 
     files
     {
-        "src/**.h",
-        "src/**.cpp"
+        "src/Saddle/Core/Application.h",
+        "src/Saddle/Core/Application.cpp",
+        "src/OpenGL/Window.h",
+        "src/OpenGL/Window.cpp",
     }
 
     includedirs
@@ -23,5 +25,10 @@ project "Saddle"
     
     links
     {
-        "glfw"
+        "glfw",
+        "gdi32",
+        "opengl"
     }
+
+    filter "system:windows"
+        systemversion "latest"
