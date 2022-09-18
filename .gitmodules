@@ -1,9 +1,10 @@
-[submodule "Saddle/vendor/SDL2"]
-	path = Saddle/vendor/SDL2
-	url = https://github.com/Jernesstar/SDL2
 [submodule "Saddle/vendor/glm"]
 	path = Saddle/vendor/glm
 	url = https://github.com/Jernesstar/glm
 [submodule "Saddle/vendor/glfw"]
 	path = Saddle/vendor/glfw
 	url = https://github.com/Jernesstar/glfw
+[submodule "Saddle/vendor/glad"]
+	path = Saddle/vendor/glad
+	url = https://github.com/Jernesstar/glad
+	branch = c

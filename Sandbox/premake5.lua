@@ -22,15 +22,11 @@ project "Sandbox"
         "%{Includes.glfw}/include",
     }
 
-    libdirs
-    {
-        "%{wks.location}/Saddle/vendor/SDL2/lib"
-    }
-
     links
     {
         "Saddle",
         "glfw",
+        "glad",
         "gdi32",
     }
 

@@ -16,6 +16,7 @@ Window::Window(const WindowSpecification& specs)
     m_Window = glfwCreateWindow(Width, Height, specs.Title.c_str(), nullptr, nullptr);
     SADDLE_CORE_ASSERT(m_Window, "Could not create the window");
 
+    gladLoadGL(glfwGetProcAddress);
     glfwMakeContextCurrent(m_Window);
     
     // EventSystem::PriorityWindowClosedEventCallbacks.push_back(

@@ -1,4 +1,4 @@
-Includes = { }
+Includes = {}
 Includes["glm"] = "%{wks.location}/Saddle/vendor/glm"
 Includes["glfw"] = "%{wks.location}/Saddle/vendor/glfw"
 
@@ -14,5 +14,6 @@ workspace "Saddle"
 
 
 include "Saddle/vendor/glfw"
+include "Saddle/vendor/glad"
 include "Saddle"
 include "Sandbox"
