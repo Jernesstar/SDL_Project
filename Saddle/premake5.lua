@@ -21,13 +21,14 @@ project "Saddle"
         "%{Includes.glm}",
         "%{Includes.glfw}/deps",
         "%{Includes.glfw}/include",
+        "%{Includes.glad}/include",
     }
     
     links
     {
         "glfw",
-        "gdi32",
-        "opengl"
+        "glad",
+        "gdi32"
     }
 
     filter "system:windows"

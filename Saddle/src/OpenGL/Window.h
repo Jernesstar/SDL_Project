@@ -2,6 +2,7 @@
 
 #include <iostream>
 
+#define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
 
 namespace Saddle {
@@ -17,6 +18,7 @@ struct WindowSpecification {
 class Window {
 public:
     int Width, Height;
+    std::string Title;
 
 public:
     Window();

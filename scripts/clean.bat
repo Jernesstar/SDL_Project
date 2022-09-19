@@ -1,9 +1,8 @@
 @echo off
 pushd %~dp0\..\
 
-MinGW32-make clean
-
 if exist Makefile  (
+    MinGW32-make clean
     del /q Makefile
 )
 if exist Saddle\Makefile (
@@ -18,7 +17,12 @@ if exist Saddle\vendor\glad\Makefile (
 if exist Saddle\vendor\glfw\Makefile (
     del /q Saddle\vendor\glfw\Makefile
 )
-
+if exist bin/ (
+    rmdir /s /q bin
+)
+if exist obj/ (
+    rmdir /s /q obj
+)
 
 echo Project clean
 popd

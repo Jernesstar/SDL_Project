@@ -1,5 +1,3 @@
-#include <glad/gl.h>
-
 #include "Window.h"
 
 #include "Saddle/Core/Application.h"
@@ -7,18 +5,21 @@
 
 namespace Saddle {
 
-Window::Window() : Width(0), Height(0)  { }
+Window::Window() : Width(0), Height(0), Title("Window") { }
 
 Window::Window(const WindowSpecification& specs)
-    : Width(specs.Width), Height(specs.Height)
+    : Width(specs.Width), Height(specs.Height), Title(specs.Title)
 {
     // Create a window with width and height, have it not be fullscreen and not share resources
-    m_Window = glfwCreateWindow(Width, Height, specs.Title.c_str(), nullptr, nullptr);
+    m_Window = glfwCreateWindow(Width, Height, Title.c_str(), nullptr, nullptr);
     SADDLE_CORE_ASSERT(m_Window, "Could not create the window");
-
-    gladLoadGL(glfwGetProcAddress);
-    glfwMakeContextCurrent(m_Window);
     
+    glfwSetWindowCloseCallback(m_Window, 
+        [](GLFWwindow* window) {
+            Application::Close();
+        }
+    );
+
     // EventSystem::PriorityWindowClosedEventCallbacks.push_back(
     //     [](WindowClosedEvent& event) {
     //         Application::Close();
