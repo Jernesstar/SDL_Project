@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include <glad/glad.h>
+#include <GLFW/glfw3.h>
 
 namespace Saddle {
 
@@ -17,6 +18,8 @@ public:
 public:
     Shader(const std::string& file_path, ShaderType type);
     ~Shader();
+
+    operator int() { return ShaderID; }
 
 private:
     static std::string Load(const std::string& file_path);

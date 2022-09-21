@@ -1,8 +1,10 @@
 #include "Application.h"
-#include "Assert.h"
 
 #define GLFW_INCLUDE_NONE
 #include <glad/glad.h>
+
+#include "Assert.h"
+#include "Saddle/Events/EventSystem.h"
 
 namespace Saddle {
 
@@ -26,6 +28,7 @@ void Application::Init(const ApplicationSpecification& specs)
     s_Specification = (ApplicationSpecification*)(&specs);
     SADDLE_CORE_ASSERT(glfwInit(), "Failed to initialize GLFW");
 
+    // EventSystem::Init();
     // Audio::Init();
     // Image::Init();
 }

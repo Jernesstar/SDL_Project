@@ -8,10 +8,12 @@ project "Saddle"
 
     files
     {
-        "src/Saddle/Core/Application.h",
-        "src/Saddle/Core/Application.cpp",
-        "src/OpenGL/Window.h",
-        "src/OpenGL/Window.cpp",
+        "src/Saddle/Core/*.h",
+        "src/Saddle/Core/*.cpp",
+        "src/Saddle/Events/*.h",
+        "src/Saddle/Events/*.cpp",
+        "src/OpenGL/*.h",
+        "src/OpenGL/*.cpp",
     }
 
     includedirs

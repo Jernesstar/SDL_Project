@@ -1,5 +1,11 @@
 #include "EventSystem.h"
 
+#include <GLFW/glfw3.h>
+
+#include "Saddle/Core/Application.h"
+#include "Saddle/Core/Assert.h"
+#include "Saddle/Core/Input.h"
+
 #define REGISTER_EVENT_LISTENER(event_type) \
 template<> \
 void EventSystem::RegisterEventListener<event_type>(const EventCallback<event_type>& event_callback) \
@@ -8,69 +14,21 @@ void EventSystem::RegisterEventListener<event_type>(const EventCallback<event_ty
     vec.push_back(event_callback); \
 }
 
-namespace Saddle {
-
-void EventSystem::PollEvents()
-{
-    SDL_PumpEvents();
-
-    SDL_Event SDL_event;
-    while(SDL_PollEvent(&SDL_event))
-    {
-        if(SDL_event.type == SDL_KEYDOWN)
-        {
-            KeyPressedEvent event((KeyCode)SDL_event.key.keysym.scancode);
-            Dispatch<KeyPressedEvent>(PriorityKeyPressedEventCallbacks, event);
-            Dispatch<KeyPressedEvent>(KeyPressedEventCallbacks, event);
-        }
-        if(SDL_event.type == SDL_KEYUP)
-        {
-            KeyReleasedEvent event((KeyCode)SDL_event.key.keysym.scancode);
-            Dispatch<KeyReleasedEvent>(PriorityKeyReleasedEventCallbacks, event);
-            Dispatch<KeyReleasedEvent>(KeyReleasedEventCallbacks, event);
-        }
-        if(SDL_event.type == SDL_MOUSEMOTION)
-        {
-            MouseMovedEvent event((int)SDL_event.motion.x, (int)SDL_event.motion.y);
-            Dispatch<MouseMovedEvent>(PriorityMouseMovedEventCallbacks, event);
-            Dispatch<MouseMovedEvent>(MouseMovedEventCallbacks, event);
-        }
-        if(SDL_event.type == SDL_MOUSEWHEEL)
-        {
-            MouseScrolledEvent event(SDL_event.wheel.preciseX, SDL_event.wheel.preciseY);
-            Dispatch<MouseScrolledEvent>(PriorityMouseScrolledEventCallbacks, event);
-            Dispatch<MouseScrolledEvent>(MouseScrolledEventCallbacks, event);
-        }
-        if(SDL_event.type == SDL_MOUSEBUTTONDOWN)
-        {
-            MouseButtonPressedEvent event((MouseCode)SDL_event.button.button, (int)SDL_event.button.x, (int)SDL_event.button.y);
-            Dispatch<MouseButtonPressedEvent>(PriorityMouseButtonPressedEventCallbacks, event);
-            Dispatch<MouseButtonPressedEvent>(MouseButtonPressedEventCallbacks, event);
-        }
-        if(SDL_event.type == SDL_MOUSEBUTTONUP)
-        {
-            MouseButtonReleasedEvent event((MouseCode)SDL_event.button.button, (int)SDL_event.button.x, (int)SDL_event.button.y);
-            Dispatch<MouseButtonReleasedEvent>(PriorityMouseButtonReleasedEventCallbacks, event);
-            Dispatch<MouseButtonReleasedEvent>(MouseButtonReleasedEventCallbacks, event);
-        }
-        if(SDL_event.type == SDL_WINDOWEVENT)
-        {
-            if(SDL_event.window.event == SDL_WINDOWEVENT_RESIZED)
-            {
-                // On a Window resized event, data1 and data2 will have the new width and height of the window
-                WindowResizedEvent event((int)SDL_event.window.data1, (int)SDL_event.window.data2);
-                Dispatch<WindowResizedEvent>(PriorityWindowResizedEventCallbacks, event);
-                Dispatch<WindowResizedEvent>(WindowResizedEventCallbacks, event);
-            }
-        }
-        if(SDL_event.type == SDL_QUIT)
-        {
-            WindowClosedEvent event;
-            Dispatch<WindowClosedEvent>(PriorityWindowClosedEventCallbacks, event);
-            Dispatch<WindowClosedEvent>(WindowClosedEventCallbacks, event);
-        }
-    }
+#define DISPATCH(event_type) \
+template<> \
+void EventSystem::Dispatch<event_type>(event_type& event) \
+{ \
+    Callbacks<event_type>& priority_callback_list = Priority##event_type##Callbacks; \
+    Callbacks<event_type>& callback_list = event_type##Callbacks; \
+ \
+    for(EventCallback<event_type>& func : priority_callback_list) \
+        if(func) func(event); \
+ \
+    for(EventCallback<event_type>& func : callback_list) \
+        if(func) func(event); \
 }
+
+namespace Saddle {
 
 REGISTER_EVENT_LISTENER(KeyPressedEvent);
 REGISTER_EVENT_LISTENER(KeyReleasedEvent);
@@ -80,6 +38,52 @@ REGISTER_EVENT_LISTENER(MouseButtonPressedEvent);
 REGISTER_EVENT_LISTENER(MouseButtonReleasedEvent);
 REGISTER_EVENT_LISTENER(WindowResizedEvent);
 REGISTER_EVENT_LISTENER(WindowClosedEvent);
+
+DISPATCH(KeyPressedEvent);
+DISPATCH(KeyReleasedEvent);
+DISPATCH(MouseMovedEvent);
+DISPATCH(MouseScrolledEvent);
+DISPATCH(MouseButtonPressedEvent);
+DISPATCH(MouseButtonReleasedEvent);
+DISPATCH(WindowResizedEvent);
+DISPATCH(WindowClosedEvent);
+
+void EventSystem::Init()
+{
+    GLFWwindow* window = Application::Get().GetWindow().GetNativeWindow();
+
+    glfwSetErrorCallback(ErrorCallback);
+    glfwSetKeyCallback(window, KeyCallback);
+    glfwSetCharCallback(window, KeyCharCallback);
+    glfwSetCursorPosCallback(window, MouseMovedCallback);
+    glfwSetScrollCallback(window, MouseScrolledCallback);
+    glfwSetMouseButtonCallback(window, MouseButtonCallback);
+    glfwSetWindowPosCallback(window, WindowMovedCallback);
+    glfwSetWindowSizeCallback(window, WindowResizedCallback);
+    glfwSetWindowCloseCallback(window, WindowClosedCallback);
+
+    // Note: Use each of these methods to implement the event system
+    /*
+    glfwSetCursorEnterCallback
+    
+    glfwSetWindowMaximizeCallback
+    glfwSetFramebufferSizeCallback
+    */
+}
+
+void EventSystem::PollEvents() { glfwPollEvents(); }
+
+void EventSystem::Reset()
+{
+    KeyPressedEventCallbacks.clear();
+    KeyReleasedEventCallbacks.clear();
+    MouseMovedEventCallbacks.clear();
+    MouseScrolledEventCallbacks.clear();
+    MouseButtonPressedEventCallbacks.clear();
+    MouseButtonReleasedEventCallbacks.clear();
+    WindowResizedEventCallbacks.clear();
+    WindowClosedEventCallbacks.clear();
+}
 
 template<>
 void EventSystem::RegisterEventListener<KeyEvent>(const EventCallback<KeyEvent>& event_callback)
@@ -112,16 +116,75 @@ void EventSystem::RegisterEventListener<Event>(const EventCallback<Event>& event
     RegisterEventListener<WindowEvent>(event_callback);
 }
 
-void EventSystem::Reset()
+// Note: Implement
+void EventSystem::ErrorCallback(int error, const char* description)
 {
-    KeyPressedEventCallbacks.clear();
-    KeyReleasedEventCallbacks.clear();
-    MouseMovedEventCallbacks.clear();
-    MouseScrolledEventCallbacks.clear();
-    MouseButtonPressedEventCallbacks.clear();
-    MouseButtonReleasedEventCallbacks.clear();
-    WindowResizedEventCallbacks.clear();
-    WindowClosedEventCallbacks.clear();
+    SADDLE_CORE_ASSERT(false, description);
+}
+
+void EventSystem::KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+    if(action == GLFW_PRESS)
+    {
+        KeyPressedEvent event((KeyCode)scancode);
+        Dispatch<KeyPressedEvent>(event);
+    }
+
+    if(action == GLFW_RELEASE)
+    {
+        KeyReleasedEvent event((KeyCode)scancode);
+        Dispatch<KeyReleasedEvent>(event);
+    }
+}
+
+void EventSystem::KeyCharCallback(GLFWwindow* window, unsigned int codepoint)
+{
+    // Note: Have a KeyCharEvent
+}
+
+void EventSystem::MouseMovedCallback(GLFWwindow* window, double x, double y)
+{
+    MouseMovedEvent event((float)x, (float)y);
+    Dispatch<MouseMovedEvent>(event);
+}
+
+void EventSystem::MouseScrolledCallback(GLFWwindow* window, double x_scroll, double y_scroll)
+{
+    MouseScrolledEvent event((float)x_scroll, (float)y_scroll);
+    Dispatch<MouseScrolledEvent>(event);
+}
+
+void EventSystem::MouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
+{
+    if(action == GLFW_PRESS)
+    {
+        // Note: Get the coordinates of the mouse
+        MouseButtonPressedEvent event(button, Input::GetMouseX(), Input::GetMouseY());
+        Dispatch<MouseButtonPressedEvent>(event);
+    }
+
+    if(action == GLFW_RELEASE)
+    {
+        MouseButtonReleasedEvent event(button, Input::GetMouseX(), Input::GetMouseY());
+        Dispatch<MouseButtonReleasedEvent>(event);
+    }
+}
+
+void EventSystem::WindowMovedCallback(GLFWwindow* window, int x, int y)
+{
+    // Note: Have a WindowMovedEvent
+}
+
+void EventSystem::WindowResizedCallback(GLFWwindow* window, int width, int height)
+{
+    WindowResizedEvent event(width, height);
+    Dispatch<WindowResizedEvent>(event);
+}
+
+void EventSystem::WindowClosedCallback(GLFWwindow* window)
+{
+    WindowClosedEvent event;
+    Dispatch<WindowClosedEvent>(event);
 }
 
 }

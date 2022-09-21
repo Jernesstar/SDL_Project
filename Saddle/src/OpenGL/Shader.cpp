@@ -2,8 +2,6 @@
 
 #include <fstream>
 
-#include <glad/glad.h>
-
 #include "Saddle/Core/Assert.h"
 
 namespace Saddle {

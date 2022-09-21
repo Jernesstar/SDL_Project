@@ -8,7 +8,8 @@ project "Sandbox"
 
     files
     {
-        "src/main.cpp",
+        "src/**.h",
+        "src/**.cpp",
     }
 
     includedirs
@@ -20,6 +21,7 @@ project "Sandbox"
         "%{Includes.glm}",
         "%{Includes.glfw}/deps",
         "%{Includes.glfw}/include",
+        "%{Includes.glad}/include",
     }
 
     links
