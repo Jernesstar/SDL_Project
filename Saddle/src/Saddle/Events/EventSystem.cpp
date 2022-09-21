@@ -52,6 +52,8 @@ void EventSystem::Init()
 {
     GLFWwindow* window = Application::Get().GetWindow().GetNativeWindow();
 
+    SADDLE_CORE_ASSERT(window);
+
     glfwSetErrorCallback(ErrorCallback);
     glfwSetKeyCallback(window, KeyCallback);
     glfwSetCharCallback(window, KeyCharCallback);

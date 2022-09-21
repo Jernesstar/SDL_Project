@@ -13,13 +13,15 @@ class Shader {
 public:
     const std::string Path;
     const ShaderType Type;
-    const GLint ShaderID;
 
 public:
     Shader(const std::string& file_path, ShaderType type);
     ~Shader();
 
-    operator int() { return ShaderID; }
+    operator int() { return m_ShaderID; }
+
+private:
+    GLint m_ShaderID;
 
 private:
     static std::string Load(const std::string& file_path);

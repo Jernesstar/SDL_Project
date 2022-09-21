@@ -18,6 +18,7 @@ Application::Application()
     SADDLE_CORE_ASSERT(gladLoadGL(), "Glad could not load OpenGL");
 
     // Renderer::Init();
+    EventSystem::Init();
 }
 
 Application::~Application() { }
@@ -28,7 +29,6 @@ void Application::Init(const ApplicationSpecification& specs)
     s_Specification = (ApplicationSpecification*)(&specs);
     SADDLE_CORE_ASSERT(glfwInit(), "Failed to initialize GLFW");
 
-    // EventSystem::Init();
     // Audio::Init();
     // Image::Init();
 }

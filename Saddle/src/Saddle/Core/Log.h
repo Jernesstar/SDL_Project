@@ -6,22 +6,37 @@
 namespace Saddle {
 class Log { 
 public:
-    template<typename... Args>
-    static void Info(const std::string& message, const Args&&... args)
+    static void Info(const std::string& message)
     {
-        printf("[Info]: %s\n", message.c_str(), args...);
+        printf("[Info]: %s\n", message.c_str());
+    }
+
+    static void Warning(const std::string& message)
+    {
+        printf("[Warning]: %s\n", message.c_str());
+    }
+
+    static void Error(const std::string& message)
+    {
+        printf("[Error]: %s\n", message.c_str());
     }
 
     template<typename... Args>
-    static void Warning(const std::string& message, const Args&&... args)
+    static void Info(const std::string& format_string, Args&&... args)
     {
-        printf("[Warning]: %s\n", message.c_str(), args...);
+        printf(format_string.c_str(), std::string(args).c_str()...);
     }
 
     template<typename... Args>
-    static void Error(const std::string& message, const Args&&... args)
+    static void Warning(const std::string& format_string, Args&&... args)
     {
-        printf("[Error]: %s\n", message.c_str(), args...);
+        printf(format_string.c_str(), std::string(args).c_str()...);
+    }
+
+    template<typename... Args>
+    static void Error(const std::string& format_string, Args&&... args)
+    {
+        printf(format_string.c_str(), std::string(args).c_str()...);
     }
 
 private:
