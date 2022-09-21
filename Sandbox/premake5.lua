@@ -3,12 +3,12 @@ project "Sandbox"
     language "C++"
     cppdialect "C++17"
 
-    targetdir ("%{wks.location}/Saddle/vendor/SDL2/bin")
+    targetdir ("%{wks.location}/bin")
     objdir ("%{wks.location}/obj")
 
     files
     {
-        "include/**.h",
+        "src/**.h",
         "src/**.cpp",
     }
 
@@ -18,30 +18,19 @@ project "Sandbox"
 
         "%{wks.location}/Saddle/src",
 
-        "%{Includes.SDL2}",
-        "%{Includes.SDL_image}",
-        "%{Includes.SDL_mixer}",
-        "%{Includes.SDL_ttf}"
-    }
-
-    libdirs
-    {
-        "%{wks.location}/Saddle/vendor/SDL2/lib"
+        "%{Includes.glm}",
+        "%{Includes.glfw}/deps",
+        "%{Includes.glfw}/include",
+        "%{Includes.glad}/include",
     }
 
     links
     {
         "Saddle",
-
-        "mingw32:static",
-        "SDL2main",
-        "SDL2",
-        "SDL2_image",
-        "SDL2_mixer",
-        "SDL2_ttf"
+        "glfw",
+        "glad",
+        "gdi32",
     }
 
-    buildoptions
-    {
-        "-fexceptions"
-    }
+    filter "system:windows"
+        systemversion "latest"

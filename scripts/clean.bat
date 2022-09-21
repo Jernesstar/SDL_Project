@@ -1,30 +1,26 @@
 @echo off
 pushd %~dp0\..\
 
-echo Cleaning project
-
-if exist obj\ (
-    rmdir /s /q obj
-)
-if exist bin\ (
-    rmdir /s /q bin
-)
 if exist Makefile  (
     del /q Makefile
 )
 if exist Saddle\Makefile (
+    pushd Saddle
+    MinGW32-make clean
+    popd
     del /q Saddle\Makefile
 )
 if exist Sandbox\Makefile (
+    pushd Sandbox
+    MinGW32-make clean
+    popd
     del /q Sandbox\Makefile
 )
-
-if exist .\Saddle\vendor\SDL2\bin\Saddle.lib (
-    del .\Saddle\vendor\SDL2\bin\Saddle.lib
+if exist Saddle\vendor\glad\Makefile (
+    del /q Saddle\vendor\glad\Makefile
 )
-
-if exist .\Saddle\vendor\SDL2\bin\Sandbox.exe (
-    del .\Saddle\vendor\SDL2\bin\Sandbox.exe
+if exist Saddle\vendor\glfw\Makefile (
+    del /q Saddle\vendor\glfw\Makefile
 )
 
 echo Project clean

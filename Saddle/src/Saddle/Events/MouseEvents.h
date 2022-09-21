@@ -28,10 +28,10 @@ struct MouseScrolledEvent : public MouseEvent {
 
 struct MouseButtonEvent : public MouseEvent {
     const MouseCode MouseButton;
-    const int x, y;
+    const float x, y;
 
 protected:
-    MouseButtonEvent(EventType type, MouseCode button, int x, int y) 
+    MouseButtonEvent(EventType type, MouseCode button, float x, float y) 
         : MouseEvent(type), MouseButton(button), x(x), y(y) { }
 };
 

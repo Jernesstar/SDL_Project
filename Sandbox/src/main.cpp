@@ -1,110 +1,92 @@
-#include <SDL/Font.h>
-#include <SDL/Texture2D.h>
-#include <Saddle/Core/Application.h>
-#include <Saddle/Events/Events.h>
-#include <Saddle/Core/Input.h>
-#include <Saddle/Systems/Systems.h>
+#include <linmath.h>
+#include <stdlib.h>
+#include <stdio.h>
 
-#include "MusicDemo.h"
+#include <glad/glad.h>
+
+#include <Saddle/Core/Application.h>
+#include <Saddle/Core/Assert.h>
+#include <OpenGL/Shader.h>
 
 using namespace Saddle;
-
-#define SCREEN_WIDTH Application::Get().GetWindow().Width
-#define SCREEN_HEIGHT Application::Get().GetWindow().Height
-
-bool Start_Screen()
+ 
+struct
 {
-    std::string title = "Music Demo";
-    std::string message = "Press any key to continue";
-
-    Scene scene;
-    Entity title_text;
-    Entity message_text;
-
-    title_text.AddComponent<TextureComponent>();
-    title_text.AddComponent<RectComponent>();
-    title_text.AddComponent<RGBColorComponent>(255, 255, 255);
-    title_text.AddComponent<TransformComponent>();
-    
-    message_text.AddComponent<TextureComponent>();
-    message_text.AddComponent<RectComponent>();
-    message_text.AddComponent<RGBColorComponent>(255, 255, 255);
-    message_text.AddComponent<TransformComponent>();
-
-    std::string font_path = "Sandbox/assets/fonts/pixel_font.ttf";
-    Font title_font(font_path, 100);
-    Font message_font(font_path, 50);
-
-    TextureSystem::CreateText(title_text, title, title_font);
-    TextureSystem::CreateText(message_text, message, message_font);
-
-    title_text.GetComponent<TransformComponent>().Coordinate = Vector2D{ 
-        0.5f * (SCREEN_WIDTH - title_text.GetComponent<TextureComponent>().Texture.Width),
-        0.5f * SCREEN_HEIGHT - 150.0f
-    };
-
-    message_text.GetComponent<TransformComponent>().Coordinate = Vector2D{ 
-        0.5f * (SCREEN_WIDTH - message_text.GetComponent<TextureComponent>().Texture.Width),
-        0.5f * SCREEN_HEIGHT
-    };
-
-    title_text.AddComponent<EventListenerComponent>()
-    .OnWindowResized = [&title_text](WindowResizedEvent& event) {
-        auto& [x, y] = title_text.GetComponent<TransformComponent>().Coordinate;
-        x = 0.5f * (event.Width - title_text.GetComponent<RectComponent>().Width);
-        y = 0.5f * event.Height - 150.0f;
-    };
-    message_text.AddComponent<EventListenerComponent>()
-    .OnWindowResized = [&message_text](WindowResizedEvent& event) {
-        auto& [x, y] = message_text.GetComponent<TransformComponent>().Coordinate;
-        x = 0.5f * (event.Width - message_text.GetComponent<RectComponent>().Width);
-        y = 0.5f * event.Height;
-    };
-
-    scene.AddEntity(title_text);
-    scene.AddEntity(message_text);
-
-    bool running = true;
-    while(running)
-    {
-        if(Input::KeyPressed(Key::Return)) return true;
-        if(Input::KeyPressed(Key::Escape)) return false;
-
-        EventSystem::PollEvents();
-
-        scene.Render();
-    }
-    return false;
+    float x, y;
+    float r, g, b;
 }
+vertices[3] = 
+{
+    {  -0.5f, -0.5f, 1.f, 0.f, 0.f },
+    { 0.5f, -0.5f, 0.f, 1.f, 0.f },
+    {  0.f,  0.5f, 0.f, 0.f, 1.f }
+};
 
 class App : public Application {
 public:
-    App() : Application() { }
-    ~App() { }
-
     void Run()
     {
-        bool wants_to_play = Start_Screen();
-        if(wants_to_play)
-        {
-            MusicDemo demo;
-            demo.Run();
-        }
+        // GLFWwindow* window = m_Window.GetNativeWindow();
+        // GLuint vertex_buffer, program, program2;
+        // GLint mvp_location, vertex_position, vertex_color;
+    
+        // Shader vertex_shader("Sandbox/assets/shaders/vertex_shader.glsl", ShaderType::VertexShader);
+        // Shader fragment_shader("Sandbox/assets/shaders/fragment_shader.glsl", ShaderType::FragmentShader);
+    
+        // glfwSwapInterval(0);
+    
+        // glGenBuffers(1, &vertex_buffer);
+        // glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer);
+        // glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    
+        // program = glCreateProgram();
+        // glAttachShader(program, vertex_shader);
+        // glAttachShader(program, fragment_shader);
+        // glLinkProgram(program);
+    
+        // mvp_location = glGetUniformLocation(program, "MVP");
+        // vertex_position = glGetAttribLocation(program, "vPos");
+        // vertex_color = glGetAttribLocation(program, "vCol");
+    
+        // glEnableVertexAttribArray(vertex_position);
+        // glVertexAttribPointer(vertex_position, 2, GL_FLOAT, GL_FALSE, sizeof(vertices[0]), (void*)0);
+        // glEnableVertexAttribArray(vertex_color);
+        // glVertexAttribPointer(vertex_color, 3, GL_FLOAT, GL_FALSE, sizeof(vertices[0]), (void*)(sizeof(float) * 3));
+
+        // float ratio;
+        // int width, height;
+        // glfwGetFramebufferSize(window, &width, &height);
+        // ratio = width / (float) height;
+
+        // while (!glfwWindowShouldClose(window))
+        // {
+        //     mat4x4 m, p, mvp;
+    
+        //     mat4x4_identity(m);
+        //     mat4x4_ortho(p, -ratio, ratio, -1.f, 1.f, 1.f, -1.f);
+        //     mat4x4_mul(mvp, p, m);
+    
+        //     glUseProgram(program);
+        //     glUniformMatrix4fv(mvp_location, 1, GL_FALSE, (const GLfloat*) mvp);
+        //     glDrawArrays(GL_TRIANGLES, 0, sizeof(vertices) / sizeof(vertices[0]));
+    
+        //     glfwSwapBuffers(window);
+        //     glfwPollEvents();
+
+        //     glClearColor(255, 255, 255, 255);
+        //     glClear(GL_COLOR_BUFFER_BIT);
+        // }
+
+        SADDLE_CORE_ASSERT(false, "Is");
     }
 };
 
-int main(int argc, char** argv)
+int main()
 {
-    WindowSpecification window_specs("Sandbox", 1200, 640, SDL_WINDOW_RESIZABLE, SDL_RENDERER_ACCELERATED);
-    ApplicationSpecification app_specs("Sandbox", SDL_INIT_EVENTS | SDL_INIT_VIDEO, 
-        IMG_INIT_JPG | IMG_INIT_PNG | IMG_INIT_TIF | IMG_INIT_WEBP, window_specs);
-
-    Application::Init(app_specs);
+    Application::Init();
 
     App app;
     app.Run();
-    
-    Application::Close();
 
-    return 0;
+    Application::Close();
 }

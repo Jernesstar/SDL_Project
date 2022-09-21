@@ -4,7 +4,7 @@
 #include <functional>
 #include <vector>
 
-#include <SDL.h>
+#include <GLFW/glfw3.h>
 
 #include "Assert.h"
 #include "Event.h"
@@ -22,12 +22,12 @@ using Callbacks = std::vector<EventCallback<TEvent>>;
 
 class EventSystem {
 public:
-    template<typename TEvent>
-    static void RegisterEventListener(const EventCallback<TEvent>& event_callback);
-
+    static void Init();
+    static void PollEvents();
     static void Reset();
 
-    static void PollEvents();
+    template<typename TEvent>
+    static void RegisterEventListener(const EventCallback<TEvent>& event_callback);
 
 private:
     inline static Callbacks<KeyPressedEvent>          KeyPressedEventCallbacks          = {};
@@ -50,15 +50,17 @@ private:
 
 private:
     template<typename TEvent>
-    static void Dispatch(Callbacks<TEvent>& vector, TEvent& event)
-    {
-        for(int i = 0; i < vector.size(); i++)
-        {
-            auto func = vector[i];
-            if(func)
-                func(event);
-        }
-    }
+    static void Dispatch(TEvent& event);
+
+    static void ErrorCallback(int error, const char* description);
+    static void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
+    static void KeyCharCallback(GLFWwindow* window, unsigned int codepoint);
+    static void MouseMovedCallback(GLFWwindow* window, double x, double y);
+    static void MouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
+    static void MouseScrolledCallback(GLFWwindow* window, double x_scroll, double y_scroll);
+    static void WindowMovedCallback(GLFWwindow* window, int x, int y);
+    static void WindowResizedCallback(GLFWwindow* window, int width, int height);
+    static void WindowClosedCallback(GLFWwindow* window);
 
     friend class Application;
     friend class Window;
