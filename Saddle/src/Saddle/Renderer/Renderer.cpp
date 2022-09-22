@@ -16,7 +16,7 @@ void Renderer::Submit(Shader vertex_shader, Shader fragment_shader)
     glLinkProgram(m_RendererID);
 }
 
-void Renderer::Render(VertexBuffer buffer)
+void Renderer::Render(const VertexBuffer& buffer)
 {
     glBindBuffer(GL_ARRAY_BUFFER, buffer);
     glUseProgram(m_RendererID);

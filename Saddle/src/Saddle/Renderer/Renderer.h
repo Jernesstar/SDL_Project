@@ -14,7 +14,7 @@ public:
 
     static void Submit(Shader vertex_shader, Shader fragment_shader);
     // static void DrawTexture(const Texture2D& texture, const Transform& transform);
-    static void Render(VertexBuffer buffer);
+    static void Render(const VertexBuffer& buffer);
     // static void SetPixel(SDL_Surface* surface, int x, int y, RGBColor color);
 
 private:

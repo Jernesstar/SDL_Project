@@ -1,7 +1,5 @@
 #pragma once
 
-#include <iostream>
-
 #include "Audio.h"
 
 namespace Saddle {

@@ -6,6 +6,7 @@
 
 #include <Saddle/Core/Application.h>
 #include <Saddle/Core/Assert.h>
+#include <Saddle/Events/EventSystem.h>
 #include <OpenGL/Shader.h>
 
 using namespace Saddle;
@@ -57,6 +58,12 @@ public:
         int width, height;
         glfwGetFramebufferSize(window, &width, &height);
         ratio = width / (float) height;
+
+        EventSystem::RegisterEventListener<KeyPressedEvent>(
+            [](KeyPressedEvent& event) {
+                printf("%d%s", event.Key, "\n");
+            }
+        );
 
         while (!glfwWindowShouldClose(window))
         {

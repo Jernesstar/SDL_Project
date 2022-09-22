@@ -128,13 +128,13 @@ void EventSystem::KeyCallback(GLFWwindow* window, int key, int scancode, int act
 {
     if(action == GLFW_PRESS)
     {
-        KeyPressedEvent event((KeyCode)scancode);
+        KeyPressedEvent event((KeyCode)key);
         Dispatch<KeyPressedEvent>(event);
     }
 
     if(action == GLFW_RELEASE)
     {
-        KeyReleasedEvent event((KeyCode)scancode);
+        KeyReleasedEvent event((KeyCode)key);
         Dispatch<KeyReleasedEvent>(event);
     }
 }

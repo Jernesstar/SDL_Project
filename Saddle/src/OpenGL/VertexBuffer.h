@@ -11,7 +11,7 @@ struct VertexBuffer {
         glGenBuffers(1, &m_VertexBufferID);
     }
 
-    operator int() { return m_VertexBufferID; }
+    operator int() const { return m_VertexBufferID; }
 
 private:
     GLuint m_VertexBufferID;

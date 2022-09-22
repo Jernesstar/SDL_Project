@@ -1,7 +1,5 @@
 #include "Texture2D.h"
 
-#include <iostream>
-
 #include "Saddle/Core/Application.h"
 #include "Saddle/Core/Assert.h"
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <iostream>
+#include <string>
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -16,15 +16,12 @@ public:
 
 public:
     Shader(const std::string& file_path, ShaderType type);
-    ~Shader();
+    ~Shader() = default;
 
-    operator int() { return m_ShaderID; }
+    operator int() const { return m_ShaderID; }
 
 private:
     GLint m_ShaderID;
-
-private:
-    static std::string Load(const std::string& file_path);
 };
 
 }
