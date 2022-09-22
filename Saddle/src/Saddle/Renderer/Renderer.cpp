@@ -8,12 +8,13 @@ void Renderer::Init() { }
 
 void Renderer::Clear() { glClear(GL_COLOR_BUFFER_BIT); }
 
-void Renderer::Submit(Shader vertex_shader, Shader fragment_shader)
+void Renderer::Submit(const Shader& vertex_shader, const Shader& fragment_shader)
 {
     m_RendererID = glCreateProgram();
     glAttachShader(m_RendererID, vertex_shader);
     glAttachShader(m_RendererID, fragment_shader);
     glLinkProgram(m_RendererID);
+    glValidateProgram(m_RendererID);
 }
 
 void Renderer::Render(const VertexBuffer& buffer)

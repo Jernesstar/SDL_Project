@@ -7,6 +7,7 @@
 #include <Saddle/Core/Application.h>
 #include <Saddle/Core/Assert.h>
 #include <Saddle/Events/EventSystem.h>
+#include <Saddle/Renderer/Renderer.h>
 #include <OpenGL/Shader.h>
 
 using namespace Saddle;
@@ -28,23 +29,18 @@ public:
     void Run()
     {
         GLFWwindow* window = m_Window.GetNativeWindow();
-        GLuint vertex_buffer, program, program2;
+        GLuint vertex_buffer, program;
         GLint mvp_location, vertex_position, vertex_color;
-    
-        Shader vertex_shader("Sandbox/assets/shaders/vertex_shader.glsl", ShaderType::VertexShader);
-        Shader fragment_shader("Sandbox/assets/shaders/fragment_shader.glsl", ShaderType::FragmentShader);
-    
-        glfwSwapInterval(0);
     
         glGenBuffers(1, &vertex_buffer);
         glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer);
         glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-    
-        program = glCreateProgram();
-        glAttachShader(program, vertex_shader);
-        glAttachShader(program, fragment_shader);
-        glLinkProgram(program);
-    
+
+        Shader vertex_shader("Sandbox/assets/shaders/vertex_shader.glsl", ShaderType::VertexShader);
+        Shader fragment_shader("Sandbox/assets/shaders/fragment_shader.glsl", ShaderType::FragmentShader);
+        Renderer::Submit(vertex_shader, fragment_shader);
+        program = Renderer::GetRendererID();
+
         mvp_location = glGetUniformLocation(program, "MVP");
         vertex_position = glGetAttribLocation(program, "vPos");
         vertex_color = glGetAttribLocation(program, "vCol");
@@ -53,17 +49,11 @@ public:
         glVertexAttribPointer(vertex_position, 2, GL_FLOAT, GL_FALSE, sizeof(vertices[0]), (void*)0);
         glEnableVertexAttribArray(vertex_color);
         glVertexAttribPointer(vertex_color, 3, GL_FLOAT, GL_FALSE, sizeof(vertices[0]), (void*)(sizeof(float) * 3));
-
+    
         float ratio;
         int width, height;
         glfwGetFramebufferSize(window, &width, &height);
         ratio = width / (float) height;
-
-        EventSystem::RegisterEventListener<KeyPressedEvent>(
-            [](KeyPressedEvent& event) {
-                printf("%d%s", event.Key, "\n");
-            }
-        );
 
         while (!glfwWindowShouldClose(window))
         {
@@ -78,9 +68,9 @@ public:
             glDrawArrays(GL_TRIANGLES, 0, sizeof(vertices) / sizeof(vertices[0]));
     
             glfwSwapBuffers(window);
-            glfwPollEvents();
+            EventSystem::PollEvents();
 
-            glClearColor(255, 255, 255, 255);
+            glClearColor(255, 255, 0, 0);
             glClear(GL_COLOR_BUFFER_BIT);
         }
     }

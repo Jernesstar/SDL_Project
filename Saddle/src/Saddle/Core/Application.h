@@ -30,7 +30,7 @@ private:
     inline static Application* s_Instance = nullptr;
 
 protected:
-    inline static ApplicationSpecification* s_Specification = nullptr;
+    inline static const ApplicationSpecification* s_Specification = nullptr;
     Saddle::Window m_Window;
 
 protected:

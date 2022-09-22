@@ -14,8 +14,6 @@ Application::Application()
     SADDLE_CORE_ASSERT(!s_Instance, "Application already exists!");
     
     s_Instance = this;
-    glfwMakeContextCurrent(m_Window.GetNativeWindow());
-    SADDLE_CORE_ASSERT(gladLoadGL(), "Glad could not load OpenGL");
 
     // Renderer::Init();
     EventSystem::Init();
@@ -26,7 +24,7 @@ Application::~Application() { }
 void Application::Init(const ApplicationSpecification& specs)
 {    
     SADDLE_CORE_ASSERT(!s_Instance, "Application was constructed before calling Application::Init");
-    s_Specification = (ApplicationSpecification*)(&specs);
+    s_Specification = &specs;
     SADDLE_CORE_ASSERT(glfwInit(), "Failed to initialize GLFW");
 
     // Audio::Init();
