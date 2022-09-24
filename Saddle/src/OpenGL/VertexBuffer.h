@@ -1,15 +1,11 @@
 #pragma once
 
 #include <glad/glad.h>
-#include <glm/vec3.hpp>
 
 namespace Saddle {
 
 struct VertexBuffer {
-    VertexBuffer()
-    {
-        glGenBuffers(1, &m_VertexBufferID);
-    }
+    VertexBuffer();
 
     operator int() const { return m_VertexBufferID; }
 

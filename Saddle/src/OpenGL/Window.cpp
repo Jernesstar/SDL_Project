@@ -20,8 +20,6 @@ Window::Window(const WindowSpecification& specs)
     glfwMakeContextCurrent(m_Window);
     glfwSwapInterval(0); // Note: Maybe include flag in WindowSpecification for this
 
-    SADDLE_CORE_ASSERT(gladLoadGL(), "Glad could not load OpenGL");
-
     EventSystem::PriorityWindowClosedEventCallbacks.push_back(
         [](WindowClosedEvent& event) {
             Application::Close();

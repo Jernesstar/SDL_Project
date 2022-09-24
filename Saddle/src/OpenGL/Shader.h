@@ -2,9 +2,6 @@
 
 #include <string>
 
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
-
 namespace Saddle {
 
 enum class ShaderType { VertexShader, FragmentShader };
@@ -16,12 +13,12 @@ public:
 
 public:
     Shader(const std::string& file_path, ShaderType type);
-    ~Shader() = default;
+    ~Shader();
 
     operator int() const { return m_ShaderID; }
 
 private:
-    GLint m_ShaderID;
+    unsigned int m_ShaderID;
 };
 
 }

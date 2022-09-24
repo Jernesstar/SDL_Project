@@ -10,7 +10,7 @@
 template<> \
 void EventSystem::RegisterEventListener<event_type>(const EventCallback<event_type>& event_callback) \
 { \
-    auto& vec = event_type##Callbacks; \
+    Callbacks<event_type>& vec = event_type##Callbacks; \
     vec.push_back(event_callback); \
 }
 
@@ -28,25 +28,20 @@ void EventSystem::Dispatch<event_type>(event_type& event) \
         if(func) func(event); \
 }
 
+#define ADD_TO_EVENTSYSTEM(event_type) \
+REGISTER_EVENT_LISTENER(event_type); \
+DISPATCH(event_type);
+
 namespace Saddle {
 
-REGISTER_EVENT_LISTENER(KeyPressedEvent);
-REGISTER_EVENT_LISTENER(KeyReleasedEvent);
-REGISTER_EVENT_LISTENER(MouseMovedEvent);
-REGISTER_EVENT_LISTENER(MouseScrolledEvent);
-REGISTER_EVENT_LISTENER(MouseButtonPressedEvent);
-REGISTER_EVENT_LISTENER(MouseButtonReleasedEvent);
-REGISTER_EVENT_LISTENER(WindowResizedEvent);
-REGISTER_EVENT_LISTENER(WindowClosedEvent);
-
-DISPATCH(KeyPressedEvent);
-DISPATCH(KeyReleasedEvent);
-DISPATCH(MouseMovedEvent);
-DISPATCH(MouseScrolledEvent);
-DISPATCH(MouseButtonPressedEvent);
-DISPATCH(MouseButtonReleasedEvent);
-DISPATCH(WindowResizedEvent);
-DISPATCH(WindowClosedEvent);
+ADD_TO_EVENTSYSTEM(KeyPressedEvent);
+ADD_TO_EVENTSYSTEM(KeyReleasedEvent);
+ADD_TO_EVENTSYSTEM(MouseMovedEvent);
+ADD_TO_EVENTSYSTEM(MouseScrolledEvent);
+ADD_TO_EVENTSYSTEM(MouseButtonPressedEvent);
+ADD_TO_EVENTSYSTEM(MouseButtonReleasedEvent);
+ADD_TO_EVENTSYSTEM(WindowResizedEvent);
+ADD_TO_EVENTSYSTEM(WindowClosedEvent);
 
 void EventSystem::Init()
 {
@@ -67,7 +62,6 @@ void EventSystem::Init()
     // Note: Use each of these methods to implement the event system
     /*
     glfwSetCursorEnterCallback
-    
     glfwSetWindowMaximizeCallback
     glfwSetFramebufferSizeCallback
     */
@@ -118,7 +112,6 @@ void EventSystem::RegisterEventListener<Event>(const EventCallback<Event>& event
     RegisterEventListener<WindowEvent>(event_callback);
 }
 
-// Note: Implement
 void EventSystem::ErrorCallback(int error, const char* description)
 {
     SADDLE_CORE_ASSERT(false, description);
@@ -160,7 +153,6 @@ void EventSystem::MouseButtonCallback(GLFWwindow* window, int button, int action
 {
     if(action == GLFW_PRESS)
     {
-        // Note: Get the coordinates of the mouse
         MouseButtonPressedEvent event(button, Input::GetMouseX(), Input::GetMouseY());
         Dispatch<MouseButtonPressedEvent>(event);
     }

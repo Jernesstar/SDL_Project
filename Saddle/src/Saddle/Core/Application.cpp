@@ -12,6 +12,7 @@ Application::Application()
     : m_Window(s_Specification->Window_Specification)
 {
     SADDLE_CORE_ASSERT(!s_Instance, "Application already exists!");
+    SADDLE_CORE_ASSERT(gladLoadGL(), "Glad could not load OpenGL");
     
     s_Instance = this;
 
@@ -19,7 +20,7 @@ Application::Application()
     EventSystem::Init();
 }
 
-Application::~Application() { }
+Application::~Application() { s_Instance = nullptr; Application::Close(); }
 
 void Application::Init(const ApplicationSpecification& specs)
 {    
@@ -33,7 +34,8 @@ void Application::Init(const ApplicationSpecification& specs)
 
 void Application::Close()
 {
-    delete s_Instance;
+    if(s_Instance)
+        delete s_Instance;
 
     glfwTerminate();
     exit(0);

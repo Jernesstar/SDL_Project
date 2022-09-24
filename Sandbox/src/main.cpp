@@ -4,6 +4,9 @@
 
 #include <glad/glad.h>
 
+#include <glm/mat4x4.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+
 #include <Saddle/Core/Application.h>
 #include <Saddle/Core/Assert.h>
 #include <Saddle/Events/EventSystem.h>
@@ -54,23 +57,22 @@ public:
         int width, height;
         glfwGetFramebufferSize(window, &width, &height);
         ratio = width / (float) height;
+        glm::mat4 m(1); // Identity matrix
+        glm::mat4 mvp;
 
         while (!glfwWindowShouldClose(window))
         {
-            mat4x4 m, p, mvp;
-    
-            mat4x4_identity(m);
-            mat4x4_ortho(p, -ratio, ratio, -1.f, 1.f, 1.f, -1.f);
-            mat4x4_mul(mvp, p, m);
-    
+            // -ratio, ratio, -1.f, 1.f, 1.f, -1.f
+            mvp = glm::ortho(-ratio, ratio, -1.0f, 1.0f, 1.0f, -1.0f);
+
             glUseProgram(program);
-            glUniformMatrix4fv(mvp_location, 1, GL_FALSE, (const GLfloat*) mvp);
+            glUniformMatrix4fv(mvp_location, 1, GL_FALSE, (GLfloat*)&mvp[0][0]);
             glDrawArrays(GL_TRIANGLES, 0, sizeof(vertices) / sizeof(vertices[0]));
     
             glfwSwapBuffers(window);
             EventSystem::PollEvents();
 
-            glClearColor(255, 255, 0, 0);
+            glClearColor(0, 0, 0, 0);
             glClear(GL_COLOR_BUFFER_BIT);
         }
     }
