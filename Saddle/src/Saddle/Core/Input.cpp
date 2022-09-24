@@ -1,52 +1,53 @@
 #include "Input.h"
 
+#include "Application.h"
+
 namespace Saddle {
 
 bool Input::KeyPressed(KeyCode key)
-{
-    // SDL_PumpEvents();
-    // const Uint8* keyboard_state = SDL_GetKeyboardState(nullptr);
+{   
+    // Note: Get the special cases to work
+    // Special cases
+    if(key == Key::Ctrl) return KeyPressed(Key::LeftCtrl) || KeyPressed(Key::RightCtrl);
+    if(key == Key::Shift) return KeyPressed(Key::LeftShift) || KeyPressed(Key::RightShift);
+    if(key == Key::Alt) return KeyPressed(Key::LeftAlt) || KeyPressed(Key::RightAlt);
 
-    // // Special cases
-    // if(key == Key::Ctrl) return keyboard_state[Key::LeftCtrl] || keyboard_state[Key::RightCtrl];
-    // if(key == Key::Shift) return keyboard_state[Key::LeftShift] || keyboard_state[Key::RightShift];
-    // if(key == Key::Alt) return keyboard_state[Key::LeftAlt] || keyboard_state[Key::RightAlt];
+    auto window = Application::Get().GetWindow().GetNativeWindow();
+    auto state = glfwGetKey(window, (int)key);
 
-    // return keyboard_state[key]; // Will return 1 if key was pressed, 0 otherwise
+    return state == GLFW_PRESS; // Will return 1 if key was pressed, 0 otherwise
 }
 
 bool Input::KeysPressed(KeyCode key1, KeyCode key2)
 {
     if(KeyPressed(key1))
-    {
         if(KeyPressed(key2)) return true;
-    }
     return false;
 }
 
 bool Input::KeysPressed(KeyCode key1, KeyCode key2, KeyCode key3)
 {
-    if(KeysPressed(key1, key2))
-    {
-        if(KeyPressed(key3)) return true;
-    }
+    if(KeyPressed(key1))
+        if(KeyPressed(key2))
+            if(KeyPressed(key3)) return true;
     return false;
 }
 
 bool Input::KeysPressed(KeyCode key1, KeyCode key2, KeyCode key3, KeyCode key4)
 {
-    if(KeysPressed(key1, key2, key3))
-    {
-        if(KeyPressed(key4)) return true;
-    }
+    if(KeyPressed(key1))
+        if(KeyPressed(key2))
+            if(KeyPressed(key3))
+                if(KeyPressed(key4)) return true;
     return false;
 }
 
 bool Input::MouseButtonPressed(MouseCode mouse_button)
 {
-    // SDL_PumpEvents();
-    // int button_mask = SDL_GetMouseState(nullptr, nullptr); // Mask representing what mouse button is currently pressed
-    // return button_mask & SDL_BUTTON(mouse_button); // Return 1 if mouse_button is pressed, else 0
+    auto window = Application::Get().GetWindow().GetNativeWindow();
+    auto state = glfwGetMouseButton(window, (int)(mouse_button));
+
+    return state == GLFW_PRESS;
 }
 
 // bool Input::MousePressedOn(const Rect& rect, const Transform& transform)
@@ -62,10 +63,11 @@ bool Input::MouseButtonPressed(MouseCode mouse_button)
 
 glm::vec2 Input::GetMousePosition()
 {
-    // SDL_PumpEvents();
-    // int x, y;
-    // SDL_GetMouseState(&x, &y);
-    // return { (float)x, (float)y};
+    auto window = Application::Get().GetWindow().GetNativeWindow();
+    double x, y;
+    glfwGetCursorPos(window, &x, &y);
+
+    return { (float)x, (float)y };
 }
 
 int Input::GetMouseX() { return GetMousePosition().x; }

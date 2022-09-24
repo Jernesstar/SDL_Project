@@ -11,6 +11,7 @@
 #include <Saddle/Core/Assert.h>
 #include <Saddle/Events/EventSystem.h>
 #include <Saddle/Renderer/Renderer.h>
+#include <Saddle/Core/Input.h>
 #include <OpenGL/Shader.h>
 
 using namespace Saddle;
@@ -62,13 +63,16 @@ public:
 
         while (!glfwWindowShouldClose(window))
         {
-            // -ratio, ratio, -1.f, 1.f, 1.f, -1.f
-            mvp = glm::ortho(-ratio, ratio, -1.0f, 1.0f, 1.0f, -1.0f);
+            if(Input::KeysPressed(Key::W, Key::E, Key::R))
+            {
+                // -ratio, ratio, -1.f, 1.f, 1.f, -1.f
+                mvp = glm::ortho(-ratio, ratio, -1.0f, 1.0f, 1.0f, -1.0f);
 
-            glUseProgram(program);
-            glUniformMatrix4fv(mvp_location, 1, GL_FALSE, (GLfloat*)&mvp[0][0]);
-            glDrawArrays(GL_TRIANGLES, 0, sizeof(vertices) / sizeof(vertices[0]));
-    
+                glUseProgram(program);
+                glUniformMatrix4fv(mvp_location, 1, GL_FALSE, (GLfloat*)&mvp[0][0]);
+                glDrawArrays(GL_TRIANGLES, 0, sizeof(vertices) / sizeof(vertices[0]));
+            }
+
             glfwSwapBuffers(window);
             EventSystem::PollEvents();
 
