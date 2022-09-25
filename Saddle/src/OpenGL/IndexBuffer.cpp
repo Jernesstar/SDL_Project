@@ -9,7 +9,8 @@ IndexBuffer::IndexBuffer(unsigned int count)
 {
     glCreateBuffers(1, &m_IndexBufferID);
     glBindBuffer(GL_ARRAY_BUFFER, m_IndexBufferID);
-    glBufferData(GL_ARRAY_BUFFER, count, nullptr, GL_DYNAMIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, count * sizeof(unsigned int), nullptr, GL_DYNAMIC_DRAW);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
 IndexBuffer::IndexBuffer(unsigned int count, unsigned int* data)
@@ -17,7 +18,8 @@ IndexBuffer::IndexBuffer(unsigned int count, unsigned int* data)
 {
     glCreateBuffers(1, &m_IndexBufferID);
     glBindBuffer(GL_ARRAY_BUFFER, m_IndexBufferID);
-    glBufferData(GL_ARRAY_BUFFER, count, data, GL_DYNAMIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, count * sizeof(unsigned int), data, GL_DYNAMIC_DRAW);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
 IndexBuffer::~IndexBuffer() { glDeleteBuffers(1, &m_IndexBufferID); }

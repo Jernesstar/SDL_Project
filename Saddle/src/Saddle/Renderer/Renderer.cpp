@@ -22,6 +22,7 @@ void Renderer::BindShaders(const Shader& vertex_shader, const Shader& fragment_s
     glAttachShader(m_RendererID, fragment_shader);
     glLinkProgram(m_RendererID);
     glValidateProgram(m_RendererID);
+    glUseProgram(m_RendererID);
 }
 
 void Renderer::Submit(const VertexBuffer& buffer)

@@ -10,6 +10,7 @@ VertexBuffer::VertexBuffer(unsigned int size)
     glCreateBuffers(1, &m_VertexBufferID);
     glBindBuffer(GL_ARRAY_BUFFER, m_VertexBufferID);
     glBufferData(GL_ARRAY_BUFFER, size, nullptr, GL_DYNAMIC_DRAW);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
 VertexBuffer::VertexBuffer(unsigned int size, void* data)
@@ -18,6 +19,7 @@ VertexBuffer::VertexBuffer(unsigned int size, void* data)
     glCreateBuffers(1, &m_VertexBufferID);
     glBindBuffer(GL_ARRAY_BUFFER, m_VertexBufferID);
     glBufferData(GL_ARRAY_BUFFER, size, data, GL_DYNAMIC_DRAW);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
 VertexBuffer::~VertexBuffer() { glDeleteBuffers(1, &m_VertexBufferID); }
