@@ -6,7 +6,7 @@ namespace Saddle {
 
 bool Input::KeyPressed(KeyCode key)
 {   
-    // Note: Get the special cases to work
+    // Note: Get the special cases
     // Special cases
     if(key == Key::Ctrl) return KeyPressed(Key::LeftCtrl) || KeyPressed(Key::RightCtrl);
     if(key == Key::Shift) return KeyPressed(Key::LeftShift) || KeyPressed(Key::RightShift);

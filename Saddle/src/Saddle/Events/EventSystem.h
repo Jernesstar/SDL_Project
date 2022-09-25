@@ -1,8 +1,7 @@
 #pragma once
 
-#include <string>
 #include <functional>
-#include <vector>
+#include <unordered_map>
 
 #include <GLFW/glfw3.h>
 
@@ -11,23 +10,26 @@
 #include "KeyEvents.h"
 #include "MouseEvents.h"
 #include "WindowEvents.h"
+#include "EventCallback.h"
 
 namespace Saddle {
 
 template<typename TEvent>
-using EventCallback = std::function<void(TEvent&)>;
-
-template<typename TEvent>
-using Callbacks = std::vector<EventCallback<TEvent>>;
+using Callbacks = std::unordered_map<UUID, EventCallback<TEvent>>;
 
 class EventSystem {
 public:
     static void Init();
     static void PollEvents();
-    static void Reset();
+
+    template<typename TEvent>
+    static EventCallback<TEvent> RegisterEventListener(std::function<void(const TEvent&)> event_callback);
 
     template<typename TEvent>
     static void RegisterEventListener(const EventCallback<TEvent>& event_callback);
+    
+    template<typename TEvent>
+    static void UnregisterEventListener(const EventCallback<TEvent>& event_callback);
 
 private:
     inline static Callbacks<KeyPressedEvent>          KeyPressedEventCallbacks          = {};
@@ -39,18 +41,9 @@ private:
     inline static Callbacks<WindowResizedEvent>       WindowResizedEventCallbacks       = {};
     inline static Callbacks<WindowClosedEvent>        WindowClosedEventCallbacks        = {};
 
-    inline static Callbacks<KeyPressedEvent>          PriorityKeyPressedEventCallbacks          = {};
-    inline static Callbacks<KeyReleasedEvent>         PriorityKeyReleasedEventCallbacks         = {};
-    inline static Callbacks<MouseMovedEvent>          PriorityMouseMovedEventCallbacks          = {};
-    inline static Callbacks<MouseScrolledEvent>       PriorityMouseScrolledEventCallbacks       = {};
-    inline static Callbacks<MouseButtonPressedEvent>  PriorityMouseButtonPressedEventCallbacks  = {};
-    inline static Callbacks<MouseButtonReleasedEvent> PriorityMouseButtonReleasedEventCallbacks = {};
-    inline static Callbacks<WindowResizedEvent>       PriorityWindowResizedEventCallbacks       = {};
-    inline static Callbacks<WindowClosedEvent>        PriorityWindowClosedEventCallbacks        = {};
-
 private:
     template<typename TEvent>
-    static void Dispatch(TEvent& event);
+    static void Dispatch(const TEvent& event);
 
     static void ErrorCallback(int error, const char* description);
     static void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
@@ -61,9 +54,6 @@ private:
     static void WindowMovedCallback(GLFWwindow* window, int x, int y);
     static void WindowResizedCallback(GLFWwindow* window, int width, int height);
     static void WindowClosedCallback(GLFWwindow* window);
-
-    friend class Application;
-    friend class Window;
 };
 
 }

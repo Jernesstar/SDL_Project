@@ -6,6 +6,7 @@
 
 #include <glm/mat4x4.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 #include <Saddle/Core/Application.h>
 #include <Saddle/Core/Assert.h>
@@ -48,8 +49,13 @@ public:
         mvp_location = glGetUniformLocation(program, "MVP");
         vertex_position = glGetAttribLocation(program, "vPos");
         vertex_color = glGetAttribLocation(program, "vCol");
-    
+
+        // Enabling a vertex attribute
         glEnableVertexAttribArray(vertex_position);
+        // Setting the data for the attribute: 
+        // 1. the attribute index, 2. the number of elements that make up the attribute,
+        // 3. whether of not to normalize to values, 4. the size in bytes of the whole vertex
+        // 5. a pointer to the start of the attribute in each vertex
         glVertexAttribPointer(vertex_position, 2, GL_FLOAT, GL_FALSE, sizeof(vertices[0]), (void*)0);
         glEnableVertexAttribArray(vertex_color);
         glVertexAttribPointer(vertex_color, 3, GL_FLOAT, GL_FALSE, sizeof(vertices[0]), (void*)(sizeof(float) * 3));
@@ -63,15 +69,12 @@ public:
 
         while (!glfwWindowShouldClose(window))
         {
-            if(Input::KeysPressed(Key::W, Key::E, Key::R))
-            {
-                // -ratio, ratio, -1.f, 1.f, 1.f, -1.f
-                mvp = glm::ortho(-ratio, ratio, -1.0f, 1.0f, 1.0f, -1.0f);
+            // -ratio, ratio, -1.f, 1.f, 1.f, -1.f
+            mvp = glm::ortho(-ratio, ratio, -1.0f, 1.0f, 1.0f, -1.0f);
 
-                glUseProgram(program);
-                glUniformMatrix4fv(mvp_location, 1, GL_FALSE, (GLfloat*)&mvp[0][0]);
-                glDrawArrays(GL_TRIANGLES, 0, sizeof(vertices) / sizeof(vertices[0]));
-            }
+            glUseProgram(program);
+            glUniformMatrix4fv(mvp_location, 1, GL_FALSE, glm::value_ptr(mvp));
+            glDrawArrays(GL_TRIANGLES, 0, sizeof(vertices) / sizeof(vertices[0]));
 
             glfwSwapBuffers(window);
             EventSystem::PollEvents();

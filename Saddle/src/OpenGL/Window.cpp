@@ -20,13 +20,13 @@ Window::Window(const WindowSpecification& specs)
     glfwMakeContextCurrent(m_Window);
     glfwSwapInterval(0); // Note: Maybe include flag in WindowSpecification for this
 
-    EventSystem::PriorityWindowClosedEventCallbacks.push_back(
-        [](WindowClosedEvent& event) {
+    EventSystem::RegisterEventListener<WindowClosedEvent>(
+        [](const WindowClosedEvent& event) {
             Application::Close();
         }
     );
-    EventSystem::PriorityWindowResizedEventCallbacks.push_back(
-        [this](WindowResizedEvent& event) {
+    EventSystem::RegisterEventListener<WindowResizedEvent>(
+        [this](const WindowResizedEvent& event) {
             this->Width = event.Width;
             this->Height = event.Height;
         }

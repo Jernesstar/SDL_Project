@@ -6,25 +6,34 @@
 #include "Saddle/Core/Assert.h"
 #include "Saddle/Core/Input.h"
 
-#define REGISTER_EVENT_LISTENER(event_type) \
+#define REGISTER_EVENT_LISTENER(TEvent) \
 template<> \
-void EventSystem::RegisterEventListener<event_type>(const EventCallback<event_type>& event_callback) \
+EventCallback<TEvent> EventSystem::RegisterEventListener<TEvent>(const std::function<void(const TEvent&)> event_callback) \
 { \
-    Callbacks<event_type>& vec = event_type##Callbacks; \
-    vec.push_back(event_callback); \
+    Callbacks<TEvent>& list = TEvent##Callbacks; \
+    const EventCallback<TEvent> _event_callback(event_callback); \
+    list[_event_callback.ID] = _event_callback; \
+    return _event_callback; \
+} \
+ \
+template<> \
+void EventSystem::RegisterEventListener<TEvent>(const EventCallback<TEvent>& event_callback) \
+{ \
+    Callbacks<TEvent>& list = TEvent##Callbacks; \
+    list[event_callback.ID] = event_callback; \
 }
+
+#define UNREGISTER_EVENT_LISTENER(TEvent) \
+template<> \
+void 
 
 #define DISPATCH(event_type) \
 template<> \
-void EventSystem::Dispatch<event_type>(event_type& event) \
+void EventSystem::Dispatch<event_type>(const event_type& event) \
 { \
-    Callbacks<event_type>& priority_callback_list = Priority##event_type##Callbacks; \
     Callbacks<event_type>& callback_list = event_type##Callbacks; \
  \
-    for(EventCallback<event_type>& func : priority_callback_list) \
-        if(func) func(event); \
- \
-    for(EventCallback<event_type>& func : callback_list) \
+    for(auto& [id, func] : callback_list) \
         if(func) func(event); \
 }
 
@@ -69,47 +78,35 @@ void EventSystem::Init()
 
 void EventSystem::PollEvents() { glfwPollEvents(); }
 
-void EventSystem::Reset()
-{
-    KeyPressedEventCallbacks.clear();
-    KeyReleasedEventCallbacks.clear();
-    MouseMovedEventCallbacks.clear();
-    MouseScrolledEventCallbacks.clear();
-    MouseButtonPressedEventCallbacks.clear();
-    MouseButtonReleasedEventCallbacks.clear();
-    WindowResizedEventCallbacks.clear();
-    WindowClosedEventCallbacks.clear();
-}
-
 template<>
 void EventSystem::RegisterEventListener<KeyEvent>(const EventCallback<KeyEvent>& event_callback)
 {
-    RegisterEventListener<KeyPressedEvent>(event_callback);
-    RegisterEventListener<KeyReleasedEvent>(event_callback);
+    RegisterEventListener<KeyPressedEvent>((EventCallback<KeyPressedEvent>&)event_callback);
+    RegisterEventListener<KeyReleasedEvent>((EventCallback<KeyReleasedEvent>&)event_callback);
 }
 
 template<>
 void EventSystem::RegisterEventListener<MouseEvent>(const EventCallback<MouseEvent>& event_callback)
 {
-    RegisterEventListener<MouseMovedEvent>(event_callback);
-    RegisterEventListener<MouseScrolledEvent>(event_callback);
-    RegisterEventListener<MouseButtonPressedEvent>(event_callback);
-    RegisterEventListener<MouseButtonReleasedEvent>(event_callback);
+    RegisterEventListener<MouseMovedEvent>((EventCallback<MouseMovedEvent>&)event_callback);
+    RegisterEventListener<MouseScrolledEvent>((EventCallback<MouseScrolledEvent>&)event_callback);
+    RegisterEventListener<MouseButtonPressedEvent>((EventCallback<MouseButtonPressedEvent>&)event_callback);
+    RegisterEventListener<MouseButtonReleasedEvent>((EventCallback<MouseButtonReleasedEvent>&)event_callback);
 }
 
 template<>
 void EventSystem::RegisterEventListener<WindowEvent>(const EventCallback<WindowEvent>& event_callback)
 {
-    RegisterEventListener<WindowResizedEvent>(event_callback);
-    RegisterEventListener<WindowClosedEvent>(event_callback);
+    RegisterEventListener<WindowResizedEvent>((EventCallback<WindowResizedEvent>&)event_callback);
+    RegisterEventListener<WindowClosedEvent>((EventCallback<WindowClosedEvent>&)event_callback);
 }
 
 template<>
 void EventSystem::RegisterEventListener<Event>(const EventCallback<Event>& event_callback)
 {
-    RegisterEventListener<KeyEvent>(event_callback);
-    RegisterEventListener<MouseEvent>(event_callback);
-    RegisterEventListener<WindowEvent>(event_callback);
+    RegisterEventListener<KeyEvent>((EventCallback<KeyEvent>&)event_callback);
+    RegisterEventListener<MouseEvent>((EventCallback<MouseEvent>&)event_callback);
+    RegisterEventListener<WindowEvent>((EventCallback<WindowEvent>&)event_callback);
 }
 
 void EventSystem::ErrorCallback(int error, const char* description)

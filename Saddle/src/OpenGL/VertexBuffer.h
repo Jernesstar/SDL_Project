@@ -1,16 +1,18 @@
 #pragma once
 
-#include <glad/glad.h>
-
 namespace Saddle {
 
 struct VertexBuffer {
     VertexBuffer();
+    ~VertexBuffer();
+
+    void Bind() const;
+    void Unbind() const;
 
     operator int() const { return m_VertexBufferID; }
 
 private:
-    GLuint m_VertexBufferID;
+    unsigned int m_VertexBufferID;
 };
 
 }
