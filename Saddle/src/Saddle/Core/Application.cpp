@@ -5,6 +5,7 @@
 
 #include "Assert.h"
 #include "Saddle/Events/EventSystem.h"
+#include "Saddle/Renderer/Renderer.h"
 
 namespace Saddle {
 
@@ -16,7 +17,7 @@ Application::Application()
     
     s_Instance = this;
 
-    // Renderer::Init();
+    Renderer::Init();
     EventSystem::Init();
 }
 

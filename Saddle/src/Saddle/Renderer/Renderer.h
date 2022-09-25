@@ -1,6 +1,7 @@
 #pragma once
 
-#include <glad/glad.h>
+#define GLFW_INCLUDE_NONE
+#include <GLFW/glfw3.h>
 
 #include "OpenGL/Shader.h"
 #include "OpenGL/VertexBuffer.h"
@@ -10,17 +11,17 @@ namespace Saddle {
 class Renderer {
 public:
     static void Init();
-    static void Clear();
+    static void Clear(float r, float g, float b, float a);
 
-    static void Submit(const Shader& vertex_shader, const Shader& fragment_shader);
-    // static void DrawTexture(const Texture2D& texture, const Transform& transform);
-    static void Render(const VertexBuffer& buffer);
-    // static void SetPixel(SDL_Surface* surface, int x, int y, RGBColor color);
+    static void BindShaders(const Shader& vertex_shader, const Shader& fragment_shader);
+    static void Submit(const VertexBuffer& buffer);
+    static void Render();
 
-    static GLint GetRendererID() { return m_RendererID; }
+    static unsigned int GetRendererID() { return m_RendererID; }
 
 private:
-    inline static GLint m_RendererID;
+    inline static unsigned int m_RendererID;
+    inline static GLFWwindow* m_Window;
 
     Renderer() = delete;
     ~Renderer() = delete;

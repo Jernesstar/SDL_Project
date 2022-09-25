@@ -1,14 +1,21 @@
 #include "Renderer.h"
+
+#include <glad/glad.h>
+
 #include "Saddle/Core/Assert.h"
 #include "Saddle/Core/Application.h"
 
 namespace Saddle {
 
-void Renderer::Init() { }
+void Renderer::Init() { m_Window = Application::Get().GetWindow().GetNativeWindow(); }
 
-void Renderer::Clear() { glClear(GL_COLOR_BUFFER_BIT); }
+void Renderer::Clear(float r, float g, float b, float a)
+{
+    glClearColor(r, g, b, a);
+    glClear(GL_COLOR_BUFFER_BIT);
+}
 
-void Renderer::Submit(const Shader& vertex_shader, const Shader& fragment_shader)
+void Renderer::BindShaders(const Shader& vertex_shader, const Shader& fragment_shader)
 {
     m_RendererID = glCreateProgram();
     glAttachShader(m_RendererID, vertex_shader);
@@ -17,11 +24,13 @@ void Renderer::Submit(const Shader& vertex_shader, const Shader& fragment_shader
     glValidateProgram(m_RendererID);
 }
 
-void Renderer::Render(const VertexBuffer& buffer)
+void Renderer::Submit(const VertexBuffer& buffer)
 {
     glBindBuffer(GL_ARRAY_BUFFER, buffer);
     glUseProgram(m_RendererID);
-    glDrawArrays(GL_TRIANGLES, 0, 0);
+    glDrawArrays(GL_TRIANGLES, 0, buffer.GetSize());
 }
+
+void Renderer::Render() { glfwSwapBuffers(m_Window); }
 
 }

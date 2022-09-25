@@ -14,9 +14,9 @@
 #include <Saddle/Renderer/Renderer.h>
 #include <Saddle/Core/Input.h>
 #include <OpenGL/Shader.h>
+#include <OpenGL/VertexBuffer.h>
 
 using namespace Saddle;
- 
 struct
 {
     float x, y;
@@ -26,7 +26,7 @@ vertices[3] =
 {
     {  -0.5f, -0.5f, 1.f, 0.f, 0.f },
     { 0.5f, -0.5f, 0.f, 1.f, 0.f },
-    {  0.f,  0.5f, 0.f, 0.f, 1.f }
+    {  0.f,  0.5f, 0.f, 0.f, 1.f },
 };
 
 class App : public Application {
@@ -36,14 +36,13 @@ public:
         GLFWwindow* window = m_Window.GetNativeWindow();
         GLuint vertex_buffer, program;
         GLint mvp_location, vertex_position, vertex_color;
-    
-        glGenBuffers(1, &vertex_buffer);
-        glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+        VertexBuffer buffer(sizeof(vertices), vertices);
+        buffer.Bind();
 
         Shader vertex_shader("Sandbox/assets/shaders/vertex_shader.glsl", ShaderType::VertexShader);
         Shader fragment_shader("Sandbox/assets/shaders/fragment_shader.glsl", ShaderType::FragmentShader);
-        Renderer::Submit(vertex_shader, fragment_shader);
+        Renderer::BindShaders(vertex_shader, fragment_shader);
         program = Renderer::GetRendererID();
 
         mvp_location = glGetUniformLocation(program, "MVP");
@@ -66,21 +65,18 @@ public:
         ratio = width / (float) height;
         glm::mat4 m(1); // Identity matrix
         glm::mat4 mvp;
+        // -ratio, ratio, -1.f, 1.f, 1.f, -1.f
+        mvp = glm::ortho(-ratio, ratio, -1.0f, 1.0f, 1.0f, -1.0f);
 
         while (!glfwWindowShouldClose(window))
         {
-            // -ratio, ratio, -1.f, 1.f, 1.f, -1.f
-            mvp = glm::ortho(-ratio, ratio, -1.0f, 1.0f, 1.0f, -1.0f);
-
-            glUseProgram(program);
             glUniformMatrix4fv(mvp_location, 1, GL_FALSE, glm::value_ptr(mvp));
-            glDrawArrays(GL_TRIANGLES, 0, sizeof(vertices) / sizeof(vertices[0]));
+            Renderer::Clear(0.0f, 0.0f, 0.0f, 0.0f);
 
-            glfwSwapBuffers(window);
+            Renderer::Submit(buffer);
+            Renderer::Render();
+
             EventSystem::PollEvents();
-
-            glClearColor(0, 0, 0, 0);
-            glClear(GL_COLOR_BUFFER_BIT);
         }
     }
 };
