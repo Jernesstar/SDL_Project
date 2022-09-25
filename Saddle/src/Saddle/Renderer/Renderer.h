@@ -5,6 +5,7 @@
 
 #include "OpenGL/Shader.h"
 #include "OpenGL/VertexBuffer.h"
+#include "OpenGL/IndexBuffer.h"
 
 namespace Saddle {
 
@@ -15,6 +16,7 @@ public:
 
     static void BindShaders(const Shader& vertex_shader, const Shader& fragment_shader);
     static void Submit(const VertexBuffer& buffer);
+    static void Submit(const IndexBuffer& buffer);
     static void Render();
 
     static unsigned int GetRendererID() { return m_RendererID; }

@@ -26,9 +26,16 @@ void Renderer::BindShaders(const Shader& vertex_shader, const Shader& fragment_s
 
 void Renderer::Submit(const VertexBuffer& buffer)
 {
-    glBindBuffer(GL_ARRAY_BUFFER, buffer);
     glUseProgram(m_RendererID);
+    glBindBuffer(GL_ARRAY_BUFFER, buffer);
     glDrawArrays(GL_TRIANGLES, 0, buffer.GetSize());
+}
+
+void Renderer::Submit(const IndexBuffer& buffer)
+{
+    // glUseProgram(m_RendererID);
+    // glBindBuffer(GL_ARRAY_BUFFER, buffer);
+    // glDrawArrays(GL_TRIANGLES, 0, buffer.GetSize());
 }
 
 void Renderer::Render() { glfwSwapBuffers(m_Window); }
