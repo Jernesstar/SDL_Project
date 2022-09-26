@@ -15,7 +15,16 @@ void Renderer::Clear(float r, float g, float b, float a)
     glClear(GL_COLOR_BUFFER_BIT);
 }
 
-void Renderer::BindShaders(const Shader& vertex_shader, const Shader& fragment_shader)
+void Renderer::BindShader(const Shader& shader)
+{
+    m_RendererID = glCreateProgram();
+    glAttachShader(m_RendererID, shader);
+    glLinkProgram(m_RendererID);
+    glValidateProgram(m_RendererID);
+    glUseProgram(m_RendererID);
+}
+
+void Renderer::BindShader(const Shader& vertex_shader, const Shader& fragment_shader)
 {
     m_RendererID = glCreateProgram();
     glAttachShader(m_RendererID, vertex_shader);
@@ -28,15 +37,16 @@ void Renderer::BindShaders(const Shader& vertex_shader, const Shader& fragment_s
 void Renderer::Submit(const VertexBuffer& buffer)
 {
     glUseProgram(m_RendererID);
-    glBindBuffer(GL_ARRAY_BUFFER, buffer);
+    buffer.Bind();
     glDrawArrays(GL_TRIANGLES, 0, buffer.GetSize());
 }
 
-void Renderer::Submit(const IndexBuffer& buffer)
+void Renderer::Submit(const VertexBuffer& vertex_buffer, const IndexBuffer& index_buffer)
 {
-    // glUseProgram(m_RendererID);
-    // glBindBuffer(GL_ARRAY_BUFFER, buffer);
-    // glDrawArrays(GL_TRIANGLES, 0, buffer.GetSize());
+    vertex_buffer.Bind();
+    index_buffer.Bind();
+
+    glDrawElements(GL_TRIANGLES, index_buffer.GetCount(), GL_UNSIGNED_INT, nullptr);
 }
 
 void Renderer::Render() { glfwSwapBuffers(m_Window); }

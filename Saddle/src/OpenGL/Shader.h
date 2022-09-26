@@ -9,6 +9,7 @@ enum class ShaderType { VertexShader, FragmentShader };
 class Shader {
 public:
     const std::string Path;
+    const std::string Source;
     const ShaderType Type;
 
 public:

@@ -25,6 +25,8 @@ public:
     Window(const WindowSpecification& specs = WindowSpecification());
     ~Window();
 
+    bool IsOpen() const { return !glfwWindowShouldClose(m_Window); }
+
     GLFWwindow* GetNativeWindow();
 
 private:

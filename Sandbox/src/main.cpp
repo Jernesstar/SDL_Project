@@ -19,6 +19,9 @@
 #include <OpenGL/IndexBuffer.h>
 
 using namespace Saddle;
+
+class App : public Application {
+
 struct
 {
     float x, y;
@@ -29,25 +32,23 @@ vertices[4] =
     {  -0.5f, -0.5f, 1.f, 0.f, 0.f },
     {  0.5f, -0.5f, 0.f, 1.f, 0.f },
     {  0.5f,  0.5f, 0.f, 0.f, 1.f },
-    {  -0.5f,  0.5f, 1.f, 0.f, 1.f },
+    {  -0.5f,  0.5f, 1.f, 0.f, 0.f },
 };
 
-unsigned int indices[] = {
+unsigned int indices[6] = {
     0, 1, 2,
     2, 3, 0
 };
 
-class App : public Application {
 public:
     void Run()
     {
-        GLFWwindow* window = m_Window.GetNativeWindow();
         GLuint program;
         GLint mvp_location, vertex_position, vertex_color;
 
         Shader vertex_shader("Sandbox/assets/shaders/vertex_shader.glsl", ShaderType::VertexShader);
         Shader fragment_shader("Sandbox/assets/shaders/fragment_shader.glsl", ShaderType::FragmentShader);
-        Renderer::BindShaders(vertex_shader, fragment_shader);
+        Renderer::BindShader(vertex_shader, fragment_shader);
         
         program = Renderer::GetRendererID();
         mvp_location = glGetUniformLocation(program, "MVP");
@@ -68,22 +69,18 @@ public:
         glEnableVertexAttribArray(vertex_color);
         glVertexAttribPointer(vertex_color, 3, GL_FLOAT, GL_FALSE, sizeof(vertices[0]), (void*)(sizeof(float) * 3));
 
-        // float ratio;
-        // int width, height;
-        // glfwGetFramebufferSize(window, &width, &height);
-        // ratio = width / (float) height;
-        // // glm::mat4 mvp = glm::ortho(-ratio, ratio, -1.0f, 1.0f, 1.0f, -1.0f);
+        int width, height;
+        glfwGetFramebufferSize(m_Window.GetNativeWindow(), &width, &height);
 
-        index_buffer.Bind();
-        vertex_buffer.Bind();
+        float ratio = width / (float)height;
+        glm::mat4 mvp = glm::ortho(-ratio, ratio, -1.0f, 1.0f, 1.0f, -1.0f);
+        glUniformMatrix4fv(mvp_location, 1, GL_FALSE, glm::value_ptr(mvp));
 
-        while (!glfwWindowShouldClose(window))
+        while(m_Window.IsOpen())
         {
-            // glUniformMatrix4fv(mvp_location, 1, GL_FALSE, glm::value_ptr(mvp));
-            Renderer::Clear(0.0f, 0.0f, 0.0f, 0.0f);
+            Renderer::Clear();
             
-            glDrawElements(GL_TRIANGLES, index_buffer.GetCount(), GL_UNSIGNED_INT, nullptr);
-            // Renderer::Submit(vertex_buffer);
+            Renderer::Submit(vertex_buffer, index_buffer);
             Renderer::Render();
 
             EventSystem::PollEvents();

@@ -20,7 +20,7 @@ public:
         return duration.count();
     }
 
-    operator float() { return m_TimePoint.time_since_epoch().count(); }
+    operator float() const { return m_TimePoint.time_since_epoch().count(); }
 
 private:
     Time_Point m_TimePoint;
