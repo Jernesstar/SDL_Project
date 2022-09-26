@@ -36,7 +36,6 @@ void Renderer::BindShader(const Shader& vertex_shader, const Shader& fragment_sh
 
 void Renderer::Submit(const VertexBuffer& buffer)
 {
-    glUseProgram(m_RendererID);
     buffer.Bind();
     glDrawArrays(GL_TRIANGLES, 0, buffer.GetSize());
 }
