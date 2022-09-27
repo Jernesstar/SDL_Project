@@ -6,13 +6,13 @@ namespace Saddle {
 
 class VertexBuffer {
 public:
-    VertexBuffer(unsigned int size, const Vertex* data = nullptr);
+    VertexBuffer(unsigned int size, const Vertex* vertices = nullptr);
     ~VertexBuffer();
 
     void Bind() const;
     void Unbind() const;
 
-    void SetData(unsigned int size, const Vertex* data);
+    void SetData(const Vertex* vertices);
 
     const unsigned int GetSize() const { return m_Size; }
     

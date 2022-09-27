@@ -1,10 +1,12 @@
 #pragma once
 
+#include <glm/vec3.hpp>
+
 namespace Saddle {
 
 struct Vertex {
     float x, y;
-    float r, g, b;
+    glm::vec3 color;
 };
 
 }

@@ -1,8 +1,8 @@
-#version 110
+#version 330 core
 
 uniform mat4 MVP;
-attribute vec3 vCol;
-attribute vec2 vPos;
+layout(location = 0) attribute vec2 vPos;
+layout(location = 1) attribute vec3 vCol;
 varying vec3 color;
 
 void main()

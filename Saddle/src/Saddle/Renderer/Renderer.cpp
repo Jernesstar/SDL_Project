@@ -38,14 +38,16 @@ void Renderer::Submit(const VertexBuffer& buffer)
 {
     buffer.Bind();
     glDrawArrays(GL_TRIANGLES, 0, buffer.GetSize());
+    buffer.Unbind();
 }
 
 void Renderer::Submit(const VertexBuffer& vertex_buffer, const IndexBuffer& index_buffer)
 {
     vertex_buffer.Bind();
     index_buffer.Bind();
-
     glDrawElements(GL_TRIANGLES, index_buffer.GetCount(), GL_UNSIGNED_INT, nullptr);
+    index_buffer.Unbind();
+    vertex_buffer.Unbind();
 }
 
 void Renderer::Render() { glfwSwapBuffers(m_Window); }
