@@ -7,7 +7,7 @@
 namespace Saddle {
 
 VertexBuffer::VertexBuffer(unsigned int count, const Vertex* vertices)
-    : m_Size(count * sizeof(Vertex))
+    : m_Count(count), m_Size(count * sizeof(Vertex))
 {
     glCreateBuffers(1, &m_VertexBufferID);
     glBindBuffer(GL_ARRAY_BUFFER, m_VertexBufferID);
