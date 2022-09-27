@@ -7,11 +7,11 @@
 namespace Saddle {
 
 VertexBuffer::VertexBuffer(unsigned int count, const Vertex* vertices)
-    : m_Count(count), m_Size(count * sizeof(Vertex))
+    : m_Count(count)
 {
     glCreateBuffers(1, &m_VertexBufferID);
     glBindBuffer(GL_ARRAY_BUFFER, m_VertexBufferID);
-    glBufferData(GL_ARRAY_BUFFER, m_Size, vertices, GL_DYNAMIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, count * sizeof(Vertex), vertices, GL_DYNAMIC_DRAW);
 
     // Enabling a vertex attribute
     glEnableVertexAttribArray(0);
@@ -34,7 +34,7 @@ void VertexBuffer::Unbind() const { glBindBuffer(GL_ARRAY_BUFFER, 0); }
 void VertexBuffer::SetData(const Vertex* vertices)
 {
     glBindBuffer(GL_ARRAY_BUFFER, m_VertexBufferID);
-    glBufferSubData(GL_ARRAY_BUFFER, 0, m_Size, vertices);
+    glBufferSubData(GL_ARRAY_BUFFER, 0, m_Count * sizeof(Vertex), vertices);
 }
 
 }
