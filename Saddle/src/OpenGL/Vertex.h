@@ -1,12 +1,13 @@
 #pragma once
 
+#include <glm/vec2.hpp>
 #include <glm/vec3.hpp>
 
 namespace Saddle {
 
 struct Vertex {
-    float x, y;
-    glm::vec3 color;
+    glm::vec2 Position;
+    glm::vec3 Color;
 };
 
 }

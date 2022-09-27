@@ -39,6 +39,13 @@ Window::~Window()
     m_Window = nullptr;
 }
 
+glm::vec2 Window::GetFrameBufferSize()
+{
+    int width, height;
+    glfwGetFramebufferSize(m_Window, &width, &height);
+    return { width, height };
+}
+
 GLFWwindow* Window::GetNativeWindow()
 {
     return m_Window;

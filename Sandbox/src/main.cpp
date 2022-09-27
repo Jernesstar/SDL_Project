@@ -24,10 +24,10 @@ class App : public Application {
 
 Vertex vertices[4] = 
 {
-    {  -0.5f, -0.5f, glm::vec3(1.f, 0.f, 0.f) },
-    {  0.5f, -0.5f,  glm::vec3(0.f, 1.f, 0.f) },
-    {  0.5f,  0.5f,  glm::vec3(0.f, 0.f, 1.f) },
-    {  -0.5f,  0.5f, glm::vec3(1.f, 0.f, 0.f) },
+    {  glm::vec2(-0.5f, -0.5f), glm::vec3(1.f, 0.f, 0.f) },
+    {  glm::vec2( 0.5f, -0.5f), glm::vec3(0.f, 1.f, 0.f) },
+    {  glm::vec2( 0.5f,  0.5f), glm::vec3(0.f, 0.f, 1.f) },
+    {  glm::vec2(-0.5f,  0.5f), glm::vec3(1.f, 0.f, 0.f) },
 };
 
 unsigned int indices[6] = {
@@ -38,9 +38,8 @@ unsigned int indices[6] = {
 public:
     void Run()
     {
-        int width, height;
-        glfwGetFramebufferSize(m_Window.GetNativeWindow(), &width, &height);
-        float ratio = width / (float)height;
+        auto vec = m_Window.GetFrameBufferSize();
+        float ratio = vec.x / vec.y;
 
         Shader vertex_shader("Sandbox/assets/shaders/vertex_shader.glsl", ShaderType::VertexShader);
         Shader fragment_shader("Sandbox/assets/shaders/fragment_shader.glsl", ShaderType::FragmentShader);

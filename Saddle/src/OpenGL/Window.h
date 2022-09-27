@@ -5,6 +5,8 @@
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
 
+#include <glm/vec2.hpp>
+
 namespace Saddle {
 
 struct WindowSpecification {
@@ -26,6 +28,8 @@ public:
     ~Window();
 
     bool IsOpen() const { return !glfwWindowShouldClose(m_Window); }
+
+    glm::vec2 GetFrameBufferSize();
 
     GLFWwindow* GetNativeWindow();
 
