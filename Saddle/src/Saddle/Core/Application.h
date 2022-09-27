@@ -5,14 +5,12 @@
 namespace Saddle {
 
 struct ApplicationSpecification {
-    std::string AppName;
     WindowSpecification Window_Specification;
     // AudioSpecification Audio_Specification;
 
     ApplicationSpecification(
-        const std::string& app_name = "Application",
-        WindowSpecification window_specs = WindowSpecification("Application")
-    ) : AppName(app_name), Window_Specification(window_specs) { }
+        WindowSpecification window_specs = WindowSpecification()
+    ) : Window_Specification(window_specs) { }
 };
 
 class Application {
@@ -36,5 +34,5 @@ protected:
 protected:
     Application();
 };
-    
+
 }

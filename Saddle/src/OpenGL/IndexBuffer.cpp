@@ -4,15 +4,6 @@
 
 namespace Saddle {
 
-IndexBuffer::IndexBuffer(unsigned int count)
-    : m_Count(count)
-{
-    glCreateBuffers(1, &m_IndexBufferID);
-    glBindBuffer(GL_ARRAY_BUFFER, m_IndexBufferID);
-    glBufferData(GL_ARRAY_BUFFER, count * sizeof(unsigned int), nullptr, GL_DYNAMIC_DRAW);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-}
-
 IndexBuffer::IndexBuffer(unsigned int count, unsigned int* data)
     : m_Count(count)
 {

@@ -3,8 +3,7 @@
 namespace Saddle {
 
 struct IndexBuffer {
-    IndexBuffer(unsigned int size);
-    IndexBuffer(unsigned int size, unsigned int* indices);
+    IndexBuffer(unsigned int size, unsigned int* indices = nullptr);
     ~IndexBuffer();
 
     void Bind() const;

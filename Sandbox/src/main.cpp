@@ -22,12 +22,7 @@ using namespace Saddle;
 
 class App : public Application {
 
-struct
-{
-    float x, y;
-    float r, g, b;
-}
-vertices[4] = 
+Vertex vertices[4] = 
 {
     {  -0.5f, -0.5f, 1.f, 0.f, 0.f },
     {  0.5f, -0.5f, 0.f, 1.f, 0.f },

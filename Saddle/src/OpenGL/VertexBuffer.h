@@ -1,16 +1,18 @@
 #pragma once
 
+#include "Vertex.h"
+
 namespace Saddle {
 
-struct VertexBuffer {
-    VertexBuffer(unsigned int size);
-    VertexBuffer(unsigned int size, void* data);
+class VertexBuffer {
+public:
+    VertexBuffer(unsigned int size, const Vertex* data = nullptr);
     ~VertexBuffer();
 
     void Bind() const;
     void Unbind() const;
 
-    void SetData(unsigned int size, void* data);
+    void SetData(unsigned int size, const Vertex* data);
 
     const unsigned int GetSize() const { return m_Size; }
     
