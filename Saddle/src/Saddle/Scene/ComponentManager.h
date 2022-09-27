@@ -17,7 +17,7 @@ public:
     template<typename Component>
     bool HasComponent()
     {
-        if(m_Components.find(Hash<Component>()) == m_Components.end())
+        if(m_Components.count(Hash<Component>()))
             return false;
 
         return true;
@@ -48,9 +48,6 @@ public:
         
         return *(Component*)m_Components[Hash<Component>()];
     }
-
-    // template<typename... Component>
-    
 
 private:
     std::unordered_map<std::size_t, IComponent*> m_Components;
