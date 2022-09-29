@@ -34,6 +34,8 @@ void Renderer::BindShader(const Shader& vertex_shader, const Shader& fragment_sh
     glUseProgram(m_RendererID);
 }
 
+void Renderer::UnbindShader() { glUseProgram(0); }
+
 void Renderer::Submit(const VertexBuffer& buffer)
 {
     buffer.Bind();

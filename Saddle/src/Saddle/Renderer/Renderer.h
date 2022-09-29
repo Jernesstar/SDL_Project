@@ -16,6 +16,7 @@ public:
 
     static void BindShader(const Shader& shader);
     static void BindShader(const Shader& vertex_shader, const Shader& fragment_shader);
+    static void UnbindShader();
     static void Submit(const VertexBuffer& buffer);
     static void Submit(const VertexBuffer& vertex_buffer, const IndexBuffer& index_buffer);
     static void Render();

@@ -18,7 +18,7 @@ Window::Window(const WindowSpecification& specs)
     SADDLE_CORE_ASSERT(m_Window, "Could not create the window");
 
     glfwMakeContextCurrent(m_Window);
-    glfwSwapInterval(0); // Note: Maybe include flag in WindowSpecification for this
+    glfwSwapInterval(1); // Note: Maybe include flag in WindowSpecification for this
 
     EventSystem::RegisterEventListener<WindowClosedEvent>(
         [](const WindowClosedEvent& event) {
