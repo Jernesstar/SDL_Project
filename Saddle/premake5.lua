@@ -23,7 +23,6 @@ project "Saddle"
         "src",
 
         "%{Includes.glm}",
-        "%{Includes.glfw}/deps",
         "%{Includes.glfw}/include",
         "%{Includes.glad}/include",
     }

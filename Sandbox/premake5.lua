@@ -19,7 +19,6 @@ project "Sandbox"
         "%{wks.location}/Saddle/src",
 
         "%{Includes.glm}",
-        "%{Includes.glfw}/deps",
         "%{Includes.glfw}/include",
         "%{Includes.glad}/include",
     }

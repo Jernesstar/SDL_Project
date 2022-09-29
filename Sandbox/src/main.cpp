@@ -1,8 +1,3 @@
-#include <linmath.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <iostream>
-
 #include <glad/glad.h>
 
 #include <glm/mat4x4.hpp>
@@ -25,8 +20,8 @@ class App : public Application {
 Vertex vertices[4] = 
 {
     { glm::vec2(-0.5f, -0.5f), glm::vec3(1.f, 0.f, 0.f) }, // Bottom left, 0
-    { glm::vec2( 0.5f, -0.5f), glm::vec3(0.f, 0.f, 1.f) }, // Bottom right, 1
-    { glm::vec2( 0.5f,  0.5f), glm::vec3(1.f, 0.f, 0.f) }, // Top right, 2
+    { glm::vec2( 0.5f, -0.5f), glm::vec3(0.f, 1.f, 0.f) }, // Bottom right, 1
+    { glm::vec2( 0.5f,  0.5f), glm::vec3(1.f, 0.f, 1.f) }, // Top right, 2
     { glm::vec2(-0.5f,  0.5f), glm::vec3(0.f, 1.f, 0.f) }, // Top left, 3
 };
 
