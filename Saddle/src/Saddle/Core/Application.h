@@ -15,24 +15,23 @@ struct ApplicationSpecification {
 
 class Application {
 public:
+    Application();
     ~Application();
 
     static void Init(const ApplicationSpecification& specification = ApplicationSpecification());
     static void Close();
-    virtual void Run();
 
     static Application& Get();
+
     virtual Window& GetWindow();
+    virtual void Run() = 0;
 
 private:
     inline static Application* s_Instance = nullptr;
-
-protected:
     inline static const ApplicationSpecification* s_Specification = nullptr;
-    Saddle::Window m_Window;
 
 protected:
-    Application();
+    Window Window;
 };
 
 }

@@ -10,7 +10,7 @@
 namespace Saddle {
 
 Application::Application()
-    : m_Window(s_Specification->Window_Specification)
+    : Window(s_Specification->Window_Specification)
 {
     SADDLE_CORE_ASSERT(!s_Instance, "Application already exists!");
     SADDLE_CORE_ASSERT(gladLoadGL(), "Glad could not load OpenGL");
@@ -35,14 +35,11 @@ void Application::Init(const ApplicationSpecification& specs)
 
 void Application::Close()
 {
-    if(s_Instance)
-        delete s_Instance;
+    if(s_Instance) delete s_Instance;
 
     glfwTerminate();
     exit(0);
 }
-
-void Application::Run() { }
 
 Application& Application::Get()
 {
@@ -51,7 +48,7 @@ Application& Application::Get()
 
 Window& Application::GetWindow()
 {
-    return m_Window;
+    return Window;
 }
 
 }

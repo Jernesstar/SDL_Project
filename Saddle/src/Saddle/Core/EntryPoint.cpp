@@ -7,7 +7,7 @@ extern Application* CreateApplication(); // Will need to be defined by client
 int main()
 {
     Application::Init();
-    
+
     Application* app = CreateApplication();
     app->Run();
 

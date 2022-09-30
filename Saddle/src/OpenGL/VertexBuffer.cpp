@@ -21,8 +21,7 @@ VertexBuffer::VertexBuffer(unsigned int count, const Vertex* vertices)
     // 4. whether of not to normalize to values, 5. the size in bytes of the whole vertex
     // 6. a pointer to the start of the attribute in each vertex
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)sizeof(glm::vec3));
-
+    glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Color));
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
