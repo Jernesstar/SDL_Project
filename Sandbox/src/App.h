@@ -37,8 +37,8 @@ class App : public Application {
 public:
     void Run() override
     {
-        VertexBuffer vertex_buffer(6, vertices);
-        IndexBuffer index_buffer(9, indices);
+        VertexBuffer vertex_buffer(vertices);
+        IndexBuffer index_buffer(indices);
         
         VertexArray vertex_array;
         vertex_array.SetVertexBuffer(vertex_buffer);

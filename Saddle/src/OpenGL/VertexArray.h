@@ -24,6 +24,7 @@ public:
 
 private:
     unsigned int m_VertexArrayID;
+
     VertexBuffer* m_VertexBuffer;
     IndexBuffer* m_IndexBuffer;
 };
