@@ -9,13 +9,13 @@ namespace Saddle {
 
 void Renderer::Init() { m_Window = Application::Get().GetWindow().GetNativeWindow(); }
 
-void Renderer::Clear(float r, float g, float b, float a)
+void Renderer::Clear(glm::vec4 color)
 {
-    glClearColor(r, g, b, a);
+    glClearColor(color.r, color.g, color.b, color.a);
     glClear(GL_COLOR_BUFFER_BIT);
 }
 
-void Renderer::BindShader(const Shader& shader)
+void Renderer::BindShaders(const Shader& shader)
 {
     m_RendererID = glCreateProgram();
     glAttachShader(m_RendererID, shader);
@@ -24,7 +24,7 @@ void Renderer::BindShader(const Shader& shader)
     glUseProgram(m_RendererID);
 }
 
-void Renderer::BindShader(const Shader& vertex_shader, const Shader& fragment_shader)
+void Renderer::BindShaders(const Shader& vertex_shader, const Shader& fragment_shader)
 {
     m_RendererID = glCreateProgram();
     glAttachShader(m_RendererID, vertex_shader);
@@ -36,20 +36,11 @@ void Renderer::BindShader(const Shader& vertex_shader, const Shader& fragment_sh
 
 void Renderer::UnbindShader() { glUseProgram(0); }
 
-void Renderer::Submit(const VertexBuffer& buffer)
+void Renderer::Submit(const VertexArray& vertex_array)
 {
-    buffer.Bind();
-    glDrawArrays(GL_TRIANGLES, 0, buffer.GetCount());
-    buffer.Unbind();
-}
-
-void Renderer::Submit(const VertexBuffer& vertex_buffer, const IndexBuffer& index_buffer)
-{
-    vertex_buffer.Bind();
-    index_buffer.Bind();
-    glDrawElements(GL_TRIANGLES, index_buffer.GetCount(), GL_UNSIGNED_INT, nullptr);
-    index_buffer.Unbind();
-    vertex_buffer.Unbind();
+    vertex_array.Bind();
+    glDrawElements(GL_TRIANGLES, vertex_array.GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
+    vertex_array.Unbind();
 }
 
 void Renderer::Render() { glfwSwapBuffers(m_Window); }

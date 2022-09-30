@@ -13,6 +13,7 @@
 #include <OpenGL/Shader.h>
 #include <OpenGL/VertexBuffer.h>
 #include <OpenGL/IndexBuffer.h>
+#include <OpenGL/VertexArray.h>
 
 using namespace Saddle;
 
@@ -36,21 +37,23 @@ class App : public Application {
 public:
     void Run() override
     {
-        Shader vertex_shader("Sandbox/assets/shaders/vertex_shader.glsl", ShaderType::VertexShader);
-        Shader fragment_shader("Sandbox/assets/shaders/fragment_shader.glsl", ShaderType::FragmentShader);
-        
         VertexBuffer vertex_buffer(6, vertices);
         IndexBuffer index_buffer(9, indices);
         
-        Renderer::BindShader(vertex_shader, fragment_shader);
-        GLint mvp_location = glGetUniformLocation(Renderer::GetRendererID(), "u_MVP");
+        VertexArray vertex_array;
+        vertex_array.SetVertexBuffer(vertex_buffer);
+        vertex_array.SetIndexBuffer(index_buffer);
 
-        vertex_buffer.Bind();
+        Shader vertex_shader("Sandbox/assets/shaders/vertex_shader.glsl", ShaderType::VertexShader);
+        Shader fragment_shader("Sandbox/assets/shaders/fragment_shader.glsl", ShaderType::FragmentShader);
 
         auto vec = Window.GetFrameBufferSize();
         float ratio = vec.x / vec.y;
         glm::mat4 mvp = glm::ortho(-ratio, ratio, -1.0f, 1.0f, 1.0f, -1.0f);
         glm::mat4 identity_matrix(1);
+
+        Renderer::BindShaders(vertex_shader, fragment_shader);
+        GLint mvp_location = glGetUniformLocation(Renderer::GetRendererID(), "u_MVP");
 
         while(Window.IsOpen())
         {
@@ -59,7 +62,7 @@ public:
             mvp = mvp * glm::translate(identity_matrix, glm::vec3(0.01f, 0.0f, 0.0f));
             glUniformMatrix4fv(mvp_location, 1, GL_FALSE, glm::value_ptr(mvp));
         
-            Renderer::Submit(vertex_buffer, index_buffer);
+            Renderer::Submit(vertex_array);
             Renderer::Render();
 
             EventSystem::PollEvents();
