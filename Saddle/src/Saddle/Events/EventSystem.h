@@ -34,11 +34,13 @@ public:
 private:
     inline static Callbacks<KeyPressedEvent>          KeyPressedEventCallbacks          = {};
     inline static Callbacks<KeyReleasedEvent>         KeyReleasedEventCallbacks         = {};
+    inline static Callbacks<KeyCharEvent>             KeyCharEventCallbacks             = {};
     inline static Callbacks<MouseMovedEvent>          MouseMovedEventCallbacks          = {};
     inline static Callbacks<MouseScrolledEvent>       MouseScrolledEventCallbacks       = {};
     inline static Callbacks<MouseButtonPressedEvent>  MouseButtonPressedEventCallbacks  = {};
     inline static Callbacks<MouseButtonReleasedEvent> MouseButtonReleasedEventCallbacks = {};
     inline static Callbacks<WindowResizedEvent>       WindowResizedEventCallbacks       = {};
+    inline static Callbacks<WindowMovedEvent>         WindowMovedEventCallbacks         = {};
     inline static Callbacks<WindowClosedEvent>        WindowClosedEventCallbacks        = {};
 
 private:
@@ -51,8 +53,8 @@ private:
     static void MouseMovedCallback(GLFWwindow* window, double x, double y);
     static void MouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
     static void MouseScrolledCallback(GLFWwindow* window, double x_scroll, double y_scroll);
-    static void WindowMovedCallback(GLFWwindow* window, int x, int y);
     static void WindowResizedCallback(GLFWwindow* window, int width, int height);
+    static void WindowMovedCallback(GLFWwindow* window, int x, int y);
     static void WindowClosedCallback(GLFWwindow* window);
 };
 

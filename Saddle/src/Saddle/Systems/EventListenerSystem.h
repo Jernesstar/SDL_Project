@@ -17,56 +17,56 @@ public:
         SADDLE_CORE_ASSERT(HasDependencies(entity));
         auto [event_listener] = GetDependencies(entity);
 
-        if(event.IsInCategory(EventCategory::KeyEvent))
+        if(event.IsInCategory(EventCategory::Key))
         {
-            if(event.Is(EventType::KeyPressedEvent) && event_listener->OnKeyPressed)
+            if(event.Is(EventType::KeyPressed) && event_listener->OnKeyPressed)
             {
-                event_listener->OnKeyPressed(event.CastAs<KeyPressedEvent>());
+                event_listener->OnKeyPressed(event.As<KeyPressedEvent>());
             }
 
-            else if(event.Is(EventType::KeyReleasedEvent) && event_listener->OnKeyReleased)
+            else if(event.Is(EventType::KeyReleased) && event_listener->OnKeyReleased)
             {
-                event_listener->OnKeyReleased(event.CastAs<KeyReleasedEvent>());
+                event_listener->OnKeyReleased(event.As<KeyReleasedEvent>());
             }
         }
 
-        else if(event.IsInCategory(EventCategory::MouseEvent))
+        else if(event.IsInCategory(EventCategory::Mouse))
         {
-            if(event.Is(EventType::MouseButtonPressedEvent) && event_listener->OnMouseButtonPressed)
+            if(event.Is(EventType::MouseButtonPressed) && event_listener->OnMouseButtonPressed)
             {
-                event_listener->OnMouseButtonPressed(event.CastAs<MouseButtonPressedEvent>());
+                event_listener->OnMouseButtonPressed(event.As<MouseButtonPressedEvent>());
             }
 
-            if(event.Is(EventType::MouseButtonReleasedEvent) && event_listener->OnMouseButtonReleased)
+            if(event.Is(EventType::MouseButtonReleased) && event_listener->OnMouseButtonReleased)
             {
-                event_listener->OnMouseButtonReleased(event.CastAs<MouseButtonReleasedEvent>());
+                event_listener->OnMouseButtonReleased(event.As<MouseButtonReleasedEvent>());
             }
 
-            if(event.Is(EventType::MouseMovedEvent) && event_listener->OnMouseMoved)
+            if(event.Is(EventType::MouseMoved) && event_listener->OnMouseMoved)
             {
-                event_listener->OnMouseMoved(event.CastAs<MouseMovedEvent>());
+                event_listener->OnMouseMoved(event.As<MouseMovedEvent>());
             }
 
-            if(event.Is(EventType::MouseScrolledEvent) && event_listener->OnMouseScrolled)
+            if(event.Is(EventType::MouseScrolled) && event_listener->OnMouseScrolled)
             {
-                event_listener->OnMouseScrolled(event.CastAs<MouseScrolledEvent>());
+                event_listener->OnMouseScrolled(event.As<MouseScrolledEvent>());
             }
         }
 
-        else if(event.IsInCategory(EventCategory::WindowEvent))
+        else if(event.IsInCategory(EventCategory::Window))
         {
-            if(event.Is(EventType::WindowResizedEvent) && event_listener->OnWindowResized)
+            if(event.Is(EventType::WindowResized) && event_listener->OnWindowResized)
             {
-                event_listener->OnWindowResized(event.CastAs<WindowResizedEvent>());
+                event_listener->OnWindowResized(event.As<WindowResizedEvent>());
             }
 
-            if(event.Is(EventType::WindowClosedEvent) && event_listener->OnWindowClosed)
+            if(event.Is(EventType::WindowClosed) && event_listener->OnWindowClosed)
             {
-                event_listener->OnWindowClosed(event.CastAs<WindowClosedEvent>());
+                event_listener->OnWindowClosed(event.As<WindowClosedEvent>());
             }
         }
 
-        else if(event.IsInCategory(EventCategory::ApplicationEvent))
+        else if(event.IsInCategory(EventCategory::Application))
         {
             
         }

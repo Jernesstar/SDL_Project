@@ -39,10 +39,8 @@ public:
     {
         VertexBuffer vertex_buffer(vertices);
         IndexBuffer index_buffer(indices);
-        
-        VertexArray vertex_array;
-        vertex_array.SetVertexBuffer(vertex_buffer);
-        vertex_array.SetIndexBuffer(index_buffer);
+
+        VertexArray vertex_array(vertex_buffer, index_buffer);
 
         Shader vertex_shader("Sandbox/assets/shaders/vertex_shader.glsl", ShaderType::VertexShader);
         Shader fragment_shader("Sandbox/assets/shaders/fragment_shader.glsl", ShaderType::FragmentShader);

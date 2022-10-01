@@ -8,7 +8,6 @@ namespace Saddle {
 Texture2D::Texture2D(SDL_Surface* surface)
     : Width(surface->w), Height(surface->h)
 {
-    // Note: Maybe move Window::m_Renderer to Renderer class
     auto renderer = Application::Get().GetWindow().GetRenderer();
     m_Texture = SDL_CreateTextureFromSurface(renderer, surface);
 

@@ -6,19 +6,25 @@ namespace Saddle {
 
 struct WindowEvent : public Event {
 protected:
-    WindowEvent(EventType type) : Event(EventCategory::WindowEvent, type) { }
+    WindowEvent(EventType type) : Event(EventCategory::Window, type) { }
 };
 
 struct WindowResizedEvent : public WindowEvent {
     const int Width, Height;
 
-    WindowResizedEvent(int width, int height) : WindowEvent(EventType::WindowResizedEvent), Width(width), Height(height) { }
+    WindowResizedEvent(int width, int height)
+        : WindowEvent(EventType::WindowResized), Width(width), Height(height) { }
+};
+
+struct WindowMovedEvent : public WindowEvent {
+    const int x, y;
+
+    WindowMovedEvent(int x, int y)
+        : WindowEvent(EventType::WindowMoved), x(x), y(y) { }
 };
 
 struct WindowClosedEvent : public WindowEvent {
-    WindowClosedEvent() : WindowEvent(EventType::WindowClosedEvent) { }
+    WindowClosedEvent() : WindowEvent(EventType::WindowClosed) { }
 };
-
-// Note: Add more Window events
 
 }

@@ -3,22 +3,24 @@
 namespace Saddle {
 
 enum class EventCategory {
-    MouseEvent,
-    KeyEvent,
-    WindowEvent,
-    ApplicationEvent,
+    Key,
+    Mouse,
+    Window,
+    Application,
 };
 
 enum class EventType {
-    KeyPressedEvent,
-    KeyReleasedEvent,
-    MouseMovedEvent,
-    MouseScrolledEvent,
-    MouseButtonPressedEvent,
-    MouseButtonReleasedEvent,
-    WindowResizedEvent,
-    WindowClosedEvent,
-    ApplicationClosedEvent
+    KeyPressed,
+    KeyReleased,
+    KeyCharEvent,
+    MouseMoved,
+    MouseScrolled,
+    MouseButtonPressed,
+    MouseButtonReleased,
+    WindowResized,
+    WindowMoved,
+    WindowClosed,
+    ApplicationClosed
 };
 
 struct Event {
@@ -26,12 +28,12 @@ struct Event {
     const EventType Type;
     bool Handled = false;
 
-    bool IsInCategory(EventCategory category) { return this->Category == category; }
-    bool Is(EventType type) { return this->Type == type; }
+    bool IsInCategory(EventCategory category) const { return this->Category == category; }
+    bool Is(EventType type) const { return this->Type == type; }
 
     template<typename TEvent>
-    TEvent& CastAs() { return *((TEvent*)(this)); }
-    
+    TEvent& As() const { return *((TEvent*)(this)); }
+
 protected:
     Event(EventCategory category, EventType type) : Category(category), Type(type) { }
 };

@@ -1,17 +1,19 @@
 #pragma once
 
+#include <cstdlib>
+#include <time.h>
+
 namespace Saddle {
 
 class UUID {
 public:
-    const float ID;
+    UUID() { srand(time(nullptr)); m_UUID = rand(); }
+    UUID(uint64_t uuid) : m_UUID(uuid) { }
 
-public:
-    // Note: Implement random number generation for this
-    UUID() : ID(0) { }
-    ~UUID() {};
+    operator uint64_t() const { return m_UUID; }
 
-    operator float() const { return ID; }
+private: 
+    uint64_t m_UUID;
 };
 
 }

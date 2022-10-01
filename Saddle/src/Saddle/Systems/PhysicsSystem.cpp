@@ -4,7 +4,6 @@
 
 #include "Saddle/Core/Assert.h"
 
-// Note: Maybe move these into the PhysicsSystem itself
 #define Pi 3.1415926535897932384626433f
 #define DEGREES_TO_RADIANS(degrees) degrees * (Pi / 180.0f)
 

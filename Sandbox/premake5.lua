@@ -14,8 +14,6 @@ project "Sandbox"
 
     includedirs
     {
-        "include",
-
         "%{wks.location}/Saddle/src",
 
         "%{Includes.glm}",

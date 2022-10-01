@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 #include "Event.h"
 #include "Saddle/Core/KeyCodes.h"
 
@@ -9,17 +11,25 @@ struct KeyEvent : public Event {
     const KeyCode Key;
 
 protected:
-    KeyEvent(KeyCode key, EventType type) : Event(EventCategory::KeyEvent, type), Key(key) { }
+    KeyEvent(EventType type, KeyCode key) : Event(EventCategory::Key, type), Key(key) { }
 };
 
 struct KeyPressedEvent : public KeyEvent {
-    bool IsRepeat = false;
+    const bool IsRepeat;
     
-    KeyPressedEvent(KeyCode key) : KeyEvent(key, EventType::KeyPressedEvent) { }
+    KeyPressedEvent(KeyCode key, bool repeat = false)
+        : KeyEvent(EventType::KeyPressed, key), IsRepeat(repeat) { }
 };
 
 struct KeyReleasedEvent : public KeyEvent {
-    KeyReleasedEvent(KeyCode key) : KeyEvent(key, EventType::KeyReleasedEvent) { }
+    KeyReleasedEvent(KeyCode key) : KeyEvent(EventType::KeyReleased, key) { }
+};
+
+struct KeyCharEvent : public KeyEvent {
+    const char Char;
+
+    KeyCharEvent(KeyCode key, const char& _char)
+        : KeyEvent(EventType::KeyCharEvent, key), Char(_char) { };
 };
 
 }
