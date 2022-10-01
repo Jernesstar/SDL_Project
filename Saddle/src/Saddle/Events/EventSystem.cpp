@@ -1,10 +1,13 @@
 #include "EventSystem.h"
 
+#include <iostream>
+
 #include <GLFW/glfw3.h>
 
 #include "Saddle/Core/Application.h"
 #include "Saddle/Core/Assert.h"
 #include "Saddle/Core/Input.h"
+#include "Saddle/Core/Log.h"
 
 #define REGISTER_EVENT_LISTENER(TEvent) \
 template<> \
@@ -133,10 +136,10 @@ void EventSystem::KeyCallback(GLFWwindow* window, int key, int scancode, int act
     }
 }
 
+
 void EventSystem::KeyCharCallback(GLFWwindow* window, unsigned int codepoint)
 {
-    // Note: Get this to work correctly
-    KeyCharEvent event((KeyCode)0, (char)(unsigned char)codepoint);
+    KeyCharEvent event((KeyCode)codepoint, (char)codepoint);
     Dispatch(event);
 }
 
@@ -156,13 +159,13 @@ void EventSystem::MouseButtonCallback(GLFWwindow* window, int button, int action
 {
     if(action == GLFW_PRESS)
     {
-        MouseButtonPressedEvent event(button, Input::GetMouseX(), Input::GetMouseY());
+        MouseButtonPressedEvent event((MouseCode)button, Input::GetMouseX(), Input::GetMouseY());
         Dispatch(event);
     }
 
     if(action == GLFW_RELEASE)
     {
-        MouseButtonReleasedEvent event(button, Input::GetMouseX(), Input::GetMouseY());
+        MouseButtonReleasedEvent event((MouseCode)button, Input::GetMouseX(), Input::GetMouseY());
         Dispatch(event);
     }
 }
@@ -176,7 +179,7 @@ void EventSystem::WindowResizedCallback(GLFWwindow* window, int width, int heigh
 void EventSystem::WindowMovedCallback(GLFWwindow* window, int x, int y)
 {
     WindowMovedEvent event(x, y);
-    // Dispatch(event);
+    Dispatch(event);
 }
 void EventSystem::WindowClosedCallback(GLFWwindow* window)
 {
