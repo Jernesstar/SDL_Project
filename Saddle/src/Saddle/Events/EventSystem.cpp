@@ -133,9 +133,9 @@ void EventSystem::KeyCallback(GLFWwindow* window, int key, int scancode, int act
     if(action == GLFW_REPEAT)
     {
         KeyPressedEvent event((KeyCode)key, true);
+        Dispatch(event);
     }
 }
-
 
 void EventSystem::KeyCharCallback(GLFWwindow* window, unsigned int codepoint)
 {
