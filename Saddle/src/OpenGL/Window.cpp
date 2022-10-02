@@ -8,35 +8,39 @@
 
 namespace Saddle {
 
-Window::Window() : Width(0), Height(0), Title("Window") { }
-
 Window::Window(const WindowSpecification& specs)
-    : Width(specs.Width), Height(specs.Height), Title(specs.Title)
+    : m_Width(specs.Width), m_Height(specs.Height), m_Title(specs.Title), m_VSync(specs.VSync)
 {
     // Create a window with width and height, have it not be fullscreen and not share resources
-    m_Window = glfwCreateWindow(Width, Height, Title.c_str(), nullptr, nullptr);
+    m_Window = glfwCreateWindow(m_Width, m_Height, m_Title.c_str(), nullptr, nullptr);
     SADDLE_CORE_ASSERT(m_Window, "Could not create the window");
 
     glfwMakeContextCurrent(m_Window);
-    glfwSwapInterval(1); // Note: Maybe include flag in WindowSpecification for this
+
+    SetFramebufferSize(m_Width, m_Height);
+    SetVSync(specs.VSync);
 
     EventSystem::RegisterEventListener<WindowClosedEvent>(
         [](const WindowClosedEvent& event) {
             Application::Close();
-        }
-    );
+    });
     EventSystem::RegisterEventListener<WindowResizedEvent>(
         [this](const WindowResizedEvent& event) {
-            this->Width = event.Width;
-            this->Height = event.Height;
-        }
-    );
+            SetFramebufferSize(event.Width, event.Height);
+    });
 }
 
 Window::~Window()
 {
     if(m_Window) glfwDestroyWindow(m_Window);
     m_Window = nullptr;
+}
+
+void Window::SetFramebufferSize(int width, int height)
+{
+    m_Width = width;
+    m_Height = height;
+    glViewport(0, 0, width, height);
 }
 
 glm::vec2 Window::GetFrameBufferSize()
