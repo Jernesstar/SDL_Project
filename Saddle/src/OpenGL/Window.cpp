@@ -36,21 +36,26 @@ Window::~Window()
     m_Window = nullptr;
 }
 
+void Window::SetTitle(const std::string& title) { glfwSetWindowTitle(m_Window, title.c_str()); }
+void Window::SetVSync(bool vsync) { glfwSwapInterval(vsync ? 1 : 0); }
+
 void Window::SetFramebufferSize(int width, int height)
 {
     m_Width = width;
     m_Height = height;
-    glViewport(0, 0, width, height);
+    // glViewport(0, 0, width, height);
 }
 
-glm::vec2 Window::GetFrameBufferSize()
+std::string Window::GetTitle() const { return m_Title; }
+
+glm::vec2 Window::GetFrameBufferSize() const
 {
     int width, height;
     glfwGetFramebufferSize(m_Window, &width, &height);
     return { width, height };
 }
 
-GLFWwindow* Window::GetNativeWindow()
+GLFWwindow* Window::GetNativeWindow() const
 {
     return m_Window;
 }

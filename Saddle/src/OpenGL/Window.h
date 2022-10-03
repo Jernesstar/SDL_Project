@@ -14,7 +14,7 @@ struct WindowSpecification {
     int Width, Height;
     bool VSync;
 
-    WindowSpecification(const std::string& title = "Window", int width = 1200, int height = 640, bool vsync = false)
+    WindowSpecification(const std::string& title = "Window", int width = 1200, int height = 640, bool vsync = true)
         : Title(title), Width(width), Height(height), VSync(vsync) { }  
 };
 
@@ -24,13 +24,14 @@ public:
     ~Window();
 
     void SetTitle(const std::string& title);
-    void SetFramebufferSize(int width, int height);
     void SetVSync(bool vsync);
+    void SetFramebufferSize(int width, int height);
 
     bool IsOpen() const { return !glfwWindowShouldClose(m_Window); }
 
-    glm::vec2 GetFrameBufferSize();
-    GLFWwindow* GetNativeWindow();
+    std::string GetTitle() const;
+    glm::vec2 GetFrameBufferSize() const;
+    GLFWwindow* GetNativeWindow() const;
 
 private:
     int m_Width, m_Height;
