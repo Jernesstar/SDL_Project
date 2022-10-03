@@ -17,7 +17,6 @@ Window::Window(const WindowSpecification& specs)
 
     glfwMakeContextCurrent(m_Window);
 
-    SetFramebufferSize(m_Width, m_Height);
     SetVSync(specs.VSync);
 
     EventSystem::RegisterEventListener<WindowClosedEvent>(
@@ -43,7 +42,7 @@ void Window::SetFramebufferSize(int width, int height)
 {
     m_Width = width;
     m_Height = height;
-    // glViewport(0, 0, width, height);
+    glViewport(0, 0, width, height);
 }
 
 std::string Window::GetTitle() const { return m_Title; }
