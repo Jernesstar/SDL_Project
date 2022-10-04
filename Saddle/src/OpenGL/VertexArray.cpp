@@ -6,18 +6,18 @@
 
 namespace Saddle {
 
-static GLenum BufferElementTypeToOpenGLType(BufferElementType type)
+static GLenum BufferDataTypeToOpenGLType(BufferDataType type)
 {
     switch (type)
     {
-        case BufferElementType::Float: return GL_FLOAT;
-        case BufferElementType::Int:   return GL_INT;
-        case BufferElementType::Vec2:  return GL_FLOAT;
-        case BufferElementType::Vec3:  return GL_FLOAT;
-        case BufferElementType::Vec4:  return GL_FLOAT;
-        case BufferElementType::Mat2:  return GL_FLOAT;
-        case BufferElementType::Mat3:  return GL_FLOAT;
-        case BufferElementType::Mat4:  return GL_FLOAT;
+        case BufferDataType::Float: return GL_FLOAT;
+        case BufferDataType::Int:   return GL_INT;
+        case BufferDataType::Vec2:  return GL_FLOAT;
+        case BufferDataType::Vec3:  return GL_FLOAT;
+        case BufferDataType::Vec4:  return GL_FLOAT;
+        case BufferDataType::Mat2:  return GL_FLOAT;
+        case BufferDataType::Mat3:  return GL_FLOAT;
+        case BufferDataType::Mat4:  return GL_FLOAT;
     }
     return 0;
 }
@@ -85,15 +85,15 @@ void VertexArray::SetVertexBuffer(VertexBuffer& vertex_buffer)
     {
         switch(element.Type)
         {
-            case BufferElementType::Float:
-            case BufferElementType::Vec2:
-            case BufferElementType::Vec3:
-            case BufferElementType::Vec4:
+            case BufferDataType::Float:
+            case BufferDataType::Vec2:
+            case BufferDataType::Vec3:
+            case BufferDataType::Vec4:
             {
                 glEnableVertexAttribArray(m_VertexBufferIndex);
                 glVertexAttribPointer(
                     m_VertexBufferIndex, element.ComponentCount, 
-                    BufferElementTypeToOpenGLType(element.Type),
+                    BufferDataTypeToOpenGLType(element.Type),
                     element.Normalized ? GL_FALSE : GL_TRUE,
                     layout.Stride, (void*)offset
                 );
@@ -103,12 +103,12 @@ void VertexArray::SetVertexBuffer(VertexBuffer& vertex_buffer)
                 break;
             }
 
-            case BufferElementType::Int:
+            case BufferDataType::Int:
             {
                 glEnableVertexAttribArray(m_VertexBufferIndex);
                 glVertexAttribIPointer(
                     m_VertexBufferIndex, element.ComponentCount,
-                    BufferElementTypeToOpenGLType(element.Type),
+                    BufferDataTypeToOpenGLType(element.Type),
                     layout.Stride, (void*)offset
                 );
 
@@ -117,22 +117,23 @@ void VertexArray::SetVertexBuffer(VertexBuffer& vertex_buffer)
                 break;
             }
 
-            case BufferElementType::Mat2:
-            case BufferElementType::Mat3:
-            case BufferElementType::Mat4:
+            case BufferDataType::Mat2:
+            case BufferDataType::Mat3:
+            case BufferDataType::Mat4:
             {
                 for(int i = 0; i < element.ComponentCount; i++)
                 {
                     glEnableVertexAttribArray(m_VertexBufferIndex);
                     glVertexAttribPointer(
                         m_VertexBufferIndex, element.ComponentCount, 
-                        BufferElementTypeToOpenGLType(element.Type),
+                        BufferDataTypeToOpenGLType(element.Type),
                         element.Normalized ? GL_FALSE : GL_TRUE,
-                        layout.Stride, (void*)(offset + sizeof(float) * element.ComponentCount * i)
+                        layout.Stride, (void*)(offset + (sizeof(float) * element.ComponentCount * i))
                     );
                     glVertexAttribDivisor(m_VertexBufferIndex, 1);
                     m_VertexBufferIndex++;
                 }
+
                 offset += element.Size;
                 break;
             }

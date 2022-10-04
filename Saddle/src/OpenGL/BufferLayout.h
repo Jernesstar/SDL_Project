@@ -5,50 +5,50 @@
 
 namespace Saddle {
 
-enum class BufferElementType {
+enum class BufferDataType {
     Float, Int, Vec2, Vec3, Vec4, Mat2, Mat3, Mat4
 };
 
-static int BufferElementSize(BufferElementType type)
+static int BufferElementSize(BufferDataType type)
 {
     switch(type)
     {
-        case BufferElementType::Float: return 4;
-        case BufferElementType::Int:   return 4;
-        case BufferElementType::Vec2:  return 4 * 2;
-        case BufferElementType::Vec3:  return 4 * 3;
-        case BufferElementType::Vec4:  return 4 * 4;
-        case BufferElementType::Mat2:  return 4 * 2 * 2;
-        case BufferElementType::Mat3:  return 4 * 3 * 3;
-        case BufferElementType::Mat4:  return 4 * 4 * 4;
+        case BufferDataType::Float: return 4;
+        case BufferDataType::Int:   return 4;
+        case BufferDataType::Vec2:  return 4 * 2;
+        case BufferDataType::Vec3:  return 4 * 3;
+        case BufferDataType::Vec4:  return 4 * 4;
+        case BufferDataType::Mat2:  return 4 * 2 * 2;
+        case BufferDataType::Mat3:  return 4 * 3 * 3;
+        case BufferDataType::Mat4:  return 4 * 4 * 4;
     }
     return 0;
 }
 
-static int BufferElementCount(BufferElementType type)
+static int BufferElementCount(BufferDataType type)
 {
     switch(type)
     {
-        case BufferElementType::Float: return 1;
-        case BufferElementType::Int:   return 1;
-        case BufferElementType::Vec2:  return 2;
-        case BufferElementType::Vec3:  return 3;
-        case BufferElementType::Vec4:  return 4;
-        case BufferElementType::Mat2:  return 2; // 2 * Vec2
-        case BufferElementType::Mat3:  return 3; // 3 * Vec3
-        case BufferElementType::Mat4:  return 4; // 4 * Vec4
+        case BufferDataType::Float: return 1;
+        case BufferDataType::Int:   return 1;
+        case BufferDataType::Vec2:  return 2;
+        case BufferDataType::Vec3:  return 3;
+        case BufferDataType::Vec4:  return 4;
+        case BufferDataType::Mat2:  return 2; // 2 * Vec2
+        case BufferDataType::Mat3:  return 3; // 3 * Vec3
+        case BufferDataType::Mat4:  return 4; // 4 * Vec4
     }
     return 0;
 }
 
 struct BufferElement {
     const std::string Name;
-    const BufferElementType Type;
+    const BufferDataType Type;
     const int Size;
     const int ComponentCount;
     const bool Normalized;
 
-    BufferElement(const std::string& name, BufferElementType type, bool normalized = true)
+    BufferElement(const std::string& name, BufferDataType type, bool normalized = true)
         : Name(name), Type(type), Size(BufferElementSize(type)), ComponentCount(BufferElementCount(type)),
             Normalized(normalized) { }
 };

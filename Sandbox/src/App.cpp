@@ -35,10 +35,11 @@ unsigned int indices[9] = {
 void App::Run()
 {
     BufferLayout layout({
-        { "a_VertexPosition", BufferElementType::Vec2, true },
-        { "a_VertexColor", BufferElementType::Vec4, true },
+        { "a_VertexPosition", BufferDataType::Vec2, true },
+        { "a_VertexColor", BufferDataType::Vec4, true },
     });
-    
+
+
     VertexBuffer vertex_buffer(vertices, layout);
     IndexBuffer index_buffer(indices);
 
