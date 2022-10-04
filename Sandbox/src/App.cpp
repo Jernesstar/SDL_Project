@@ -61,7 +61,7 @@ void App::Run()
 
         mvp = mvp * glm::translate(identity_matrix, glm::vec3(0.01f, 0.0f, 0.0f));
         glUniformMatrix4fv(mvp_location, 1, GL_FALSE, glm::value_ptr(mvp));
-    
+
         Renderer::Submit(vertex_array);
         Renderer::Render();
 

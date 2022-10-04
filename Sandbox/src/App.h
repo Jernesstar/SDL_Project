@@ -14,3 +14,5 @@ class App : public Application {
 public:
     void Run() override;
 };
+
+Application* CreateApplication() { return new App(); }
