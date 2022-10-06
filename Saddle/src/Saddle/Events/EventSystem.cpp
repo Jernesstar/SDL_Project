@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-#include <GLFW/glfw3.h>
+#include <glad/glad.h>
 
 #include "Saddle/Core/Application.h"
 #include "Saddle/Core/Assert.h"
@@ -76,6 +76,11 @@ void EventSystem::Init()
     glfwSetWindowPosCallback(window, WindowMovedCallback);
     glfwSetWindowSizeCallback(window, WindowResizedCallback);
     glfwSetWindowCloseCallback(window, WindowClosedCallback);
+
+    glEnable(GL_DEBUG_OUTPUT);
+    glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
+    glDebugMessageCallback(OpenGLMessageCallback, nullptr);
+    glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, NULL, GL_TRUE);
 }
 
 void EventSystem::PollEvents() { glfwPollEvents(); }
@@ -185,6 +190,18 @@ void EventSystem::WindowClosedCallback(GLFWwindow* window)
 {
     WindowClosedEvent event;
     Dispatch(event);
+}
+
+void EventSystem::OpenGLMessageCallback(unsigned int source, unsigned int type, unsigned int id, 
+    unsigned int severity, int length, const char* message, const void* userParam)
+{
+    switch(severity)
+    {
+        case GL_DEBUG_SEVERITY_HIGH:         SADDLE_CORE_LOG_ERROR(message);   return;
+        case GL_DEBUG_SEVERITY_MEDIUM:       SADDLE_CORE_LOG_ERROR(message);   return;
+        case GL_DEBUG_SEVERITY_LOW:          SADDLE_CORE_LOG_WARNING(message); return;
+        case GL_DEBUG_SEVERITY_NOTIFICATION: SADDLE_CORE_LOG_INFO(message);    return;
+    }
 }
 
 }

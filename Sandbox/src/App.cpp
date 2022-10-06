@@ -6,7 +6,6 @@
 
 #include <glm/mat4x4.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
 
 #include <Saddle/Core/Assert.h>
 #include <Saddle/Core/Input.h>
@@ -50,18 +49,17 @@ void App::Run()
 
     auto vec = Window.GetFrameBufferSize();
     float ratio = vec.x / vec.y;
+
     glm::mat4 mvp = glm::ortho(-ratio, ratio, -1.0f, 1.0f, 1.0f, -1.0f);
     glm::mat4 identity_matrix(1);
-
-    GLint mvp_location = glGetUniformLocation(shader, "u_MVP");
 
     while(Window.IsOpen())
     {
         Renderer::Clear();
 
-        shader.Bind();
         mvp = mvp * glm::translate(identity_matrix, glm::vec3(0.01f, 0.0f, 0.0f));
-        glUniformMatrix4fv(mvp_location, 1, GL_FALSE, glm::value_ptr(mvp));
+
+        shader.SetUniformMatrix4("u_MVP", mvp);
 
         Renderer::Submit(vertex_array, shader);
         Renderer::Render();

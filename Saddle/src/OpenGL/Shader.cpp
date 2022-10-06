@@ -2,23 +2,20 @@
 
 #include <glad/glad.h>
 
+#include <glm/gtc/type_ptr.hpp>
+
 #include "Saddle/Core/Assert.h"
 
 namespace Saddle {
 
-Shader::ShaderFile::ShaderFile(ShaderType type, const std::string& path)
-    : Type(type), Path(path), Source(Utils::LoadFile(path)) { m_ShaderID = Shader::CreateShader(*this); }
-
-Shader::ShaderFile::~ShaderFile() { glDeleteShader(m_ShaderID); }
-
 Shader::Shader(const std::string& vertex_shader, const std::string& fragment_shader)
-    : VertexShader(ShaderType::VertexShader, vertex_shader), FragmentShader(ShaderType::FragmentShader, fragment_shader)
+    : VertexShader(ShaderType::VertexShader, vertex_shader),
+        FragmentShader(ShaderType::FragmentShader, fragment_shader)
 {
-    m_ProgramID = glCreateProgram();
-    glAttachShader(m_ProgramID, VertexShader.m_ShaderID);
-    glAttachShader(m_ProgramID, FragmentShader.m_ShaderID);
-    glLinkProgram(m_ProgramID);
-    glValidateProgram(m_ProgramID);
+    unsigned int shader1 = CreateShader(VertexShader);
+    unsigned int shader2 = CreateShader(FragmentShader);
+
+    m_ProgramID = CreateProgram(shader1, shader2);
 }
 
 Shader::~Shader() { glDeleteProgram(m_ProgramID); }
@@ -26,11 +23,35 @@ Shader::~Shader() { glDeleteProgram(m_ProgramID); }
 void Shader::Bind() const { glUseProgram(m_ProgramID); }
 void Shader::Unbind() const { glUseProgram(0); }
 
-unsigned int Shader::CreateShader(const ShaderFile& shader_file)
+void Shader::SetUniformMatrix2(const std::string& name, const glm::mat2& matrix)
 {
-    unsigned int shader_id = glCreateShader(shader_file.Type == ShaderType::VertexShader ? GL_VERTEX_SHADER : GL_FRAGMENT_SHADER);
+    GLint location = glGetUniformLocation(m_ProgramID, name.c_str());
+    this->Bind();
+    glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
+    this->Unbind();
+}
 
-    const char* address = shader_file.Source.c_str();
+void Shader::SetUniformMatrix3(const std::string& name, const glm::mat3& matrix)
+{
+    GLint location = glGetUniformLocation(m_ProgramID, name.c_str());
+    this->Bind();
+    glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
+    this->Unbind();
+}
+
+void Shader::SetUniformMatrix4(const std::string& name, const glm::mat4& matrix)
+{
+    GLint location = glGetUniformLocation(m_ProgramID, name.c_str());
+    this->Bind();
+    glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
+    this->Unbind();
+}
+
+unsigned int Shader::CreateShader(const ShaderFile& file)
+{
+    unsigned int shader_id = glCreateShader(file.Type == ShaderType::VertexShader ? GL_VERTEX_SHADER : GL_FRAGMENT_SHADER);
+
+    const char* address = file.Source.c_str();
     // Setting the data of the shader, setting last value to nullptr will use the whole shader_text
     glShaderSource(shader_id, 1, &address, nullptr);
     glCompileShader(shader_id); // Compiling the shader
@@ -45,10 +66,40 @@ unsigned int Shader::CreateShader(const ShaderFile& shader_file)
         char* message = (char*)alloca(length * sizeof(char));
         glGetShaderInfoLog(shader_id, length, &length, message); // Get the error message
 
-        SADDLE_CORE_ASSERT_ARGS(false, "A compile error was detected for shader file %s: %s", shader_file.Path.c_str(), message);
+        SADDLE_CORE_ASSERT_ARGS(false, "A compile error was detected for shader file %s: %s", file.Path.c_str(), message);
     }
 
     return shader_id;
+}
+
+unsigned int Shader::CreateProgram(unsigned int vertex_shader, unsigned int fragment_shader)
+{
+    unsigned int program = glCreateProgram();
+    glAttachShader(program, vertex_shader);
+    glAttachShader(program, fragment_shader);
+    glLinkProgram(program);
+
+    int result;
+    glGetProgramiv(program, GL_LINK_STATUS, &result);
+
+    if(result == GL_FALSE)
+    {
+        GLint length;
+        glGetProgramiv(program, GL_INFO_LOG_LENGTH, &length);
+
+        char* message = (char*)alloca(length * sizeof(char));
+        glGetProgramInfoLog(program, length, &length, message);
+        SADDLE_CORE_ASSERT(false, "Shader linking failed");
+
+        glDeleteProgram(program);
+    }
+
+    glDetachShader(program, vertex_shader);
+    glDeleteShader(vertex_shader);
+    glDetachShader(program, fragment_shader);
+    glDeleteShader(fragment_shader);
+
+    return program;
 }
 
 }

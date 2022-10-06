@@ -3,6 +3,7 @@
 #include <functional>
 #include <unordered_map>
 
+#define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
 
 #include "Assert.h"
@@ -56,6 +57,9 @@ private:
     static void WindowResizedCallback(GLFWwindow* window, int width, int height);
     static void WindowMovedCallback(GLFWwindow* window, int x, int y);
     static void WindowClosedCallback(GLFWwindow* window);
+
+    static void OpenGLMessageCallback(unsigned int source, unsigned int type, unsigned int id, 
+        unsigned int severity, int length, const char* message, const void* userParam);
 };
 
 }
