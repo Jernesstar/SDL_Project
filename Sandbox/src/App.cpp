@@ -1,5 +1,7 @@
 #include "App.h"
 
+#include <iostream>
+
 #include <glad/glad.h>
 
 #include <glm/mat4x4.hpp>
@@ -39,31 +41,29 @@ void App::Run()
         { "a_VertexColor", BufferDataType::Vec4, true },
     });
 
-
     VertexBuffer vertex_buffer(vertices, layout);
     IndexBuffer index_buffer(indices);
-
     VertexArray vertex_array(vertex_buffer, index_buffer);
 
-    Shader vertex_shader("Sandbox/assets/shaders/vertex_shader.glsl", ShaderType::VertexShader);
-    Shader fragment_shader("Sandbox/assets/shaders/fragment_shader.glsl", ShaderType::FragmentShader);
+    Shader shader("Sandbox/assets/shaders/vertex_shader.glsl", 
+        "Sandbox/assets/shaders/fragment_shader.glsl");
 
     auto vec = Window.GetFrameBufferSize();
     float ratio = vec.x / vec.y;
     glm::mat4 mvp = glm::ortho(-ratio, ratio, -1.0f, 1.0f, 1.0f, -1.0f);
     glm::mat4 identity_matrix(1);
 
-    Renderer::BindShaders(vertex_shader, fragment_shader);
-    GLint mvp_location = glGetUniformLocation(Renderer::GetRendererID(), "u_MVP");
+    GLint mvp_location = glGetUniformLocation(shader, "u_MVP");
 
     while(Window.IsOpen())
     {
         Renderer::Clear();
 
+        shader.Bind();
         mvp = mvp * glm::translate(identity_matrix, glm::vec3(0.01f, 0.0f, 0.0f));
         glUniformMatrix4fv(mvp_location, 1, GL_FALSE, glm::value_ptr(mvp));
 
-        Renderer::Submit(vertex_array);
+        Renderer::Submit(vertex_array, shader);
         Renderer::Render();
 
         EventSystem::PollEvents();

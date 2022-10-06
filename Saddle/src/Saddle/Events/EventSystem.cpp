@@ -31,7 +31,7 @@ void EventSystem::UnregisterEventListener<TEvent>(const EventCallback<TEvent>& e
     Callbacks<TEvent>& list = TEvent##Callbacks; \
     if(list.count(event_callback.ID)) \
         list.erase(event_callback.ID); \
-} \
+}
 
 #define DISPATCH(event_type) \
 template<> \
@@ -46,7 +46,7 @@ void EventSystem::Dispatch<event_type>(const event_type& event) \
 #define ADD_TO_EVENTSYSTEM(event_type) \
 REGISTER_EVENT_LISTENER(event_type); \
 DISPATCH(event_type); \
-UNREGISTER_EVENT_LISTENER(event_type); \
+UNREGISTER_EVENT_LISTENER(event_type);
 
 namespace Saddle {
 

@@ -32,8 +32,6 @@ public:
         glBufferSubData(GL_ARRAY_BUFFER, 0, Count * sizeof(float), vertices);
     }
 
-    operator int() const { return m_VertexBufferID; }
-
 private:
     unsigned int m_VertexBufferID;
 };

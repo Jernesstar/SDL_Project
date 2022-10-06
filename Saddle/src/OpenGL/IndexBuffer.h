@@ -19,8 +19,6 @@ struct IndexBuffer {
 
     const unsigned int GetCount() const { return m_Count; }
 
-    operator int() const { return m_IndexBufferID; }
-
 private:
     unsigned int m_IndexBufferID;
     unsigned int m_Count;

@@ -36,32 +36,13 @@ void Renderer::Clear(glm::vec4 color)
     glClear(GL_COLOR_BUFFER_BIT);
 }
 
-void Renderer::BindShaders(const Shader& shader)
+void Renderer::Submit(const VertexArray& vertex_array, const Shader& shader)
 {
-    m_RendererID = glCreateProgram();
-    glAttachShader(m_RendererID, shader);
-    glLinkProgram(m_RendererID);
-    glValidateProgram(m_RendererID);
-    glUseProgram(m_RendererID);
-}
-
-void Renderer::BindShaders(const Shader& vertex_shader, const Shader& fragment_shader)
-{
-    m_RendererID = glCreateProgram();
-    glAttachShader(m_RendererID, vertex_shader);
-    glAttachShader(m_RendererID, fragment_shader);
-    glLinkProgram(m_RendererID);
-    glValidateProgram(m_RendererID);
-    glUseProgram(m_RendererID);
-}
-
-void Renderer::UnbindShader() { glUseProgram(0); }
-
-void Renderer::Submit(const VertexArray& vertex_array)
-{
+    shader.Bind();
     vertex_array.Bind();
     glDrawElements(GL_TRIANGLES, vertex_array.GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
     vertex_array.Unbind();
+    shader.Unbind();
 }
 
 void Renderer::Render() { glfwSwapBuffers(m_Window); }
