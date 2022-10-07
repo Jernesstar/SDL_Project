@@ -4,16 +4,10 @@ pushd %~dp0\..\
 if exist Makefile  (
     del /q Makefile
 )
-if exist Saddle\Makefile (
-    pushd Saddle
-    MinGW32-make clean
-    popd
+if exist Saddle\Makefile  (
     del /q Saddle\Makefile
 )
-if exist Sandbox\Makefile (
-    pushd Sandbox
-    MinGW32-make clean
-    popd
+if exist Sandbox\Makefile  (
     del /q Sandbox\Makefile
 )
 if exist Saddle\vendor\glad\Makefile (
@@ -21,6 +15,9 @@ if exist Saddle\vendor\glad\Makefile (
 )
 if exist Saddle\vendor\glfw\Makefile (
     del /q Saddle\vendor\glfw\Makefile
+)
+if exist Saddle\vendor\stb_image\Makefile (
+    del /q Saddle\vendor\stb_image\Makefile
 )
 
 echo Project clean

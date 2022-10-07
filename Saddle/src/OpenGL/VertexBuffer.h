@@ -26,10 +26,11 @@ public:
     void Bind() const { glBindBuffer(GL_ARRAY_BUFFER, m_VertexBufferID); }
     void Unbind() const { glBindBuffer(GL_ARRAY_BUFFER, 0); }
 
-    void SetData(const void* vertices)
+    template<typename T, std::size_t TCount>
+    void SetData(const T (&vertices)[TCount])
     {
         glBindBuffer(GL_ARRAY_BUFFER, m_VertexBufferID);
-        glBufferSubData(GL_ARRAY_BUFFER, 0, Count * sizeof(float), vertices);
+        glBufferSubData(GL_ARRAY_BUFFER, 0, TCount * sizeof(float), vertices);
     }
 
 private:

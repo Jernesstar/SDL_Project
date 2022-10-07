@@ -23,14 +23,16 @@ project "Saddle"
         "src",
 
         "%{Includes.glm}",
-        "%{Includes.glfw}/include",
-        "%{Includes.glad}/include",
+        "%{Includes.glfw}",
+        "%{Includes.glad}",
+        "%{Includes.stb_image}",
     }
     
     links
     {
         "glfw",
         "glad",
+        "stb_image",
         "gdi32"
     }
 

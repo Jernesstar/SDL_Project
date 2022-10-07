@@ -2,6 +2,10 @@
 
 #include <string>
 
+#include <glm/vec2.hpp>
+#include <glm/vec3.hpp>
+#include <glm/vec4.hpp>
+
 #include <glm/mat2x2.hpp>
 #include <glm/mat3x3.hpp>
 #include <glm/mat4x4.hpp>
@@ -33,6 +37,13 @@ public:
 
     void Bind() const;
     void Unbind() const;
+
+    void SetUniformInt(const std::string& name, int _int);
+    void SetUniformFloat(const std::string& name, float _float);
+
+    void SetUniformVec2(const std::string& name, const glm::vec2& vec);
+    void SetUniformVec3(const std::string& name, const glm::vec3& vec);
+    void SetUniformVec4(const std::string& name, const glm::vec4& vec);
 
     void SetUniformMatrix2(const std::string& name, const glm::mat2& matrix);
     void SetUniformMatrix3(const std::string& name, const glm::mat3& matrix);

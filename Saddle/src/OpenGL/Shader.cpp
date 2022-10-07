@@ -23,28 +23,52 @@ Shader::~Shader() { glDeleteProgram(m_ProgramID); }
 void Shader::Bind() const { glUseProgram(m_ProgramID); }
 void Shader::Unbind() const { glUseProgram(0); }
 
+void Shader::SetUniformInt(const std::string& name, int _int)
+{
+    GLint location = glGetUniformLocation(m_ProgramID, name.c_str());
+    glUniform1i(location, _int);
+}
+
+void Shader::SetUniformFloat(const std::string& name, float _float)
+{
+    GLint location = glGetUniformLocation(m_ProgramID, name.c_str());
+    glUniform1f(location, _float);
+}
+
+void Shader::SetUniformVec2(const std::string& name, const glm::vec2& vec)
+{
+    GLint location = glGetUniformLocation(m_ProgramID, name.c_str());
+    glUniform2f(location, vec.x, vec.y);
+}
+
+void Shader::SetUniformVec3(const std::string& name, const glm::vec3& vec)
+{
+    GLint location = glGetUniformLocation(m_ProgramID, name.c_str());
+    glUniform3f(location, vec.x, vec.y, vec.z);
+}
+
+void Shader::SetUniformVec4(const std::string& name, const glm::vec4& vec)
+{
+    GLint location = glGetUniformLocation(m_ProgramID, name.c_str());
+    glUniform4f(location, vec.r, vec.g, vec.b, vec.a);
+}
+
 void Shader::SetUniformMatrix2(const std::string& name, const glm::mat2& matrix)
 {
     GLint location = glGetUniformLocation(m_ProgramID, name.c_str());
-    this->Bind();
-    glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
-    this->Unbind();
+    glUniformMatrix2fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
 }
 
 void Shader::SetUniformMatrix3(const std::string& name, const glm::mat3& matrix)
 {
     GLint location = glGetUniformLocation(m_ProgramID, name.c_str());
-    this->Bind();
-    glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
-    this->Unbind();
+    glUniformMatrix3fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
 }
 
 void Shader::SetUniformMatrix4(const std::string& name, const glm::mat4& matrix)
 {
     GLint location = glGetUniformLocation(m_ProgramID, name.c_str());
-    this->Bind();
     glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
-    this->Unbind();
 }
 
 unsigned int Shader::CreateShader(const ShaderFile& file)
@@ -66,7 +90,7 @@ unsigned int Shader::CreateShader(const ShaderFile& file)
         char* message = (char*)alloca(length * sizeof(char));
         glGetShaderInfoLog(shader_id, length, &length, message); // Get the error message
 
-        SADDLE_CORE_ASSERT_ARGS(false, "A compile error was detected for shader file %s: %s", file.Path.c_str(), message);
+        SADDLE_CORE_ASSERT_ARGS(false, "A compile error was detected for shader file %s:\n%s", file.Path.c_str(), message);
     }
 
     return shader_id;

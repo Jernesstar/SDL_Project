@@ -11,6 +11,9 @@ namespace Saddle {
 void Renderer::Init()
 {
     m_Window = Application::Get().GetWindow().GetNativeWindow();
+
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 void Renderer::Clear(glm::vec4 color)
@@ -24,8 +27,6 @@ void Renderer::Submit(const VertexArray& vertex_array, const Shader& shader)
     shader.Bind();
     vertex_array.Bind();
     glDrawElements(GL_TRIANGLES, vertex_array.GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
-    vertex_array.Unbind();
-    shader.Unbind();
 }
 
 void Renderer::Render() { glfwSwapBuffers(m_Window); }

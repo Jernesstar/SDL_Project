@@ -1,8 +1,11 @@
 #version 330 core
 
-in vec4 o_Color;
+in vec2 v_TextureCoordinate;
+
+uniform sampler2D u_Texture;
 
 void main()
 {
-    gl_FragColor = o_Color;
+    vec4 texColor = texture(u_Texture, v_TextureCoordinate);
+    gl_FragColor = texColor;
 }

@@ -8,3 +8,6 @@
 	path = Saddle/vendor/glad
 	url = https://github.com/Jernesstar/glad
 	branch = c
+[submodule "Saddle/vendor/stb_image"]
+	path = Saddle/vendor/stb_image
+	url = https://github.com/Jernesstar/stb_image
