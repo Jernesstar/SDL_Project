@@ -30,7 +30,7 @@ const Vertex vertices[4] =
 
 unsigned int indices[6] = {
     0, 1, 2,
-    2, 3, 0
+    2, 3, 1
 };
 
 void App::Run()
@@ -50,7 +50,7 @@ void App::Run()
     IndexBuffer index_buffer(indices);
     VertexArray vertex_array(vertex_buffer, index_buffer);
 
-    Texture2D texture("Sandbox/assets/images/kick_drum.png");
+    Texture2D texture("Sandbox/assets/images/snare_drum.jpg");
     Shader shader("Sandbox/assets/shaders/vertex_shader.glsl", "Sandbox/assets/shaders/fragment_shader.glsl");
 
     texture.Bind(0);
@@ -60,7 +60,7 @@ void App::Run()
 
     while(Window.IsOpen())
     {
-        Renderer::Clear();
+        Renderer::Clear({ 1, 1, 1, 1 });
 
         // mvp = mvp * glm::translate(identity_matrix, glm::vec3(0.01f, 0.0f, 0.0f));
         shader.SetUniformMatrix4("u_MVP", mvp);
