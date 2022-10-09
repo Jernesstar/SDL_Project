@@ -1,6 +1,7 @@
 #include "VertexArray.h"
 
 #include <iostream>
+#include <cstring>
 
 #include <glad/glad.h>
 
@@ -23,23 +24,27 @@ static GLenum BufferDataTypeToOpenGLType(BufferDataType type)
 }
 
 VertexArray::VertexArray()
+    : m_VertexBuffer({ 0 }, BufferLayout({ })), m_IndexBuffer({ 0, 0, 0, 0, 0, 0 })
 {
     glCreateVertexArrays(1, &m_VertexArrayID);
 }
 
-VertexArray::VertexArray(VertexBuffer& vertex_buffer)
+VertexArray::VertexArray(const VertexBuffer& vertex_buffer)
+    : m_VertexBuffer(vertex_buffer), m_IndexBuffer({ 0, 0, 0, 0, 0, 0 })
 {
     glCreateVertexArrays(1, &m_VertexArrayID);
     SetVertexBuffer(vertex_buffer);
 }
 
-VertexArray::VertexArray(IndexBuffer& index_buffer)
+VertexArray::VertexArray(const IndexBuffer& index_buffer)
+    : m_VertexBuffer({ 0 }, BufferLayout({ })), m_IndexBuffer(index_buffer)
 {
     glCreateVertexArrays(1, &m_VertexArrayID);
     SetIndexBuffer(index_buffer);
 }
 
-VertexArray::VertexArray(VertexBuffer& vertex_buffer, IndexBuffer& index_buffer)
+VertexArray::VertexArray(const VertexBuffer& vertex_buffer, const IndexBuffer& index_buffer)
+    : m_VertexBuffer(vertex_buffer), m_IndexBuffer(index_buffer)
 {
     glCreateVertexArrays(1, &m_VertexArrayID);
     SetVertexBuffer(vertex_buffer);
@@ -49,24 +54,20 @@ VertexArray::VertexArray(VertexBuffer& vertex_buffer, IndexBuffer& index_buffer)
 VertexArray::~VertexArray()
 {
     glDeleteVertexArrays(1, &m_VertexArrayID);
-    delete m_VertexBuffer;
-    delete m_IndexBuffer;
-    m_VertexBuffer = nullptr;
-    m_IndexBuffer = nullptr;
 }
 
 void VertexArray::Bind() const
 {
     glBindVertexArray(m_VertexArrayID);
-    if(m_IndexBuffer) m_IndexBuffer->Bind();
+    m_IndexBuffer.Bind();
 }
 void VertexArray::Unbind() const
 {
     glBindVertexArray(0);
-    if(m_IndexBuffer) m_IndexBuffer->Unbind();
+    m_IndexBuffer.Unbind();
 }
 
-void VertexArray::SetVertexBuffer(VertexBuffer& vertex_buffer)
+void VertexArray::SetVertexBuffer(const VertexBuffer& vertex_buffer)
 {
     glBindVertexArray(m_VertexArrayID);
     vertex_buffer.Bind();
@@ -140,15 +141,15 @@ void VertexArray::SetVertexBuffer(VertexBuffer& vertex_buffer)
         }
     }
 
-    m_VertexBuffer = &vertex_buffer;
+    std::memcpy(&m_VertexBuffer, &vertex_buffer, sizeof(vertex_buffer));
     vertex_buffer.Unbind();
 }
 
-void VertexArray::SetIndexBuffer(IndexBuffer& index_buffer)
+void VertexArray::SetIndexBuffer(const IndexBuffer& index_buffer)
 {
     glBindVertexArray(m_VertexArrayID);
     index_buffer.Bind();
-    m_IndexBuffer = &index_buffer;
+    m_IndexBuffer = index_buffer;
     index_buffer.Unbind();
 }
 

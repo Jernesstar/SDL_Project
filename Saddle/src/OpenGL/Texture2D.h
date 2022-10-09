@@ -30,7 +30,6 @@ public:
 private:
     unsigned int m_TextureID;
 
-    friend class Image;
     friend class Renderer;
     friend class TextureSystem;
 };

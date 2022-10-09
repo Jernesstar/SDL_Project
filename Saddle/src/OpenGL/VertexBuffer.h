@@ -13,7 +13,7 @@ public:
 
 public:
     template<typename T, std::size_t TCount>
-    VertexBuffer(const T (&vertices)[TCount], const BufferLayout& layout = BufferLayout())
+    VertexBuffer(const T (&vertices)[TCount], const BufferLayout& layout)
         : Count(TCount), Layout(layout)
     {
         glCreateBuffers(1, &m_VertexBufferID);

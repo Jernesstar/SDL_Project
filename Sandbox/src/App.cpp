@@ -17,20 +17,16 @@
 #include <OpenGL/IndexBuffer.h>
 #include <OpenGL/VertexArray.h>
 #include <OpenGL/Texture2D.h>
+#include <OpenGL/Quad.h>
 
 const Vertex vertices[4] = 
 {
-    { glm::vec2(-0.5f, -0.5f), glm::vec2(0.f, 0.0) }, // Bottom left, 0
-    { glm::vec2( 0.5f, -0.5f), glm::vec2(1.f, 0.0) }, // Bottom right, 1
-    { glm::vec2(-0.5f,  0.5f), glm::vec2(0.f, 1.f) }, // Top left, 2
-    { glm::vec2( 0.5f,  0.5f), glm::vec2(1.f, 1.f) }, // Top right, 3
+    { glm::vec2(-0.5f,  0.5f), glm::vec2(0.f, 1.f) }, // Top left, 0
+    { glm::vec2( 0.5f,  0.5f), glm::vec2(1.f, 1.f) }, // Top right, 1
+    { glm::vec2(-0.5f, -0.5f), glm::vec2(0.f, 0.0) }, // Bottom left, 2
+    { glm::vec2( 0.5f, -0.5f), glm::vec2(1.f, 0.0) }, // Bottom right, 3
     // { glm::vec2(-0.5f,  0.0f), glm::vec4(0.f, 0.f, 1.f, 1.0) }, // Middle left, 4
     // { glm::vec2( 0.0f,  0.5f), glm::vec4(0.f, 0.f, 1.f, 1.0) }, // Middle top, 5
-};
-
-unsigned int indices[6] = {
-    0, 1, 2,
-    2, 3, 1
 };
 
 void App::Run()
@@ -46,11 +42,9 @@ void App::Run()
         { "a_TextureCoordinate", BufferDataType::Vec2, true },
     });
 
-    VertexBuffer vertex_buffer(vertices, layout);
-    IndexBuffer index_buffer(indices);
-    VertexArray vertex_array(vertex_buffer, index_buffer);
+    Quad quad(vertices, layout);
 
-    Texture2D texture("Sandbox/assets/images/snare_drum.jpg");
+    Texture2D texture("Sandbox/assets/images/kick_drum.png");
     Shader shader("Sandbox/assets/shaders/vertex_shader.glsl", "Sandbox/assets/shaders/fragment_shader.glsl");
 
     texture.Bind(0);
@@ -65,7 +59,7 @@ void App::Run()
         // mvp = mvp * glm::translate(identity_matrix, glm::vec3(0.01f, 0.0f, 0.0f));
         shader.SetUniformMatrix4("u_MVP", mvp);
 
-        Renderer::Submit(vertex_array, shader);
+        Renderer::Submit(*quad.VertexArray, shader);
         Renderer::Render();
 
         EventSystem::PollEvents();

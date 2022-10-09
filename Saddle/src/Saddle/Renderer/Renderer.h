@@ -9,6 +9,7 @@
 #include "OpenGL/VertexBuffer.h"
 #include "OpenGL/IndexBuffer.h"
 #include "OpenGL/VertexArray.h"
+#include "OpenGL/Quad.h"
 
 namespace Saddle {
 

@@ -4,7 +4,7 @@ namespace Saddle {
 
 struct IndexBuffer {
     template<std::size_t Count>
-    IndexBuffer(unsigned int (&indices)[Count] = nullptr)
+    IndexBuffer(const unsigned int (&indices)[Count])
         : m_Count(Count)
     {
         glCreateBuffers(1, &m_IndexBufferID);

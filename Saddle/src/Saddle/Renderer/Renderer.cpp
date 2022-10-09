@@ -26,7 +26,7 @@ void Renderer::Submit(const VertexArray& vertex_array, const Shader& shader)
 {
     shader.Bind();
     vertex_array.Bind();
-    glDrawElements(GL_TRIANGLES, vertex_array.GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
+    glDrawElements(GL_TRIANGLES, vertex_array.GetIndexBuffer().GetCount(), GL_UNSIGNED_INT, nullptr);
 }
 
 void Renderer::Render() { glfwSwapBuffers(m_Window); }
