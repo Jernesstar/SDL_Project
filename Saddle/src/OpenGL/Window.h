@@ -11,11 +11,13 @@ namespace Saddle {
 
 struct WindowSpecification {
     const std::string Title;
+    const std::string IconPath;
     int Width, Height;
     bool VSync;
 
-    WindowSpecification(const std::string& title = "Window", int width = 1200, int height = 640, bool vsync = true)
-        : Title(title), Width(width), Height(height), VSync(vsync) { }  
+    WindowSpecification(const std::string& title = "Window", int width = 1600,
+        int height = 900, bool vsync = true, const std::string& icon_path = "")
+        : Title(title), Width(width), Height(height), VSync(vsync), IconPath(icon_path) { }  
 };
 
 class Window {
@@ -23,6 +25,7 @@ public:
     Window(const WindowSpecification& specs = WindowSpecification());
     ~Window();
 
+    void SetWindowIcon(const std::string& path);
     void SetTitle(const std::string& title);
     void SetVSync(bool vsync);
     void SetFramebufferSize(uint32_t width, uint32_t height);
@@ -34,9 +37,7 @@ public:
     GLFWwindow* GetNativeWindow() const;
 
 private:
-    uint32_t m_Width, m_Height;
-    bool m_VSync;
-    std::string m_Title;
+    WindowSpecification m_Specs;
 
     GLFWwindow* m_Window = nullptr;
 };

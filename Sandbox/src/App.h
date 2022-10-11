@@ -12,6 +12,10 @@ struct Vertex {
 
 class App : public Application {
 public:
+    App()
+    {
+        Window.SetWindowIcon("Sandbox/assets/images/start_bg.png");
+    }
     void Run() override;
 };
 
