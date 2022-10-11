@@ -12,8 +12,8 @@ Shader::Shader(const std::string& vertex_shader, const std::string& fragment_sha
     : VertexShader(ShaderType::VertexShader, vertex_shader),
         FragmentShader(ShaderType::FragmentShader, fragment_shader)
 {
-    unsigned int shader1 = CreateShader(VertexShader);
-    unsigned int shader2 = CreateShader(FragmentShader);
+    uint32_t shader1 = CreateShader(VertexShader);
+    uint32_t shader2 = CreateShader(FragmentShader);
 
     m_ProgramID = CreateProgram(shader1, shader2);
 }
@@ -71,9 +71,9 @@ void Shader::SetUniformMatrix4(const std::string& name, const glm::mat4& matrix)
     glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
 }
 
-unsigned int Shader::CreateShader(const ShaderFile& file)
+uint32_t Shader::CreateShader(const ShaderFile& file)
 {
-    unsigned int shader_id = glCreateShader(file.Type == ShaderType::VertexShader ? GL_VERTEX_SHADER : GL_FRAGMENT_SHADER);
+    uint32_t shader_id = glCreateShader(file.Type == ShaderType::VertexShader ? GL_VERTEX_SHADER : GL_FRAGMENT_SHADER);
 
     const char* address = file.Source.c_str();
     // Setting the data of the shader, setting last value to nullptr will use the whole shader_text
@@ -96,9 +96,9 @@ unsigned int Shader::CreateShader(const ShaderFile& file)
     return shader_id;
 }
 
-unsigned int Shader::CreateProgram(unsigned int vertex_shader, unsigned int fragment_shader)
+uint32_t Shader::CreateProgram(uint32_t vertex_shader, uint32_t fragment_shader)
 {
-    unsigned int program = glCreateProgram();
+    uint32_t program = glCreateProgram();
     glAttachShader(program, vertex_shader);
     glAttachShader(program, fragment_shader);
     glLinkProgram(program);

@@ -9,7 +9,7 @@ enum class BufferDataType {
     Float, Int, Vec2, Vec3, Vec4, Mat2, Mat3, Mat4
 };
 
-static int BufferElementSize(BufferDataType type)
+static uint32_t BufferElementSize(BufferDataType type)
 {
     switch(type)
     {
@@ -25,7 +25,7 @@ static int BufferElementSize(BufferDataType type)
     return 0;
 }
 
-static int BufferElementCount(BufferDataType type)
+static uint32_t BufferElementCount(BufferDataType type)
 {
     switch(type)
     {
@@ -44,8 +44,8 @@ static int BufferElementCount(BufferDataType type)
 struct BufferElement {
     const std::string Name;
     const BufferDataType Type;
-    const int Size;
-    const int ComponentCount;
+    const uint32_t Size;
+    const uint32_t ComponentCount;
     const bool Normalized;
 
     BufferElement(const std::string& name, BufferDataType type, bool normalized = true)
@@ -56,7 +56,7 @@ struct BufferElement {
 class BufferLayout {
 public:
     const std::vector<BufferElement> Elements;
-    const int Stride;
+    const uint32_t Stride;
 
 public:
     BufferLayout(const std::initializer_list<BufferElement>& elements)
@@ -66,7 +66,7 @@ public:
     std::vector<BufferElement>::const_iterator end() const { return Elements.end(); }
 
 private:
-    int CalculateStride(const std::initializer_list<BufferElement>& elements)
+    uint32_t CalculateStride(const std::initializer_list<BufferElement>& elements)
     {
         int stride = 0;
         for(auto& element : elements)

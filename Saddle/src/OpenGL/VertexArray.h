@@ -7,9 +7,6 @@ namespace Saddle {
 
 class VertexArray {
 public:
-    VertexArray();
-    VertexArray(const VertexBuffer& vertex_buffer);
-    VertexArray(const IndexBuffer& index_buffer);
     VertexArray(const VertexBuffer& vertex_buffer, const IndexBuffer& index_buffer);
     ~VertexArray();
 

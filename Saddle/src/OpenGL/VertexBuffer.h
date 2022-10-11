@@ -9,7 +9,7 @@ namespace Saddle {
 class VertexBuffer {
 public:
     const BufferLayout Layout;
-    const unsigned int Count;
+    const uint32_t Count;
 
 public:
     template<typename T, std::size_t TCount>
@@ -34,7 +34,7 @@ public:
     }
 
 private:
-    unsigned int m_VertexBufferID;
+    uint32_t m_VertexBufferID;
 };
 
 }

@@ -20,12 +20,13 @@ Window::Window(const WindowSpecification& specs)
     SetVSync(specs.VSync);
 
     EventSystem::RegisterEventListener<WindowClosedEvent>(
-        [](const WindowClosedEvent& event) {
-            Application::Close();
+    [](const WindowClosedEvent& event) {
+        Application::Close();
     });
+
     EventSystem::RegisterEventListener<WindowResizedEvent>(
-        [this](const WindowResizedEvent& event) {
-            SetFramebufferSize(event.Width, event.Height);
+    [this](const WindowResizedEvent& event) {
+        SetFramebufferSize(event.Width, event.Height);
     });
 }
 
@@ -38,14 +39,14 @@ Window::~Window()
 void Window::SetTitle(const std::string& title) { glfwSetWindowTitle(m_Window, title.c_str()); }
 void Window::SetVSync(bool vsync) { glfwSwapInterval(vsync ? 1 : 0); }
 
-void Window::SetFramebufferSize(int width, int height)
+void Window::SetFramebufferSize(uint32_t width, uint32_t height)
 {
     m_Width = width;
     m_Height = height;
     glViewport(0, 0, width, height);
 }
 
-std::string Window::GetTitle() const { return m_Title; }
+const std::string& Window::GetTitle() const { return m_Title; }
 
 glm::vec2 Window::GetFrameBufferSize() const
 {

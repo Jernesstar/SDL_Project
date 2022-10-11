@@ -49,14 +49,14 @@ public:
     void SetUniformMatrix3(const std::string& name, const glm::mat3& matrix);
     void SetUniformMatrix4(const std::string& name, const glm::mat4& matrix);
 
-    operator int() const { return m_ProgramID; } 
+    operator uint32_t() const { return m_ProgramID; } 
 
 private:
-    unsigned int m_ProgramID;
+    uint32_t m_ProgramID;
 
 private:
-    static unsigned int CreateShader(const ShaderFile& shader_file);
-    static unsigned int CreateProgram(unsigned int vertex_shader, unsigned int fragment_shader);
+    static uint32_t CreateShader(const ShaderFile& shader_file);
+    static uint32_t CreateProgram(uint32_t vertex_shader, uint32_t fragment_shader);
 };
 
 }

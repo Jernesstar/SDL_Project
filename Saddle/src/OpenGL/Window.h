@@ -25,16 +25,16 @@ public:
 
     void SetTitle(const std::string& title);
     void SetVSync(bool vsync);
-    void SetFramebufferSize(int width, int height);
+    void SetFramebufferSize(uint32_t width, uint32_t height);
 
     bool IsOpen() const { return !glfwWindowShouldClose(m_Window); }
 
-    std::string GetTitle() const;
+    const std::string& GetTitle() const;
     glm::vec2 GetFrameBufferSize() const;
     GLFWwindow* GetNativeWindow() const;
 
 private:
-    int m_Width, m_Height;
+    uint32_t m_Width, m_Height;
     bool m_VSync;
     std::string m_Title;
 

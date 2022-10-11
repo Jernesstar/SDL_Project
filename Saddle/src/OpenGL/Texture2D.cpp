@@ -31,6 +31,6 @@ Texture2D::Texture2D(const std::string& path)
 
 Texture2D::~Texture2D() { glDeleteTextures(1, &m_TextureID); }
 
-void Texture2D::Bind(unsigned int slot) const { glBindTextureUnit(slot, m_TextureID); }
+void Texture2D::Bind(uint32_t slot) const { glBindTextureUnit(slot, m_TextureID); }
 
 }

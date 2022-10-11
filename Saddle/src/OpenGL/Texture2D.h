@@ -28,7 +28,7 @@ public:
     }
 
 private:
-    unsigned int m_TextureID;
+    uint32_t m_TextureID;
 
     friend class Renderer;
     friend class TextureSystem;
