@@ -1,5 +1,7 @@
 #include "Texture2D.h"
 
+#include <cstring>
+
 #include <stb_image/stb_image.h>
 
 #include "Saddle/Core/Application.h"
@@ -8,7 +10,7 @@
 namespace Saddle {
 
 Texture2D::Texture2D(const std::string& path)
-    : Path(path), InternalFormat(GL_RGBA8), DataFormat(GL_RGBA)
+    : Path(path), InternalFormat(GL_RGBA8), DataFormat(GL_RGBA), m_Slot(0)
 {
     stbi_set_flip_vertically_on_load(1);
     unsigned char* pixel_data = stbi_load(path.c_str(), &Width, &Height, &BitsPerPixel, 4);
@@ -31,6 +33,10 @@ Texture2D::Texture2D(const std::string& path)
 
 Texture2D::~Texture2D() { glDeleteTextures(1, &m_TextureID); }
 
-void Texture2D::Bind(uint32_t slot) const { glBindTextureUnit(slot, m_TextureID); }
+void Texture2D::Bind(uint32_t slot)
+{
+    m_Slot = slot;
+    glBindTextureUnit(slot, m_TextureID);
+}
 
 }

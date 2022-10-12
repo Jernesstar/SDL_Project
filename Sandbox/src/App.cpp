@@ -35,12 +35,6 @@ unsigned int indices[6] = {
 
 void App::Run()
 {
-    auto vec = Window.GetFrameBufferSize();
-    float ratio = vec.x / vec.y;
-
-    glm::mat4 mvp = glm::ortho(-ratio, ratio, -1.0f, 1.0f, 1.0f, -1.0f);
-    glm::mat4 identity_matrix(1);
-
     BufferLayout layout({
         { "a_VertexPosition", BufferDataType::Vec2, true },
         { "a_TextureCoordinate", BufferDataType::Vec2, true },
@@ -56,7 +50,13 @@ void App::Run()
     texture.Bind(0);
 
     shader.Bind();
-    shader.SetUniformInt("u_Texture", 0);
+    shader.SetUniformInt("u_Texture", texture);
+
+    auto vec = Window.GetFrameBufferSize();
+    float ratio = vec.x / vec.y;
+
+    glm::mat4 mvp = glm::ortho(-ratio, ratio, -1.0f, 1.0f, 1.0f, -1.0f);
+    glm::mat4 identity_matrix(1);
 
     while(Window.IsOpen())
     {

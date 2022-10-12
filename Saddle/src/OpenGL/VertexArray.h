@@ -20,8 +20,8 @@ public:
     const IndexBuffer& GetIndexBuffer() const { return m_IndexBuffer; }
 
 private:
-    unsigned int m_VertexArrayID;
-    int m_VertexBufferIndex = 0;
+    uint32_t m_VertexArrayID;
+    uint32_t m_VertexBufferIndex = 0;
 
     VertexBuffer m_VertexBuffer;
     IndexBuffer m_IndexBuffer;

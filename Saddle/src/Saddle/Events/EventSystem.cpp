@@ -1,7 +1,5 @@
 #include "EventSystem.h"
 
-#include <iostream>
-
 #include <glad/glad.h>
 
 #include "Saddle/Core/Application.h"
@@ -192,8 +190,8 @@ void EventSystem::WindowClosedCallback(GLFWwindow* window)
     Dispatch(event);
 }
 
-void EventSystem::OpenGLMessageCallback(unsigned int source, unsigned int type, unsigned int id, 
-    unsigned int severity, int length, const char* message, const void* userParam)
+void EventSystem::OpenGLMessageCallback(uint32_t source, uint32_t type, uint32_t id, 
+    uint32_t severity, int length, const char* message, const void* userParam)
 {
     switch(severity)
     {

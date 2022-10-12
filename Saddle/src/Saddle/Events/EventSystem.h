@@ -50,7 +50,7 @@ private:
 
     static void ErrorCallback(int error, const char* description);
     static void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
-    static void KeyCharCallback(GLFWwindow* window, unsigned int codepoint);
+    static void KeyCharCallback(GLFWwindow* window, uint32_t codepoint);
     static void MouseMovedCallback(GLFWwindow* window, double x, double y);
     static void MouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
     static void MouseScrolledCallback(GLFWwindow* window, double x_scroll, double y_scroll);
@@ -58,8 +58,8 @@ private:
     static void WindowMovedCallback(GLFWwindow* window, int x, int y);
     static void WindowClosedCallback(GLFWwindow* window);
 
-    static void OpenGLMessageCallback(unsigned int source, unsigned int type, unsigned int id, 
-        unsigned int severity, int length, const char* message, const void* userParam);
+    static void OpenGLMessageCallback(uint32_t source, uint32_t type, uint32_t id, 
+        uint32_t severity, int length, const char* message, const void* userParam);
 };
 
 }
