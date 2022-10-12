@@ -1,63 +1,49 @@
 #pragma once
 
 #include <unordered_map>
-#include <typeinfo>
-#include <utility>
 
 #include "Components.h"
+#include "Entity.h"
 #include "Saddle/Core/Assert.h"
+
+#define ADD_COMPONENT(TComponent) \
+template<typename... Args> \
+TComponent& AddComponent(Entity& entity, Args&&... args) \
+{ \
+    SADDLE_CORE_ASSERT_ARGS(!HasComponent<TComponent>(), "AddComponent(): Entity already has component '", TComponent, "'"); \
+ \
+    TComponent##s.emplace(&entity, std::forward(args)...); \
+    return TComponent##s[&entity]; \
+}
 
 namespace Saddle {
 
 class ComponentManager {
 public:
-    ComponentManager() : m_Components() { }
+    ComponentManager() { }
     ~ComponentManager() = default;
 
     template<typename Component>
-    bool HasComponent()
-    {
-        if(m_Components.count(Hash<Component>()))
-            return false;
+    bool HasComponent(Entity& entity);
 
-        return true;
-    }
+    // ADD_COMPONENT(EventListenerComponent);
+    // ADD_COMPONENT(RigidBodyComponent);
+    // ADD_COMPONENT(RGBColorComponent);
+    // ADD_COMPONENT(TextureComponent);
+    // ADD_COMPONENT(TransformComponent);
 
-    template<typename Component, typename... Args>
-    Component& AddComponent(Args&&... args)
-    {
-        SADDLE_CORE_ASSERT(!HasComponent<Component>(), "AddComponent(): Entity already has component '" + std::string(typeid(Component).name()) + "'");
+    template<typename TComponent>
+    TComponent& GetComponent(Entity& entity);
 
-        Component* component = new Component(std::forward<Args>(args)...);
-        m_Components[Hash<Component>()] = component;
-        return *component;
-    }
-
-    template<typename Component>
-    void RemoveComponent()
-    {
-        SADDLE_CORE_ASSERT(HasComponent<Component>(), "RemoveComponent(): Entity does not have component '" + std::string(typeid(Component).name()) + "'");
-
-        m_Components.erase(Hash<Component>());
-    }
-    
-    template<typename Component>
-    Component& GetComponent()
-    {
-        SADDLE_CORE_ASSERT(HasComponent<Component>(), "GetComponent(): Entity does not have component '" + std::string(typeid(Component).name()) + "'");
-        
-        return *(Component*)m_Components[Hash<Component>()];
-    }
+    template<typename TComponent>
+    void RemoveComponent(Entity& entity);
 
 private:
-    std::unordered_map<std::size_t, IComponent*> m_Components;
-
-private:
-    template<typename Component>
-    std::size_t Hash()
-    {
-        return typeid(Component).hash_code();
-    }
+    std::unordered_map<Entity*, EventListenerComponent> EventListenerComponents;
+    std::unordered_map<Entity*, RigidBodyComponent> RigidBodyComponents;
+    std::unordered_map<Entity*, RGBColorComponent> RGBColorComponents;
+    std::unordered_map<Entity*, TextureComponent> TextureComponents;
+    std::unordered_map<Entity*, TransformComponent> TransformComponents;
 };
 
 }

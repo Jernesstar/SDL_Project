@@ -1,6 +1,5 @@
 #pragma once
 
-#include "ComponentManager.h"
 #include "Scene.h"
 
 namespace Saddle {
@@ -16,29 +15,24 @@ public:
     template<typename Component>
     bool HasComponent()
     {
-        return m_Components.HasComponent<Component>();
     }
 
     template<typename Component, typename... Args>
     Component& AddComponent(Args&&... args)
     {
-        return m_Components.AddComponent<Component>(args...);
     }
 
     template<typename Component>
     void RemoveComponent()
     {
-        m_Components.RemoveComponent<Component>();
     }
     
     template<typename Component>
     Component& GetComponent()
     {
-        return m_Components.GetComponent<Component>();
     }
 
 private:
-    ComponentManager m_Components;
     Scene* m_Scene = nullptr;
 
     friend class Scene;

@@ -2,23 +2,19 @@
 
 #include <functional>
 
-#include "SDL/Audio.h"
-#include "SDL/Sound.h"
-#include "SDL/Texture2D.h"
+#include <glm/vec2.hpp>
+#include <glm/vec3.hpp>
+#include <glm/geometric.hpp>
+
 #include "Saddle/Events/KeyEvents.h"
 #include "Saddle/Events/MouseEvents.h"
-#include "Saddle/Math/Vector.h"
 #include "Saddle/Events/WindowEvents.h"
 
-namespace Saddle {
-    
-struct IComponent {
-protected:
-    ~IComponent() = default;
-    IComponent() = default;
-};
+#include "OpenGL/Texture2D.h"
 
-struct EventListenerComponent : public IComponent {
+namespace Saddle {
+
+struct EventListenerComponent {
     template<typename TEvent>
     using Callback = std::function<void(TEvent&)>;
 
@@ -34,46 +30,46 @@ struct EventListenerComponent : public IComponent {
     EventListenerComponent() = default;
 };
 
-struct RectComponent : public IComponent {
-    float Width, Height;
-
-    RectComponent(float width = 1, float height = 1) : Width(width), Height(height) { }
-};
-
-struct RigidBodyComponent : public IComponent {
-    Vector2D Velocity;
+struct RigidBodyComponent {
+    glm::vec2 Velocity;
     float Speed, RotationSpeed, Bounciness;
 
-    RigidBodyComponent(const Vector2D& velocity = Vector2D(), float rotation_speed = 0.0f, float bounciness = 0.0f) 
-        : RotationSpeed(rotation_speed), Bounciness(bounciness) { Speed = Magnitude(Velocity); }
-};
-
-struct RGBColorComponent : public IComponent {
-    Uint8 r, g, b;
-
-    RGBColorComponent(Uint8 r, Uint8 g, Uint8 b) : r(r), g(g), b(b) { }
-    RGBColorComponent(const RGBColorComponent& other) : r(other.r), g(other.g), b(other.b) { }
-};
-
-struct SoundComponent : public IComponent {
-    Sound Sound;
+    RigidBodyComponent(const glm::vec2& velocity = glm::vec2(), float rotation_speed = 0.0f, float bounciness = 0.0f) 
+        : RotationSpeed(rotation_speed), Bounciness(bounciness) { }
     
-    SoundComponent(const std::string& file_path) : Sound(file_path) { }
+    void Update()
+    {
+        Speed = glm::length(Velocity);
+    }
 };
 
-struct TextureComponent : public IComponent {
+struct RGBColorComponent {
+    glm::vec3 Color;
+
+    RGBColorComponent(const glm::vec3& color = { 0, 0, 0 }) : Color(color) { }
+    RGBColorComponent(const RGBColorComponent& other) : Color(other.Color) { }
+};
+
+// struct SoundComponent {
+//     Sound Sound;
+//
+//     SoundComponent(const std::string& file_path) : Sound(file_path) { }
+// };
+
+struct TextureComponent {
     Texture2D Texture;
 
-    TextureComponent() = default;
+    TextureComponent(const std::string& path = "") : Texture(path) { }
 };
 
-struct TransformComponent : public IComponent {
-    Vector2D Coordinate;
+struct TransformComponent {
+    glm::vec2 Translation;
     float Rotation;
-    Vector2D Scale;
+    glm::vec2 Scale;
 
-    TransformComponent(const Vector2D& coordinate = Vector2D(), float rotation = 0.0f, const Vector2D& scale = Vector2D(1, 1)) 
-        : Coordinate(coordinate), Rotation(rotation), Scale(scale) { }
+    TransformComponent(const glm::vec2& translation = glm::vec2(), float rotation = 0.0f,
+     const glm::vec2& scale = glm::vec2(1, 1)) 
+        : Translation(translation), Rotation(rotation), Scale(scale) { }
 };
 
 }

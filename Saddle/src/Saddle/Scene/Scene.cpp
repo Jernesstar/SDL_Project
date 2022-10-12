@@ -8,7 +8,7 @@
 namespace Saddle {
 
 Scene::Scene() : entities() { }
-Scene::~Scene() { EventSystem::Reset(); }
+Scene::~Scene() { }
 
 void Scene::Update()
 {
@@ -28,18 +28,18 @@ void Scene::Update()
 
 void Scene::Render()
 {
-    Renderer::Clear();
-    for(int i = 0; i < entities.size(); i++)
-    {
-        Entity& entity = *entities.at(i);
-        if(entity.HasComponent<TextureComponent>() && entity.HasComponent<TransformComponent>())
-        { 
-            Texture2D& texture = entity.GetComponent<TextureComponent>().Texture;
-            Transform transform = entity.GetComponent<TransformComponent>();
-            Renderer::DrawTexture(texture, transform);
-        }
-    }
-    Renderer::Render();
+    // Renderer::Clear();
+    // for(int i = 0; i < entities.size(); i++)
+    // {
+    //     Entity& entity = *entities.at(i);
+    //     if(entity.HasComponent<TextureComponent>() && entity.HasComponent<TransformComponent>())
+    //     { 
+    //         Texture2D& texture = entity.GetComponent<TextureComponent>().Texture;
+    //         Transform transform = entity.GetComponent<TransformComponent>();
+    //         Renderer::DrawTexture(texture, transform);
+    //     }
+    // }
+    // Renderer::Render();
 }
 
 void Scene::Pause() { m_LastFrameTime = Time::GetTime(); }
@@ -53,8 +53,8 @@ void Scene::AddEntity(Entity& entity)
     if(entity.HasComponent<EventListenerComponent>())
     {
         EventSystem::RegisterEventListener<Event>(
-            [&entity](Event& event) {
-                EventListenerSystem::OnEvent(entity, event);
+            [&entity](const Event& event) {
+                // EventListenerSystem::OnEvent(entity, event);
             }
         );
     }
