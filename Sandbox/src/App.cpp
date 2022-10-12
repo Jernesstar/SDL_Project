@@ -9,6 +9,8 @@
 
 #include <Saddle/Core/Assert.h>
 #include <Saddle/Core/Input.h>
+#include <Saddle/Scene/Entity.h>
+#include <Saddle/Scene/ComponentManager.h>
 #include <Saddle/Events/EventSystem.h>
 #include <Saddle/Renderer/Renderer.h>
 
@@ -70,4 +72,5 @@ void App::Run()
 
         EventSystem::PollEvents();
     }
+
 }

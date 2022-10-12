@@ -6,16 +6,6 @@
 #include "Entity.h"
 #include "Saddle/Core/Assert.h"
 
-#define ADD_COMPONENT(TComponent) \
-template<typename... Args> \
-TComponent& AddComponent(Entity& entity, Args&&... args) \
-{ \
-    SADDLE_CORE_ASSERT_ARGS(!HasComponent<TComponent>(), "AddComponent(): Entity already has component '", TComponent, "'"); \
- \
-    TComponent##s.emplace(&entity, std::forward(args)...); \
-    return TComponent##s[&entity]; \
-}
-
 namespace Saddle {
 
 class ComponentManager {
@@ -23,20 +13,40 @@ public:
     ComponentManager() { }
     ~ComponentManager() = default;
 
-    template<typename Component>
-    bool HasComponent(Entity& entity);
+    template<typename TComponent>
+    bool HasComponent(Entity& entity)
+    {
+        if(SelectComponents<TComponent>().count(&entity))
+            return true;
+    
+        return false;
+    }
 
-    // ADD_COMPONENT(EventListenerComponent);
-    // ADD_COMPONENT(RigidBodyComponent);
-    // ADD_COMPONENT(RGBColorComponent);
-    // ADD_COMPONENT(TextureComponent);
-    // ADD_COMPONENT(TransformComponent);
+    template<typename TComponent, typename... Args>
+    TComponent& AddComponent(Entity& entity, Args&&... args)
+    {
+        SADDLE_CORE_ASSERT_ARGS(!HasComponent<TComponent>(entity), "AddComponent(): Entity already has component"); 
+
+        SelectComponents<TComponent>().try_emplace(&entity, std::forward(args)...); 
+        return SelectComponents<TComponent>()[&entity]; 
+    }
 
     template<typename TComponent>
-    TComponent& GetComponent(Entity& entity);
+    TComponent& GetComponent(Entity& entity)
+    {
+        SADDLE_CORE_ASSERT_ARGS(HasComponent<TComponent>(entity),
+            "GetComponent(): Entity does not have component");
+    
+        return SelectComponents<TComponent>()[&entity];
+    }
 
     template<typename TComponent>
-    void RemoveComponent(Entity& entity);
+    void RemoveComponent(Entity& entity)
+    {
+        SADDLE_CORE_ASSERT_ARGS(HasComponent<TComponent>(entity), "RemoveComponent(): Entity does not have component");
+
+        SelectComponents<TComponent>().erase(&entity);
+    }
 
 private:
     std::unordered_map<Entity*, EventListenerComponent> EventListenerComponents;
@@ -44,6 +54,11 @@ private:
     std::unordered_map<Entity*, RGBColorComponent> RGBColorComponents;
     std::unordered_map<Entity*, TextureComponent> TextureComponents;
     std::unordered_map<Entity*, TransformComponent> TransformComponents;
+
+private:
+    template<typename TComponent>
+    std::unordered_map<Entity*, TComponent>& SelectComponents();
 };
 
 }
+

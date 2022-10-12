@@ -19,10 +19,10 @@ void Scene::Update()
     for(int i = 0; i < entities.size(); i++)
     {
         Entity& entity = *entities.at(i);
-        if(PhysicsSystem::HasDependencies(entity))
-        {
-            PhysicsSystem::Update(entity, ts);
-        }
+        // if(PhysicsSystem::EntityHasDependencies(entity))
+        // {
+        //     PhysicsSystem::Update(entity, ts);
+        // }
     }
 }
 

@@ -24,13 +24,27 @@ public:
     static void PollEvents();
 
     template<typename TEvent>
-    static EventCallback<TEvent> RegisterEventListener(std::function<void(const TEvent&)> event_callback);
+    static EventCallback<TEvent> RegisterEventListener(const std::function<void(const TEvent&)>& event_callback)
+    {
+        Callbacks<TEvent>& list = SelectCallbacks<TEvent>();
+        list[event_callback.ID] = event_callback;
+    }
 
     template<typename TEvent>
-    static void RegisterEventListener(const EventCallback<TEvent>& event_callback);
-    
+    static void RegisterEventListener(const EventCallback<TEvent>& event_callback)
+    {
+        EventCallback<TEvent> _event_callback(event_callback);
+        RegisterEventListener<TEvent>(_event_callback);
+        return _event_callback;
+    }
+
     template<typename TEvent>
-    static void UnregisterEventListener(const EventCallback<TEvent>& event_callback);
+    static void UnregisterEventListener(const EventCallback<TEvent>& event_callback)
+    {
+        Callbacks<TEvent>& list = SelectCallbacks<TEvent>();
+        if(list.count(event_callback.ID))
+            list.erase(event_callback.ID);
+    }
 
 private:
     inline static Callbacks<KeyPressedEvent>          KeyPressedEventCallbacks          = {};
@@ -46,7 +60,16 @@ private:
 
 private:
     template<typename TEvent>
-    static void Dispatch(const TEvent& event);
+    static void Dispatch(const TEvent& event)
+    {
+        Callbacks<TEvent>& callback_list = SelectCallbacks<TEvent>();
+    
+        for(auto& [id, func] : callback_list) 
+            if(func) func(event); 
+    }
+
+    template<typename TEvent>
+    static Callbacks<TEvent>& SelectCallbacks();
 
     static void ErrorCallback(int error, const char* description);
     static void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
