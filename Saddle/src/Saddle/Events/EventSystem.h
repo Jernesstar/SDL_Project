@@ -24,14 +24,14 @@ public:
     static void PollEvents();
 
     template<typename TEvent>
-    static EventCallback<TEvent> RegisterEventListener(const std::function<void(const TEvent&)>& event_callback)
+    static void RegisterEventListener(const EventCallback<TEvent>& event_callback)
     {
         Callbacks<TEvent>& list = SelectCallbacks<TEvent>();
         list[event_callback.ID] = event_callback;
     }
 
     template<typename TEvent>
-    static void RegisterEventListener(const EventCallback<TEvent>& event_callback)
+    static EventCallback<TEvent> RegisterEventListener(const std::function<void(const TEvent&)>& event_callback)
     {
         EventCallback<TEvent> _event_callback(event_callback);
         RegisterEventListener<TEvent>(_event_callback);

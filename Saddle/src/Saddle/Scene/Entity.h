@@ -15,6 +15,7 @@ public:
     template<typename Component>
     bool HasComponent()
     {
+        ;
     }
 
     template<typename Component, typename... Args>

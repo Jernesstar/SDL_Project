@@ -4,6 +4,7 @@
 #include <functional>
 
 #include "Saddle/Core/Time.h"
+#include "Saddle/Core/UUID.h"
 
 namespace Saddle {
 
@@ -14,8 +15,8 @@ public:
     Scene();
     ~Scene();
 
-    // Entity& GetEntityByUUID(UUID entity_ID);
-    
+    Entity& GetEntityByUUID(UUID entity_id);
+
     void Update();
     void Render();
     void Pause();

@@ -3,7 +3,7 @@
 #include <unordered_map>
 
 #include "Components.h"
-#include "Entity.h"
+#include "Saddle/Scene/Entity.h"
 #include "Saddle/Core/Assert.h"
 
 namespace Saddle {
@@ -16,7 +16,7 @@ public:
     template<typename TComponent>
     bool HasComponent(Entity& entity)
     {
-        if(SelectComponents<TComponent>().count(&entity))
+        if(GetComponents<TComponent>().count(&entity))
             return true;
     
         return false;
@@ -27,8 +27,8 @@ public:
     {
         SADDLE_CORE_ASSERT_ARGS(!HasComponent<TComponent>(entity), "AddComponent(): Entity already has component"); 
 
-        SelectComponents<TComponent>().try_emplace(&entity, std::forward(args)...); 
-        return SelectComponents<TComponent>()[&entity]; 
+        GetComponents<TComponent>().try_emplace(&entity, std::forward(args)...); 
+        return GetComponents<TComponent>()[&entity]; 
     }
 
     template<typename TComponent>
@@ -37,7 +37,7 @@ public:
         SADDLE_CORE_ASSERT_ARGS(HasComponent<TComponent>(entity),
             "GetComponent(): Entity does not have component");
     
-        return SelectComponents<TComponent>()[&entity];
+        return GetComponents<TComponent>()[&entity];
     }
 
     template<typename TComponent>
@@ -45,7 +45,7 @@ public:
     {
         SADDLE_CORE_ASSERT_ARGS(HasComponent<TComponent>(entity), "RemoveComponent(): Entity does not have component");
 
-        SelectComponents<TComponent>().erase(&entity);
+        GetComponents<TComponent>().erase(&entity);
     }
 
 private:
@@ -57,7 +57,7 @@ private:
 
 private:
     template<typename TComponent>
-    std::unordered_map<Entity*, TComponent>& SelectComponents();
+    std::unordered_map<Entity*, TComponent>& GetComponents();
 };
 
 }
