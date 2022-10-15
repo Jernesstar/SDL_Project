@@ -16,6 +16,8 @@ project "Saddle"
         "src/Saddle/Renderer/*.cpp",
         "src/Saddle/Scene/*.h",
         "src/Saddle/Scene/*.cpp",
+        "src/Saddle/ECS/*.h",
+        "src/Saddle/ECS/*.cpp",
         "src/OpenGL/*.h",
         "src/OpenGL/*.cpp",
     }

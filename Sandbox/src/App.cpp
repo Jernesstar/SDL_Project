@@ -9,8 +9,9 @@
 
 #include <Saddle/Core/Assert.h>
 #include <Saddle/Core/Input.h>
-#include <Saddle/Scene/Entity.h>
-#include <Saddle/Scene/ComponentManager.h>
+#include <Saddle/ECS/Entity.h>
+#include <Saddle/ECS/ComponentManager.h>
+#include <Saddle/Scene/Scene.h>
 #include <Saddle/Events/EventSystem.h>
 #include <Saddle/Renderer/Renderer.h>
 

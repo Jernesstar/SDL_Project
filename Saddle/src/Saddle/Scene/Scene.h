@@ -1,10 +1,11 @@
 #pragma once
 
-#include <vector>
+#include <set>
 #include <functional>
 
 #include "Saddle/Core/Time.h"
 #include "Saddle/Core/UUID.h"
+#include "Saddle/ECS/Registry.h"
 
 namespace Saddle {
 
@@ -15,19 +16,20 @@ public:
     Scene();
     ~Scene();
 
+    void AddEntity(Entity& entity);
+    void RemoveEntity(Entity& entity);
+
     Entity& GetEntityByUUID(UUID entity_id);
 
     void Update();
     void Render();
     void Pause();
 
-    void AddEntity(Entity& entity);
-
-    std::vector<Entity*> Query(std::function<bool(const Entity& entity)> predicate);
-
 private:
-    std::vector<Entity*> entities;
+    Registry m_Registry;
     TimePoint m_LastFrameTime;
+
+    friend class Entity;
 };
 
 }

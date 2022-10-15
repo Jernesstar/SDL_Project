@@ -3,10 +3,11 @@
 #include <unordered_map>
 
 #include "Components.h"
-#include "Saddle/Scene/Entity.h"
 #include "Saddle/Core/Assert.h"
 
 namespace Saddle {
+
+class Entity;
 
 class ComponentManager {
 public:
@@ -25,9 +26,11 @@ public:
     template<typename TComponent, typename... Args>
     TComponent& AddComponent(Entity& entity, Args&&... args)
     {
-        SADDLE_CORE_ASSERT_ARGS(!HasComponent<TComponent>(entity), "AddComponent(): Entity already has component"); 
+        if(HasComponent<TComponent>(entity))
+            SADDLE_CORE_LOG_WARNING("AddComponent(): Entity already has component"); 
+        else
+            GetComponents<TComponent>().try_emplace(&entity, std::forward<Args>(args)...);
 
-        GetComponents<TComponent>().try_emplace(&entity, std::forward(args)...); 
         return GetComponents<TComponent>()[&entity]; 
     }
 
@@ -36,16 +39,17 @@ public:
     {
         SADDLE_CORE_ASSERT_ARGS(HasComponent<TComponent>(entity),
             "GetComponent(): Entity does not have component");
-    
+
         return GetComponents<TComponent>()[&entity];
     }
 
     template<typename TComponent>
     void RemoveComponent(Entity& entity)
     {
-        SADDLE_CORE_ASSERT_ARGS(HasComponent<TComponent>(entity), "RemoveComponent(): Entity does not have component");
-
-        GetComponents<TComponent>().erase(&entity);
+        if(!HasComponent<TComponent>(entity))
+            SADDLE_CORE_LOG_WARNING("RemoveComponent(): Entity does not have component");
+        else
+            GetComponents<TComponent>().erase(&entity);
     }
 
 private:
@@ -58,6 +62,8 @@ private:
 private:
     template<typename TComponent>
     std::unordered_map<Entity*, TComponent>& GetComponents();
+
+    friend class Registry;
 };
 
 }
