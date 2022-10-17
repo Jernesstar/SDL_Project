@@ -49,8 +49,8 @@ struct BufferElement {
     const bool Normalized;
 
     BufferElement(const std::string& name, BufferDataType type, bool normalized = true)
-        : Name(name), Type(type), Size(BufferElementSize(type)), ComponentCount(BufferElementCount(type)),
-            Normalized(normalized) { }
+        : Name(name), Type(type), Size(BufferElementSize(type)),
+            ComponentCount(BufferElementCount(type)), Normalized(normalized) { }
 };
 
 class BufferLayout {
