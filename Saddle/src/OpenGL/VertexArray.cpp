@@ -59,7 +59,7 @@ void VertexArray::SetVertexBuffer(const VertexBuffer& vertex_buffer)
     // 4. whether of not to normalize to values, 5. the size in bytes of the whole vertex
     // 6. a pointer to the start of the attribute in each vertex
 
-    int offset = 0;
+    uint64_t offset = 0;
     auto& layout = vertex_buffer.Layout;
 
     for(auto& element : layout)
