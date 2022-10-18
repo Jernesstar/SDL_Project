@@ -36,16 +36,14 @@ unsigned int indices[6] = {
     0, 1, 3
 };
 
+BufferLayout layout({
+    { "a_VertexPosition", BufferDataType::Vec2, true },
+    { "a_TextureCoordinate", BufferDataType::Vec2, true },
+});
+
 void App::Run()
 {
-    BufferLayout layout({
-        { "a_VertexPosition", BufferDataType::Vec2, true },
-        { "a_TextureCoordinate", BufferDataType::Vec2, true },
-    });
-
-    VertexBuffer vertex_buffer(vertices, layout);
-    IndexBuffer index_buffer(indices);
-    VertexArray vertex_array(vertex_buffer, index_buffer);
+    VertexArray vertex_array(vertices, layout, indices);
 
     Texture2D texture("Sandbox/assets/images/kick_drum.png");
     Shader shader("Sandbox/assets/shaders/vertex_shader.glsl", "Sandbox/assets/shaders/fragment_shader.glsl");

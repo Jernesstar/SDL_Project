@@ -2,11 +2,22 @@
 
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
+#include "BufferLayout.h"
 
 namespace Saddle {
 
 class VertexArray {
 public:
+    template<typename TVertex, std::size_t TVertexCount, std::size_t TIndexCount>
+    VertexArray(const TVertex (&vertices)[TVertexCount], const BufferLayout& layout,
+        const uint32_t (&indices)[TIndexCount])
+        : m_VertexBuffer(vertices, layout), m_IndexBuffer(indices)
+    {
+        glCreateVertexArrays(1, &m_VertexArrayID);
+        SetVertexBuffer(m_VertexBuffer);
+        SetIndexBuffer(m_IndexBuffer);
+    }
+
     VertexArray(const VertexBuffer& vertex_buffer, const IndexBuffer& index_buffer);
     ~VertexArray();
 
@@ -21,7 +32,6 @@ public:
 
 private:
     uint32_t m_VertexArrayID;
-    uint32_t m_VertexBufferIndex = 0;
 
     VertexBuffer m_VertexBuffer;
     IndexBuffer m_IndexBuffer;

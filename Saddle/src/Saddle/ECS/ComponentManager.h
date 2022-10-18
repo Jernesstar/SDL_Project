@@ -19,7 +19,7 @@ public:
     {
         if(GetComponents<TComponent>().count(&entity))
             return true;
-    
+
         return false;
     }
 

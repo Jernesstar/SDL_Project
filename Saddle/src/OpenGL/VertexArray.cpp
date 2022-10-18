@@ -44,7 +44,8 @@ void VertexArray::SetVertexBuffer(const VertexBuffer& vertex_buffer)
     // 6. a pointer to the start of the attribute in each vertex
 
     uint64_t offset = 0;
-    auto& layout = vertex_buffer.Layout;
+    uint32_t buffer_index = 0;
+    const auto& layout = vertex_buffer.Layout;
 
     for(auto& element : layout)
     {
@@ -55,26 +56,26 @@ void VertexArray::SetVertexBuffer(const VertexBuffer& vertex_buffer)
             case BufferDataType::Vec3:
             case BufferDataType::Vec4:
             {
-                glEnableVertexAttribArray(m_VertexBufferIndex);
+                glEnableVertexAttribArray(buffer_index);
                 glVertexAttribPointer(
-                    m_VertexBufferIndex, element.ComponentCount, GL_FLOAT,
+                    buffer_index, element.ComponentCount, GL_FLOAT,
                     element.Normalized ? GL_FALSE : GL_TRUE,
                     layout.Stride, (void*)offset
                 );
 
-                m_VertexBufferIndex++;
+                buffer_index++;
                 break;
             }
 
             case BufferDataType::Int:
             {
-                glEnableVertexAttribArray(m_VertexBufferIndex);
+                glEnableVertexAttribArray(buffer_index);
                 glVertexAttribIPointer(
-                    m_VertexBufferIndex, element.ComponentCount, GL_INT,
+                    buffer_index, element.ComponentCount, GL_INT,
                     layout.Stride, (void*)offset
                 );
 
-                m_VertexBufferIndex++;
+                buffer_index++;
                 break;
             }
 
@@ -84,14 +85,14 @@ void VertexArray::SetVertexBuffer(const VertexBuffer& vertex_buffer)
             {
                 for(int i = 0; i < element.ComponentCount; i++)
                 {
-                    glEnableVertexAttribArray(m_VertexBufferIndex);
+                    glEnableVertexAttribArray(buffer_index);
                     glVertexAttribPointer(
-                        m_VertexBufferIndex, element.ComponentCount, GL_FLOAT,
+                        buffer_index, element.ComponentCount, GL_FLOAT,
                         element.Normalized ? GL_FALSE : GL_TRUE, layout.Stride, 
                         (void*)(offset + (sizeof(float) * element.ComponentCount * i))
                     );
-                    glVertexAttribDivisor(m_VertexBufferIndex, 1);
-                    m_VertexBufferIndex++;
+                    glVertexAttribDivisor(buffer_index, 1);
+                    buffer_index++;
                 }
                 break;
             }
