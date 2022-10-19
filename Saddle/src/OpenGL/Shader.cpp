@@ -119,8 +119,8 @@ uint32_t Shader::CreateProgram(uint32_t vertex_shader, uint32_t fragment_shader)
     }
 
     glDetachShader(program, vertex_shader);
-    glDeleteShader(vertex_shader);
     glDetachShader(program, fragment_shader);
+    glDeleteShader(vertex_shader);
     glDeleteShader(fragment_shader);
 
     return program;
