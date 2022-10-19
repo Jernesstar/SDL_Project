@@ -12,25 +12,24 @@
 #include "Saddle/Events/KeyEvents.h"
 #include "Saddle/Events/MouseEvents.h"
 #include "Saddle/Events/WindowEvents.h"
+#include "Saddle/Events/EventCallback.h"
 
 #include "OpenGL/Texture2D.h"
 
 namespace Saddle {
 
 struct EventListenerComponent {
-    template<typename TEvent>
-    using Callback = std::function<void(TEvent&)>;
-
-    Callback<KeyPressedEvent>          OnKeyPressed;
-    Callback<KeyReleasedEvent>         OnKeyReleased;
-    Callback<MouseMovedEvent>          OnMouseMoved;
-    Callback<MouseScrolledEvent>       OnMouseScrolled;
-    Callback<MouseButtonPressedEvent>  OnMouseButtonPressed;
-    Callback<MouseButtonReleasedEvent> OnMouseButtonReleased;
-    Callback<WindowResizedEvent>       OnWindowResized;
-    Callback<WindowClosedEvent>        OnWindowClosed;
+    EventCallback<KeyPressedEvent>          OnKeyPressed;
+    EventCallback<KeyReleasedEvent>         OnKeyReleased;
+    EventCallback<MouseMovedEvent>          OnMouseMoved;
+    EventCallback<MouseScrolledEvent>       OnMouseScrolled;
+    EventCallback<MouseButtonPressedEvent>  OnMouseButtonPressed;
+    EventCallback<MouseButtonReleasedEvent> OnMouseButtonReleased;
+    EventCallback<WindowResizedEvent>       OnWindowResized;
+    EventCallback<WindowClosedEvent>        OnWindowClosed;
 
     EventListenerComponent() = default;
+    EventListenerComponent(const EventListenerComponent& other) = default;
 };
 
 struct RigidBodyComponent {
@@ -39,6 +38,7 @@ struct RigidBodyComponent {
 
     RigidBodyComponent(const glm::vec2& velocity = glm::vec2(), float rotation_speed = 0.0f, float bounciness = 0.0f) 
         : RotationSpeed(rotation_speed), Bounciness(bounciness) { }
+    RigidBodyComponent(const RigidBodyComponent& other) = default;
     
     void Update()
     {
@@ -59,10 +59,20 @@ struct RGBColorComponent {
 //     SoundComponent(const std::string& file_path) : Sound(file_path) { }
 // };
 
+struct TagComponent {
+    std::string Tag;
+
+    TagComponent() = default;
+    TagComponent(const TagComponent& other) = default;
+    TagComponent(const std::string& tag) : Tag(tag) { }
+};
+
 struct TextureComponent {
     Texture2D Texture;
 
-    TextureComponent(const std::string& path = "") : Texture(path) { }
+    TextureComponent() = default;
+    TextureComponent(const TextureComponent& other) = default;
+    TextureComponent(const std::string& path) : Texture(path) { }
 };
 
 struct TransformComponent {
