@@ -56,14 +56,16 @@ void App::Run()
     auto vec = Window.GetFrameBufferSize();
     float ratio = vec.x / vec.y;
 
-    glm::mat4 mvp = glm::ortho(-ratio, ratio, -1.0f, 1.0f, 1.0f, -1.0f);
-    glm::mat4 identity_matrix(1);
+    glm::mat4 model(1), view(1), proj, mvp;
+    proj = glm::ortho(-ratio, ratio, -1.0f, 1.0f, 1.0f, -1.0f);
 
     while(Window.IsOpen())
     {
         Renderer::Clear({ 1, 1, 1, 1 });
 
-        mvp = mvp * glm::translate(identity_matrix, glm::vec3(0.01f, 0.0f, 0.0f));
+        model = glm::rotate(model, glm::pi<float>() / 6.0f, { 0, 0, 1 });
+
+        mvp = proj * view * model;
         shader.SetUniformMatrix4("u_MVP", mvp);
 
         Renderer::Submit(vertex_array, shader);

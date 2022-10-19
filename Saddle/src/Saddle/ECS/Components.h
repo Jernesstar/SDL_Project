@@ -4,7 +4,10 @@
 
 #include <glm/vec2.hpp>
 #include <glm/vec3.hpp>
+#include <glm/mat4x4.hpp>
 #include <glm/geometric.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtx/quaternion.hpp>
 
 #include "Saddle/Events/KeyEvents.h"
 #include "Saddle/Events/MouseEvents.h"
@@ -63,13 +66,20 @@ struct TextureComponent {
 };
 
 struct TransformComponent {
-    glm::vec2 Translation;
-    float Rotation;
-    glm::vec2 Scale;
+    glm::vec3 Translation = { 0, 0, 0 };
+    glm::vec3 Rotation = { 0, 0, 0 };
+    glm::vec3 Scale { 1, 1, 1 };
 
-    TransformComponent(const glm::vec2& translation = glm::vec2(), float rotation = 0.0f,
-     const glm::vec2& scale = glm::vec2(1, 1)) 
+    TransformComponent() = default;
+    TransformComponent(const glm::vec3& translation, const glm::vec3& rotation, const glm::vec3& scale)
         : Translation(translation), Rotation(rotation), Scale(scale) { }
+
+    glm::mat4 GetTransfrom()
+    {
+        return glm::translate(glm::mat4(1.0f), Translation)
+             * glm::toMat4(glm::quat(Rotation))
+             * glm::scale(glm::mat4(1.0f), Scale);
+    }
 };
 
 }
