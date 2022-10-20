@@ -13,7 +13,7 @@ namespace Saddle {
 Texture2D::Texture2D(const std::string& path)
     : m_Path(path), InternalFormat(GL_RGBA8), DataFormat(GL_RGBA), m_Slot(0)
 {
-    unsigned char* pixel_data = Utils::LoadImage(path.c_str(), Width, Height, BitsPerPixel);
+    unsigned char* pixel_data = Utils::ReadImage(path.c_str(), Width, Height, BitsPerPixel, 4, 1);
 
     glCreateTextures(GL_TEXTURE_2D, 1, &m_TextureID); // Creating 2D texture
     glTextureStorage2D(m_TextureID, 1, InternalFormat, Width, Height);
@@ -23,6 +23,8 @@ Texture2D::Texture2D(const std::string& path)
 
     glTextureParameteri(m_TextureID, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTextureParameteri(m_TextureID, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+    glTextureSubImage2D(m_TextureID, 0, 0, 0, Width, Height, DataFormat, GL_UNSIGNED_BYTE, pixel_data);
 
     stbi_image_free(pixel_data);
 }
@@ -37,9 +39,8 @@ void Texture2D::Bind(uint32_t slot)
 
 void Texture2D::SetData(const std::string& path)
 {
-    unsigned char* pixel_data = Utils::LoadImage(path, Width, Height, BitsPerPixel);
+    unsigned char* pixel_data = Utils::ReadImage(path, Width, Height, BitsPerPixel, 4, 1);
     glTextureSubImage2D(m_TextureID, 0, 0, 0, Width, Height, DataFormat, GL_UNSIGNED_BYTE, pixel_data);
-
     stbi_image_free(pixel_data);
 }
 

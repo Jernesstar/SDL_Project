@@ -49,7 +49,7 @@ void Window::SetWindowIcon(const std::string& path)
     }
 
     GLFWimage icon;
-    icon.pixels = Utils::LoadImage(path, 4, false);
+    icon.pixels = Utils::ReadImage(path, icon.width, icon.height);
     glfwSetWindowIcon(m_Window, 1, &icon);
     stbi_image_free(icon.pixels);
 }

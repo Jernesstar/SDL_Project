@@ -30,7 +30,7 @@ std::string Utils::ReadFile(const std::string& file_path)
     return result;
 }
 
-unsigned char* Utils::LoadImage(const std::string& path, int& width, int& height,
+unsigned char* Utils::ReadImage(const std::string& path, int& width, int& height,
     int& bits_per_pixel, int desired_channels, bool flip)
 {
     stbi_set_flip_vertically_on_load((int)flip);
@@ -40,10 +40,16 @@ unsigned char* Utils::LoadImage(const std::string& path, int& width, int& height
     return pixel_data;
 }
 
-unsigned char* LoadImage(const std::string& path, int desired_channels, bool flip)
+unsigned char* Utils::ReadImage(const std::string& path, int& width, int& height, int desired_channels, bool flip)
+{
+    int bits_per_pixel;
+    return Utils::ReadImage(path, width, height, bits_per_pixel, desired_channels, flip);
+}
+
+unsigned char* Utils::ReadImage(const std::string& path, int desired_channels, bool flip)
 {
     int width, height, bits_per_pixel;
-    return Utils::LoadImage(path, width, height, bits_per_pixel, desired_channels, flip);
+    return Utils::ReadImage(path, width, height, bits_per_pixel, desired_channels, flip);
 }
 
 }
