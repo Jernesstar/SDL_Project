@@ -4,13 +4,13 @@
 
 namespace Saddle {
 
-class Utils {
-public:
-    static std::string LoadFile(const std::string& file_path);
+namespace Utils {
+    std::string ReadFile(const std::string& file_path);
 
-private:
-    Utils() = delete;
-    ~Utils() = delete;
+    unsigned char* LoadImage(const std::string& path, int& width, int& height,
+        int& bits_per_pixel, int desired_channels = 4, bool flip = 0);
+
+    unsigned char* LoadImage(const std::string& path, int desired_channels = 4, bool flip = 0);
 };
 
 }

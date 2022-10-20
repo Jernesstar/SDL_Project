@@ -6,6 +6,7 @@
 
 #include "Saddle/Core/Application.h"
 #include "Saddle/Core/Assert.h"
+#include "Saddle/Core/Utils.h"
 #include "Saddle/Events/EventSystem.h"
 
 namespace Saddle {
@@ -48,7 +49,7 @@ void Window::SetWindowIcon(const std::string& path)
     }
 
     GLFWimage icon;
-    icon.pixels = stbi_load(path.c_str(), &icon.width, &icon.height, nullptr, 4);
+    icon.pixels = Utils::LoadImage(path, 4, false);
     glfwSetWindowIcon(m_Window, 1, &icon);
     stbi_image_free(icon.pixels);
 }

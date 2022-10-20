@@ -24,12 +24,12 @@ private:
         const std::string Source;
 
         ShaderFile(ShaderType type, const std::string& path)
-            : Type(type), Path(path), Source(Utils::LoadFile(path)) { }
+            : Type(type), Path(path), Source(Utils::ReadFile(path)) { }
     };
 
 public:
-    ShaderFile VertexShader;
-    ShaderFile FragmentShader;
+    const ShaderFile VertexShader;
+    const ShaderFile FragmentShader;
 
 public:
     Shader(const std::string& vertex_shader_path, const std::string& fragment_shader_path);
@@ -56,7 +56,7 @@ private:
 
 private:
     static uint32_t CreateShader(const ShaderFile& shader_file);
-    static uint32_t CreateProgram(uint32_t vertex_shader, uint32_t fragment_shader);
+    static uint32_t CreateProgram(const ShaderFile& vertex_shader, const ShaderFile& fragment_shader);
 };
 
 }

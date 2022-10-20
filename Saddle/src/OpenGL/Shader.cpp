@@ -12,10 +12,7 @@ Shader::Shader(const std::string& vertex_shader, const std::string& fragment_sha
     : VertexShader(ShaderType::VertexShader, vertex_shader),
         FragmentShader(ShaderType::FragmentShader, fragment_shader)
 {
-    uint32_t shader1 = CreateShader(VertexShader);
-    uint32_t shader2 = CreateShader(FragmentShader);
-
-    m_ProgramID = CreateProgram(shader1, shader2);
+    m_ProgramID = CreateProgram(VertexShader, FragmentShader);
 }
 
 Shader::~Shader() { glDeleteProgram(m_ProgramID); }
@@ -96,11 +93,14 @@ uint32_t Shader::CreateShader(const ShaderFile& file)
     return shader_id;
 }
 
-uint32_t Shader::CreateProgram(uint32_t vertex_shader, uint32_t fragment_shader)
+uint32_t Shader::CreateProgram(const ShaderFile& vertex_shader, const ShaderFile& fragment_shader)
 {
     uint32_t program = glCreateProgram();
-    glAttachShader(program, vertex_shader);
-    glAttachShader(program, fragment_shader);
+    uint32_t shader1 = CreateShader(vertex_shader);
+    uint32_t shader2 = CreateShader(fragment_shader);
+
+    glAttachShader(program, shader1);
+    glAttachShader(program, shader2);
     glLinkProgram(program);
 
     int result;
@@ -113,15 +113,21 @@ uint32_t Shader::CreateProgram(uint32_t vertex_shader, uint32_t fragment_shader)
 
         char* message = (char*)alloca(length * sizeof(char));
         glGetProgramInfoLog(program, length, &length, message);
-        SADDLE_CORE_ASSERT(false, "Shader linking failed");
+
+        SADDLE_CORE_ASSERT_ARGS(false, 
+            "%s\n \
+            Error when trying to link the following shader files:\n \
+            %s, %s", message, vertex_shader.Path, fragment_shader.Path \
+        );
 
         glDeleteProgram(program);
+        return 0;
     }
 
-    glDetachShader(program, vertex_shader);
-    glDetachShader(program, fragment_shader);
-    glDeleteShader(vertex_shader);
-    glDeleteShader(fragment_shader);
+    glDetachShader(program, shader1);
+    glDetachShader(program, shader2);
+    glDeleteShader(shader1);
+    glDeleteShader(shader2);
 
     return program;
 }
