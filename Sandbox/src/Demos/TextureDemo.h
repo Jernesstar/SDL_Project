@@ -85,8 +85,9 @@ void TextureDemo::Run()
 
         model = glm::rotate(model, glm::pi<float>() / 6.0f, { 0, 0, 1 });
 
-        mvp = proj * view * model;
-        shader.SetUniformMatrix4("u_MVP", mvp);
+        shader.SetUniformMatrix4("u_ModelMatrix", model);
+        shader.SetUniformMatrix4("u_ViewMatrix", view);
+        shader.SetUniformMatrix4("u_ProjMatrix", proj);
 
         Renderer::Submit(vertex_array, shader);
         Renderer::Render();

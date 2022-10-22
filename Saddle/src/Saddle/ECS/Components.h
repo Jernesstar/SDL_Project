@@ -81,8 +81,10 @@ struct TransformComponent {
     glm::vec3 Scale { 1, 1, 1 };
 
     TransformComponent() = default;
-    TransformComponent(const glm::vec3& translation, const glm::vec3& rotation, const glm::vec3& scale)
-        : Translation(translation), Rotation(rotation), Scale(scale) { }
+    TransformComponent(const glm::vec3& translation, 
+        const glm::vec3& rotation = glm::vec3{ 0, 0, 0 }, 
+        const glm::vec3& scale = glm::vec3{ 1, 1, 1 }
+    ) : Translation(translation), Rotation(rotation), Scale(scale) { }
 
     glm::mat4 GetTransfrom()
     {

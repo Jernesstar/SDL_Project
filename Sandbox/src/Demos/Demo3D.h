@@ -39,36 +39,35 @@ void Demo3D::Run()
 
     const Vertex vertices[8] = 
     {
-        { glm::vec3(-0.5f,  0.5f, 0.5), glm::vec3(0.f, 1.f, 0.f) }, // 0 Front Top Left
-        { glm::vec3( 0.5f,  0.5f, 0.5), glm::vec3(1.f, 1.f, 1.f) }, // 1 Front Top Right
-        { glm::vec3(-0.5f, -0.5f, 0.5), glm::vec3(0.f, 0.f, 0.f) }, // 2 Front Bottom Left
-        { glm::vec3( 0.5f, -0.5f, 0.5), glm::vec3(1.f, 0.f, 0.f) }, // 3 Front Bottom Right
+        { glm::vec3(-0.5f,  0.5f, 0.5), glm::vec3(1.f, 1.f, 1.f) }, // 0 Front Top Left
+        { glm::vec3( 0.5f,  0.5f, 0.5), glm::vec3(0.f, 0.f, 0.f) }, // 1 Front Top Right
+        { glm::vec3(-0.5f, -0.5f, 0.5), glm::vec3(1.f, 1.f, 1.f) }, // 2 Front Bottom Left
+        { glm::vec3( 0.5f, -0.5f, 0.5), glm::vec3(0.f, 0.f, 0.f) }, // 3 Front Bottom Right
 
-        { glm::vec3(-0.5f,  0.5f, -0.5), glm::vec3(0.f, 1.f, 0.f) }, // 4 Back Top Left 
+        { glm::vec3(-0.5f,  0.5f, -0.5), glm::vec3(0.f, 0.f, 0.f) }, // 4 Back Top Left 
         { glm::vec3( 0.5f,  0.5f, -0.5), glm::vec3(1.f, 1.f, 1.f) }, // 5 Back Top Right
         { glm::vec3(-0.5f, -0.5f, -0.5), glm::vec3(0.f, 0.f, 0.f) }, // 6 Back Bottom Left
-        { glm::vec3( 0.5f, -0.5f, -0.5), glm::vec3(1.f, 0.f, 0.f) }, // 7 Back Bottom Right
+        { glm::vec3( 0.5f, -0.5f, -0.5), glm::vec3(1.f, 1.f, 1.f) }, // 7 Back Bottom Right
     };
 
-    unsigned int indices[36] = {
-
-        0, 2, 3,
+    uint32_t indices[36] = {
+        0, 2, 3, // Front face
         0, 1, 3,
 
-        0 + 1, 2 + 1, 3 + 1,
-        0 + 1, 1 + 1, 3 + 1,
+        4, 6, 7, // Back face
+        4, 5, 3,
 
-        0 + 2, 2 + 2, 3 + 2,
-        0 + 2, 1 + 2, 3 + 2,
+        4, 6, 2, // Left face
+        4, 0, 2,
 
-        0 + 3, 2 + 3, 3 + 3,
-        0 + 3, 1 + 3, 3 + 3,
+        1, 3, 6, // Right face
+        1, 5, 6,
 
-        0 + 4, 2 + 4, 3 + 4,
-        0 + 4, 1 + 4, 3 + 4,
+        4, 0, 1, // Top face
+        4, 1, 5,
 
-        0 + 5, 2 + 5, 0,
-        0 + 5, 1 + 5, 0,
+        6, 2, 3, // Bottom face
+        6, 7, 3,
     };
 
     BufferLayout layout({
@@ -80,13 +79,15 @@ void Demo3D::Run()
 
     Shader shader("Sandbox/assets/shaders/vertex_3D.glsl", 
         "Sandbox/assets/shaders/fragment_3D.glsl");
-
     shader.Bind();
+
+    glm::mat4 mvp, model(1), view(1), proj;
+
+    TransformComponent transform(glm::vec3{ 0.f, 0.f, 0.f }, glm::vec3{ 0.f, 0.06f, 0.f });
+    model = transform.GetTransfrom();
 
     auto vec = Window.GetFrameBufferSize();
     float ratio = vec.x / vec.y;
-
-    glm::mat4 mvp, model(1), view(1), proj;
     proj = glm::ortho(-ratio, ratio, -1.0f, 1.0f, 1.0f, -1.0f);
 
     while(Window.IsOpen())
