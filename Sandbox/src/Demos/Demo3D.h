@@ -28,10 +28,8 @@ using namespace Saddle;
 class Demo3D : public Application {
 public:
     void Run() override;
-};
 
-void Demo3D::Run()
-{
+private:
     struct Vertex {
         glm::vec3 Position;
         glm::vec3 Color;
@@ -70,15 +68,18 @@ void Demo3D::Run()
         6, 7, 3,
     };
 
-    BufferLayout layout({
+    BufferLayout layout = {
         { "a_VertexPosition", BufferDataType::Vec3, true },
         { "a_Color", BufferDataType::Vec3, true },
-    });
+    };
 
-    VertexArray vertex_array(vertices, layout, indices);
+    VertexArray vertex_array{ vertices, layout, indices };
 
-    Shader shader("Sandbox/assets/shaders/vertex_3D.glsl", 
-        "Sandbox/assets/shaders/fragment_3D.glsl");
+    Shader shader{ "Sandbox/assets/shaders/vertex_3D.glsl", "Sandbox/assets/shaders/fragment_3D.glsl" };
+};
+
+void Demo3D::Run()
+{
     shader.Bind();
 
     glm::mat4 mvp, model(1), view(1), proj;

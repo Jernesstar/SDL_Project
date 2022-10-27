@@ -10,14 +10,14 @@
 namespace Saddle {
 
 struct WindowSpecification {
-    const std::string Title;
-    const std::string IconPath;
+    std::string Title;
+    std::string IconPath;
     int Width, Height;
     bool VSync;
 
     WindowSpecification(const std::string& title = "Window", int width = 1600,
         int height = 900, bool vsync = true, const std::string& icon_path = "")
-        : Title(title), Width(width), Height(height), VSync(vsync), IconPath(icon_path) { }  
+        : Title(title), Width(width), Height(height), VSync(vsync), IconPath(icon_path) { }
 };
 
 class Window {

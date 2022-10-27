@@ -47,6 +47,7 @@ void Window::SetWindowIcon(const std::string& path)
         glfwSetWindowIcon(m_Window, 0, nullptr);
         return;
     }
+    m_Specs.IconPath = path;
 
     GLFWimage icon;
     icon.pixels = Utils::ReadImage(path, icon.width, icon.height);
@@ -54,8 +55,16 @@ void Window::SetWindowIcon(const std::string& path)
     stbi_image_free(icon.pixels);
 }
 
-void Window::SetTitle(const std::string& title) { glfwSetWindowTitle(m_Window, title.c_str()); }
-void Window::SetVSync(bool vsync) { glfwSwapInterval((int)vsync); }
+void Window::SetTitle(const std::string& title)
+{
+    m_Specs.Title = title;
+    glfwSetWindowTitle(m_Window, title.c_str());
+}
+void Window::SetVSync(bool vsync)
+{
+    m_Specs.VSync = vsync;
+    glfwSwapInterval((int)vsync);
+}
 
 void Window::SetFramebufferSize(uint32_t width, uint32_t height)
 {

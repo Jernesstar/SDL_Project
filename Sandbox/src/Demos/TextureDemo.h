@@ -33,10 +33,8 @@ public:
         Window.SetWindowIcon("Sandbox/assets/images/start_bg.png");
     }
     void Run() override;
-};
 
-void TextureDemo::Run()
-{
+private:
     struct Vertex {
         glm::vec2 Position;
         glm::vec2 TextureCoordinate;
@@ -57,17 +55,20 @@ void TextureDemo::Run()
         0, 1, 3
     };
 
-    BufferLayout layout({
+    BufferLayout layout = {
         { "a_VertexPosition", BufferDataType::Vec2, true },
         { "a_TextureCoordinate", BufferDataType::Vec2, true },
-    });
+    };
 
-    VertexArray vertex_array(vertices, layout, indices);
+    VertexArray vertex_array{ vertices, layout, indices };
 
-    Texture2D texture("Sandbox/assets/images/kick_drum.png");
-    Shader shader("Sandbox/assets/shaders/vertex_texture.glsl", 
-        "Sandbox/assets/shaders/fragment_texture.glsl");
+    Texture2D texture{ "Sandbox/assets/images/kick_drum.png" };
+    Shader shader{ "Sandbox/assets/shaders/vertex_texture.glsl", "Sandbox/assets/shaders/fragment_texture.glsl" };
 
+};
+
+void TextureDemo::Run()
+{
     texture.Bind(0);
 
     shader.Bind();

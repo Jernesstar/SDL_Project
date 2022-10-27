@@ -1,14 +1,29 @@
 #pragma once
 
+#include "Assert.h"
+
 #include "OpenGL/Window.h"
 
-int main();
+int main(int argc, char** argv);
 
 namespace Saddle {
 
+struct ApplicationCommandLineArgs {
+    int Count = 0;
+    char** Args = nullptr;
+
+    const char* operator[](int index) const
+    {
+        // SADDLE_CORE_ASSERT(index < Count);
+        if(index >= Count)
+            return nullptr;
+        return Args[index];
+    }
+};
+
 struct ApplicationSpecification {
+    ApplicationCommandLineArgs CommandLineArgs;
     WindowSpecification Window_Specification;
-    // AudioSpecification Audio_Specification;
 
     ApplicationSpecification(
         WindowSpecification window_specs = WindowSpecification()
@@ -28,15 +43,17 @@ public:
 
 private:
     inline static Application* s_Instance = nullptr;
-    inline static const ApplicationSpecification* s_Specification = nullptr;
+    inline static ApplicationSpecification s_Specification;
 
 private:
-    static void Init(const ApplicationSpecification& specification = ApplicationSpecification());
+    static void Init(const ApplicationSpecification& specs = ApplicationSpecification());
+    static void Init(const ApplicationCommandLineArgs& args, 
+        const ApplicationSpecification& specs = ApplicationSpecification());
 
 protected:
     Window Window;
 
-    friend int ::main();
+    friend int ::main(int argc, char** argv);
 };
 
 }
