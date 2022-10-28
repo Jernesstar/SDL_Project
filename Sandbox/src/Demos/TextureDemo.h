@@ -50,12 +50,14 @@ private:
         // { glm::vec2( 0.0f,  0.5f), glm::vec4(0.f, 0.f, 1.f, 1.0) }, // Middle top, 5
     };
 
-    unsigned int indices[6] = {
-        0, 2, 3,
+    unsigned int indices[6] =
+    {
+        3, 2, 0,
         0, 1, 3
     };
 
-    BufferLayout layout = {
+    BufferLayout layout =
+    {
         { "a_VertexPosition", BufferDataType::Vec2, true },
         { "a_TextureCoordinate", BufferDataType::Vec2, true },
     };
@@ -63,7 +65,7 @@ private:
     VertexArray vertex_array{ vertices, layout, indices };
 
     Texture2D texture{ "Sandbox/assets/images/kick_drum.png" };
-    Shader shader{ "Sandbox/assets/shaders/vertex_texture.glsl", "Sandbox/assets/shaders/fragment_texture.glsl" };
+    Shader shader{ "Sandbox/assets/shaders/texture.glsl.vert", "Sandbox/assets/shaders/texture.glsl.frag" };
 
 };
 

@@ -37,45 +37,47 @@ private:
 
     const Vertex vertices[8] = 
     {
-        { glm::vec3(-0.5f,  0.5f, 0.5), glm::vec3(1.f, 1.f, 1.f) }, // 0 Front Top Left
-        { glm::vec3( 0.5f,  0.5f, 0.5), glm::vec3(0.f, 0.f, 0.f) }, // 1 Front Top Right
-        { glm::vec3(-0.5f, -0.5f, 0.5), glm::vec3(1.f, 1.f, 1.f) }, // 2 Front Bottom Left
-        { glm::vec3( 0.5f, -0.5f, 0.5), glm::vec3(0.f, 0.f, 0.f) }, // 3 Front Bottom Right
+        { glm::vec3(-0.5f,  0.5f,  0.5), glm::vec3(0.f, 1.f, 0.f) }, // 0 Front Top Left
+        { glm::vec3( 0.5f,  0.5f,  0.5), glm::vec3(1.f, 0.f, 1.f) }, // 1 Front Top Right
+        { glm::vec3(-0.5f, -0.5f,  0.5), glm::vec3(0.f, 1.f, 0.f) }, // 2 Front Bottom Left
+        { glm::vec3( 0.5f, -0.5f,  0.5), glm::vec3(1.f, 0.f, 1.f) }, // 3 Front Bottom Right
 
-        { glm::vec3(-0.5f,  0.5f, -0.5), glm::vec3(0.f, 0.f, 0.f) }, // 4 Back Top Left 
-        { glm::vec3( 0.5f,  0.5f, -0.5), glm::vec3(1.f, 1.f, 1.f) }, // 5 Back Top Right
-        { glm::vec3(-0.5f, -0.5f, -0.5), glm::vec3(0.f, 0.f, 0.f) }, // 6 Back Bottom Left
-        { glm::vec3( 0.5f, -0.5f, -0.5), glm::vec3(1.f, 1.f, 1.f) }, // 7 Back Bottom Right
+        { glm::vec3(-0.5f,  0.5f, -0.5), glm::vec3(0.f, 1.f, 0.f) }, // 4 Back Top Left 
+        { glm::vec3( 0.5f,  0.5f, -0.5), glm::vec3(1.f, 0.f, 0.f) }, // 5 Back Top Right
+        { glm::vec3(-0.5f, -0.5f, -0.5), glm::vec3(1.f, 0.f, 0.f) }, // 6 Back Bottom Left
+        { glm::vec3( 0.5f, -0.5f, -0.5), glm::vec3(0.f, 1.f, 1.f) }, // 7 Back Bottom Right
     };
 
-    uint32_t indices[36] = {
-        0, 2, 3, // Front face
+    uint32_t indices[36] =
+    {
+        3, 2, 0, // Front face
         0, 1, 3,
 
-        4, 6, 7, // Back face
-        4, 5, 3,
+        6, 7, 5, // Back face
+        5, 4, 6,
 
-        4, 6, 2, // Left face
+        2, 6, 4, // Left face
         4, 0, 2,
 
-        1, 3, 6, // Right face
-        1, 5, 6,
+        7, 3, 1, // Right face
+        1, 5, 7,
 
-        4, 0, 1, // Top face
-        4, 1, 5,
+        1, 0, 4, // Top face
+        4, 5, 1,
 
-        6, 2, 3, // Bottom face
-        6, 7, 3,
+        2, 3, 7, // Bottom face
+        7, 6, 2,
     };
 
-    BufferLayout layout = {
+    BufferLayout layout =
+    {
         { "a_VertexPosition", BufferDataType::Vec3, true },
         { "a_Color", BufferDataType::Vec3, true },
     };
 
     VertexArray vertex_array{ vertices, layout, indices };
 
-    Shader shader{ "Sandbox/assets/shaders/vertex_3D.glsl", "Sandbox/assets/shaders/fragment_3D.glsl" };
+    Shader shader{ "Sandbox/assets/shaders/3D.glsl.vert", "Sandbox/assets/shaders/3D.glsl.frag" };
 };
 
 void Demo3D::Run()
@@ -84,8 +86,8 @@ void Demo3D::Run()
 
     glm::mat4 mvp, model(1), view(1), proj;
 
-    TransformComponent transform(glm::vec3{ 0.f, 0.f, 0.f }, glm::vec3{ 0.f, 0.06f, 0.f });
-    model = transform.GetTransfrom();
+    TransformComponent transform;
+    transform.Rotation = glm::vec3{ 0.03f, 0.03f, 0.0f };
 
     auto vec = Window.GetFrameBufferSize();
     float ratio = vec.x / vec.y;
@@ -93,7 +95,9 @@ void Demo3D::Run()
 
     while(Window.IsOpen())
     {
-        Renderer::Clear({ 1, 1, 1, 1 });
+        Renderer::Clear({ 0.f, 0.f, 0.f, 0.f });
+
+        model *= transform.GetTransfrom();
 
         shader.SetUniformMatrix4("u_ModelMatrix", model);
         shader.SetUniformMatrix4("u_ViewMatrix", view);
