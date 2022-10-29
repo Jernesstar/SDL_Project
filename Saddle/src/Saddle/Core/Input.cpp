@@ -70,7 +70,7 @@ glm::vec2 Input::GetMousePosition()
     return { (float)x, (float)y };
 }
 
-int Input::GetMouseX() { return GetMousePosition().x; }
-int Input::GetMouseY() { return GetMousePosition().y; }
+float Input::GetMouseX() { return GetMousePosition().x; }
+float Input::GetMouseY() { return GetMousePosition().y; }
 
 }

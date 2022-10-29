@@ -1,9 +1,5 @@
 #pragma once
 
-#include <iostream>
-
-#include <glad/glad.h>
-
 #include <glm/vec3.hpp>
 #include <glm/mat4x4.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -16,6 +12,7 @@
 #include <Saddle/Scene/Scene.h>
 #include <Saddle/Events/EventSystem.h>
 #include <Saddle/Renderer/Renderer.h>
+#include <Saddle/Renderer/OrthographicCamera.h>
 
 #include <OpenGL/Shader.h>
 #include <OpenGL/VertexBuffer.h>
@@ -84,14 +81,14 @@ void Demo3D::Run()
 {
     shader.Bind();
 
-    glm::mat4 mvp, model(1), view(1), proj;
+    glm::mat4 model(1);
 
     TransformComponent transform;
     transform.Rotation = glm::vec3{ 0.03f, 0.03f, 0.0f };
 
     auto vec = Window.GetFrameBufferSize();
     float ratio = vec.x / vec.y;
-    proj = glm::ortho(-ratio, ratio, -1.0f, 1.0f, 1.0f, -1.0f);
+    OrthographicCamera camera(-ratio, ratio, -1.0f, 1.0f);
 
     while(Window.IsOpen())
     {
@@ -100,8 +97,8 @@ void Demo3D::Run()
         model *= transform.GetTransfrom();
 
         shader.SetUniformMatrix4("u_ModelMatrix", model);
-        shader.SetUniformMatrix4("u_ViewMatrix", view);
-        shader.SetUniformMatrix4("u_ProjMatrix", proj);
+        shader.SetUniformMatrix4("u_ViewMatrix", camera.GetViewMatrix());
+        shader.SetUniformMatrix4("u_ProjMatrix", camera.GetProjectionMatrix());
 
         Renderer::Submit(vertex_array, shader);
         Renderer::Render();

@@ -12,7 +12,7 @@ Application* CreateApplication(const ApplicationCommandLineArgs& args)
     if(args.Count == 1)
         return new TextureDemo();
 
-    if(std::string("Demo3D") == args[1]) 
+    if(std::string("3D") == args[1]) 
         return new Demo3D();
 
     return new TextureDemo();

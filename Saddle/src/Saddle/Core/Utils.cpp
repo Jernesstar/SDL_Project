@@ -20,7 +20,7 @@ std::string Utils::ReadFile(const std::string& file_path)
     // this operation returns the size of the file
     size_t size = in.tellg();
 
-    SADDLE_CORE_ASSERT(size != -1, "Could not read from file: " + file_path);
+    SADDLE_CORE_ASSERT_ARGS(size != -1, "Could not read from file: %s", file_path);
 
     std::string result;
     result.resize(size); // Resize the resulting string

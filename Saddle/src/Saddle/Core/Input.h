@@ -20,8 +20,8 @@ public:
     // static bool MousePressedOn(const Rect& rect, const Transform& transform);
 
     static glm::vec2 GetMousePosition();
-    static int GetMouseX();
-    static int GetMouseY();
+    static float GetMouseX();
+    static float GetMouseY();
 
 private:
     Input() = delete;

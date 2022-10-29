@@ -36,12 +36,12 @@ protected:
 };
 
 struct MouseButtonPressedEvent : public MouseButtonEvent {
-    MouseButtonPressedEvent(MouseCode button, int x, int y)
+    MouseButtonPressedEvent(MouseCode button, float x, float y)
         : MouseButtonEvent(EventType::MouseButtonPressed, button, x, y) { }
 };
 
 struct MouseButtonReleasedEvent : public MouseButtonEvent {
-    MouseButtonReleasedEvent(MouseCode button, int x, int y)
+    MouseButtonReleasedEvent(MouseCode button, float x, float y)
         : MouseButtonEvent(EventType::MouseButtonReleased, button, x, y) { }
 };
 
