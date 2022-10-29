@@ -9,11 +9,17 @@ using namespace Saddle;
 
 Application* CreateApplication(const ApplicationCommandLineArgs& args)
 {
-    if(args.Count == 1)
-        return new TextureDemo();
+    if(std::string(args[1]) == "--project")
+    {
+        std::string project(args[2] ? args[2] : "Texture");
+        std::cout << "Running " << project << " demo\n";
 
-    if(std::string("3D") == args[1]) 
-        return new Demo3D();
+        if(project == "3D") 
+            return new Demo3D();
 
-    return new TextureDemo();
+        else if(project == "Texture")
+            return new TextureDemo();
+    }
+
+    return nullptr;
 }
