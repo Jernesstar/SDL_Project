@@ -1,5 +1,16 @@
+# VS and VS Code configuration
 .vscode/
+.vs/
+**.sln
+**.vcxproj*
+CppProperties.json
+
+# Exes and intermediates
 /bin/
 /obj/
+
+# Submodules
 /Saddle/vendor/
+
+# GNU Makefiles
 Makefile

@@ -23,11 +23,11 @@ public:
 
     const std::string& GetPath() { return m_Path; }
 
-    operator uint32_t() const { return m_Slot; }
+    operator int32_t() const { return m_Slot; }
 
 private:
     uint32_t m_TextureID;
-    uint32_t m_Slot;
+    int32_t m_Slot;
 
     std::string m_Path;
 };

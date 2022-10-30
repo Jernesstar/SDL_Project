@@ -79,16 +79,15 @@ private:
 
 void Demo3D::Run()
 {
-    shader.Bind();
-
+    auto vec = Window.GetFrameBufferSize();
+    float ratio = vec.x / vec.y;
     glm::mat4 model(1);
 
     TransformComponent transform;
     transform.Rotation = glm::vec3{ 0.03f, 0.03f, 0.0f };
-
-    auto vec = Window.GetFrameBufferSize();
-    float ratio = vec.x / vec.y;
     OrthographicCamera camera(-ratio, ratio, -1.0f, 1.0f);
+
+    shader.Bind();
 
     while(Window.IsOpen())
     {
@@ -105,5 +104,4 @@ void Demo3D::Run()
 
         EventSystem::PollEvents();
     }
-
 }

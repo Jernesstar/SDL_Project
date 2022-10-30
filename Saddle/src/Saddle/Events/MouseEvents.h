@@ -11,9 +11,9 @@ protected:
 };
 
 struct MouseMovedEvent : public MouseEvent {
-    const int x, y;
+    const float x, y;
 
-    MouseMovedEvent(int x, int y)
+    MouseMovedEvent(float x, float y)
         : MouseEvent(EventType::MouseMoved), x(x), y(y) { }
 };
 

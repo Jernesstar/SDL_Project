@@ -11,7 +11,7 @@
 namespace Saddle {
 
 Texture2D::Texture2D(const std::string& path)
-    : m_Path(path), InternalFormat(GL_RGBA8), DataFormat(GL_RGBA), m_Slot(0)
+    : m_Path(path), InternalFormat(GL_RGBA8), DataFormat(GL_RGBA), m_Slot(-1)
 {
     unsigned char* pixel_data = Utils::ReadImage(path.c_str(), Width, Height, BitsPerPixel, 4, 1);
 

@@ -13,6 +13,7 @@
 #include <Saddle/Scene/Scene.h>
 #include <Saddle/Events/EventSystem.h>
 #include <Saddle/Renderer/Renderer.h>
+#include <Saddle/Renderer/OrthographicCamera.h>
 
 #include <OpenGL/Shader.h>
 #include <OpenGL/VertexBuffer.h>
@@ -60,21 +61,19 @@ private:
 
     Texture2D texture{ "Sandbox/assets/images/kick_drum.png" };
     Shader shader{ "Sandbox/assets/shaders/texture.glsl.vert", "Sandbox/assets/shaders/texture.glsl.frag" };
-
 };
 
 void TextureDemo::Run()
 {
-    texture.Bind(0);
-
-    shader.Bind();
-    shader.SetUniformInt("u_Texture", texture);
-
     auto vec = Window.GetFrameBufferSize();
     float ratio = vec.x / vec.y;
 
-    glm::mat4 model(1), view(1), proj, mvp;
-    proj = glm::ortho(-ratio, ratio, -1.0f, 1.0f, 1.0f, -1.0f);
+    glm::mat4 model(1);
+    OrthographicCamera camera(-ratio, ratio, -1.0f, 1.0f);
+
+    texture.Bind(0);
+    shader.Bind();
+    shader.SetUniformInt("u_Texture", texture);
 
     while(Window.IsOpen())
     {
@@ -83,8 +82,8 @@ void TextureDemo::Run()
         model = glm::rotate(model, glm::pi<float>() / 6.0f, { 0, 0, 1 });
 
         shader.SetUniformMatrix4("u_ModelMatrix", model);
-        shader.SetUniformMatrix4("u_ViewMatrix", view);
-        shader.SetUniformMatrix4("u_ProjMatrix", proj);
+        shader.SetUniformMatrix4("u_ViewMatrix", camera.GetViewMatrix());
+        shader.SetUniformMatrix4("u_ProjMatrix", camera.GetProjectionMatrix());
 
         Renderer::Submit(vertex_array, shader);
         Renderer::Render();
