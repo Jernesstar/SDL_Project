@@ -13,6 +13,7 @@
 #include <Saddle/Events/EventSystem.h>
 #include <Saddle/Renderer/Renderer.h>
 #include <Saddle/Renderer/OrthographicCamera.h>
+#include <Saddle/Renderer/OrthographicCameraController.h>
 
 #include <OpenGL/Shader.h>
 #include <OpenGL/VertexBuffer.h>
@@ -85,13 +86,22 @@ void Demo3D::Run()
 
     TransformComponent transform;
     transform.Rotation = glm::vec3{ 0.03f, 0.03f, 0.0f };
+
     OrthographicCamera camera(-ratio, ratio, -1.0f, 1.0f);
+    OrthographicCameraController controller(camera);
 
     shader.Bind();
 
+    TimePoint last_frame = Time::GetTime();
     while(Window.IsOpen())
     {
+        TimePoint time = Time::GetTime();
+        TimeStep ts = time - (last_frame != 0 ? last_frame : Time::GetTime());
+        last_frame = time;
+
         Renderer::Clear({ 0.f, 0.f, 0.f, 0.f });
+
+        controller.OnUpdate(ts);
 
         model *= transform.GetTransfrom();
 
