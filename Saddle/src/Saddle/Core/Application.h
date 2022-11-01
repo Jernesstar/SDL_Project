@@ -36,10 +36,12 @@ public:
     ~Application() = default;
 
     static Application& Get();
+
+    // Note: Remember to remove virtual when done implementing
     static void Close();
 
     virtual Window& GetWindow();
-    void Run();
+    virtual void Run();
 
 private:
     inline static Application* s_Instance = nullptr;

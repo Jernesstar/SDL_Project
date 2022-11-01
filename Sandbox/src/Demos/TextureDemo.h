@@ -29,7 +29,7 @@ public:
     {
         Window.SetWindowIcon("Sandbox/assets/images/start_bg.png");
     }
-    void Run() override;
+    void Run();
 
 private:
     struct Vertex {

@@ -25,7 +25,7 @@ using namespace Saddle;
 
 class Demo3D : public Application {
 public:
-    void Run() override;
+    void Run();
 
 private:
     struct Vertex {
