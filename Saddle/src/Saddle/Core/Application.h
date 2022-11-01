@@ -39,7 +39,7 @@ public:
     static void Close();
 
     virtual Window& GetWindow();
-    virtual void Run() = 0;
+    void Run();
 
 private:
     inline static Application* s_Instance = nullptr;
@@ -52,6 +52,7 @@ private:
 
 protected:
     Window Window;
+    uint32_t m_LastFrame;
 
     friend int ::main(int argc, char** argv);
 };

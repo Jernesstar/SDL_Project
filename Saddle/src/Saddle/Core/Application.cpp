@@ -6,6 +6,7 @@
 #include "Assert.h"
 #include "Saddle/Events/EventSystem.h"
 #include "Saddle/Renderer/Renderer.h"
+#include "Saddle/Core/Time.h"
 
 namespace Saddle {
 
@@ -36,6 +37,15 @@ void Application::Init(const ApplicationCommandLineArgs& args, const Application
 {
     Application::Init();
     s_Specification.CommandLineArgs = args;
+}
+
+void Application::Run()
+{
+    TimePoint time = Time::GetTime();
+    TimeStep ts = time - m_LastFrame;
+    m_LastFrame = time;
+
+    
 }
 
 void Application::Close()
