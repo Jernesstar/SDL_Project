@@ -1,5 +1,7 @@
 #include "Layers.h"
 
+#include <functional>
+
 namespace Saddle {
 
 LayerStack::~LayerStack()

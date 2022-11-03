@@ -3,6 +3,7 @@
 #include "Assert.h"
 
 #include "OpenGL/Window.h"
+#include "Layers.h"
 
 int main(int argc, char** argv);
 
@@ -37,10 +38,10 @@ public:
 
     static Application& Get();
 
-    // Note: Remember to remove virtual when done implementing
     static void Close();
 
     virtual Window& GetWindow();
+    // Note: Remember to remove virtual when done implementing
     virtual void Run();
 
 private:
@@ -54,7 +55,8 @@ private:
 
 protected:
     Window Window;
-    uint32_t m_LastFrame;
+    uint32_t m_LastFrame = 0;
+    LayerStack m_Layers;
 
     friend int ::main(int argc, char** argv);
 };
