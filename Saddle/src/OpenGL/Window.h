@@ -25,6 +25,8 @@ public:
     Window(const WindowSpecification& specs = WindowSpecification());
     ~Window();
 
+    void Update() { glfwSwapBuffers(m_Window); }
+
     void SetWindowIcon(const std::string& path);
     void SetTitle(const std::string& title);
     void SetVSync(bool vsync);
@@ -32,9 +34,10 @@ public:
 
     bool IsOpen() const { return !glfwWindowShouldClose(m_Window); }
 
-    const std::string& GetTitle() const;
+    const std::string& GetTitle() const { return m_Specs.Title; }
     glm::vec2 GetFrameBufferSize() const;
-    GLFWwindow* GetNativeWindow() const;
+
+    GLFWwindow* GetNativeWindow() const { return m_Window; }
 
 private:
     WindowSpecification m_Specs;

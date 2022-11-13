@@ -16,12 +16,9 @@ class Renderer {
 public:
     static void Init();
     static void Clear(const glm::vec4& color = { 0.0f, 0.0f, 0.0f, 0.0f });
-    static void Submit(const VertexArray& vertex_array, const Shader& shader);
-    static void Render();
+    static void Submit(const VertexArray& vertex_array);
 
 private:
-    inline static GLFWwindow* m_Window;
-
     Renderer() = delete;
     ~Renderer() = delete;
 };

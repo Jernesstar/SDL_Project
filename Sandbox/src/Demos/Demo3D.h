@@ -74,7 +74,6 @@ private:
     };
 
     VertexArray vertex_array{ vertices, layout, indices };
-
     Shader shader{ "Sandbox/assets/shaders/3D.glsl.vert", "Sandbox/assets/shaders/3D.glsl.frag" };
 };
 
@@ -85,7 +84,7 @@ void Demo3D::Run()
     glm::mat4 model(1);
 
     TransformComponent transform;
-    transform.Rotation = glm::vec3{ 0.03f, 0.03f, 0.0f };
+    transform.Rotation = glm::vec3{ 0.0f, 0.03f, 0.03f };
 
     OrthographicCamera camera(-ratio, ratio, -1.0f, 1.0f);
     OrthographicCameraController controller(camera);
@@ -109,8 +108,9 @@ void Demo3D::Run()
         shader.SetUniformMatrix4("u_ViewMatrix", camera.GetViewMatrix());
         shader.SetUniformMatrix4("u_ProjMatrix", camera.GetProjectionMatrix());
 
-        Renderer::Submit(vertex_array, shader);
-        Renderer::Render();
+        Renderer::Submit(vertex_array);
+
+        Window.Update();
 
         EventSystem::PollEvents();
     }

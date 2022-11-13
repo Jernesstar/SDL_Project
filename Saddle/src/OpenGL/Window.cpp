@@ -73,18 +73,11 @@ void Window::SetFramebufferSize(uint32_t width, uint32_t height)
     glViewport(0, 0, width, height);
 }
 
-const std::string& Window::GetTitle() const { return m_Specs.Title; }
-
 glm::vec2 Window::GetFrameBufferSize() const
 {
     int width, height;
     glfwGetFramebufferSize(m_Window, &width, &height);
     return { width, height };
-}
-
-GLFWwindow* Window::GetNativeWindow() const
-{
-    return m_Window;
 }
 
 }

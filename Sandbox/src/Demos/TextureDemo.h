@@ -85,8 +85,9 @@ void TextureDemo::Run()
         shader.SetUniformMatrix4("u_ViewMatrix", camera.GetViewMatrix());
         shader.SetUniformMatrix4("u_ProjMatrix", camera.GetProjectionMatrix());
 
-        Renderer::Submit(vertex_array, shader);
-        Renderer::Render();
+        Renderer::Submit(vertex_array);
+
+        Window.Update();
 
         EventSystem::PollEvents();
     }
