@@ -5,6 +5,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 #include <Saddle/Core/Application.h>
+#include <Saddle/ECS/Components.h>
 #include <Saddle/Events/EventSystem.h>
 #include <Saddle/Renderer/Renderer.h>
 #include <Saddle/Renderer/OrthographicCamera.h>
@@ -20,7 +21,9 @@ using namespace Saddle;
 
 class Demo3D : public Application {
 public:
-    void Run();
+    Demo3D();
+
+    void OnUpdate(TimeStep ts);
 
 private:
     struct Vertex {
@@ -70,19 +73,20 @@ private:
 
     VertexArray vertex_array{ vertices, layout, indices };
     Shader shader{ "Sandbox/assets/shaders/3D.glsl.vert", "Sandbox/assets/shaders/3D.glsl.frag" };
-};
-
-void Demo3D::Run()
-{
-    auto vec = Window.GetFrameBufferSize();
-    float ratio = vec.x / vec.y;
-    glm::mat4 model(1);
+            
+    glm::vec2 vec{ Window.GetFrameBufferSize() };
+    float ratio{ vec.x / vec.y };
+    glm::mat4 model{ 1.0f };
 
     TransformComponent transform;
-    transform.Rotation = glm::vec3{ 0.0f, 0.03f, 0.03f };
 
-    OrthographicCamera camera(-ratio, ratio, -1.0f, 1.0f);
-    OrthographicCameraController controller(camera);
+    OrthographicCamera camera{ -ratio, ratio, -1.0f, 1.0f };
+    OrthographicCameraController controller{ camera };
+};
+
+Demo3D::Demo3D()
+{
+    transform.Rotation = glm::vec3{ 0.0f, 0.03f, 0.03f };
 
     shader.Bind();
 
@@ -92,27 +96,23 @@ void Demo3D::Run()
             Application::Close();
     });
 
-    TimePoint last_frame = Time::GetTime();
-    while(Window.IsOpen())
-    {
-        TimePoint time = Time::GetTime();
-        TimeStep ts = time - (last_frame != 0 ? last_frame : Time::GetTime());
-        last_frame = time;
+    EventSystem::RegisterEventListener<ApplicationUpdatedEvent>(
+    [this](const ApplicationUpdatedEvent& event) {
+        this->OnUpdate(event.DeltaTime);
+    });
+}
 
-        Renderer::Clear({ 0.f, 0.f, 0.f, 0.f });
+void Demo3D::OnUpdate(TimeStep ts)
+{
+    Renderer::Clear({ 0.f, 0.f, 0.f, 0.f });
 
-        controller.OnUpdate(ts);
+    controller.OnUpdate(ts);
 
-        model *= transform.GetTransfrom();
+    model *= transform.GetTransfrom();
 
-        shader.SetUniformMatrix4("u_ModelMatrix", model);
-        shader.SetUniformMatrix4("u_ViewMatrix", camera.GetViewMatrix());
-        shader.SetUniformMatrix4("u_ProjMatrix", camera.GetProjectionMatrix());
+    shader.SetUniformMatrix4("u_ModelMatrix", model);
+    shader.SetUniformMatrix4("u_ViewMatrix", camera.GetViewMatrix());
+    shader.SetUniformMatrix4("u_ProjMatrix", camera.GetProjectionMatrix());
 
-        Renderer::Submit(vertex_array);
-
-        Window.Update();
-
-        EventSystem::PollEvents();
-    }
+    Renderer::Submit(vertex_array);
 }

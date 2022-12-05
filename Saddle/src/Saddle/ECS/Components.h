@@ -32,6 +32,7 @@ struct EventListenerComponent {
     EventListenerComponent(const EventListenerComponent& other) = default;
 };
 
+// Note: Add more info to this
 struct RigidBodyComponent {
     glm::vec2 Velocity;
     float Speed, RotationSpeed, Bounciness;

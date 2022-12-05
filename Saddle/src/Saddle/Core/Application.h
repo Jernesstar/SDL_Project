@@ -23,11 +23,12 @@ struct ApplicationCommandLineArgs {
 
 struct ApplicationSpecification {
     ApplicationCommandLineArgs CommandLineArgs;
-    WindowSpecification Window_Specification;
+    WindowSpecification WindowSpecification;
 
     ApplicationSpecification(
-        WindowSpecification window_specs = WindowSpecification()
-    ) : Window_Specification(window_specs) { }
+        ApplicationCommandLineArgs commandline_args = { }, 
+        Saddle::WindowSpecification window_specs = Saddle::WindowSpecification()
+    ) : CommandLineArgs(commandline_args), WindowSpecification(window_specs) { }
 };
 
 class Application {
@@ -35,17 +36,17 @@ public:
     Application();
     ~Application() = default;
 
-    static Application& Get();
-
+    static void Run();
     static void Close();
+    static Application& Get() { return *s_Instance; }
 
-    virtual Window& GetWindow();
-    // Note: Remember to remove virtual when done implementing
-    virtual void Run();
+    Window& GetWindow() { return Window; }
+    const ApplicationSpecification& GetSpecification() { return s_Specification; }
 
 private:
     inline static Application* s_Instance = nullptr;
     inline static ApplicationSpecification s_Specification;
+    inline static uint32_t s_LastFrame = 0;
 
 private:
     static void Init(const ApplicationSpecification& specs = ApplicationSpecification());
@@ -54,7 +55,6 @@ private:
 
 protected:
     Window Window;
-    uint32_t m_LastFrame = 0;
 
     friend int ::main(int argc, char** argv);
 };

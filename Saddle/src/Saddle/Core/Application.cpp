@@ -12,7 +12,7 @@
 namespace Saddle {
 
 Application::Application()
-    : Window(s_Specification.Window_Specification), m_LastFrame(0)
+    : Window(s_Specification.WindowSpecification)
 {
     SADDLE_CORE_ASSERT(!s_Instance, "Application already exists!");
     SADDLE_CORE_ASSERT(gladLoadGL(), "Glad could not load OpenGL");
@@ -42,13 +42,13 @@ void Application::Init(const ApplicationCommandLineArgs& args, const Application
 
 void Application::Run()
 {
-    while(Window.IsOpen())
+    while(s_Instance->Window.IsOpen())
     {
         TimePoint time = Time::GetTime();
-        TimeStep ts = time - (m_LastFrame != 0 ? m_LastFrame : Time::GetTime());
-        m_LastFrame = time;
+        TimeStep ts = time - (s_LastFrame != 0 ? s_LastFrame : Time::GetTime());
+        s_LastFrame = time;
 
-        Window.Update();
+        s_Instance->Window.Update();
 
         ApplicationUpdatedEvent event(ts);
         EventSystem::Dispatch(event);
@@ -62,16 +62,6 @@ void Application::Close()
 
     glfwTerminate();
     exit(0);
-}
-
-Application& Application::Get()
-{
-    return *s_Instance;
-}
-
-Window& Application::GetWindow()
-{
-    return Window;
 }
 
 }
