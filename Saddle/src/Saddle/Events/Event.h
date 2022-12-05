@@ -20,7 +20,7 @@ enum class EventType {
     WindowResized,
     WindowMoved,
     WindowClosed,
-    ApplicationClosed
+    ApplicationUpdated
 };
 
 struct Event {

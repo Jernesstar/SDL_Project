@@ -8,25 +8,26 @@
 #include "Saddle/Core/Log.h"
 
 
-#define SELECT_CALLBACKS(TEvent) \
+#define GET_CALLBACKS(TEvent) \
 template<> \
-Callbacks<TEvent>& EventSystem::SelectCallbacks<TEvent>() \
+Callbacks<TEvent>& EventSystem::GetCallbacks<TEvent>() \
 { \
     return TEvent##Callbacks; \
 }
 
 namespace Saddle {
 
-SELECT_CALLBACKS(KeyPressedEvent);
-SELECT_CALLBACKS(KeyReleasedEvent);
-SELECT_CALLBACKS(KeyCharEvent);
-SELECT_CALLBACKS(MouseMovedEvent);
-SELECT_CALLBACKS(MouseScrolledEvent);
-SELECT_CALLBACKS(MouseButtonPressedEvent);
-SELECT_CALLBACKS(MouseButtonReleasedEvent);
-SELECT_CALLBACKS(WindowResizedEvent);
-SELECT_CALLBACKS(WindowMovedEvent);
-SELECT_CALLBACKS(WindowClosedEvent);
+GET_CALLBACKS(KeyPressedEvent);
+GET_CALLBACKS(KeyReleasedEvent);
+GET_CALLBACKS(KeyCharEvent);
+GET_CALLBACKS(MouseMovedEvent);
+GET_CALLBACKS(MouseScrolledEvent);
+GET_CALLBACKS(MouseButtonPressedEvent);
+GET_CALLBACKS(MouseButtonReleasedEvent);
+GET_CALLBACKS(WindowResizedEvent);
+GET_CALLBACKS(WindowMovedEvent);
+GET_CALLBACKS(WindowClosedEvent);
+GET_CALLBACKS(ApplicationUpdatedEvent);
 
 void EventSystem::Init()
 {
@@ -49,8 +50,6 @@ void EventSystem::Init()
     glDebugMessageCallback(OpenGLMessageCallback, nullptr);
     glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, NULL, GL_TRUE);
 }
-
-void EventSystem::PollEvents() { glfwPollEvents(); }
 
 template<>
 EventCallback<KeyEvent> EventSystem::RegisterEventListener<KeyEvent>(const std::function<void(const KeyEvent&)>& event_callback)

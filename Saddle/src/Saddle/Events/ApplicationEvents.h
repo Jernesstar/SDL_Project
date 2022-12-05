@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Event.h"
+#include "Saddle/Core/Time.h"
 
 namespace Saddle {
 
@@ -9,6 +10,10 @@ protected:
     ApplicationEvent(EventType type) : Event(EventCategory::Application, type) { }
 };
 
-// Note: Have some Application events
+struct ApplicationUpdatedEvent : public ApplicationEvent {
+    TimeStep DeltaTime;
+
+    ApplicationUpdatedEvent(TimeStep ts) : ApplicationEvent(EventType::ApplicationUpdated), DeltaTime(ts) { }
+};
 
 }

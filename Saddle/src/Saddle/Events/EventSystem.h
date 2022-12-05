@@ -11,6 +11,7 @@
 #include "KeyEvents.h"
 #include "MouseEvents.h"
 #include "WindowEvents.h"
+#include "ApplicationEvents.h"
 #include "EventCallback.h"
 
 namespace Saddle {
@@ -21,12 +22,12 @@ using Callbacks = std::unordered_map<UUID, EventCallback<TEvent>>;
 class EventSystem {
 public:
     static void Init();
-    static void PollEvents();
+    static void PollEvents() { glfwPollEvents(); }
 
     template<typename TEvent>
     static void RegisterEventListener(const EventCallback<TEvent>& event_callback)
     {
-        Callbacks<TEvent>& list = SelectCallbacks<TEvent>();
+        Callbacks<TEvent>& list = GetCallbacks<TEvent>();
         list[event_callback.ID] = event_callback;
     }
 
@@ -41,35 +42,36 @@ public:
     template<typename TEvent>
     static void UnregisterEventListener(const EventCallback<TEvent>& event_callback)
     {
-        Callbacks<TEvent>& list = SelectCallbacks<TEvent>();
+        Callbacks<TEvent>& list = GetCallbacks<TEvent>();
         if(list.count(event_callback.ID))
             list.erase(event_callback.ID);
     }
 
 private:
-    inline static Callbacks<KeyPressedEvent>          KeyPressedEventCallbacks          = {};
-    inline static Callbacks<KeyReleasedEvent>         KeyReleasedEventCallbacks         = {};
-    inline static Callbacks<KeyCharEvent>             KeyCharEventCallbacks             = {};
-    inline static Callbacks<MouseMovedEvent>          MouseMovedEventCallbacks          = {};
-    inline static Callbacks<MouseScrolledEvent>       MouseScrolledEventCallbacks       = {};
-    inline static Callbacks<MouseButtonPressedEvent>  MouseButtonPressedEventCallbacks  = {};
-    inline static Callbacks<MouseButtonReleasedEvent> MouseButtonReleasedEventCallbacks = {};
-    inline static Callbacks<WindowResizedEvent>       WindowResizedEventCallbacks       = {};
-    inline static Callbacks<WindowMovedEvent>         WindowMovedEventCallbacks         = {};
-    inline static Callbacks<WindowClosedEvent>        WindowClosedEventCallbacks        = {};
+    inline static Callbacks<KeyPressedEvent>          KeyPressedEventCallbacks;
+    inline static Callbacks<KeyReleasedEvent>         KeyReleasedEventCallbacks;
+    inline static Callbacks<KeyCharEvent>             KeyCharEventCallbacks;
+    inline static Callbacks<MouseMovedEvent>          MouseMovedEventCallbacks;
+    inline static Callbacks<MouseScrolledEvent>       MouseScrolledEventCallbacks;
+    inline static Callbacks<MouseButtonPressedEvent>  MouseButtonPressedEventCallbacks;
+    inline static Callbacks<MouseButtonReleasedEvent> MouseButtonReleasedEventCallbacks;
+    inline static Callbacks<WindowResizedEvent>       WindowResizedEventCallbacks;
+    inline static Callbacks<WindowMovedEvent>         WindowMovedEventCallbacks;
+    inline static Callbacks<WindowClosedEvent>        WindowClosedEventCallbacks;
+    inline static Callbacks<ApplicationUpdatedEvent>  ApplicationUpdatedEventCallbacks;
 
 private:
     template<typename TEvent>
     static void Dispatch(const TEvent& event)
     {
-        Callbacks<TEvent>& callback_list = SelectCallbacks<TEvent>();
+        Callbacks<TEvent>& callback_list = GetCallbacks<TEvent>();
     
         for(auto& [id, func] : callback_list) 
             if(func) func(event); 
     }
 
     template<typename TEvent>
-    static Callbacks<TEvent>& SelectCallbacks();
+    static Callbacks<TEvent>& GetCallbacks();
 
     static void ErrorCallback(int error, const char* description);
     static void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
@@ -83,6 +85,8 @@ private:
 
     static void OpenGLMessageCallback(uint32_t source, uint32_t type, uint32_t id, 
         uint32_t severity, int length, const char* message, const void* userParam);
+
+    friend class Application;
 };
 
 }

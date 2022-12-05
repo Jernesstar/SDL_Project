@@ -3,7 +3,7 @@
 #include <string>
 
 #include "Event.h"
-#include "Saddle/Core/KeyCodes.h"
+#include "Saddle/Core/Codes.h"
 
 namespace Saddle {
 

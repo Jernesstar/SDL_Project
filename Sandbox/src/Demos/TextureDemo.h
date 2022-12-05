@@ -58,7 +58,6 @@ private:
     };
 
     VertexArray vertex_array{ vertices, layout, indices };
-
     Texture2D texture{ "Sandbox/assets/images/kick_drum.png" };
     Shader shader{ "Sandbox/assets/shaders/texture.glsl.vert", "Sandbox/assets/shaders/texture.glsl.frag" };
 };

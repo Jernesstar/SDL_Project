@@ -15,8 +15,34 @@ bool Input::KeyPressed(KeyCode key)
     auto window = Application::Get().GetWindow().GetNativeWindow();
     auto state = glfwGetKey(window, (int)key);
 
-    return state == GLFW_PRESS; // Will return 1 if key was pressed, 0 otherwise
+    return state == GLFW_PRESS;
 }
+
+void Input::SetCursorMode(CursorMode mode)
+{
+    GLFWwindow* window = Application::Get().GetWindow().GetNativeWindow();
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL + (int)mode);
+}
+
+bool Input::MouseButtonPressed(MouseCode mouse_button)
+{
+    auto window = Application::Get().GetWindow().GetNativeWindow();
+    auto state = glfwGetMouseButton(window, (int)(mouse_button));
+
+    return state == GLFW_PRESS;
+}
+
+glm::vec2 Input::GetMousePosition()
+{
+    auto window = Application::Get().GetWindow().GetNativeWindow();
+    double x, y;
+    glfwGetCursorPos(window, &x, &y);
+
+    return { (float)x, (float)y };
+}
+
+float Input::GetMouseX() { return GetMousePosition().x; }
+float Input::GetMouseY() { return GetMousePosition().y; }
 
 bool Input::KeysPressed(KeyCode key1, KeyCode key2)
 {
@@ -41,36 +67,5 @@ bool Input::KeysPressed(KeyCode key1, KeyCode key2, KeyCode key3, KeyCode key4)
                 if(KeyPressed(key4)) return true;
     return false;
 }
-
-bool Input::MouseButtonPressed(MouseCode mouse_button)
-{
-    auto window = Application::Get().GetWindow().GetNativeWindow();
-    auto state = glfwGetMouseButton(window, (int)(mouse_button));
-
-    return state == GLFW_PRESS;
-}
-
-// bool Input::MousePressedOn(const Rect& rect, const Transform& transform)
-// {
-//     // Check if the mouse clicked within the rectangle
-//     auto& coordinate = transform.Coordinate;
-//     auto [mouse_x, mouse_y] = Input::GetMousePosition();
-//     bool x_coordinate_is_in_bound = coordinate.x <= mouse_x && mouse_x <= coordinate.x + rect.Width;
-//     bool y_coordinate_is_in_bound = coordinate.y <= mouse_y && mouse_y <= coordinate.y + rect.Height;
-
-//     return x_coordinate_is_in_bound && y_coordinate_is_in_bound;
-// }
-
-glm::vec2 Input::GetMousePosition()
-{
-    auto window = Application::Get().GetWindow().GetNativeWindow();
-    double x, y;
-    glfwGetCursorPos(window, &x, &y);
-
-    return { (float)x, (float)y };
-}
-
-float Input::GetMouseX() { return GetMousePosition().x; }
-float Input::GetMouseY() { return GetMousePosition().y; }
 
 }

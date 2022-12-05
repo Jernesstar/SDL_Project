@@ -1,11 +1,8 @@
 #pragma once
 
-#include "KeyCodes.h"
-#include "MouseCodes.h"
-
-// #include "SDL/Rect.h"
-// #include "SDL/Transform.h"
 #include <glm/vec2.hpp>
+
+#include "Codes.h"
 
 namespace Saddle {
 
@@ -14,10 +11,10 @@ public:
     static bool KeyPressed(KeyCode key);
     static bool KeysPressed(KeyCode key1, KeyCode key2);
     static bool KeysPressed(KeyCode key1, KeyCode key2, KeyCode key3);
-    static bool KeysPressed(KeyCode key1, KeyCode key2, KeyCode key, KeyCode key4);
+    static bool KeysPressed(KeyCode key1, KeyCode key2, KeyCode key3, KeyCode key4);
 
+    static void SetCursorMode(CursorMode mode);
     static bool MouseButtonPressed(MouseCode mouse_button);
-    // static bool MousePressedOn(const Rect& rect, const Transform& transform);
 
     static glm::vec2 GetMousePosition();
     static float GetMouseX();

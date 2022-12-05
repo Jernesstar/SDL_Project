@@ -5,11 +5,6 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 #include <Saddle/Core/Application.h>
-#include <Saddle/Core/Assert.h>
-#include <Saddle/Core/Input.h>
-#include <Saddle/ECS/Entity.h>
-#include <Saddle/ECS/ComponentManager.h>
-#include <Saddle/Scene/Scene.h>
 #include <Saddle/Events/EventSystem.h>
 #include <Saddle/Renderer/Renderer.h>
 #include <Saddle/Renderer/OrthographicCamera.h>
@@ -90,6 +85,12 @@ void Demo3D::Run()
     OrthographicCameraController controller(camera);
 
     shader.Bind();
+
+    EventSystem::RegisterEventListener<KeyPressedEvent>(
+    [](const KeyPressedEvent& event) {
+        if(event.Key == Key::Escape)
+            Application::Close();
+    });
 
     TimePoint last_frame = Time::GetTime();
     while(Window.IsOpen())

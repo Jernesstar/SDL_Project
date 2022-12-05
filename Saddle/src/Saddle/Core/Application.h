@@ -15,7 +15,6 @@ struct ApplicationCommandLineArgs {
 
     const char* operator[](int index) const
     {
-        // SADDLE_CORE_ASSERT(index < Count);
         if(index >= Count)
             return nullptr;
         return Args[index];
@@ -56,7 +55,6 @@ private:
 protected:
     Window Window;
     uint32_t m_LastFrame = 0;
-    LayerStack m_Layers;
 
     friend int ::main(int argc, char** argv);
 };

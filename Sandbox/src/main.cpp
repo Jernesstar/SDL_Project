@@ -16,8 +16,7 @@ Application* CreateApplication(const ApplicationCommandLineArgs& args)
 
         if(project == "3D") 
             return new Demo3D();
-
-        else if(project == "Texture")
+        if(project == "Texture")
             return new TextureDemo();
     }
 

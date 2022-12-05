@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Event.h"
-#include "Saddle/Core/MouseCodes.h"
+#include "Saddle/Core/Codes.h"
 
 namespace Saddle {
 
