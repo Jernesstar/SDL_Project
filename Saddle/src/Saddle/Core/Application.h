@@ -33,12 +33,11 @@ struct ApplicationSpecification {
 
 class Application {
 public:
-    Application();
-    ~Application() = default;
-
     static void Run();
     static void Close();
     static Application& Get() { return *s_Instance; }
+
+    virtual void OnUpdate(TimeStep ts) = 0;
 
     Window& GetWindow() { return Window; }
     const ApplicationSpecification& GetSpecification() { return s_Specification; }
@@ -55,6 +54,10 @@ private:
 
 protected:
     Window Window;
+
+protected:
+    Application();
+    virtual ~Application() = default;
 
     friend int ::main(int argc, char** argv);
 };

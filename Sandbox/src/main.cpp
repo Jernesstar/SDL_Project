@@ -2,7 +2,7 @@
 
 #include <Saddle/Core/Application.h>
 
-// #include "Demos/TextureDemo.h"
+#include "Demos/TextureDemo.h"
 #include "Demos/Demo3D.h"
 
 using namespace Saddle;
@@ -16,8 +16,8 @@ Application* CreateApplication(const ApplicationCommandLineArgs& args)
 
         if(project == "3D") 
             return new Demo3D();
-        // if(project == "Texture")
-        //     return new TextureDemo();
+        if(project == "Texture")
+            return new TextureDemo();
     }
 
     return nullptr;

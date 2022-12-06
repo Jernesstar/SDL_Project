@@ -14,6 +14,7 @@
 #include <Saddle/Events/EventSystem.h>
 #include <Saddle/Renderer/Renderer.h>
 #include <Saddle/Renderer/OrthographicCamera.h>
+#include <Saddle/Renderer/OrthographicCameraController.h>
 
 #include <OpenGL/Shader.h>
 #include <OpenGL/VertexBuffer.h>
@@ -25,11 +26,9 @@ using namespace Saddle;
 
 class TextureDemo : public Application {
 public:
-    TextureDemo()
-    {
-        Window.SetWindowIcon("Sandbox/assets/images/start_bg.png");
-    }
-    void Run();
+    TextureDemo();
+
+    void OnUpdate(TimeStep ts);
 
 private:
     struct Vertex {
@@ -60,35 +59,37 @@ private:
     VertexArray vertex_array{ vertices, layout, indices };
     Texture2D texture{ "Sandbox/assets/images/kick_drum.png" };
     Shader shader{ "Sandbox/assets/shaders/texture.glsl.vert", "Sandbox/assets/shaders/texture.glsl.frag" };
+
+    glm::vec2 vec{ Window.GetFrameBufferSize() };
+    float ratio{ vec.x / vec.y };
+    glm::mat4 model{ 1.0f };
+
+    OrthographicCamera camera{ -ratio, ratio, -1.0f, 1.0f };
+    OrthographicCameraController controller{ camera };
 };
 
-void TextureDemo::Run()
+TextureDemo::TextureDemo()
 {
-    auto vec = Window.GetFrameBufferSize();
-    float ratio = vec.x / vec.y;
-
-    glm::mat4 model(1);
-    OrthographicCamera camera(-ratio, ratio, -1.0f, 1.0f);
+    this->Window.SetWindowIcon("Sandbox/assets/images/start_bg.png");
 
     texture.Bind(0);
     shader.Bind();
     shader.SetUniformInt("u_Texture", texture);
 
-    while(Window.IsOpen())
-    {
-        Renderer::Clear({ 1, 1, 1, 1 });
+    EventSystem::RegisterEventListener<ApplicationUpdatedEvent>(
+    [this](const ApplicationUpdatedEvent& event) {
+        this->OnUpdate(event.DeltaTime);
+    });
+}
 
-        model = glm::rotate(model, glm::pi<float>() / 6.0f, { 0, 0, 1 });
+void TextureDemo::OnUpdate(TimeStep ts)
+{
+    model = glm::rotate(model, glm::pi<float>() / 6.0f, { 0, 0, 1 });
 
-        shader.SetUniformMatrix4("u_ModelMatrix", model);
-        shader.SetUniformMatrix4("u_ViewMatrix", camera.GetViewMatrix());
-        shader.SetUniformMatrix4("u_ProjMatrix", camera.GetProjectionMatrix());
+    shader.SetUniformMatrix4("u_ModelMatrix", model);
+    shader.SetUniformMatrix4("u_ViewMatrix", camera.GetViewMatrix());
+    shader.SetUniformMatrix4("u_ProjMatrix", camera.GetProjectionMatrix());
 
-        Renderer::Submit(vertex_array);
-
-        Window.Update();
-
-        EventSystem::PollEvents();
-    }
-
+    Renderer::Clear({ 1, 1, 1, 1 });
+    Renderer::Submit(vertex_array);
 }

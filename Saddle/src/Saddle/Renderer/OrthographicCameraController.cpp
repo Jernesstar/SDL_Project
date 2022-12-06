@@ -8,6 +8,11 @@ namespace Saddle {
 OrthographicCameraController::OrthographicCameraController(OrthographicCamera& camera)
 	: m_Camera(&camera), m_TranslationSpeed(0.005f)
 {
+	EventSystem::RegisterEventListener<ApplicationUpdatedEvent>(
+	[this](const ApplicationUpdatedEvent& event) {
+		this->OnUpdate(event.DeltaTime);
+	});
+
 	EventSystem::RegisterEventListener<MouseScrolledEvent>(
 	[this](const MouseScrolledEvent& event) {
 		this->OnEvent(event);

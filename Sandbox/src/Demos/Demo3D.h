@@ -104,15 +104,12 @@ Demo3D::Demo3D()
 
 void Demo3D::OnUpdate(TimeStep ts)
 {
-    Renderer::Clear({ 0.f, 0.f, 0.f, 0.f });
-
-    controller.OnUpdate(ts);
-
     model *= transform.GetTransfrom();
 
     shader.SetUniformMatrix4("u_ModelMatrix", model);
     shader.SetUniformMatrix4("u_ViewMatrix", camera.GetViewMatrix());
     shader.SetUniformMatrix4("u_ProjMatrix", camera.GetProjectionMatrix());
 
+    Renderer::Clear({ 0.f, 0.f, 0.f, 0.f });
     Renderer::Submit(vertex_array);
 }
