@@ -78,7 +78,12 @@ private:
     float ratio{ vec.x / vec.y };
     glm::mat4 model{ 1.0f };
 
-    TransformComponent transform;
+    TransformComponent transform =
+    { 
+        glm::vec3{ 0.f, 0.f, 0.f }, 
+        glm::vec3{ 0.0f, 0.03f, 0.03f }, 
+        glm::vec3{ 1.f, 1.f, 1.f }
+    };
 
     OrthographicCamera camera{ -ratio, ratio, -1.0f, 1.0f };
     OrthographicCameraController controller{ camera };
@@ -86,8 +91,6 @@ private:
 
 Demo3D::Demo3D()
 {
-    transform.Rotation = glm::vec3{ 0.0f, 0.03f, 0.03f };
-
     shader.Bind();
 
     EventSystem::RegisterEventListener<KeyPressedEvent>(

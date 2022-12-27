@@ -8,15 +8,15 @@ namespace Saddle {
 
 class OrthographicCameraController {
 public:
-	OrthographicCameraController(OrthographicCamera& camera);
+    OrthographicCameraController(OrthographicCamera& camera);
 
-	void OnUpdate(TimeStep ts);
-	void OnEvent(const MouseScrolledEvent& event);
+    void OnUpdate(TimeStep ts);
+    void OnEvent(const MouseScrolledEvent& event);
 
 private:
-	OrthographicCamera* m_Camera;
+    OrthographicCamera* m_Camera;
 
-	float m_TranslationSpeed;
+    float m_TranslationSpeed;
 };
 
 }

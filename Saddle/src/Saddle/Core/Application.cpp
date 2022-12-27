@@ -58,7 +58,7 @@ void Application::Run()
 
 void Application::Close()
 {
-    if(s_Instance) delete s_Instance;
+    delete s_Instance;
 
     glfwTerminate();
     exit(0);
