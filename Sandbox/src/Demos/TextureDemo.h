@@ -38,10 +38,10 @@ private:
 
     const Vertex vertices[4] = 
     {
-        { glm::vec2(-0.5f,  0.5f), glm::vec2(0.f, 1.f) }, // Top left, 0
-        { glm::vec2( 0.5f,  0.5f), glm::vec2(1.f, 1.f) }, // Top right, 1
-        { glm::vec2(-0.5f, -0.5f), glm::vec2(0.f, 0.0) }, // Bottom left, 2
-        { glm::vec2( 0.5f, -0.5f), glm::vec2(1.f, 0.0) }, // Bottom right, 3
+        { glm::vec2(-0.5f,  0.5f), glm::vec2(0.0f, 1.0f) }, // Top left, 0
+        { glm::vec2( 0.5f,  0.5f), glm::vec2(1.0f, 1.0f) }, // Top right, 1
+        { glm::vec2(-0.5f, -0.5f), glm::vec2(0.0f, 0.0f) }, // Bottom left, 2
+        { glm::vec2( 0.5f, -0.5f), glm::vec2(1.0f, 0.0f) }, // Bottom right, 3
     };
 
     unsigned int indices[6] =
@@ -57,12 +57,30 @@ private:
     };
 
     VertexArray vertex_array{ vertices, layout, indices };
-    Texture2D texture{ "Sandbox/assets/images/kick_drum.png" };
     Shader shader{ "Sandbox/assets/shaders/texture.glsl.vert", "Sandbox/assets/shaders/texture.glsl.frag" };
+    
+    Texture2D texture1{ "Sandbox/assets/images/kick_drum.png" };
+    Texture2D texture2{ "Sandbox/assets/images/snare_drum.jpg" };
 
     glm::vec2 vec{ Window.GetFrameBufferSize() };
     float ratio{ vec.x / vec.y };
-    glm::mat4 model{ 1.0f };
+
+    TransformComponent transform1 =
+    {
+        glm::vec3{ 0.0f, 0.0f, 0.0f }, 
+        glm::vec3{ 0.0f, 0.0f, 0.0f }, 
+        glm::vec3{ 1.f, 1.f, 1.f },
+    };
+
+    TransformComponent transform2 =
+    {
+        glm::vec3{ -1.0f, 0.0f, 0.0f }, 
+        glm::vec3{ 0.0f, 0.0f, 0.0f }, 
+        glm::vec3{ 1.f, 1.f, 1.f },
+    };
+
+    glm::mat4 model1{ transform1.GetTransfrom() };
+    glm::mat4 model2{ transform2.GetTransfrom() };
 
     OrthographicCamera camera{ -ratio, ratio, -1.0f, 1.0f };
     OrthographicCameraController controller{ camera };
@@ -72,9 +90,7 @@ TextureDemo::TextureDemo()
 {
     this->Window.SetWindowIcon("Sandbox/assets/images/start_bg.png");
 
-    texture.Bind(0);
     shader.Bind();
-    shader.SetUniformInt("u_Texture", texture);
 
     EventSystem::RegisterEventListener<ApplicationUpdatedEvent>(
     [this](const ApplicationUpdatedEvent& event) {
@@ -84,12 +100,18 @@ TextureDemo::TextureDemo()
 
 void TextureDemo::OnUpdate(TimeStep ts)
 {
-    model = glm::rotate(model, glm::pi<float>() / 6.0f, { 0, 0, 1 });
+    Renderer::Clear({ 1, 1, 1, 1 });
 
-    shader.SetUniformMatrix4("u_ModelMatrix", model);
     shader.SetUniformMatrix4("u_ViewMatrix", camera.GetViewMatrix());
     shader.SetUniformMatrix4("u_ProjMatrix", camera.GetProjectionMatrix());
 
-    Renderer::Clear({ 1, 1, 1, 1 });
+    texture2.Bind(1);
+    shader.SetUniformInt("u_Texture", texture2);
+    shader.SetUniformMatrix4("u_ModelMatrix", model2);
+    Renderer::Submit(vertex_array);
+
+    texture1.Bind(0);
+    shader.SetUniformInt("u_Texture", texture1);
+    shader.SetUniformMatrix4("u_ModelMatrix", model1);
     Renderer::Submit(vertex_array);
 }

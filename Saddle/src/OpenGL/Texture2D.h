@@ -14,6 +14,7 @@ public:
     const uint32_t InternalFormat, DataFormat;
 
 public:
+    Texture2D();
     Texture2D(const std::string& path);
     ~Texture2D();
 

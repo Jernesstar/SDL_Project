@@ -6,9 +6,7 @@ namespace Saddle {
 
 class Entity {
 public:
-    Entity() { }
     Entity(Scene& scene) : m_Scene(&scene) { }
-
     ~Entity() = default;
 
     template<typename TComponent>

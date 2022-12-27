@@ -35,7 +35,7 @@ unsigned char* Utils::ReadImage(const std::string& path, int& width, int& height
 {
     stbi_set_flip_vertically_on_load((int)flip);
     unsigned char* pixel_data = stbi_load(path.c_str(), &width, &height, &bits_per_pixel, desired_channels);
-    SADDLE_CORE_ASSERT(pixel_data);
+    SADDLE_CORE_ASSERT_ARGS(pixel_data, "Could not load image from path %s", path.c_str());
 
     return pixel_data;
 }

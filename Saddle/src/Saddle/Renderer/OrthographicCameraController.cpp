@@ -24,21 +24,13 @@ void OrthographicCameraController::OnUpdate(TimeStep ts)
     glm::vec3 position = m_Camera->GetPosition();
 
     if(Input::KeyPressed(Key::W))
-    {
         position.y += m_TranslationSpeed * ts;
-    }
     if (Input::KeyPressed(Key::A))
-    {
         position.x -= m_TranslationSpeed * ts;
-    }
     if (Input::KeyPressed(Key::S))
-    {
         position.y -= m_TranslationSpeed * ts;
-    }
     if (Input::KeyPressed(Key::D))
-    {
         position.x += m_TranslationSpeed * ts;
-    }
 
     m_Camera->SetPosition(position);
 }
