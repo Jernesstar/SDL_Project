@@ -38,9 +38,6 @@ private:
 
 class Time {
 public:
-    static TimePoint GetTime()
-    {
-        return { Clock::now() };
-    }
+    static TimePoint GetTime() { return { Clock::now() }; }
 };
 }

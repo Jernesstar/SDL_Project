@@ -44,7 +44,7 @@ void Game::OnUpdate(TimeStep ts)
 {
     auto& translation1 = Kick_Drum.GetComponent<TransformComponent>().Translation;
     auto& translation2 = Snare_Drum.GetComponent<TransformComponent>().Translation;
-    float speed = 0.005f;
+    float speed = 0.0025f;
 
     if(Input::KeyPressed(Key::Left))
         translation1.x -= speed * ts;

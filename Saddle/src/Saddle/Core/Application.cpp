@@ -45,7 +45,7 @@ void Application::Run()
     while(s_Instance->Window.IsOpen())
     {
         TimePoint time = Time::GetTime();
-        TimeStep ts = time - (s_LastFrame != 0 ? s_LastFrame : Time::GetTime());
+        TimeStep ts = time - s_LastFrame;
         s_LastFrame = time;
 
         s_Instance->Window.Update();

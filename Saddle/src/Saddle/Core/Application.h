@@ -45,7 +45,7 @@ public:
 private:
     inline static Application* s_Instance = nullptr;
     inline static ApplicationSpecification s_Specification;
-    inline static uint32_t s_LastFrame = 0;
+    inline static TimePoint s_LastFrame{ Time::GetTime() };
 
 private:
     static void Init(const ApplicationSpecification& specs = ApplicationSpecification());
