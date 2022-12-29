@@ -46,6 +46,8 @@ void Game::OnUpdate(TimeStep ts)
     auto& translation2 = Snare_Drum.GetComponent<TransformComponent>().Translation;
     float speed = 0.0025f;
 
+    SADDLE_CORE_LOG_INFO("Timestep: %s\n", ts);
+
     if(Input::KeyPressed(Key::Left))
         translation1.x -= speed * ts;
     if(Input::KeyPressed(Key::Right))

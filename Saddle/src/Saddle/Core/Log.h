@@ -21,22 +21,18 @@ public:
         printf("[Error]: %s\n", message.c_str());
     }
 
-    template<typename... Args>
+    template<typename... Args, typename = 
+        std::enable_if<std::is_same<Args..., const char*>::value || std::is_same<Args..., std::string>::value, bool>>
     static void Info(const std::string& format_string, Args&&... args)
     {
         printf(format_string.c_str(), std::string(args).c_str()...);
     }
 
-    template<typename... Args>
-    static void Warning(const std::string& format_string, Args&&... args)
+    template<typename... Args, typename = 
+        std::enable_if<!std::is_same<Args..., const char*>::value && !std::is_same<Args..., std::string>::value, bool>>
+    static void Info(const std::string& format_string, Args&&... args)
     {
-        printf(format_string.c_str(), std::string(args).c_str()...);
-    }
-
-    template<typename... Args>
-    static void Error(const std::string& format_string, Args&&... args)
-    {
-        printf(format_string.c_str(), std::string(args).c_str()...);
+        printf(format_string.c_str(), std::to_string(args).c_str()...);
     }
 
 private:
