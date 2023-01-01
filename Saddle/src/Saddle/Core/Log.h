@@ -6,33 +6,25 @@
 namespace Saddle {
 class Log { 
 public:
-    static void Info(const std::string& message)
-    {
-        printf("[Info]: %s\n", message.c_str());
-    }
-
-    static void Warning(const std::string& message)
-    {
-        printf("[Warning]: %s\n", message.c_str());
-    }
-
-    static void Error(const std::string& message)
-    {
-        printf("[Error]: %s\n", message.c_str());
-    }
-
-    template<typename... Args, typename = 
-        std::enable_if<std::is_same<Args..., const char*>::value || std::is_same<Args..., std::string>::value, bool>>
+    template<typename... Args>
     static void Info(const std::string& format_string, Args&&... args)
     {
-        printf(format_string.c_str(), std::string(args).c_str()...);
+        printf("[Info]: ");
+        printf(format_string.c_str(), std::forward<Args>(args)...);
     }
 
-    template<typename... Args, typename = 
-        std::enable_if<!std::is_same<Args..., const char*>::value && !std::is_same<Args..., std::string>::value, bool>>
-    static void Info(const std::string& format_string, Args&&... args)
+    template<typename... Args>
+    static void Warning(const std::string& format_string, Args&&... args)
     {
-        printf(format_string.c_str(), std::to_string(args).c_str()...);
+        printf("[Warning]: ");
+        printf(format_string.c_str(), std::forward<Args>(args)...);
+    }
+
+    template<typename... Args>
+    static void Error(const std::string& format_string, Args&&... args)
+    {
+        printf("[Error]: ");
+        printf(format_string.c_str(), std::forward<Args>(args)...);
     }
 
 private:
