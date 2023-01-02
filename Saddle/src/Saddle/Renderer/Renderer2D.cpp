@@ -1,5 +1,7 @@
 #include "Renderer2D.h"
 
+#include "Renderer.h"
+
 namespace Saddle {
 
 struct Vertex {
@@ -29,18 +31,36 @@ void Renderer2D::Init()
         { "a_TextureCoordinate", BufferDataType::Vec2, true },
     };
 
-    s_Shader = new Shader("assets/shaders/Quad.glsl.vert", "assets/shaders/Quad.glsl.frag");
+    s_Shader = new Shader("Saddle/assets/shaders/Quad.glsl.vert", "Saddle/assets/shaders/Quad.glsl.frag");
     s_VertexArray = new VertexArray(vertices, layout, indices);
+
+    s_Shader->Bind();
 }
 
-void Renderer2D::DrawTexture(const Texture2D& texture, const glm::mat4& transform)
+void Renderer2D::BeginScene(const OrthographicCamera& camera)
 {
-    
+    s_ViewMatrix = camera.GetViewMatrix();
+    s_ProjectionMatrix = camera.GetProjectionMatrix();
 }
 
-void Renderer2D::DrawEntity(const Entity& entity)
+void Renderer2D::DrawTexture(Texture2D& texture, const glm::mat4& transform)
 {
+    texture.Bind(0);
+    s_Shader->SetUniformInt("u_Texture", 0);
+    s_Shader->SetUniformMatrix4("u_ModelMatrix", transform);
 
+    Renderer::Submit(*s_VertexArray);
+}
+
+void Renderer2D::DrawEntity(Entity& entity)
+{
+    if(!entity.HasComponent<TextureComponent>() || !entity.HasComponent<TransformComponent>())
+        return;
+
+    glm::mat4 transform = entity.GetComponent<TransformComponent>().GetTransfrom();
+    Texture2D& texture = entity.GetComponent<TextureComponent>().Texture;
+
+    DrawTexture(texture, transform);
 }
 
 }

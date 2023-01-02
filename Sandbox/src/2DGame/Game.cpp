@@ -66,6 +66,7 @@ void Game::OnUpdate(TimeStep ts)
 
     Renderer::Clear({ 1, 1, 1, 1 });
 
+    Renderer2D::BeginScene(camera);
+
     Renderer2D::DrawEntity(Kick_Drum);
-    Renderer2D::DrawEntity(Snare_Drum);
 }

@@ -28,7 +28,6 @@ private:
     Entity Kick_Drum{ m_Scene };
     Entity Snare_Drum{ m_Scene };
 
-
     glm::vec2 vec{ Window.GetFrameBufferSize() };
     float ratio{ vec.x / vec.y };
 

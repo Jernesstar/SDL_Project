@@ -12,7 +12,7 @@ std::string Utils::ReadFile(const std::string& file_path)
 {
     std::ifstream in(file_path, std::ios::in | std::ios::binary);
 
-    SADDLE_CORE_ASSERT_ARGS(in, "Could not open file: %s", file_path)
+    SADDLE_CORE_ASSERT_ARGS(in, "Could not open file: %s", file_path.c_str())
 
     in.seekg(0, std::ios::end); // Sets the read position at the end of the file;
 
@@ -20,7 +20,7 @@ std::string Utils::ReadFile(const std::string& file_path)
     // this operation returns the size of the file
     size_t size = in.tellg();
 
-    SADDLE_CORE_ASSERT_ARGS(size != -1, "Could not read from file: %s", file_path);
+    SADDLE_CORE_ASSERT_ARGS(size != -1, "Could not read from file: %s", file_path.c_str());
 
     std::string result;
     result.resize(size); // Resize the resulting string

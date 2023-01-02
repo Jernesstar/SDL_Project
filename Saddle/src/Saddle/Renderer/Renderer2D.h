@@ -2,7 +2,11 @@
 
 #include <glm/mat4x4.hpp>
 
+#include "OrthographicCamera.h"
+
 #include "Saddle/ECS/Entity.h"
+#include "Saddle/ECS/Entity.h"
+
 #include "OpenGL/Texture2D.h"
 #include "OpenGL/Shader.h"
 #include "OpenGL/VertexArray.h"
@@ -12,12 +16,15 @@ namespace Saddle {
 class Renderer2D {
 public:
     static void Init();
-    static void DrawTexture(const Texture2D& texture, const glm::mat4& transform);
-    static void DrawEntity(const Entity& entity);
+    static void BeginScene(const OrthographicCamera& camera);
+    static void DrawTexture(Texture2D& texture, const glm::mat4& transform);
+    static void DrawEntity(Entity& entity);
 
 private:
     inline static Shader* s_Shader;
     inline static VertexArray* s_VertexArray;
+    inline static glm::mat4 s_ViewMatrix;
+    inline static glm::mat4 s_ProjectionMatrix;
 };
 
 }

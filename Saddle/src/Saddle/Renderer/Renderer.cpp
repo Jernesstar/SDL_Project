@@ -6,6 +6,8 @@
 #include "Saddle/Core/Application.h"
 #include "Saddle/Core/Log.h"
 
+#include "Renderer2D.h"
+
 namespace Saddle {
 
 void Renderer::Init()
@@ -16,6 +18,8 @@ void Renderer::Init()
     glEnable(GL_CULL_FACE);
     glFrontFace(GL_CW);
     glCullFace(GL_BACK);
+
+    Renderer2D::Init();
 }
 
 void Renderer::Clear(const glm::vec4& color)
