@@ -33,20 +33,22 @@ void Renderer2D::Init()
 
     s_Shader = new Shader("Saddle/assets/shaders/Quad.glsl.vert", "Saddle/assets/shaders/Quad.glsl.frag");
     s_VertexArray = new VertexArray(vertices, layout, indices);
-
-    s_Shader->Bind();
 }
 
 void Renderer2D::BeginScene(const OrthographicCamera& camera)
 {
     s_ViewMatrix = camera.GetViewMatrix();
     s_ProjectionMatrix = camera.GetProjectionMatrix();
+
+    s_Shader->Bind();
+    s_Shader->SetUniformMatrix4("u_ViewMatrix", s_ViewMatrix);
+    s_Shader->SetUniformMatrix4("u_ProjMatrix", s_ProjectionMatrix);
 }
 
 void Renderer2D::DrawTexture(Texture2D& texture, const glm::mat4& transform)
 {
-    texture.Bind(0);
-    s_Shader->SetUniformInt("u_Texture", 0);
+    texture.Bind(1);
+    s_Shader->SetUniformInt("u_Texture", 1);
     s_Shader->SetUniformMatrix4("u_ModelMatrix", transform);
 
     Renderer::Submit(*s_VertexArray);
