@@ -21,6 +21,14 @@ public:
         glBufferData(GL_ARRAY_BUFFER, Count * layout.Stride, vertices, GL_DYNAMIC_DRAW);
     }
 
+    VertexBuffer(std::size_t count, const BufferLayout& layout)
+        : Layout(layout), Count(count)
+    {
+        glCreateBuffers(1, &m_VertexBufferID);
+        glBindBuffer(GL_ARRAY_BUFFER, m_VertexBufferID);
+        glBufferData(GL_ARRAY_BUFFER, count * layout.Stride, nullptr, GL_DYNAMIC_DRAW);
+    }
+
     ~VertexBuffer() { glDeleteBuffers(1, &m_VertexBufferID); }
 
     void Bind() const { glBindBuffer(GL_ARRAY_BUFFER, m_VertexBufferID); }
@@ -30,7 +38,13 @@ public:
     void SetData(const T (&vertices)[TCount])
     {
         glBindBuffer(GL_ARRAY_BUFFER, m_VertexBufferID);
-        glBufferSubData(GL_ARRAY_BUFFER, 0, TCount * sizeof(float), vertices);
+        glBufferSubData(GL_ARRAY_BUFFER, 0, TCount * Layout.Stride, vertices);
+    }
+
+    void SetData(const void* data, std::size_t count)
+    {
+        glBindBuffer(GL_ARRAY_BUFFER, m_VertexBufferID);
+        glBufferSubData(GL_ARRAY_BUFFER, 0, count * Layout.Stride, data);
     }
 
 private:

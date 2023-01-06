@@ -12,6 +12,16 @@ struct IndexBuffer {
         glBufferData(GL_ARRAY_BUFFER, m_Count * sizeof(uint32_t), indices, GL_STATIC_DRAW);
         glBindBuffer(GL_ARRAY_BUFFER, 0);
     }
+
+    IndexBuffer(const uint32_t* indices, std::size_t count)
+        : m_Count(count)
+    {
+        glCreateBuffers(1, &m_IndexBufferID);
+        glBindBuffer(GL_ARRAY_BUFFER, m_IndexBufferID);
+        glBufferData(GL_ARRAY_BUFFER, m_Count * sizeof(uint32_t), indices, GL_STATIC_DRAW);
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+    }
+
     ~IndexBuffer() { glDeleteBuffers(1, &m_IndexBufferID); }
 
     void Bind() const { glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IndexBufferID); }

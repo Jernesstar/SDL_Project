@@ -21,10 +21,12 @@ public:
     static void DrawEntity(Entity& entity);
 
 private:
-    inline static Shader* s_Shader;
-    inline static VertexArray* s_VertexArray;
     inline static glm::mat4 s_ViewMatrix;
     inline static glm::mat4 s_ProjectionMatrix;
+
+    void StartBatch();
+    void Flush();
+    void NextBatch();
 };
 
 }
