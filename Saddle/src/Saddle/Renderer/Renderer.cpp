@@ -28,10 +28,10 @@ void Renderer::Clear(const glm::vec4& color)
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void Renderer::Submit(const VertexArray& vertex_array)
+void Renderer::Submit(const VertexArray* vertex_array)
 {
-    vertex_array.Bind();
-    glDrawElements(GL_TRIANGLES, vertex_array.GetIndexBuffer().GetCount(), GL_UNSIGNED_INT, nullptr);
+    vertex_array->Bind();
+    glDrawElements(GL_TRIANGLES, vertex_array->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
 }
 
 }

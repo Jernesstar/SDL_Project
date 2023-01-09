@@ -7,7 +7,7 @@
 
 namespace Saddle {
 
-VertexArray::VertexArray(const VertexBuffer& vertex_buffer, const IndexBuffer& index_buffer)
+VertexArray::VertexArray(VertexBuffer* vertex_buffer, IndexBuffer* index_buffer)
     : m_VertexBuffer(vertex_buffer), m_IndexBuffer(index_buffer)
 {
     glCreateVertexArrays(1, &m_VertexArrayID);
@@ -15,26 +15,23 @@ VertexArray::VertexArray(const VertexBuffer& vertex_buffer, const IndexBuffer& i
     SetIndexBuffer(index_buffer);
 }
 
-VertexArray::~VertexArray()
-{
-    glDeleteVertexArrays(1, &m_VertexArrayID);
-}
+VertexArray::~VertexArray() { glDeleteVertexArrays(1, &m_VertexArrayID); }
 
 void VertexArray::Bind() const
 {
     glBindVertexArray(m_VertexArrayID);
-    m_IndexBuffer.Bind();
+    m_IndexBuffer->Bind();
 }
 void VertexArray::Unbind() const
 {
     glBindVertexArray(0);
-    m_IndexBuffer.Unbind();
+    m_IndexBuffer->Unbind();
 }
 
-void VertexArray::SetVertexBuffer(const VertexBuffer& vertex_buffer)
+void VertexArray::SetVertexBuffer(VertexBuffer* vertex_buffer)
 {
     glBindVertexArray(m_VertexArrayID);
-    vertex_buffer.Bind();
+    vertex_buffer->Bind();
 
     // Enabling a vertex attribute: glEnableVertexAttribArray
 
@@ -45,7 +42,7 @@ void VertexArray::SetVertexBuffer(const VertexBuffer& vertex_buffer)
 
     uint64_t offset = 0;
     uint32_t buffer_index = 0;
-    const auto& layout = vertex_buffer.Layout;
+    const auto& layout = vertex_buffer->Layout;
 
     for(auto& element : layout)
     {
@@ -100,10 +97,10 @@ void VertexArray::SetVertexBuffer(const VertexBuffer& vertex_buffer)
         offset += element.Size;
     }
 
-    std::memcpy(&m_VertexBuffer, &vertex_buffer, sizeof(VertexBuffer));
+    m_VertexBuffer = vertex_buffer;
 }
 
-void VertexArray::SetIndexBuffer(const IndexBuffer& index_buffer)
+void VertexArray::SetIndexBuffer(IndexBuffer* index_buffer)
 {
     glBindVertexArray(m_VertexArrayID);
     m_IndexBuffer = index_buffer;

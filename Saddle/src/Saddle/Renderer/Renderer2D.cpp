@@ -16,28 +16,52 @@ struct Renderer2DData {
 
     VertexArray* QuadVertexArray;
     VertexBuffer* QuadVertexBuffer;
+    IndexBuffer* QuadIndexBuffer;
     Shader* QuadShader;
 
-    QuadVertex* VertexBufferBase;
+    QuadVertex* QuadVertexBufferBase;
+
+    glm::vec2 VertexPositions[4] =
+    {
+        { -0.5f, -0.5f }, // Bottom left,  0
+        {  0.5f, -0.5f }, // Bottom right, 1
+        { -0.5f,  0.5f }, // Top left,     2
+        {  0.5f,  0.5f }, // Top right,    3
+    };
+
+    glm::vec2 TextureCoords[4] =
+    {
+        { 0.0f, 0.0f }, // Bottom left,  0
+        { 1.0f, 0.0f }, // Bottom right, 1
+        { 0.0f, 1.0f }, // Top left,     2
+        { 1.0f, 1.0f }, // Top right,    3
+    };
 };
 
 static Renderer2DData s_Data;
 
 void Renderer2D::Init()
 {
-    s_Data.VertexBufferBase = new QuadVertex[Renderer2DData::MaxVertices]
+    s_Data.QuadVertexBufferBase = new QuadVertex[Renderer2DData::MaxVertices]
     {
-        { glm::vec2(-0.5f,  0.5f), glm::vec2(0.0f, 1.0f) }, // Top left, 0
-        { glm::vec2( 0.5f,  0.5f), glm::vec2(1.0f, 1.0f) }, // Top right, 1
-        { glm::vec2(-0.5f, -0.5f), glm::vec2(0.0f, 0.0f) }, // Bottom left, 2
-        { glm::vec2( 0.5f, -0.5f), glm::vec2(1.0f, 0.0f) }, // Bottom right, 3
+        { glm::vec2(-0.5f, -0.5f), glm::vec2(0.0f, 0.0f) }, // Bottom left,  0
+        { glm::vec2( 0.5f, -0.5f), glm::vec2(1.0f, 0.0f) }, // Bottom right, 1
+        { glm::vec2(-0.5f,  0.5f), glm::vec2(0.0f, 1.0f) }, // Top left,     2
+        { glm::vec2( 0.5f,  0.5f), glm::vec2(1.0f, 1.0f) }, // Top right,    3
     };
 
-    uint32_t* indices = new uint32_t[Renderer2DData::MaxIndices]
+    uint32_t* indices = new uint32_t[Renderer2DData::MaxIndices];
+
+    for(size_t i = 0; i < Renderer2DData::MaxQuads; i++)
     {
-        3, 2, 0,
-        0, 1, 3
-    };
+        indices[6*i + 0] = 4*i + 0;
+        indices[6*i + 1] = 4*i + 2;
+        indices[6*i + 2] = 4*i + 3;
+
+        indices[6*i + 3] = 4*i + 3;
+        indices[6*i + 4] = 4*i + 1;
+        indices[6*i + 5] = 4*i + 0;
+    }
 
     BufferLayout layout =
     {
@@ -45,12 +69,12 @@ void Renderer2D::Init()
         { "a_TextureCoordinate", BufferDataType::Vec2, true },
     };
 
-    IndexBuffer quad_index_buffer(indices, Renderer2DData::MaxIndices);
+    s_Data.QuadIndexBuffer = new IndexBuffer(indices, Renderer2DData::MaxIndices);
 
     s_Data.QuadVertexBuffer = new VertexBuffer(Renderer2DData::MaxVertices, layout);
-    s_Data.QuadVertexBuffer->SetData(s_Data.VertexBufferBase, Renderer2DData::MaxVertices);
+    s_Data.QuadVertexBuffer->SetData(s_Data.QuadVertexBufferBase, Renderer2DData::MaxVertices);
 
-    s_Data.QuadVertexArray = new VertexArray(*s_Data.QuadVertexBuffer, quad_index_buffer);
+    s_Data.QuadVertexArray = new VertexArray(s_Data.QuadVertexBuffer, s_Data.QuadIndexBuffer);
     s_Data.QuadShader = new Shader("Saddle/assets/shaders/Quad.glsl.vert", "Saddle/assets/shaders/Quad.glsl.frag");
 }
 
@@ -70,7 +94,7 @@ void Renderer2D::DrawTexture(Texture2D& texture, const glm::mat4& transform)
     s_Data.QuadShader->SetUniformInt("u_Texture", 1);
     s_Data.QuadShader->SetUniformMatrix4("u_ModelMatrix", transform);
 
-    Renderer::Submit(*s_Data.QuadVertexArray);
+    Renderer::Submit(s_Data.QuadVertexArray);
 }
 
 void Renderer2D::DrawEntity(Entity& entity)

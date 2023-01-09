@@ -71,9 +71,12 @@ private:
         { "a_Color", BufferDataType::Vec3, true },
     };
 
-    VertexArray vertex_array{ vertices, layout, indices };
+    VertexBuffer* vertex_buffer = new VertexBuffer(vertices, layout);
+    IndexBuffer* index_buffer = new IndexBuffer(indices);
+    VertexArray* vertex_array = new VertexArray(vertex_buffer, index_buffer);
+
     Shader shader{ "Sandbox/assets/shaders/3D.glsl.vert", "Sandbox/assets/shaders/3D.glsl.frag" };
-            
+
     glm::vec2 vec{ Window.GetFrameBufferSize() };
     float ratio{ vec.x / vec.y };
     glm::mat4 model{ 1.0f };

@@ -15,6 +15,7 @@
 #include <Saddle/Renderer/Renderer.h>
 #include <Saddle/Renderer/OrthographicCamera.h>
 #include <Saddle/Renderer/OrthographicCameraController.h>
+#include <Saddle/Renderer/Renderer2D.h>
 
 #include <OpenGL/Shader.h>
 #include <OpenGL/VertexBuffer.h>
@@ -56,7 +57,10 @@ private:
         { "a_TextureCoordinate", BufferDataType::Vec2, true },
     };
 
-    VertexArray vertex_array{ vertices, layout, indices };
+    VertexBuffer* vertex_buffer = new VertexBuffer(vertices, layout);
+    IndexBuffer* index_buffer = new IndexBuffer(indices);
+    VertexArray* vertex_array = new VertexArray(vertex_buffer, index_buffer);
+
     Shader shader{ "Sandbox/assets/shaders/texture.glsl.vert", "Sandbox/assets/shaders/texture.glsl.frag" };
     
     Texture2D texture1{ "Sandbox/assets/images/kick_drum.png" };
@@ -102,16 +106,8 @@ void TextureDemo::OnUpdate(TimeStep ts)
 {
     Renderer::Clear({ 1, 1, 1, 1 });
 
-    shader.SetUniformMatrix4("u_ViewMatrix", camera.GetViewMatrix());
-    shader.SetUniformMatrix4("u_ProjMatrix", camera.GetProjectionMatrix());
+    Renderer2D::BeginScene(camera);
 
-    texture2.Bind(1);
-    shader.SetUniformInt("u_Texture", texture2);
-    shader.SetUniformMatrix4("u_ModelMatrix", model2);
-    Renderer::Submit(vertex_array);
-
-    texture1.Bind(0);
-    shader.SetUniformInt("u_Texture", texture1);
-    shader.SetUniformMatrix4("u_ModelMatrix", model1);
-    Renderer::Submit(vertex_array);
+    Renderer2D::DrawTexture(texture1, model1);
+    Renderer2D::DrawTexture(texture2, model2);
 }

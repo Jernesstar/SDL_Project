@@ -21,8 +21,8 @@ public:
     static void DrawEntity(Entity& entity);
 
 private:
-    inline static glm::mat4 s_ViewMatrix;
-    inline static glm::mat4 s_ProjectionMatrix;
+    inline static glm::mat4 s_ViewMatrix{ 1.0f };
+    inline static glm::mat4 s_ProjectionMatrix{ 1.0f };
 
     void StartBatch();
     void Flush();
