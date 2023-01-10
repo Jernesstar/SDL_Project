@@ -108,6 +108,6 @@ void TextureDemo::OnUpdate(TimeStep ts)
 
     Renderer2D::BeginScene(camera);
 
-    Renderer2D::DrawTexture(texture1, model1);
-    Renderer2D::DrawTexture(texture2, model2);
+    Renderer2D::DrawQuad(&texture1, model1);
+    Renderer2D::DrawQuad(&texture2, model2);
 }

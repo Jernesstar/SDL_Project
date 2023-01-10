@@ -17,16 +17,17 @@ class Renderer2D {
 public:
     static void Init();
     static void BeginScene(const OrthographicCamera& camera);
-    static void DrawTexture(Texture2D& texture, const glm::mat4& transform);
+    static void DrawQuad(Texture2D* texture, const glm::mat4& transform);
     static void DrawEntity(Entity& entity);
+    static void EndScene();
 
 private:
     inline static glm::mat4 s_ViewMatrix{ 1.0f };
     inline static glm::mat4 s_ProjectionMatrix{ 1.0f };
 
-    void StartBatch();
-    void Flush();
-    void NextBatch();
+    static void StartBatch();
+    static void Flush();
+    static void NextBatch();
 };
 
 }
