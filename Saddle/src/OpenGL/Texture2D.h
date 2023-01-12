@@ -10,24 +10,30 @@ namespace Saddle {
 
 class Texture2D {
 public:
-    int32_t Width = 0, Height = 0, BitsPerPixel = 4;
     const uint32_t InternalFormat, DataFormat;
 
 public:
-    Texture2D();
+    Texture2D(uint32_t width, uint32_t height);
     Texture2D(const std::string& path);
+    Texture2D(const Texture2D& other) = default;
     ~Texture2D();
 
     void Bind(uint32_t slot = 0);
     void SetData(const std::string& path);
+    void SetData(const void* data, uint32_t size);
 
     const std::string& GetPath() { return m_Path; }
 
-    operator int32_t() const { return m_Slot; }
+    uint32_t GetSlot() const { return m_Slot; }
+    uint32_t GetWidth() const { return m_Width; }
+    uint32_t GetHeight() const { return m_Height; }
+
+    bool operator ==(const Texture2D& other) const { return m_TextureID == other.m_TextureID; }
 
 private:
     uint32_t m_TextureID;
-    int32_t m_Slot;
+    uint32_t m_Slot, m_BitsPerPixel;
+    int m_Width = 0, m_Height = 0;
 
     std::string m_Path;
 };

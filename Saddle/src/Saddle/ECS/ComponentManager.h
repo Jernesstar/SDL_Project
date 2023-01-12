@@ -54,8 +54,7 @@ public:
 
 private:
     std::unordered_map<Entity*, EventListenerComponent> EventListenerComponents;
-    std::unordered_map<Entity*, RigidBodyComponent> RigidBodyComponents;
-    std::unordered_map<Entity*, RGBColorComponent> RGBColorComponents;
+    std::unordered_map<Entity*, TagComponent> TagComponents;
     std::unordered_map<Entity*, TextureComponent> TextureComponents;
     std::unordered_map<Entity*, TransformComponent> TransformComponents;
 

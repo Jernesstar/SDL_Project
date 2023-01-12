@@ -70,4 +70,6 @@ void Game::OnUpdate(TimeStep ts)
 
     Renderer2D::DrawEntity(Kick_Drum);
     Renderer2D::DrawEntity(Snare_Drum);
+
+    Renderer2D::EndScene();
 }

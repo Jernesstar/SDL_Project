@@ -32,34 +32,6 @@ struct EventListenerComponent {
     EventListenerComponent(const EventListenerComponent& other) = default;
 };
 
-// Note: Add more info to this
-struct RigidBodyComponent {
-    glm::vec2 Velocity;
-    float Speed, RotationSpeed, Bounciness;
-
-    RigidBodyComponent(const glm::vec2& velocity = glm::vec2(), float rotation_speed = 0.0f, float bounciness = 0.0f) 
-        : RotationSpeed(rotation_speed), Bounciness(bounciness) { }
-    RigidBodyComponent(const RigidBodyComponent& other) = default;
-    
-    void Update()
-    {
-        Speed = glm::length(Velocity);
-    }
-};
-
-struct RGBColorComponent {
-    glm::vec3 Color;
-
-    RGBColorComponent(const glm::vec3& color = { 0, 0, 0 }) : Color(color) { }
-    RGBColorComponent(const RGBColorComponent& other) : Color(other.Color) { }
-};
-
-// struct SoundComponent {
-//     Sound Sound;
-//
-//     SoundComponent(const std::string& file_path) : Sound(file_path) { }
-// };
-
 struct TagComponent {
     std::string Tag;
 
@@ -69,11 +41,12 @@ struct TagComponent {
 };
 
 struct TextureComponent {
-    Texture2D Texture;
+    Texture2D* Texture;
 
     TextureComponent() = default;
+    TextureComponent(const std::string& path) { Texture = new Texture2D(path); }
+    TextureComponent(uint32_t width, uint32_t height) { Texture = new Texture2D(width, height); }
     TextureComponent(const TextureComponent& other) = default;
-    TextureComponent(const std::string& path) : Texture(path) { }
 };
 
 struct TransformComponent {

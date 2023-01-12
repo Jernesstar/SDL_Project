@@ -5,13 +5,13 @@
 namespace Saddle {
 
 struct QuadVertex {
-    glm::vec2 Position;
+    glm::vec3 Position;
     glm::vec2 TextureCoordinate;
-    uint32_t TextureIndex;
+    float TextureIndex;
 };
 
 struct Renderer2DData {
-    static const uint32_t MaxQuads = 50;
+    static const uint32_t MaxQuads = 10;
     static const uint32_t MaxVertices = MaxQuads * 4;
     static const uint32_t MaxIndices = MaxQuads * 6;
     static const uint32_t MaxTextureSlots = 32;
@@ -27,7 +27,7 @@ struct Renderer2DData {
     QuadVertex* QuadVertexBufferPtr;
 
     Texture2D* TextureSlots[32];
-    uint32_t SlotCount = 0;
+    uint32_t TextureSlotIndex = 0;
 
     glm::vec2 VertexPositions[4] =
     {
@@ -67,9 +67,9 @@ void Renderer2D::Init()
 
     BufferLayout layout =
     {
-        { "VertexPosition", BufferDataType::Vec2 },
+        { "VertexPosition", BufferDataType::Vec3 },
         { "TextureCoordinate", BufferDataType::Vec2 },
-        { "TextureIndex", BufferDataType::Int }
+        { "TextureIndex", BufferDataType::Float }
     };
 
     s_Data.QuadIndexBuffer = new IndexBuffer(indices, Renderer2DData::MaxIndices);
@@ -87,10 +87,6 @@ void Renderer2D::BeginScene(const OrthographicCamera& camera)
     s_ViewMatrix = camera.GetViewMatrix();
     s_ProjectionMatrix = camera.GetProjectionMatrix();
 
-    s_Data.QuadShader->Bind();
-    s_Data.QuadShader->SetUniformMatrix4("u_ViewMatrix", s_ViewMatrix);
-    s_Data.QuadShader->SetUniformMatrix4("u_ProjMatrix", s_ProjectionMatrix);
-
     StartBatch();
 }
 
@@ -103,7 +99,7 @@ void Renderer2D::StartBatch()
 {
     s_Data.QuadVertexBufferPtr = s_Data.QuadVertexBufferBase;
     s_Data.QuadIndexCount = 0;
-    s_Data.SlotCount = 0;
+    s_Data.TextureSlotIndex = 0;
 }
 
 void Renderer2D::Flush()
@@ -111,10 +107,14 @@ void Renderer2D::Flush()
     uint32_t data_size = uint32_t((uint32_t*)s_Data.QuadVertexBufferPtr - (uint32_t*)s_Data.QuadVertexBufferBase);
     s_Data.QuadVertexBuffer->SetData(s_Data.QuadVertexBufferBase, data_size);
 
-    for(uint32_t i = 0; i < s_Data.SlotCount; i++)
+    for(uint32_t i = 0; i < s_Data.TextureSlotIndex; i++)
         s_Data.TextureSlots[i]->Bind(i);
 
-    Renderer::Submit(s_Data.QuadVertexArray);
+    s_Data.QuadShader->Bind();
+    s_Data.QuadShader->SetUniformMatrix4("u_ViewMatrix", s_ViewMatrix);
+    s_Data.QuadShader->SetUniformMatrix4("u_ProjMatrix", s_ProjectionMatrix);
+
+    Renderer::Submit(s_Data.QuadVertexArray, s_Data.QuadIndexCount);
 }
 
 void Renderer2D::NextBatch()
@@ -125,21 +125,34 @@ void Renderer2D::NextBatch()
 
 void Renderer2D::DrawQuad(Texture2D* texture, const glm::mat4& transform)
 {
-    if(s_Data.QuadIndexCount >= Renderer2DData::MaxIndices || s_Data.SlotCount >= Renderer2DData::MaxTextureSlots)
+    if(s_Data.QuadIndexCount >= Renderer2DData::MaxIndices || s_Data.TextureSlotIndex >= Renderer2DData::MaxTextureSlots)
         NextBatch();
 
-    s_Data.TextureSlots[s_Data.SlotCount] = texture;
+    float textureIndex = 0.0f;
+    for(uint32_t i = 0; i < s_Data.TextureSlotIndex; i++)
+    {
+        if (*s_Data.TextureSlots[i] == *texture)
+        {
+            textureIndex = (float)i;
+            break;
+        }
+    }
+
+    if(textureIndex == 0.0f)
+    {
+        textureIndex = (float)s_Data.TextureSlotIndex;
+        s_Data.TextureSlots[s_Data.TextureSlotIndex++] = texture;
+    }
 
     for(uint32_t i = 0; i < 4; i++)
     {
-        s_Data.QuadVertexBufferPtr->Position = transform * glm::vec4(s_Data.VertexPositions[i], 0, 0);
+        s_Data.QuadVertexBufferPtr->Position = glm::vec3(transform * glm::vec4(s_Data.VertexPositions[i], 0, 0));
         s_Data.QuadVertexBufferPtr->TextureCoordinate = s_Data.TextureCoords[i];
-        s_Data.QuadVertexBufferPtr->TextureIndex = s_Data.SlotCount;
+        s_Data.QuadVertexBufferPtr->TextureIndex = textureIndex;
         s_Data.QuadVertexBufferPtr++;
     }
 
     s_Data.QuadIndexCount += 6;
-    s_Data.SlotCount++;
 }
 
 void Renderer2D::DrawEntity(Entity& entity)
@@ -148,10 +161,9 @@ void Renderer2D::DrawEntity(Entity& entity)
         return;
 
     glm::mat4 transform = entity.GetComponent<TransformComponent>().GetTransfrom();
-    Texture2D& texture = entity.GetComponent<TextureComponent>().Texture;
+    Texture2D* texture = entity.GetComponent<TextureComponent>().Texture;
 
-    // Note: Maybe change ampersand usage ?
-    DrawQuad(&texture, transform);
+    DrawQuad(texture, transform);
 }
 
 }

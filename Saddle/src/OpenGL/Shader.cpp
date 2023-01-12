@@ -114,10 +114,8 @@ uint32_t Shader::CreateProgram(const ShaderFile& vertex_shader, const ShaderFile
         char* message = (char*)alloca(length * sizeof(char));
         glGetProgramInfoLog(program, length, &length, message);
 
-        SADDLE_CORE_ASSERT_ARGS(false, 
-            "%s\n \
-            Error when trying to link the following shader files:\n \
-            %s, %s", message, vertex_shader.Path, fragment_shader.Path \
+        SADDLE_CORE_ASSERT_ARGS(false, "%sError occured when trying to link the following shader files:\n%s, %s", 
+            message, vertex_shader.Path.c_str(), fragment_shader.Path.c_str()
         );
 
         glDeleteProgram(program);
