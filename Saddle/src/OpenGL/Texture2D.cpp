@@ -51,7 +51,7 @@ void Texture2D::Bind(uint32_t slot)
 
 void Texture2D::SetData(const std::string& path)
 {
-    unsigned char* pixel_data = Utils::ReadImage(path.c_str(), (int&)m_Width, (int&)m_Height, 4, 1);
+    unsigned char* pixel_data = Utils::ReadImage(path.c_str(), m_Width, m_Height, 4, 1);
     glTextureSubImage2D(m_TextureID, 0, 0, 0, m_Width, m_Height, DataFormat, GL_UNSIGNED_BYTE, pixel_data);
     stbi_image_free(pixel_data);
 }

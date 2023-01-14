@@ -32,7 +32,7 @@ public:
 
 private:
     uint32_t m_TextureID;
-    uint32_t m_Slot, m_BitsPerPixel;
+    uint32_t m_Slot;
     int m_Width = 0, m_Height = 0;
 
     std::string m_Path;

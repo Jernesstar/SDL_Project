@@ -76,7 +76,7 @@ void Renderer2D::Init()
     delete[] indices;
 
     s_Data.QuadVertexBuffer = new VertexBuffer(Renderer2DData::MaxVertices, layout);
-    s_Data.QuadVertexBuffer->SetData(s_Data.QuadVertexBufferBase, Renderer2DData::MaxVertices);
+    s_Data.QuadVertexBuffer->SetData(s_Data.QuadVertexBufferBase, Renderer2DData::MaxVertices * sizeof(QuadVertex));
 
     s_Data.QuadVertexArray = new VertexArray(s_Data.QuadVertexBuffer, s_Data.QuadIndexBuffer);
     s_Data.QuadShader = new Shader("Saddle/assets/shaders/Quad.glsl.vert", "Saddle/assets/shaders/Quad.glsl.frag");
@@ -107,8 +107,8 @@ void Renderer2D::Flush()
     uint32_t data_size = uint32_t((uint32_t*)s_Data.QuadVertexBufferPtr - (uint32_t*)s_Data.QuadVertexBufferBase);
     s_Data.QuadVertexBuffer->SetData(s_Data.QuadVertexBufferBase, data_size);
 
-    for(uint32_t i = 0; i < s_Data.TextureSlotIndex; i++)
-        s_Data.TextureSlots[i]->Bind(i);
+    // for(uint32_t i = 0; i < s_Data.TextureSlotIndex; i++)
+    //     s_Data.TextureSlots[i]->Bind(i);
 
     s_Data.QuadShader->Bind();
     s_Data.QuadShader->SetUniformMatrix4("u_ViewMatrix", s_ViewMatrix);
@@ -131,7 +131,7 @@ void Renderer2D::DrawQuad(Texture2D* texture, const glm::mat4& transform)
     float textureIndex = 0.0f;
     for(uint32_t i = 0; i < s_Data.TextureSlotIndex; i++)
     {
-        if (*s_Data.TextureSlots[i] == *texture)
+        if(*s_Data.TextureSlots[i] == *texture)
         {
             textureIndex = (float)i;
             break;
