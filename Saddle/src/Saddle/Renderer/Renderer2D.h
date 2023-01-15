@@ -22,8 +22,7 @@ public:
     static void EndScene();
 
 private:
-    inline static glm::mat4 s_ViewMatrix{ 1.0f };
-    inline static glm::mat4 s_ProjectionMatrix{ 1.0f };
+    inline static glm::mat4 s_ViewProjMatrix{ 1.0f };
 
     static void StartBatch();
     static void Flush();

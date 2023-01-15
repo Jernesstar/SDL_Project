@@ -7,11 +7,10 @@ namespace Saddle {
 struct QuadVertex {
     glm::vec3 Position;
     glm::vec2 TextureCoordinate;
-    float TextureIndex;
 };
 
 struct Renderer2DData {
-    static const uint32_t MaxQuads = 10;
+    static const uint32_t MaxQuads = 2;
     static const uint32_t MaxVertices = MaxQuads * 4;
     static const uint32_t MaxIndices = MaxQuads * 6;
     static const uint32_t MaxTextureSlots = 32;
@@ -29,12 +28,12 @@ struct Renderer2DData {
     Texture2D* TextureSlots[32];
     uint32_t TextureSlotIndex = 0;
 
-    glm::vec2 VertexPositions[4] =
+    glm::vec4 VertexPositions[4] =
     {
-        { -0.5f, -0.5f }, // Bottom left,  0
-        {  0.5f, -0.5f }, // Bottom right, 1
-        { -0.5f,  0.5f }, // Top left,     2
-        {  0.5f,  0.5f }, // Top right,    3
+        { -0.5f, -0.5f, 0.0f, 1.0f }, // Bottom left,  0
+        {  0.5f, -0.5f, 0.0f, 1.0f }, // Bottom right, 1
+        { -0.5f,  0.5f, 0.0f, 1.0f }, // Top left,     2
+        {  0.5f,  0.5f, 0.0f, 1.0f }, // Top right,    3
     };
 
     glm::vec2 TextureCoords[4] =
@@ -67,9 +66,8 @@ void Renderer2D::Init()
 
     BufferLayout layout =
     {
-        { "VertexPosition", BufferDataType::Vec3 },
-        { "TextureCoordinate", BufferDataType::Vec2 },
-        { "TextureIndex", BufferDataType::Float }
+        { "VertexPosition", BufferDataType::Vec3, true },
+        { "TextureCoordinate", BufferDataType::Vec2, true },
     };
 
     s_Data.QuadIndexBuffer = new IndexBuffer(indices, Renderer2DData::MaxIndices);
@@ -84,8 +82,7 @@ void Renderer2D::Init()
 
 void Renderer2D::BeginScene(const OrthographicCamera& camera)
 {
-    s_ViewMatrix = camera.GetViewMatrix();
-    s_ProjectionMatrix = camera.GetProjectionMatrix();
+    s_ViewProjMatrix = camera.GetViewProjectionMatrix();
 
     StartBatch();
 }
@@ -111,8 +108,7 @@ void Renderer2D::Flush()
     //     s_Data.TextureSlots[i]->Bind(i);
 
     s_Data.QuadShader->Bind();
-    s_Data.QuadShader->SetUniformMatrix4("u_ViewMatrix", s_ViewMatrix);
-    s_Data.QuadShader->SetUniformMatrix4("u_ProjMatrix", s_ProjectionMatrix);
+    s_Data.QuadShader->SetUniformMatrix4("u_ViewProjMatrix", s_ViewProjMatrix);
 
     Renderer::Submit(s_Data.QuadVertexArray, s_Data.QuadIndexCount);
 }
@@ -128,27 +124,26 @@ void Renderer2D::DrawQuad(Texture2D* texture, const glm::mat4& transform)
     if(s_Data.QuadIndexCount >= Renderer2DData::MaxIndices || s_Data.TextureSlotIndex >= Renderer2DData::MaxTextureSlots)
         NextBatch();
 
-    float textureIndex = 0.0f;
-    for(uint32_t i = 0; i < s_Data.TextureSlotIndex; i++)
-    {
-        if(*s_Data.TextureSlots[i] == *texture)
-        {
-            textureIndex = (float)i;
-            break;
-        }
-    }
+    // float textureIndex = 0.0f;
+    // for(uint32_t i = 0; i < s_Data.TextureSlotIndex; i++)
+    // {
+    //     if(*s_Data.TextureSlots[i] == *texture)
+    //     {
+    //         textureIndex = (float)i;
+    //         break;
+    //     }
+    // }
 
-    if(textureIndex == 0.0f)
-    {
-        textureIndex = (float)s_Data.TextureSlotIndex;
-        s_Data.TextureSlots[s_Data.TextureSlotIndex++] = texture;
-    }
+    // if(textureIndex == 0.0f)
+    // {
+    //     textureIndex = (float)s_Data.TextureSlotIndex;
+    //     s_Data.TextureSlots[s_Data.TextureSlotIndex++] = texture;
+    // }
 
     for(uint32_t i = 0; i < 4; i++)
     {
-        s_Data.QuadVertexBufferPtr->Position = glm::vec3(transform * glm::vec4(s_Data.VertexPositions[i], 0, 0));
+        s_Data.QuadVertexBufferPtr->Position = transform * s_Data.VertexPositions[i];
         s_Data.QuadVertexBufferPtr->TextureCoordinate = s_Data.TextureCoords[i];
-        s_Data.QuadVertexBufferPtr->TextureIndex = textureIndex;
         s_Data.QuadVertexBufferPtr++;
     }
 

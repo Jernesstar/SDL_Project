@@ -64,7 +64,7 @@ void Game::OnUpdate(TimeStep ts)
     if(Input::KeyPressed(Key::S))
         translation2.y -= speed * ts;
 
-    Renderer::Clear({ 1, 1, 1, 1 });
+    Renderer::Clear({ 1.0f, 0.0f, 0.0f, 1.0f });
 
     Renderer2D::BeginScene(camera);
 
