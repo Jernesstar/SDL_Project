@@ -7,10 +7,11 @@ namespace Saddle {
 struct QuadVertex {
     glm::vec3 Position;
     glm::vec2 TextureCoordinate;
+    uint32_t TextureIndex;
 };
 
 struct Renderer2DData {
-    static const uint32_t MaxQuads = 2;
+    static const uint32_t MaxQuads = 50;
     static const uint32_t MaxVertices = MaxQuads * 4;
     static const uint32_t MaxIndices = MaxQuads * 6;
     static const uint32_t MaxTextureSlots = 32;
@@ -66,8 +67,9 @@ void Renderer2D::Init()
 
     BufferLayout layout =
     {
-        { "VertexPosition", BufferDataType::Vec3, true },
-        { "TextureCoordinate", BufferDataType::Vec2, true },
+        { "VertexPosition",    BufferDataType::Vec3 },
+        { "TextureCoordinate", BufferDataType::Vec2 },
+        { "TextureIndex",      BufferDataType::Int },
     };
 
     s_Data.QuadIndexBuffer = new IndexBuffer(indices, Renderer2DData::MaxIndices);
@@ -101,11 +103,11 @@ void Renderer2D::StartBatch()
 
 void Renderer2D::Flush()
 {
-    uint32_t data_size = uint32_t((uint32_t*)s_Data.QuadVertexBufferPtr - (uint32_t*)s_Data.QuadVertexBufferBase);
+    uint32_t data_size = uint32_t(s_Data.QuadVertexBufferPtr - s_Data.QuadVertexBufferBase) * sizeof(QuadVertex);
     s_Data.QuadVertexBuffer->SetData(s_Data.QuadVertexBufferBase, data_size);
 
-    // for(uint32_t i = 0; i < s_Data.TextureSlotIndex; i++)
-    //     s_Data.TextureSlots[i]->Bind(i);
+    for(uint32_t i = 0; i < s_Data.TextureSlotIndex; i++)
+        s_Data.TextureSlots[i]->Bind(i);
 
     s_Data.QuadShader->Bind();
     s_Data.QuadShader->SetUniformMatrix4("u_ViewProjMatrix", s_ViewProjMatrix);
@@ -124,26 +126,27 @@ void Renderer2D::DrawQuad(Texture2D* texture, const glm::mat4& transform)
     if(s_Data.QuadIndexCount >= Renderer2DData::MaxIndices || s_Data.TextureSlotIndex >= Renderer2DData::MaxTextureSlots)
         NextBatch();
 
-    // float textureIndex = 0.0f;
-    // for(uint32_t i = 0; i < s_Data.TextureSlotIndex; i++)
-    // {
-    //     if(*s_Data.TextureSlots[i] == *texture)
-    //     {
-    //         textureIndex = (float)i;
-    //         break;
-    //     }
-    // }
+    uint32_t textureIndex = 0.0f;
+    for(uint32_t i = 0; i < s_Data.TextureSlotIndex; i++)
+    {
+        if(*s_Data.TextureSlots[i] == *texture)
+        {
+            textureIndex = i;
+            break;
+        }
+    }
 
-    // if(textureIndex == 0.0f)
-    // {
-    //     textureIndex = (float)s_Data.TextureSlotIndex;
-    //     s_Data.TextureSlots[s_Data.TextureSlotIndex++] = texture;
-    // }
+    if(textureIndex == 0)
+    {
+        textureIndex = s_Data.TextureSlotIndex;
+        s_Data.TextureSlots[s_Data.TextureSlotIndex++] = texture;
+    }
 
     for(uint32_t i = 0; i < 4; i++)
     {
         s_Data.QuadVertexBufferPtr->Position = transform * s_Data.VertexPositions[i];
         s_Data.QuadVertexBufferPtr->TextureCoordinate = s_Data.TextureCoords[i];
+        s_Data.QuadVertexBufferPtr->TextureIndex = textureIndex;
         s_Data.QuadVertexBufferPtr++;
     }
 
