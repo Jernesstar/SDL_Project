@@ -5,13 +5,10 @@
 
 namespace Saddle {
 
-Scene::Scene() { }
-Scene::~Scene() { }
-
 void Scene::Update()
 {
     TimePoint time = Time::GetTime();
-    TimeStep ts = time - (m_LastFrameTime != 0 ? m_LastFrameTime : Time::GetTime());
+    TimeStep ts = time - m_LastFrameTime;
     m_LastFrameTime = time;
 
     // for(int i = 0; i < entities.size(); i++)

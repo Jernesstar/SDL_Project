@@ -9,24 +9,23 @@ namespace Saddle {
 class VertexBuffer {
 public:
     const BufferLayout Layout;
-    const uint32_t Count;
 
 public:
     template<typename T, std::size_t TCount>
     VertexBuffer(const T (&vertices)[TCount], const BufferLayout& layout)
-        : Count(TCount), Layout(layout)
+        : Layout(layout)
     {
         glCreateBuffers(1, &m_VertexBufferID);
         glBindBuffer(GL_ARRAY_BUFFER, m_VertexBufferID);
-        glBufferData(GL_ARRAY_BUFFER, Count * Layout.Stride, vertices, GL_DYNAMIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, TCount * Layout.Stride, vertices, GL_DYNAMIC_DRAW);
     }
 
     VertexBuffer(std::size_t count, const BufferLayout& layout)
-        : Layout(layout), Count(count)
+        : Layout(layout)
     {
         glCreateBuffers(1, &m_VertexBufferID);
         glBindBuffer(GL_ARRAY_BUFFER, m_VertexBufferID);
-        glBufferData(GL_ARRAY_BUFFER, Count * Layout.Stride, nullptr, GL_DYNAMIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, count * Layout.Stride, nullptr, GL_DYNAMIC_DRAW);
     }
 
     ~VertexBuffer() { glDeleteBuffers(1, &m_VertexBufferID); }

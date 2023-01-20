@@ -11,16 +11,14 @@ using Duration = std::chrono::duration<float, std::milli>;
 class TimePoint {
 public:
     TimePoint() = default;
-    TimePoint(Time_Point time_point) : m_TimePoint(time_point) { }
+    TimePoint(const Time_Point& time_point) : m_TimePoint(time_point) { }
     ~TimePoint() = default;
 
     float operator -(const TimePoint& other)
     {
         Duration duration = this->m_TimePoint - other.m_TimePoint;
-        return duration.count();
+        return (float)duration.count();
     }
-
-    operator float() const { return m_TimePoint.time_since_epoch().count(); }
 
 private:
     Time_Point m_TimePoint;

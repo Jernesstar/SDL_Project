@@ -126,7 +126,7 @@ void Renderer2D::DrawQuad(Texture2D* texture, const glm::mat4& transform)
     if(s_Data.QuadIndexCount >= Renderer2DData::MaxIndices || s_Data.TextureSlotIndex >= Renderer2DData::MaxTextureSlots)
         NextBatch();
 
-    uint32_t textureIndex = 0.0f;
+    uint32_t textureIndex = 0;
     for(uint32_t i = 0; i < s_Data.TextureSlotIndex; i++)
     {
         if(*s_Data.TextureSlots[i] == *texture)

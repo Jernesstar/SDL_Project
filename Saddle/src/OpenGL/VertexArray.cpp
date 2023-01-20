@@ -80,7 +80,7 @@ void VertexArray::SetVertexBuffer(VertexBuffer* vertex_buffer)
             case BufferDataType::Mat3:
             case BufferDataType::Mat4:
             {
-                for(int i = 0; i < element.ComponentCount; i++)
+                for(uint32_t i = 0; i < element.ComponentCount; i++)
                 {
                     glEnableVertexAttribArray(buffer_index);
                     glVertexAttribPointer(

@@ -13,8 +13,8 @@ class Entity;
 
 class Scene {
 public:
-    Scene();
-    ~Scene();
+    Scene() : m_LastFrameTime(Time::GetTime()) { };
+    ~Scene() = default;
 
     void AddEntity(Entity& entity);
     void RemoveEntity(Entity& entity);
