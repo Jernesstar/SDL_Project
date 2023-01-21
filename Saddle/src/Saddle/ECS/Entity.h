@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Saddle/Scene/Scene.h"
+#include "Scene.h"
 
 namespace Saddle {
 

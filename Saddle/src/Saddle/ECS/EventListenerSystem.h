@@ -1,6 +1,7 @@
+#include "Components.h"
+#include "Entity.h"
+
 #include "Saddle/Core/Assert.h"
-#include "Saddle/Scene/Components.h"
-#include "Saddle/Scene/Entity.h"
 #include "Saddle/Events/Events.h"
 #include "Saddle/Core/Input.h"
 

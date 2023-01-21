@@ -101,11 +101,6 @@ Demo3D::Demo3D()
         if(event.Key == Key::Escape)
             Application::Close();
     });
-
-    EventSystem::RegisterEventListener<ApplicationUpdatedEvent>(
-    [this](const ApplicationUpdatedEvent& event) {
-        this->OnUpdate(event.DeltaTime);
-    });
 }
 
 void Demo3D::OnUpdate(TimeStep ts)

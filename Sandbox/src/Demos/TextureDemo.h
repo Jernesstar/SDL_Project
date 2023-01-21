@@ -61,11 +61,6 @@ public:
 TextureDemo::TextureDemo()
 {
     this->Window.SetWindowIcon("Sandbox/assets/images/start_bg.png");
-
-    EventSystem::RegisterEventListener<ApplicationUpdatedEvent>(
-    [this](const ApplicationUpdatedEvent& event) {
-        this->OnUpdate(event.DeltaTime);
-    });
 }
 
 void TextureDemo::OnUpdate(TimeStep ts)

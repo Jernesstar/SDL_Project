@@ -13,11 +13,6 @@ Game::Game()
             Application::Close();
     });
 
-    EventSystem::RegisterEventListener<ApplicationUpdatedEvent>(
-    [this](const ApplicationUpdatedEvent& event) {
-        this->OnUpdate(event.DeltaTime);
-    });
-
     Kick_Drum.AddComponent<TextureComponent>("Sandbox/assets/images/kick_drum.png");
     Snare_Drum.AddComponent<TextureComponent>("Sandbox/assets/images/snare_drum.jpg");
 
@@ -44,7 +39,7 @@ void Game::OnUpdate(TimeStep ts)
 {
     auto& translation1 = Kick_Drum.GetComponent<TransformComponent>().Translation;
     auto& translation2 = Snare_Drum.GetComponent<TransformComponent>().Translation;
-    float speed = 0.0025f;
+    float speed = 0.0009f;
 
     if(Input::KeyPressed(Key::Left))
         translation1.x -= speed * ts;
@@ -68,8 +63,8 @@ void Game::OnUpdate(TimeStep ts)
 
     Renderer2D::BeginScene(camera);
 
-    Renderer2D::DrawEntity(Kick_Drum);
     Renderer2D::DrawEntity(Snare_Drum);
+    Renderer2D::DrawEntity(Kick_Drum);
 
     Renderer2D::EndScene();
 }
