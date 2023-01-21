@@ -10,7 +10,7 @@
 #include <Saddle/Core/Input.h>
 #include <Saddle/ECS/Entity.h>
 #include <Saddle/ECS/ComponentManager.h>
-#include <Saddle/Scene/Scene.h>
+#include <Saddle/ECS/Scene.h>
 #include <Saddle/Events/EventSystem.h>
 #include <Saddle/Renderer/Renderer.h>
 #include <Saddle/Renderer/OrthographicCamera.h>
