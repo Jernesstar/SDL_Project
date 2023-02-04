@@ -9,6 +9,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/quaternion.hpp>
 
+#include "Saddle/Events/EventSystem.h"
 #include "Saddle/Events/KeyEvents.h"
 #include "Saddle/Events/MouseEvents.h"
 #include "Saddle/Events/WindowEvents.h"
@@ -30,6 +31,18 @@ struct EventListenerComponent {
 
     EventListenerComponent() = default;
     EventListenerComponent(const EventListenerComponent& other) = default;
+
+    void RegisterCallbacks()
+    {
+        EventSystem::RegisterEventListener(this->OnKeyPressed);
+        EventSystem::RegisterEventListener(this->OnKeyReleased);
+        EventSystem::RegisterEventListener(this->OnMouseMoved);
+        EventSystem::RegisterEventListener(this->OnMouseScrolled);
+        EventSystem::RegisterEventListener(this->OnMouseButtonPressed);
+        EventSystem::RegisterEventListener(this->OnMouseButtonReleased);
+        EventSystem::RegisterEventListener(this->OnWindowResized);
+        EventSystem::RegisterEventListener(this->OnWindowClosed);
+    }
 };
 
 struct TagComponent {

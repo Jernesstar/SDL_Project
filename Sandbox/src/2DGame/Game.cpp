@@ -33,6 +33,22 @@ Game::Game()
             glm::vec3{ 0.25f, 0.25f, 0.25f }
         }
     );
+
+    auto& event_callback1 = Kick_Drum.AddComponent<EventListenerComponent>();
+    auto& event_callback2 = Snare_Drum.AddComponent<EventListenerComponent>();
+
+    event_callback1.OnKeyPressed =
+    [](const KeyPressedEvent& event) {
+        printf("Hello 1\n");
+    };
+
+    event_callback2.OnKeyPressed =
+    [](const KeyPressedEvent& event) {
+        printf("Hello 2\n");
+    };
+
+    event_callback1.RegisterCallbacks();
+    event_callback2.RegisterCallbacks();
 }
 
 void Game::OnUpdate(TimeStep ts)

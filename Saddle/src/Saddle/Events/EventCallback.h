@@ -9,20 +9,23 @@ namespace Saddle {
 template<typename TEvent>
 class EventCallback {
 public:
-    const UUID ID;
-    std::function<void(const TEvent&)> Callback;
-
-public:
     EventCallback(const std::function<void(const TEvent&)>& callback = [](const TEvent& event) { })
-        : ID(), Callback(callback) { }
+        : m_ID(), m_Callback(callback) { }
         
-    EventCallback<TEvent>& operator =(const EventCallback<TEvent>& other) { Callback = other.Callback; return *this; };
-    EventCallback<TEvent>& operator =(const std::function<void(const TEvent&)>& callback) { Callback = callback; return *this; }
+    EventCallback<TEvent>& operator =(const EventCallback<TEvent>& other) = default;
+    EventCallback<TEvent>& operator =(const std::function<void(const TEvent&)>& callback) { m_Callback = callback; return *this; }
 
-    operator bool() { return bool(this->Callback); }
-    bool operator ==(const EventCallback<TEvent>& other) { return this->ID == other.ID; }
-    bool operator !=(const EventCallback<TEvent>& other) { return this->ID != other.ID; }
-    void operator ()(const TEvent& event) { this->Callback(event); }
+    operator bool() const { return bool(this->m_Callback); }
+    bool operator ==(const EventCallback<TEvent>& other) const { return this->m_ID == other.m_ID; }
+    bool operator !=(const EventCallback<TEvent>& other) const { return this->m_ID != other.m_ID; }
+    void operator ()(const TEvent& event) const { this->m_Callback(event); }
+
+    const UUID& GetID() const { return m_ID; }
+    const std::function<void(const TEvent&)> GetCallback() const { return m_Callback; } 
+
+private:
+    UUID m_ID;
+    std::function<void(const TEvent&)> m_Callback;
 };
 
 }

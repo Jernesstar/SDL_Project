@@ -1,5 +1,6 @@
 #pragma once
 
+#include <iostream>
 #include <functional>
 #include <unordered_map>
 
@@ -27,15 +28,18 @@ public:
     template<typename TEvent>
     static void RegisterEventListener(const EventCallback<TEvent>& event_callback)
     {
+        if(!event_callback.GetCallback())
+            return;
+
         Callbacks<TEvent>& list = GetCallbacks<TEvent>();
-        list[event_callback.ID] = event_callback;
+        list[event_callback.GetID()] = event_callback;
     }
 
     template<typename TEvent>
     static EventCallback<TEvent> RegisterEventListener(const std::function<void(const TEvent&)>& event_callback)
     {
         EventCallback<TEvent> _event_callback(event_callback);
-        RegisterEventListener<TEvent>(_event_callback);
+        RegisterEventListener<TEvent>((const EventCallback<TEvent>&)_event_callback);
         return _event_callback;
     }
 
@@ -66,8 +70,8 @@ private:
     {
         Callbacks<TEvent>& callback_list = GetCallbacks<TEvent>();
     
-        for(auto& [id, func] : callback_list) 
-            if(func) func(event); 
+        for(auto& [_, func] : callback_list) 
+            func(event); 
     }
 
     template<typename TEvent>
