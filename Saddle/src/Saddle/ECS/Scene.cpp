@@ -41,17 +41,11 @@ void Scene::Pause() { m_LastFrameTime = Time::GetTime(); }
 void Scene::AddEntity(Entity& entity)
 {
     entity.m_Scene = this;
-
-    // // Note: Place this in a method that regularly updates all the Entities
-    // if(entity.HasComponent<EventListenerComponent>())
-    // {
-    //     EventSystem::RegisterEventListener<Event>(
-    //         [&entity](const Event& event) {
-    //             // EventListenerSystem::OnEvent(entity, event);
-    //         }
-    //     );
-    // }
 }
 
+void Scene::RemoveEntity(Entity& entity)
+{
+    m_Registry.RemoveEntity(entity);
+}
 
 }

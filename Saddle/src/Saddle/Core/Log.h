@@ -11,6 +11,7 @@ public:
     {
         printf("[Info]: ");
         printf(format_string.c_str(), std::forward<Args>(args)...);
+        printf("\n");
     }
 
     template<typename... Args>
@@ -18,6 +19,7 @@ public:
     {
         printf("[Warning]: ");
         printf(format_string.c_str(), std::forward<Args>(args)...);
+        printf("\n");
     }
 
     template<typename... Args>
@@ -25,6 +27,7 @@ public:
     {
         printf("[Error]: ");
         printf(format_string.c_str(), std::forward<Args>(args)...);
+        printf("\n");
     }
 
 private:

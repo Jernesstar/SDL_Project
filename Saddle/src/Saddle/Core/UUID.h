@@ -1,6 +1,5 @@
 #pragma once
 
-#include <iostream>
 #include <cstdlib>
 #include <time.h>
 
@@ -8,7 +7,7 @@ namespace Saddle {
 
 class UUID {
 public:
-    UUID() { m_UUID = ++id; std::cout << m_UUID << "\n"; }
+    UUID() { m_UUID = ++id; }
     UUID(uint64_t uuid) : m_UUID(uuid) { }
 
     operator uint64_t() const { return m_UUID; }

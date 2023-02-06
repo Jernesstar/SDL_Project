@@ -7,7 +7,7 @@ namespace Saddle {
 class Entity {
 public:
     Entity(Scene& scene) : m_Scene(&scene) { }
-    ~Entity() = default;
+    ~Entity() { m_Scene->RemoveEntity(*this); }
 
     template<typename TComponent>
     bool HasComponent()
