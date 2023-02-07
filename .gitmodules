@@ -11,3 +11,6 @@
 [submodule "Saddle/vendor/stb_image"]
 	path = Saddle/vendor/stb_image
 	url = https://github.com/Jernesstar/stb_image
+[submodule "Saddle/vendor/freetype"]
+	path = Saddle/vendor/freetype
+	url = https://github.com/freetype/freetype.git
