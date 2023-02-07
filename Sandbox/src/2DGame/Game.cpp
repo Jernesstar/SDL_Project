@@ -16,9 +16,6 @@ Game::Game()
     Kick_Drum.AddComponent<TextureComponent>("Sandbox/assets/images/kick_drum.png");
     Snare_Drum.AddComponent<TextureComponent>("Sandbox/assets/images/snare_drum.jpg");
 
-    Snare_Drum.AddComponent<TextureComponent>("Sandbox/assets/images/snare_drum.jpg");
-    Snare_Drum.RemoveComponent<TagComponent>();
-
     Kick_Drum.AddComponent<TransformComponent>(
         TransformComponent
         {

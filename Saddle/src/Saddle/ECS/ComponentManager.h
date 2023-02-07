@@ -83,6 +83,5 @@ struct ComponentManager::TypeName<TextureComponent> { static const char* GetName
 template<>
 struct ComponentManager::TypeName<TransformComponent> { static const char* GetName() { return "TransformComponent"; } };
 
-
 }
 
