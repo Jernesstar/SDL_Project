@@ -24,18 +24,20 @@ project "Saddle"
     {
         "src",
 
-        "%{Includes.glm}",
-        "%{Includes.glfw}",
+        "%{Includes.freetype}",
         "%{Includes.glad}",
+        "%{Includes.glfw}",
+        "%{Includes.glm}",
         "%{Includes.stb_image}",
     }
     
     links
     {
-        "glfw",
+        "freetype",
         "glad",
+        "glfw",
         "stb_image",
-        "gdi32"
+        "gdi32",
     }
 
     filter "system:windows"

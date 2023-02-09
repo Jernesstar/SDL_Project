@@ -3,14 +3,16 @@
 .vs/
 **.sln
 **.vcxproj*
-CppProperties.json
 
 # Exes and intermediates
 /bin/
 /obj/
 
 # Submodules
-/Saddle/vendor/
+/Saddle/vendor/glad
+/Saddle/vendor/glfw
+/Saddle/vendor/glm
+/Saddle/vendor/stb_image
 
 # GNU Makefiles
 Makefile
