@@ -15,7 +15,7 @@ workspace "Saddle"
         "Dist"
     }
 
--- include "Saddle/vendor/freetype"
+include "Saddle/vendor/freetype"
 include "Saddle/vendor/glad"
 include "Saddle/vendor/glfw"
 include "Saddle/vendor/stb_image"
