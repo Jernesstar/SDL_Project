@@ -9,10 +9,7 @@
 /obj/
 
 # Submodules
-/Saddle/vendor/glad
-/Saddle/vendor/glfw
-/Saddle/vendor/glm
-/Saddle/vendor/stb_image
+/Saddle/vendor
 
 # GNU Makefiles
 Makefile
