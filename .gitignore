@@ -9,7 +9,7 @@
 /obj/
 
 # Submodules
-/Saddle/vendor
+/Saddle/vendor/
 
 # GNU Makefiles
 Makefile
