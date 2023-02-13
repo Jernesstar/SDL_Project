@@ -56,4 +56,10 @@ void Texture2D::SetData(const std::string& path)
     stbi_image_free(pixel_data);
 }
 
+void Texture2D::SetData(const void* data, uint32_t size)
+{
+    SADDLE_CORE_ASSERT(size == m_Width * m_Height * 4, "Data must be the whole size of the texture.");
+    glTextureSubImage2D(m_TextureID, 0, 0, 0, m_Width, m_Height, DataFormat, GL_UNSIGNED_BYTE, data);
+}
+
 }
