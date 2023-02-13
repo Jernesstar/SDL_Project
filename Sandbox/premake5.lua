@@ -16,15 +16,17 @@ project "Sandbox"
     {
         "%{wks.location}/Saddle/src",
 
-        "%{Includes.glm}",
-        "%{Includes.glfw}",
+        "%{Includes.freetype}",
         "%{Includes.glad}",
+        "%{Includes.glfw}",
+        "%{Includes.glm}",
         "%{Includes.stb_image}",
     }
 
     links
     {
         "Saddle",
+        "freetype",
         "glfw",
         "glad",
         "stb_image",

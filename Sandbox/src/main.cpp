@@ -3,6 +3,7 @@
 #include <Saddle/Core/Application.h>
 
 #include "Demos/TextureDemo.h"
+#include "Demos/FontDemo.h"
 #include "Demos/Demo3D.h"
 #include "2DGame/Game.h"
 
@@ -21,7 +22,9 @@ Application* CreateApplication(const ApplicationCommandLineArgs& args)
             return new TextureDemo();
         if(project == "Game")
             return new Game();
+        if(project == "Font")
+            return new FontDemo();
     }
 
-    return nullptr;
+    return new Demo3D();
 }
