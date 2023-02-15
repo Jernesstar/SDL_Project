@@ -7,9 +7,7 @@ layout(binding = 0) uniform sampler2D u_Textures[32];
 
 void main()
 {
-    vec4 texColor = vec4(0.0, 0.0, 0.0, 0.0);
-    
-    texColor = texture(u_Textures[v_TextureIndex], v_TextureCoordinate);
+    vec4 texColor = texture(u_Textures[v_TextureIndex], v_TextureCoordinate);
 
     gl_FragColor = texColor;
 }
