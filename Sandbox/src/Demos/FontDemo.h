@@ -14,15 +14,15 @@ class FontDemo : public Application {
 public:
     FontDemo();
 
-    void OnUpdate(TimeStep timeStep) override;
+    void OnUpdate(TimeStep ts) override;
     void RenderText(std::string text, float x, float y, float scale, glm::vec3 color);
 
 private:
     struct Character {
-        uint32_t TextureID;  // ID handle of the glyph texture
-        glm::ivec2 Size;    // Offset from baseline to left/top of glyph
-        glm::ivec2 Bearing;    // Offset from baseline to left/top of glyph
-        uint32_t Advance;    // Offset to advance to next glyph
+        uint32_t   TextureID; // ID handle of the glyph texture
+        glm::ivec2 Size;      // Offset from baseline to left/top of glyph
+        glm::ivec2 Bearing;   // Offset from baseline to left/top of glyph
+        uint32_t   Advance;   // Offset to advance to next glyph
     };
 
     std::unordered_map<char, Character> Characters;
@@ -32,8 +32,6 @@ private:
     
     glm::vec2 vec{ Window.GetFrameBufferSize() };
     float ratio{ vec.x / vec.y };
-
-    OrthographicCamera camera{ -ratio, ratio, -1.0f, 1.0f };
 };
 
 FontDemo::FontDemo()
@@ -52,12 +50,21 @@ FontDemo::FontDemo()
 
     FT_Set_Pixel_Sizes(face, 0, 48); // Dynamic width based on the height
 
+    glEnable(GL_CULL_FACE);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1); // disable byte-alignment restriction
-  
+
+    glm::mat4 projection = glm::ortho(0.0f, 800.0f, 0.0f, 600.0f);
+
+    m_Shader.Bind();
+    m_Shader.SetUniformMatrix4("u_ViewProjMatrix", projection);
+
     for (unsigned char c = 0; c < 128; c++)
     {
         // load character glyph 
-        if (FT_Load_Char(face, c, FT_LOAD_RENDER))
+        if(FT_Load_Char(face, c, FT_LOAD_RENDER))
         {
             SADDLE_CORE_LOG_ERROR("FREETYTPE: Failed to load glyph");
         }
@@ -74,14 +81,15 @@ FontDemo::FontDemo()
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-        Character character = {
-            texture, 
+        Character character =
+        {
+            texture,
             glm::ivec2(w, h),
             glm::ivec2(face->glyph->bitmap_left, face->glyph->bitmap_top),
             (uint32_t)face->glyph->advance.x
         };
 
-        Characters.insert({ c, character });
+        Characters.insert(std::pair<char, Character>(c, character));
     }
 
     FT_Done_Face(face);
@@ -94,20 +102,16 @@ FontDemo::FontDemo()
     glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 6 * 4, NULL, GL_DYNAMIC_DRAW);
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), 0);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glBindVertexArray(0);
-
-    m_Shader.SetUniformMatrix4("u_ViewProjMatrix", camera.GetViewProjectionMatrix());
 }
 
 void FontDemo::OnUpdate(TimeStep ts)
 {
-    RenderText("This is sample text", 500.0f, 400.0f, 1.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+    RenderText("This is sample text", 300.0f, 300.0f, 1.0f, glm::vec3(0.6f, 0.7f, 0.8f));
 }
 
 void FontDemo::RenderText(std::string text, float x, float y, float scale, glm::vec3 color)
 {
-    // activate corresponding render state	
+    // activate corresponding render state
     m_Shader.Bind();
     m_Shader.SetUniformVec3("textColor", color);
     glActiveTexture(GL_TEXTURE0);
@@ -125,26 +129,24 @@ void FontDemo::RenderText(std::string text, float x, float y, float scale, glm::
         float w = ch.Size.x * scale;
         float h = ch.Size.y * scale;
         // update VBO for each character
-        float vertices[6][4] = {
-            { xpos,     ypos + h,   0.0f, 0.0f },            
+        float vertices[6][4] =
+        {
+            { xpos,     ypos + h,   0.0f, 0.0f },
             { xpos,     ypos,       0.0f, 1.0f },
             { xpos + w, ypos,       1.0f, 1.0f },
 
             { xpos,     ypos + h,   0.0f, 0.0f },
             { xpos + w, ypos,       1.0f, 1.0f },
-            { xpos + w, ypos + h,   1.0f, 0.0f }           
+            { xpos + w, ypos + h,   1.0f, 0.0f }
         };
         // render glyph texture over quad
         glBindTexture(GL_TEXTURE_2D, ch.TextureID);
         // update content of VBO memory
         glBindBuffer(GL_ARRAY_BUFFER, VBO);
         glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices); 
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
         // render quad
         glDrawArrays(GL_TRIANGLES, 0, 6);
         // now advance cursors for next glyph (note that advance is number of 1/64 pixels)
         x += (ch.Advance >> 6) * scale; // bitshift by 6 to get value in pixels (2^6 = 64)
     }
-    glBindVertexArray(0);
-    glBindTexture(GL_TEXTURE_2D, 0);
 }

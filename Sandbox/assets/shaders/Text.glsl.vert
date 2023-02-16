@@ -1,14 +1,13 @@
 #version 330 core
 
+layout (location = 0) in vec4 vertex; // <vec2 pos, vec2 tex>
+
+out vec2 TexCoords;
+
 uniform mat4 u_ViewProjMatrix;
-
-layout(location = 0) attribute vec2 a_VertexPosition;
-layout(location = 1) attribute vec2 a_TextureCoordinate;
-
-out vec2 v_TextureCoordinate;
 
 void main()
 {
-    gl_Position = u_ViewProjMatrix * vec4(a_VertexPosition, 1.0, 1.0);
-    v_TextureCoordinate = a_TextureCoordinate;
+    gl_Position = u_ViewProjMatrix * vec4(vertex.xy, 0.0, 1.0);
+    TexCoords = vertex.zw;
 }
