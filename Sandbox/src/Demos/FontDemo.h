@@ -29,9 +29,6 @@ private:
     uint32_t VAO, VBO;
 
     Shader m_Shader{ "Sandbox/assets/shaders/Text.glsl.vert", "Sandbox/assets/shaders/Text.glsl.frag" };
-    
-    glm::vec2 vec{ Window.GetFrameBufferSize() };
-    float ratio{ vec.x / vec.y };
 };
 
 FontDemo::FontDemo()
@@ -59,7 +56,7 @@ FontDemo::FontDemo()
     glm::mat4 projection = glm::ortho(0.0f, 800.0f, 0.0f, 600.0f);
 
     m_Shader.Bind();
-    m_Shader.SetUniformMatrix4("u_ViewProjMatrix", projection);
+    m_Shader.SetUniformMatrix4("projection", projection);
 
     for (unsigned char c = 0; c < 128; c++)
     {
@@ -102,19 +99,22 @@ FontDemo::FontDemo()
     glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 6 * 4, NULL, GL_DYNAMIC_DRAW);
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), 0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
+
+    glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
+    RenderText("This is sample text", 300.0f, 300.0f, 1.0f, glm::vec3(0.6f, 0.7f, 0.8f));
 }
 
 void FontDemo::OnUpdate(TimeStep ts)
 {
-    RenderText("This is sample text", 300.0f, 300.0f, 1.0f, glm::vec3(0.6f, 0.7f, 0.8f));
 }
 
 void FontDemo::RenderText(std::string text, float x, float y, float scale, glm::vec3 color)
 {
     // activate corresponding render state
     m_Shader.Bind();
-    m_Shader.SetUniformVec3("textColor", color);
-    glActiveTexture(GL_TEXTURE0);
     glBindVertexArray(VAO);
 
     // iterate through all characters
@@ -129,8 +129,7 @@ void FontDemo::RenderText(std::string text, float x, float y, float scale, glm::
         float w = ch.Size.x * scale;
         float h = ch.Size.y * scale;
         // update VBO for each character
-        float vertices[6][4] =
-        {
+        float vertices[6][4] = {
             { xpos,     ypos + h,   0.0f, 0.0f },
             { xpos,     ypos,       0.0f, 1.0f },
             { xpos + w, ypos,       1.0f, 1.0f },
@@ -140,7 +139,10 @@ void FontDemo::RenderText(std::string text, float x, float y, float scale, glm::
             { xpos + w, ypos + h,   1.0f, 0.0f }
         };
         // render glyph texture over quad
-        glBindTexture(GL_TEXTURE_2D, ch.TextureID);
+        glBindTextureUnit(0, ch.TextureID);
+        m_Shader.SetUniformInt("text", 0);
+        m_Shader.SetUniformVec3("textColor", color);
+
         // update content of VBO memory
         glBindBuffer(GL_ARRAY_BUFFER, VBO);
         glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices); 
@@ -149,4 +151,7 @@ void FontDemo::RenderText(std::string text, float x, float y, float scale, glm::
         // now advance cursors for next glyph (note that advance is number of 1/64 pixels)
         x += (ch.Advance >> 6) * scale; // bitshift by 6 to get value in pixels (2^6 = 64)
     }
+
+    glBindVertexArray(0);
+    glBindTexture(GL_TEXTURE_2D, 0);
 }
