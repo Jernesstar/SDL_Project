@@ -50,13 +50,9 @@ FontDemo::FontDemo()
 
     FT_Set_Pixel_Sizes(face, 0, 48); // Dynamic width based on the height
 
-    glEnable(GL_CULL_FACE);
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1); // disable byte-alignment restriction
 
-    glm::mat4 projection = glm::ortho(0.0f, 800.0f, 0.0f, 600.0f);
+    glm::mat4 projection = glm::ortho(0.0f, 800.0f, 0.0f, 600.0f, 1.0f, -1.0f);
 
     m_Shader.Bind();
     m_Shader.SetUniformMatrix4("u_ViewProjMatrix", projection);
@@ -106,7 +102,7 @@ FontDemo::FontDemo()
 
 void FontDemo::OnUpdate(TimeStep ts)
 {
-    RenderText("This is sample text", 300.0f, 300.0f, 1.0f, glm::vec3(0.6f, 0.7f, 0.8f));
+    RenderText("This is sample text", 300.0f, 300.0f, 4.0f, glm::vec3(0.6f, 0.7f, 0.8f));
 }
 
 void FontDemo::RenderText(std::string text, float x, float y, float scale, glm::vec3 color)
@@ -128,17 +124,18 @@ void FontDemo::RenderText(std::string text, float x, float y, float scale, glm::
 
         float w = ch.Size.x * scale;
         float h = ch.Size.y * scale;
-        // update VBO for each character
+
         float vertices[6][4] =
         {
-            { xpos,     ypos + h,   0.0f, 0.0f },
-            { xpos,     ypos,       0.0f, 1.0f },
-            { xpos + w, ypos,       1.0f, 1.0f },
+            { xpos + w, ypos,     1.0f, 0.0f },
+            { xpos,     ypos,     0.0f, 0.0f },
+            { xpos,     ypos + h, 0.0f, 1.0f },
 
-            { xpos,     ypos + h,   0.0f, 0.0f },
-            { xpos + w, ypos,       1.0f, 1.0f },
-            { xpos + w, ypos + h,   1.0f, 0.0f }
+            { xpos,     ypos + h, 0.0f, 1.0f },
+            { xpos + w, ypos + h, 1.0f, 1.0f },
+            { xpos + w, ypos,     0.0f, 0.0f },
         };
+
         // render glyph texture over quad
         glBindTexture(GL_TEXTURE_2D, ch.TextureID);
         // update content of VBO memory
