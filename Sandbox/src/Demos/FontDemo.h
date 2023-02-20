@@ -7,6 +7,9 @@
 
 #include <Saddle/Core/Application.h>
 #include <OpenGL/Shader.h>
+#include <OpenGL/VertexArray.h>
+#include <OpenGL/VertexBuffer.h>
+#include <OpenGL/IndexBuffer.h>
 
 using namespace Saddle;
 
@@ -26,12 +29,12 @@ private:
     };
 
     std::unordered_map<char, Character> Characters;
-    uint32_t VAO, VBO;
 
     Shader m_Shader{ "Sandbox/assets/shaders/Text.glsl.vert", "Sandbox/assets/shaders/Text.glsl.frag" };
-    
-    glm::vec2 vec{ Window.GetFrameBufferSize() };
-    float ratio{ vec.x / vec.y };
+
+    VertexBuffer* m_VertexBuffer;
+    IndexBuffer* m_IndexBuffer;
+    VertexArray* m_VertexArray;
 };
 
 FontDemo::FontDemo()
@@ -52,7 +55,7 @@ FontDemo::FontDemo()
 
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1); // disable byte-alignment restriction
 
-    glm::mat4 projection = glm::ortho(0.0f, 800.0f, 0.0f, 600.0f, 1.0f, -1.0f);
+    glm::mat4 projection = glm::ortho(0.0f, 800.0f, 0.0f, 600.0f);
 
     m_Shader.Bind();
     m_Shader.SetUniformMatrix4("u_ViewProjMatrix", projection);
@@ -91,18 +94,25 @@ FontDemo::FontDemo()
     FT_Done_Face(face);
     FT_Done_FreeType(ft);
 
-    glGenVertexArrays(1, &VAO);
-    glGenBuffers(1, &VBO);
-    glBindVertexArray(VAO);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 6 * 4, NULL, GL_DYNAMIC_DRAW);
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), 0);
+    BufferLayout layout =
+    {
+        {"PosTextCoord", BufferDataType::Vec4 }
+    };
+
+    uint32_t indices[6] =
+    {
+        0, 2, 3,
+        3, 1, 0
+    };
+
+    m_IndexBuffer = new IndexBuffer(indices);
+    m_VertexBuffer = new VertexBuffer(4, layout);
+    m_VertexArray = new VertexArray(m_VertexBuffer, m_IndexBuffer);
 }
 
 void FontDemo::OnUpdate(TimeStep ts)
 {
-    RenderText("This is sample text", 300.0f, 300.0f, 4.0f, glm::vec3(0.6f, 0.7f, 0.8f));
+    RenderText("This is sample text", 300.0f, 300.0f, 1.0f, glm::vec3(0.6f, 0.7f, 0.8f));
 }
 
 void FontDemo::RenderText(std::string text, float x, float y, float scale, glm::vec3 color)
@@ -110,8 +120,8 @@ void FontDemo::RenderText(std::string text, float x, float y, float scale, glm::
     // activate corresponding render state
     m_Shader.Bind();
     m_Shader.SetUniformVec3("textColor", color);
-    glActiveTexture(GL_TEXTURE0);
-    glBindVertexArray(VAO);
+    m_VertexArray->Bind();
+    m_VertexBuffer->Bind();
 
     // iterate through all characters
     std::string::const_iterator c;
@@ -125,24 +135,20 @@ void FontDemo::RenderText(std::string text, float x, float y, float scale, glm::
         float w = ch.Size.x * scale;
         float h = ch.Size.y * scale;
 
-        float vertices[6][4] =
+        float vertices[4][4] =
         {
-            { xpos + w, ypos,     1.0f, 0.0f },
-            { xpos,     ypos,     0.0f, 0.0f },
-            { xpos,     ypos + h, 0.0f, 1.0f },
-
-            { xpos,     ypos + h, 0.0f, 1.0f },
-            { xpos + w, ypos + h, 1.0f, 1.0f },
-            { xpos + w, ypos,     0.0f, 0.0f },
+            { xpos + w,     ypos + h,     0.0f, 0.0f },
+            { xpos, ypos + h,     1.0f, 0.0f },
+            { xpos + w,     ypos, 0.0f, 1.0f },
+            { xpos, ypos, 1.0f, 1.0f },
         };
 
         // render glyph texture over quad
         glBindTexture(GL_TEXTURE_2D, ch.TextureID);
         // update content of VBO memory
-        glBindBuffer(GL_ARRAY_BUFFER, VBO);
-        glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices); 
+        m_VertexBuffer->SetData(vertices, sizeof(vertices));
         // render quad
-        glDrawArrays(GL_TRIANGLES, 0, 6);
+        glDrawElements(GL_TRIANGLES, m_IndexBuffer->Count, GL_UNSIGNED_INT, nullptr);
         // now advance cursors for next glyph (note that advance is number of 1/64 pixels)
         x += (ch.Advance >> 6) * scale; // bitshift by 6 to get value in pixels (2^6 = 64)
     }
