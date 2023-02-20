@@ -23,7 +23,7 @@ public:
 private:
     struct Character {
         uint32_t   TextureID; // ID handle of the glyph texture
-        glm::ivec2 Size;      // Offset from baseline to left/top of glyph
+        glm::ivec2 Size;      // Size of glyph1
         glm::ivec2 Bearing;   // Offset from baseline to left/top of glyph
         uint32_t   Advance;   // Offset to advance to next glyph
     };
@@ -55,7 +55,7 @@ FontDemo::FontDemo()
 
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1); // disable byte-alignment restriction
 
-    glm::mat4 projection = glm::ortho(0.0f, 800.0f, 0.0f, 600.0f);
+    glm::mat4 projection = glm::ortho(0.0f, 800.0f, 0.0f, 600.0f, 1.0f, -1.0f);
 
     m_Shader.Bind();
     m_Shader.SetUniformMatrix4("u_ViewProjMatrix", projection);
@@ -137,10 +137,10 @@ void FontDemo::RenderText(std::string text, float x, float y, float scale, glm::
 
         float vertices[4][4] =
         {
-            { xpos + w,     ypos + h,     0.0f, 0.0f },
-            { xpos, ypos + h,     1.0f, 0.0f },
-            { xpos + w,     ypos, 0.0f, 1.0f },
-            { xpos, ypos, 1.0f, 1.0f },
+            { xpos, ypos, 0.0f, 1.0f },
+            { xpos + w, ypos, 1.0f, 1.0f },
+            { xpos, ypos + h,     0.0f, 0.0f },
+            { xpos + w, ypos + h,     1.0f, 0.0f },
         };
 
         // render glyph texture over quad
