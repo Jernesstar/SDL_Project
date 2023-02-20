@@ -58,7 +58,7 @@ FontDemo::FontDemo()
     glm::mat4 projection = glm::ortho(0.0f, 800.0f, 0.0f, 600.0f, 1.0f, -1.0f);
 
     m_Shader.Bind();
-    m_Shader.SetUniformMatrix4("u_ViewProjMatrix", projection);
+    m_Shader.SetUniformMatrix4("projection", projection);
 
     for (unsigned char c = 0; c < 128; c++)
     {
