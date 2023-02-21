@@ -17,8 +17,10 @@ class Renderer2D {
 public:
     static void Init();
     static void BeginScene(const OrthographicCamera& camera);
+
     static void DrawQuad(Texture2D* texture, const glm::mat4& transform);
     static void DrawEntity(Entity& entity);
+
     static void EndScene();
 
 private:

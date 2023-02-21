@@ -32,7 +32,7 @@ public:
     void OnUpdate(TimeStep ts);
 
     Texture2D texture1{ "Sandbox/assets/images/kick_drum.png" };
-    Texture2D texture2{ "Sandbox/assets/images/snare_drum.jpg" };
+    Texture2D texture2{ "Sandbox/assets/images/start_bg.png" };
 
     glm::vec2 vec{ Window.GetFrameBufferSize() };
     float ratio{ vec.x / vec.y };
@@ -41,14 +41,14 @@ public:
     {
         glm::vec3{ 0.0f, 0.0f, 0.0f }, 
         glm::vec3{ 0.0f, 0.0f, 0.0f }, 
-        glm::vec3{ 1.f, 1.f, 1.f },
+        glm::vec3{ texture1.GetWidth() / vec.y, texture1.GetHeight() / vec.y, 1.f },
     };
 
     TransformComponent transform2 =
     {
         glm::vec3{ -1.0f, 0.0f, 0.0f }, 
         glm::vec3{ 0.0f, 0.0f, 0.0f }, 
-        glm::vec3{ 1.f, 1.f, 1.f },
+        glm::vec3{ texture2.GetWidth() / vec.y, texture2.GetHeight() / vec.y, 1.f },
     };
 
     glm::mat4 model1{ transform1.GetTransfrom() };

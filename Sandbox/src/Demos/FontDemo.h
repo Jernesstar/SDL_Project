@@ -88,7 +88,7 @@ FontDemo::FontDemo()
             (uint32_t)face->glyph->advance.x
         };
 
-        Characters.insert(std::pair<char, Character>(c, character));
+        Characters[c] = character;
     }
 
     FT_Done_Face(face);
@@ -120,6 +120,7 @@ void FontDemo::RenderText(std::string text, float x, float y, float scale, glm::
     // activate corresponding render state
     m_Shader.Bind();
     m_Shader.SetUniformVec3("textColor", color);
+    m_Shader.SetUniformInt("text", 0);
     m_VertexArray->Bind();
     m_VertexBuffer->Bind();
 
@@ -137,14 +138,14 @@ void FontDemo::RenderText(std::string text, float x, float y, float scale, glm::
 
         float vertices[4][4] =
         {
-            { xpos, ypos, 0.0f, 1.0f },
-            { xpos + w, ypos, 1.0f, 1.0f },
-            { xpos, ypos + h,     0.0f, 0.0f },
-            { xpos + w, ypos + h,     1.0f, 0.0f },
+            { xpos,     ypos,     0.0f, 1.0f },
+            { xpos + w, ypos,     1.0f, 1.0f },
+            { xpos,     ypos + h, 0.0f, 0.0f },
+            { xpos + w, ypos + h, 1.0f, 0.0f },
         };
 
         // render glyph texture over quad
-        glBindTexture(GL_TEXTURE_2D, ch.TextureID);
+        glBindTextureUnit(0, ch.TextureID);
         // update content of VBO memory
         m_VertexBuffer->SetData(vertices, sizeof(vertices));
         // render quad
