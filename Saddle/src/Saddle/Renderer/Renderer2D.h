@@ -6,6 +6,7 @@
 
 #include "Saddle/ECS/Entity.h"
 #include "Saddle/ECS/Entity.h"
+#include "Saddle/Text/Text.h"
 
 #include "OpenGL/Texture2D.h"
 #include "OpenGL/Shader.h"
@@ -19,6 +20,8 @@ public:
     static void BeginScene(const OrthographicCamera& camera);
 
     static void DrawQuad(Texture2D* texture, const glm::mat4& transform);
+    static void DrawCharacter(const Text::CharacterQuad& ch, const glm::mat4& transform);
+    static void DrawText(const Text& text, const glm::mat4& transform);
     static void DrawEntity(Entity& entity);
 
     static void EndScene();

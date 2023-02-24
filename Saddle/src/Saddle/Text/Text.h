@@ -10,10 +10,11 @@
 namespace Saddle {
 
 class Text {
-private:
+public:
     struct CharacterQuad {
         Font::Character Character;
-        glm::vec2* Vertices;
+        glm::vec2 Vertices[4];
+        glm::vec3 Color;
 
         void Bind(uint32_t slot) { glBindTextureUnit(slot, Character.TextureID); }
     };
@@ -30,10 +31,14 @@ public:
     const std::string& GetText() const { return m_Text; }
     const std::vector<CharacterQuad>& GetCharacters() const { return m_Quads; }
 
+    bool operator==(const Text& other) const { return m_Text == other.m_Text && m_Color == other.m_Color; }
+
 private:
     glm::vec3 m_Color;
     std::string m_Text;
     std::vector<CharacterQuad> m_Quads;
+
+    friend class Renderer2D;
 };
 
 }
