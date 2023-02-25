@@ -51,8 +51,8 @@ public:
         glm::vec3{ texture2.GetWidth() / vec.y, texture2.GetHeight() / vec.y, 1.f },
     };
 
-    glm::mat4 model1{ transform1.GetTransfrom() };
-    glm::mat4 model2{ transform2.GetTransfrom() };
+    glm::mat4 model1{ transform1.GetTransform() };
+    glm::mat4 model2{ transform2.GetTransform() };
 
     OrthographicCamera camera{ -ratio, ratio, -1.0f, 1.0f };
     OrthographicCameraController controller{ camera };

@@ -4,15 +4,16 @@ namespace Saddle {
 
 Font::Font(const std::string& font_path, uint32_t width, uint32_t height)
 {
-    if (FT_New_Face(Font::m_FT, font_path.c_str(), 0, &m_Face))
+    if(FT_New_Face(Font::m_FT, font_path.c_str(), 0, &m_Face))
     {
         SADDLE_CORE_LOG_ERROR("Failed to load font. Path: %s", font_path.c_str());
     }
 
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
+    m_Characters.reserve(128);
+
     SetSize(width, height);
-    UpdateCharacters();
 }
 
 void Font::UpdateCharacters()

@@ -26,7 +26,7 @@ private:
 
 public:
     Font(const std::string& font_path, uint32_t width, uint32_t height = 0);
-    ~Font() = default;
+    ~Font() { FT_Done_Face(m_Face); }
 
     static void Init() { SADDLE_CORE_ASSERT(!FT_Init_FreeType(&m_FT), "Could not initialize FreeType Library"); }
     static void Close() { FT_Done_FreeType(m_FT); }

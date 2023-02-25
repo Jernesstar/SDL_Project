@@ -19,10 +19,12 @@ public:
     static void Init();
     static void BeginScene(const OrthographicCamera& camera);
 
-    static void DrawQuad(Texture2D* texture, const glm::mat4& transform);
-    static void DrawCharacter(const Text::CharacterQuad& ch, const glm::mat4& transform);
-    static void DrawText(const Text& text, const glm::mat4& transform);
     static void DrawEntity(Entity& entity);
+    static void DrawText(const Text& text, const glm::mat4& transform);
+
+    static void DrawQuad(const glm::vec4& color, const glm::mat4& transform);
+    static void DrawQuad(Texture2D* texture, const glm::mat4& transform);
+    static void DrawQuad(const Text::CharacterQuad& ch, const glm::mat4& transform);
 
     static void EndScene();
 

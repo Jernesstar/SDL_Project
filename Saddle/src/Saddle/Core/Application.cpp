@@ -7,6 +7,7 @@
 #include "Saddle/Events/EventSystem.h"
 #include "Saddle/Events/ApplicationEvents.h"
 #include "Saddle/Renderer/Renderer.h"
+#include "Saddle/Text/Text.h"
 #include "Saddle/Core/Time.h"
 
 namespace Saddle {
@@ -30,8 +31,7 @@ void Application::Init(const ApplicationSpecification& specs)
 
     s_Specification = specs;
 
-    // Audio::Init();
-    // Image::Init();
+    Font::Init();
 }
 
 void Application::Init(const ApplicationCommandLineArgs& args, const ApplicationSpecification& specs)

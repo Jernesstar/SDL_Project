@@ -105,7 +105,7 @@ Demo3D::Demo3D()
 
 void Demo3D::OnUpdate(TimeStep ts)
 {
-    model *= transform.GetTransfrom();
+    model *= transform.GetTransform();
 
     shader.SetUniformMatrix4("u_ModelMatrix", model);
     shader.SetUniformMatrix4("u_ViewMatrix", camera.GetViewMatrix());
