@@ -19,8 +19,8 @@ Game::Game()
     Kick_Drum.AddComponent<TransformComponent>(
         TransformComponent
         {
-            glm::vec3{ 0.f, 0.f, 0.f }, 
-            glm::vec3{ 0.0f, 0.0f, 0.0f }, 
+            glm::vec3{ 0.0f, 0.0f, 0.0f },
+            glm::vec3{ 0.0f, 0.0f, 0.0f },
             glm::vec3{ 0.25f, 0.25f, 0.25f }
         }
     );
@@ -28,8 +28,8 @@ Game::Game()
     Snare_Drum.AddComponent<TransformComponent>(
         TransformComponent
         {
-            glm::vec3{ -0.5f, 0.f, 0.f }, 
-            glm::vec3{ 0.0f, 0.0f, 0.0f }, 
+            glm::vec3{ -0.5f, 0.0f, 0.0f },
+            glm::vec3{ 0.0f, 0.0f, 0.0f },
             glm::vec3{ 0.25f, 0.25f, 0.25f }
         }
     );

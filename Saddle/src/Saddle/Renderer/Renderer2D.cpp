@@ -119,7 +119,10 @@ void Renderer2D::Flush()
     s_Data.QuadVertexBuffer->SetData(s_Data.QuadVertexBufferBase, data_size);
 
     for(uint32_t i = 0; i < s_Data.TextureSlotIndex; i++)
-        s_Data.TextureSlots[i]->Bind(i);
+    {
+        ((Texture2D*)s_Data.TextureSlots[i])->Bind(i);
+        ((Text::CharacterQuad*)s_Data.TextureSlots[i])->Bind(i);
+    }
 
     s_Data.QuadShader->Bind();
     s_Data.QuadShader->SetUniformMatrix4("u_ViewProjMatrix", s_ViewProjMatrix);
@@ -225,7 +228,7 @@ void Renderer2D::DrawQuad(const Text::CharacterQuad& ch, const glm::mat4& transf
 
     for(uint32_t i = 0; i < 4; i++)
     {
-        s_Data.QuadVertexBufferPtr->Position = transform * glm::vec4(ch.Vertices[i], 0.0f, 0.0f);
+        s_Data.QuadVertexBufferPtr->Position = transform * glm::vec4(ch.Vertices[i], 0.0f, 1.0f);
         s_Data.QuadVertexBufferPtr->Color = glm::vec4(ch.Color, 0.0f);
         s_Data.QuadVertexBufferPtr->TextureCoordinate = s_Data.TextCoords[i];
         s_Data.QuadVertexBufferPtr->TextureIndex = text_index;

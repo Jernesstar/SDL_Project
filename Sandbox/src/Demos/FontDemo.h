@@ -22,12 +22,12 @@ public:
 
 private:
     Font m_Font{ "Sandbox/assets/fonts/pixel_font.ttf", 0, 48 };
-    Text m_Text{ "This is a whooooooole buuuuunch of saaaample text", m_Font, glm::vec3(0.6, 0.7, 0.8) };
+    Text m_Text{ "This is not a piece of sample text", m_Font, glm::vec3(0.6, 0.7, 0.8) };
 
     TransformComponent m_Transform =
     {
-        glm::vec3{ 600.0f, 400.0f, 0.f }, 
-        glm::vec3{ 0.0f, 0.0f, 0.0f }, 
+        glm::vec3{ 500.0f, 400.0f, 0.f },
+        glm::vec3{ 0.0f, 0.0f, 0.0f },
         glm::vec3{ 1.0f, 1.0f, 1.0f }
     };
 
