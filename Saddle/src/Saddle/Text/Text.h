@@ -14,9 +14,9 @@ public:
     struct CharacterQuad {
         Font::Character Character;
         glm::vec2 Vertices[4];
-        glm::vec3 Color;
 
         void Bind(uint32_t slot) { glBindTextureUnit(slot, Character.TextureID); }
+        bool operator ==(const CharacterQuad& other) const { return this->Character.TextureID == other.Character.TextureID; }
     };
 
 public:

@@ -35,7 +35,6 @@ void Text::SetText(const std::string& text, const Font& font, const glm::vec3& c
         quad.Vertices[1] = vertices[1];
         quad.Vertices[2] = vertices[2];
         quad.Vertices[3] = vertices[3];
-        quad.Color = color;
 
         m_Quads.push_back(quad);
     }

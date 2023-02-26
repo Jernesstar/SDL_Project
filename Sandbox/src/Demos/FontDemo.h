@@ -43,6 +43,7 @@ void FontDemo::OnUpdate(TimeStep ts)
     Renderer2D::BeginScene(camera);
 
     Renderer2D::DrawText(m_Text, transform);
+    Renderer2D::DrawQuad(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), glm::scale(transform, glm::vec3(25.0f, 25.0f, 1.0f)));
 
     Renderer2D::EndScene();
 }

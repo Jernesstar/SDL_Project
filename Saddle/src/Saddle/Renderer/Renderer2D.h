@@ -24,7 +24,7 @@ public:
 
     static void DrawQuad(const glm::vec4& color, const glm::mat4& transform);
     static void DrawQuad(Texture2D* texture, const glm::mat4& transform);
-    static void DrawQuad(const Text::CharacterQuad& ch, const glm::mat4& transform);
+    static void DrawQuad(const Text::CharacterQuad& ch, const glm::vec3& color, const glm::mat4& transform);
 
     static void EndScene();
 

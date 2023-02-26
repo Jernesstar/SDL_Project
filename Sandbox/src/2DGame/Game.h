@@ -32,5 +32,5 @@ private:
     float ratio{ vec.x / vec.y };
 
     OrthographicCamera camera{ -ratio, ratio, -1.0f, 1.0f };
-    OrthographicCameraController controller{ camera };
+    // OrthographicCameraController controller{ camera };
 };
