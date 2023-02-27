@@ -14,16 +14,16 @@ struct QuadVertex {
 };
 
 struct Renderer2DData {
-    static const uint32_t MaxQuads = 50;
+    static const uint32_t MaxQuads = 150;
     static const uint32_t MaxVertices = MaxQuads * 4;
     static const uint32_t MaxIndices = MaxQuads * 6;
     static const uint32_t MaxTextureSlots = 32;
 
-    uint32_t QuadIndexCount = 0;
-
     VertexArray* QuadVertexArray;
     VertexBuffer* QuadVertexBuffer;
     IndexBuffer* QuadIndexBuffer;
+
+    uint32_t QuadIndexCount = 0;
 
     Shader* QuadShader;
 
@@ -177,7 +177,7 @@ void Renderer2D::DrawQuad(const glm::vec4& color, const glm::mat4& transform)
 void Renderer2D::DrawQuad(Texture2D* texture, const glm::mat4& transform)
 {
     if(s_Data.QuadIndexCount == Renderer2DData::MaxIndices || s_Data.TextureSlotIndex >= Renderer2DData::MaxTextureSlots
-    || s_Data.TextSlotIndex < 0 || s_Data.TextureSlotIndex == s_Data.TextSlotIndex)
+    || s_Data.TextSlotIndex < 0 || abs((int)s_Data.TextureSlotIndex - (int)s_Data.TextSlotIndex) == 1)
         NextBatch();
 
     uint32_t texture_index = 0;
@@ -211,7 +211,7 @@ void Renderer2D::DrawQuad(Texture2D* texture, const glm::mat4& transform)
 void Renderer2D::DrawQuad(const Text::CharacterQuad& ch, const glm::vec3& color, const glm::mat4& transform)
 {
     if(s_Data.QuadIndexCount == Renderer2DData::MaxIndices || s_Data.TextureSlotIndex >= Renderer2DData::MaxTextureSlots
-    || s_Data.TextSlotIndex < 0 || s_Data.TextureSlotIndex == s_Data.TextSlotIndex)
+    || s_Data.TextSlotIndex < 0 || abs((int)s_Data.TextureSlotIndex - (int)s_Data.TextSlotIndex) == 1)
         NextBatch();
 
     uint32_t text_index = 0;
