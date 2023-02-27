@@ -177,7 +177,7 @@ void Renderer2D::DrawQuad(const glm::vec4& color, const glm::mat4& transform)
 void Renderer2D::DrawQuad(Texture2D* texture, const glm::mat4& transform)
 {
     if(s_Data.QuadIndexCount == Renderer2DData::MaxIndices || s_Data.TextureSlotIndex >= Renderer2DData::MaxTextureSlots
-    || s_Data.TextSlotIndex < 0 || abs((int)s_Data.TextureSlotIndex - (int)s_Data.TextSlotIndex) == 1)
+    || s_Data.TextSlotIndex < 0 || s_Data.TextureSlotIndex > s_Data.TextSlotIndex)
         NextBatch();
 
     uint32_t texture_index = 0;
@@ -211,11 +211,11 @@ void Renderer2D::DrawQuad(Texture2D* texture, const glm::mat4& transform)
 void Renderer2D::DrawQuad(const Text::CharacterQuad& ch, const glm::vec3& color, const glm::mat4& transform)
 {
     if(s_Data.QuadIndexCount == Renderer2DData::MaxIndices || s_Data.TextureSlotIndex >= Renderer2DData::MaxTextureSlots
-    || s_Data.TextSlotIndex < 0 || abs((int)s_Data.TextureSlotIndex - (int)s_Data.TextSlotIndex) == 1)
+    || s_Data.TextSlotIndex < 0 || s_Data.TextureSlotIndex > s_Data.TextSlotIndex)
         NextBatch();
 
     uint32_t text_index = 0;
-    for(uint32_t i = s_Data.TextSlotIndex + 1; i < s_Data.MaxTextureSlots; i++)
+    for(uint32_t i = s_Data.MaxTextureSlots - 1; i > s_Data.TextSlotIndex; i--)
     {
         if(*(Text::CharacterQuad*)s_Data.TextureSlots[i] == ch)
         {
