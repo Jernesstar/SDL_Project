@@ -24,12 +24,7 @@ public:
     void OnUpdate(TimeStep ts) override;
 
 private:
-    Scene m_Scene;
-    Entity Kick_Drum{ m_Scene };
-    Entity Snare_Drum{ m_Scene };
-
     float ratio{ this->Window.GetAspectRatio() };
 
     OrthographicCamera camera{ -ratio, ratio, -1.0f, 1.0f };
-    // OrthographicCameraController controller{ camera };
 };

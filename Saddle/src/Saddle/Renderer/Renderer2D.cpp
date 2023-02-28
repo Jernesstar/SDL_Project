@@ -143,10 +143,15 @@ void Renderer2D::DrawEntity(Entity& entity)
     if(!entity.HasComponent<TextureComponent>() || !entity.HasComponent<TransformComponent>())
         return;
 
-    glm::mat4 transform = entity.GetComponent<TransformComponent>().GetTransform();
-    Texture2D* texture = entity.GetComponent<TextureComponent>().Texture;
+    glm::vec2 frame = Application::Get().GetWindow().GetFrameBufferSize();
+    float r = frame.x / frame.y;
 
-    DrawQuad(texture, transform);
+    TransformComponent transform = entity.GetComponent<TransformComponent>();
+    Texture2D* texture = entity.GetComponent<TextureComponent>().Texture;
+    
+    transform.Scale = glm::vec3(glm::vec2(r * texture->GetWidth(), texture->GetHeight()) / frame, 1.0f);
+
+    DrawQuad(texture, transform.GetTransform());
 }
 
 void Renderer2D::DrawText(const Text& text, const glm::mat4& transform)
@@ -177,7 +182,7 @@ void Renderer2D::DrawQuad(Texture2D* texture, const glm::vec2& position, float s
     glm::vec2 frame = Application::Get().GetWindow().GetFrameBufferSize();
     float r = frame.x / frame.y;
 
-    DrawQuad(texture, position, glm::vec2(r * texture->GetWidth(), texture->GetHeight()) / frame);
+    DrawQuad(texture, position, scale * glm::vec2(r * texture->GetWidth(), texture->GetHeight()));
 }
 
 void Renderer2D::DrawQuad(Texture2D* texture, const glm::vec2& position, const glm::vec2& size)

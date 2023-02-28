@@ -41,19 +41,20 @@ public:
 TextureDemo::TextureDemo()
 {
     this->Window.SetWindowIcon("Sandbox/assets/images/start_bg.png");
+    controller.TranslationSpeed = 1.0f;
 }
 
 void TextureDemo::OnUpdate(TimeStep ts)
 {
     Renderer::Clear({ 1, 1, 1, 1 });
 
-    float ratio = this->Window.GetAspectRatio();
+    glm::vec2 vec = this->Window.GetFrameBufferSize();
 
-    camera.SetProjection(-ratio, ratio, -1.0f, 1.0f);
+    camera.SetProjection(0.0f, vec.x, 0.0f, vec.y);
 
     Renderer2D::BeginScene(camera);
 
-    Renderer2D::DrawQuad(&texture1, glm::vec2(0.0f, 0.0f), glm::vec2(2.0f * ratio, 2.0f));
+    // Renderer2D::DrawQuad(&texture1, glm::vec2(0.0f, 0.0f), vec);
     Renderer2D::DrawQuad(&texture2, glm::vec2(0.0f, 0.0f));
 
     Renderer2D::EndScene();

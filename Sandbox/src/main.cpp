@@ -5,7 +5,7 @@
 #include "Demos/TextureDemo.h"
 #include "Demos/FontDemo.h"
 #include "Demos/Demo3D.h"
-#include "2DGame/Game.h"
+#include "Snake/Game.h"
 
 using namespace Saddle;
 

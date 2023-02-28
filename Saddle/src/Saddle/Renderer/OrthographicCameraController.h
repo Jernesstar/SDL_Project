@@ -8,6 +8,9 @@ namespace Saddle {
 
 class OrthographicCameraController {
 public:
+    float TranslationSpeed;
+
+public:
     OrthographicCameraController(OrthographicCamera& camera);
 
     void OnUpdate(TimeStep ts);
@@ -15,8 +18,6 @@ public:
 
 private:
     OrthographicCamera* m_Camera;
-
-    float m_TranslationSpeed;
 };
 
 }
