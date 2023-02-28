@@ -3,6 +3,7 @@
 namespace Saddle {
 
 Font::Font(const std::string& font_path, uint32_t width, uint32_t height)
+    : FontPath(font_path)
 {
     if(FT_New_Face(Font::m_FT, font_path.c_str(), 0, &m_Face))
     {
@@ -50,4 +51,18 @@ void Font::UpdateCharacters()
     }
 }
 
-};
+glm::vec2 Font::GetSize(const std::string& text) const
+{
+    float x = 0.0f, high_y = 0.0f;
+    for(auto c = text.begin(); c != text.end(); c++)
+    {
+        const Character& ch = GetCharacter(*c);
+
+        x += ch.Bearing.x + ch.Size.x + (ch.Advance >> 6);
+        high_y = std::max((float)high_y, (float)ch.Bearing.y);
+    }
+
+    return { x, high_y };
+}
+
+}

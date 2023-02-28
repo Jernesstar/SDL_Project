@@ -31,30 +31,10 @@ public:
 
     void OnUpdate(TimeStep ts);
 
-    Texture2D texture1{ "Sandbox/assets/images/kick_drum.png" };
-    Texture2D texture2{ "Sandbox/assets/images/start_bg.png" };
+    Texture2D texture1{ "Sandbox/assets/images/start_bg.png" };
+    Texture2D texture2{ "Sandbox/assets/images/kick_drum.png" };
 
-    glm::vec2 vec{ Window.GetFrameBufferSize() };
-    float ratio{ vec.x / vec.y };
-
-    TransformComponent transform1 =
-    {
-        glm::vec3{ 0.0f, 0.0f, 0.0f }, 
-        glm::vec3{ 0.0f, 0.0f, 0.0f }, 
-        glm::vec3{ texture1.GetWidth() / vec.y, texture1.GetHeight() / vec.y, 1.f },
-    };
-
-    TransformComponent transform2 =
-    {
-        glm::vec3{ -1.0f, 0.0f, 0.0f }, 
-        glm::vec3{ 0.0f, 0.0f, 0.0f }, 
-        glm::vec3{ texture2.GetWidth() / vec.y, texture2.GetHeight() / vec.y, 1.f },
-    };
-
-    glm::mat4 model1{ transform1.GetTransform() };
-    glm::mat4 model2{ transform2.GetTransform() };
-
-    OrthographicCamera camera{ -ratio, ratio, -1.0f, 1.0f };
+    OrthographicCamera camera{ 0.0f, 0.0f, 0.0f, 0.0f };
     OrthographicCameraController controller{ camera };
 };
 
@@ -67,10 +47,14 @@ void TextureDemo::OnUpdate(TimeStep ts)
 {
     Renderer::Clear({ 1, 1, 1, 1 });
 
+    float ratio = this->Window.GetAspectRatio();
+
+    camera.SetProjection(-ratio, ratio, -1.0f, 1.0f);
+
     Renderer2D::BeginScene(camera);
 
-    Renderer2D::DrawQuad(&texture1, model1);
-    Renderer2D::DrawQuad(&texture2, model2);
+    Renderer2D::DrawQuad(&texture1, glm::vec2(0.0f, 0.0f), glm::vec2(2.0f * ratio, 2.0f));
+    Renderer2D::DrawQuad(&texture2, glm::vec2(0.0f, 0.0f));
 
     Renderer2D::EndScene();
 }

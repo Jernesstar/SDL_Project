@@ -36,6 +36,7 @@ public:
 
     const std::string& GetTitle() const { return m_Specs.Title; }
     glm::vec2 GetFrameBufferSize() const;
+    float GetAspectRatio() const { auto v =  GetFrameBufferSize(); return v.x / v.y; }
 
     GLFWwindow* GetNativeWindow() const { return m_Window; }
 

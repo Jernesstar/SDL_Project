@@ -25,7 +25,10 @@ private:
     };
 
 public:
-    Font(const std::string& font_path, uint32_t width, uint32_t height = 0);
+    const std::string FontPath;
+
+public:
+    Font(const std::string& font_path, uint32_t width, uint32_t height);
     ~Font() { FT_Done_Face(m_Face); }
 
     static void Init() { SADDLE_CORE_ASSERT(!FT_Init_FreeType(&m_FT), "Could not initialize FreeType Library"); }
@@ -34,6 +37,8 @@ public:
     void SetWidth(uint32_t width) { FT_Set_Pixel_Sizes(m_Face, width, 0); UpdateCharacters(); }
     void SetHeight(uint32_t height) { FT_Set_Pixel_Sizes(m_Face, 0, height); UpdateCharacters(); };
     void SetSize(uint32_t width, uint32_t height) { FT_Set_Pixel_Sizes(m_Face, width, height); UpdateCharacters(); }
+
+    glm::vec2 GetSize(const std::string& text) const;
 
     const Character& GetCharacter(char character) const
     {
@@ -46,10 +51,10 @@ public:
 private:
     FT_Face m_Face;
     std::unordered_map<char, Character> m_Characters;
+    
+    void UpdateCharacters();
 
     inline static FT_Library m_FT;
-
-    void UpdateCharacters();
 
     friend class Text;
 };

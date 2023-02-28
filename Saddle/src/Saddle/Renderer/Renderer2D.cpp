@@ -158,6 +158,35 @@ void Renderer2D::DrawText(const Text& text, const glm::mat4& transform)
     }
 }
 
+void Renderer2D::DrawText(const Text& text, const glm::vec2& position, float scale)
+{
+    glm::mat4 transform = glm::translate(glm::mat4(1.0f), glm::vec3(position, 0.0f))
+                        * glm::scale(glm::mat4(1.0f), glm::vec3(scale, scale, 1.0f));
+    DrawText(text, transform);
+}
+
+void Renderer2D::DrawQuad(const glm::vec4& color, const glm::vec2 position, const glm::vec2 size)
+{
+    glm::mat4 transform = glm::translate(glm::mat4(1.0f), glm::vec3(position, 0.0f))
+                        * glm::scale(glm::mat4(1.0f), glm::vec3(size, 1.0f));
+    DrawQuad(color, transform);
+}
+
+void Renderer2D::DrawQuad(Texture2D* texture, const glm::vec2& position, float scale)
+{
+    glm::vec2 frame = Application::Get().GetWindow().GetFrameBufferSize();
+    float r = frame.x / frame.y;
+
+    DrawQuad(texture, position, glm::vec2(r * texture->GetWidth(), texture->GetHeight()) / frame);
+}
+
+void Renderer2D::DrawQuad(Texture2D* texture, const glm::vec2& position, const glm::vec2& size)
+{
+    glm::mat4 transform = glm::translate(glm::mat4(1.0f), glm::vec3(position, 0.0f))
+                        * glm::scale(glm::mat4(1.0f), glm::vec3(size, 1.0f));
+    DrawQuad(texture, transform);
+}
+
 void Renderer2D::DrawQuad(const glm::vec4& color, const glm::mat4& transform)
 {
     if(s_Data.QuadIndexCount >= Renderer2DData::MaxIndices || s_Data.TextureSlotIndex >= Renderer2DData::MaxTextureSlots)

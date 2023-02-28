@@ -28,8 +28,7 @@ private:
     Entity Kick_Drum{ m_Scene };
     Entity Snare_Drum{ m_Scene };
 
-    glm::vec2 vec{ Window.GetFrameBufferSize() };
-    float ratio{ vec.x / vec.y };
+    float ratio{ this->Window.GetAspectRatio() };
 
     OrthographicCamera camera{ -ratio, ratio, -1.0f, 1.0f };
     // OrthographicCameraController controller{ camera };
