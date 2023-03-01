@@ -3,38 +3,34 @@
 #include <Saddle/Renderer/Renderer2D.h>
 #include <Saddle/Core/Input.h>
 
-Snake::Snake(Scene& scene, InputMode mode)
-    : Entity(scene), Mode(mode) { }
+Snake::Snake(Scene& scene, InputMode mode, uint32_t block_size, const std::string& name)
+    : Entity(scene), Mode(mode), BlockSize(block_size), Name(name), m_Scene(&scene) { }
+
+void Snake::Reset()
+{
+    m_Size = 3;
+    m_Score = 0;
+    m_Blocks.clear();
+}
 
 void Snake::Update(TimeStep ts)
 {
     glm::vec2 dir = GameInput::GetInput(this->Mode);
+    glm::vec2 curr_dir = m_Blocks[m_Size - 1].GetPosition() - m_Blocks[m_Size - 2].GetPosition();
+    curr_dir /= abs(curr_dir);
 
-    
+    if(dir.x * curr_dir.x == -1.0f || dir.y * curr_dir.y == -1.0f) // Input asks for opposite direction
+        dir == curr_dir;
+
+    Block new_block = Block(*m_Scene, glm::vec2(m_Blocks[m_Size - 1].GetPosition()) + (float)BlockSize * dir);
+    m_Blocks.push_back(new_block);
+
+    if(m_Blocks.size() > m_Size)
+        m_Blocks.erase(m_Blocks.begin());
 }
 
 void Snake::Render()
 {
     for(Block& block : m_Blocks)
-        Renderer2D::DrawEntity(block);
-}
-
-glm::vec2 GameInput::GetInputKeys()
-{
-    float x = 0.0f, y = 0.0f;
-
-    x = Input::KeyPressed(Key::Left) ? -1.0f : Input::KeyPressed(Key::Right) ? 1.0f : 0.0f;
-    y = Input::KeyPressed(Key::Down) ? -1.0f : Input::KeyPressed(Key::Up) ? 1.0f : 0.0f;
-
-    return { x, y };
-}
-
-glm::vec2 GameInput::GetInputWASD()
-{
-    float x = 0.0f, y = 0.0f;
-
-    x = Input::KeyPressed(Key::A) ? -1.0f : Input::KeyPressed(Key::D) ? 1.0f : 0.0f;
-    y = Input::KeyPressed(Key::S) ? -1.0f : Input::KeyPressed(Key::W) ? 1.0f : 0.0f;
-
-    return { x, y };
+        Renderer2D::DrawEntity(block, glm::vec2(BlockSize));
 }

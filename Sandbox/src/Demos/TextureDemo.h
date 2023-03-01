@@ -54,8 +54,8 @@ void TextureDemo::OnUpdate(TimeStep ts)
 
     Renderer2D::BeginScene(camera);
 
-    // Renderer2D::DrawQuad(&texture1, glm::vec2(0.0f, 0.0f), vec);
-    Renderer2D::DrawQuad(&texture2, glm::vec2(0.0f, 0.0f));
+    Renderer2D::DrawQuad(&texture1, vec / 2.0f, vec);
+    Renderer2D::DrawQuad(&texture2, vec / 2.0f);
 
     Renderer2D::EndScene();
 }

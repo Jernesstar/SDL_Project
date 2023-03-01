@@ -138,18 +138,28 @@ void Renderer2D::NextBatch()
     StartBatch();
 }
 
-void Renderer2D::DrawEntity(Entity& entity)
+void Renderer2D::DrawEntity(Entity& entity, float scale)
 {
     if(!entity.HasComponent<TextureComponent>() || !entity.HasComponent<TransformComponent>())
         return;
 
-    glm::vec2 frame = Application::Get().GetWindow().GetFrameBufferSize();
-    float r = frame.x / frame.y;
+    TransformComponent transform = entity.GetComponent<TransformComponent>();
+    Texture2D* texture = entity.GetComponent<TextureComponent>().Texture;
+
+    transform.Scale = scale * glm::vec3(texture->GetWidth(), texture->GetHeight(), 1.0f);
+
+    DrawQuad(texture, transform.GetTransform());
+}
+
+void Renderer2D::DrawEntity(Entity& entity, const glm::vec2& size)
+{
+    if(!entity.HasComponent<TextureComponent>() || !entity.HasComponent<TransformComponent>())
+        return;
 
     TransformComponent transform = entity.GetComponent<TransformComponent>();
     Texture2D* texture = entity.GetComponent<TextureComponent>().Texture;
-    
-    transform.Scale = glm::vec3(glm::vec2(r * texture->GetWidth(), texture->GetHeight()) / frame, 1.0f);
+
+    transform.Scale = glm::vec3(size, 1.0f);
 
     DrawQuad(texture, transform.GetTransform());
 }
@@ -170,7 +180,7 @@ void Renderer2D::DrawText(const Text& text, const glm::vec2& position, float sca
     DrawText(text, transform);
 }
 
-void Renderer2D::DrawQuad(const glm::vec4& color, const glm::vec2 position, const glm::vec2 size)
+void Renderer2D::DrawQuad(const glm::vec4& color, const glm::vec2& position, const glm::vec2& size)
 {
     glm::mat4 transform = glm::translate(glm::mat4(1.0f), glm::vec3(position, 0.0f))
                         * glm::scale(glm::mat4(1.0f), glm::vec3(size, 1.0f));
@@ -179,10 +189,7 @@ void Renderer2D::DrawQuad(const glm::vec4& color, const glm::vec2 position, cons
 
 void Renderer2D::DrawQuad(Texture2D* texture, const glm::vec2& position, float scale)
 {
-    glm::vec2 frame = Application::Get().GetWindow().GetFrameBufferSize();
-    float r = frame.x / frame.y;
-
-    DrawQuad(texture, position, scale * glm::vec2(r * texture->GetWidth(), texture->GetHeight()));
+    DrawQuad(texture, position, scale * glm::vec2(texture->GetWidth(), texture->GetHeight()));
 }
 
 void Renderer2D::DrawQuad(Texture2D* texture, const glm::vec2& position, const glm::vec2& size)
