@@ -8,7 +8,7 @@
 #include "Input.h"
 
 struct Block : public Entity {
-    Block(Scene* scene, glm::vec2 position)
+    Block(Scene* scene, const glm::vec2& position)
         : Entity(*scene)
     { 
         this->AddComponent<TextureComponent>("Sandbox/assets/images/block_straight.png");
@@ -46,7 +46,7 @@ public:
     Snake(Scene* scene, InputMode mode, uint32_t block_size, const std::string& name);
     ~Snake() = default;
 
-    void Reset();
+    void Reset(const glm::vec2& head_position, const glm::vec2& direction);
     void Update(TimeStep ts);
 
     void Increment()

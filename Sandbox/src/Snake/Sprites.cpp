@@ -6,11 +6,16 @@
 Snake::Snake(Scene* scene, InputMode mode, uint32_t block_size, const std::string& name)
     : Entity(*scene), Mode(mode), BlockSize(block_size), Name(name), m_Scene(scene) { }
 
-void Snake::Reset()
+void Snake::Reset(const glm::vec2& head_position, const glm::vec2& direction)
 {
     m_Size = 3;
     m_Score = 0;
     m_Blocks.clear();
+
+    for(int i = 0; i < m_Size; i++)
+    {
+        m_Blocks.push_back(Block(m_Scene, head_position + float(i * BlockSize) * direction));
+    }
 }
 
 void Snake::Update(TimeStep ts)
