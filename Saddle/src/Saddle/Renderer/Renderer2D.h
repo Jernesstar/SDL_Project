@@ -19,7 +19,7 @@ public:
     static void Init();
     static void BeginScene(const OrthographicCamera& camera);
 
-    static void DrawEntity(Entity& entity, float scale = 0);
+    static void DrawEntity(Entity& entity, float scale = 1.0f);
     static void DrawEntity(Entity& entity, const glm::vec2& size);
 
     static void DrawText(const Text& text, const glm::mat4& transform);

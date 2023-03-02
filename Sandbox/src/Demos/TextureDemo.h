@@ -31,6 +31,10 @@ public:
 
     void OnUpdate(TimeStep ts);
 
+    Scene scene;
+
+    Entity entity{ scene };
+
     Texture2D texture1{ "Sandbox/assets/images/start_bg.png" };
     Texture2D texture2{ "Sandbox/assets/images/kick_drum.png" };
 
@@ -42,6 +46,9 @@ TextureDemo::TextureDemo()
 {
     this->Window.SetWindowIcon("Sandbox/assets/images/start_bg.png");
     controller.TranslationSpeed = 1.0f;
+
+    entity.AddComponent<TextureComponent>("Sandbox/assets/images/apple.png");
+    entity.AddComponent<TransformComponent>().Translation = glm::vec3(400.0f, 600.0f, 0.0f);
 }
 
 void TextureDemo::OnUpdate(TimeStep ts)
@@ -56,6 +63,7 @@ void TextureDemo::OnUpdate(TimeStep ts)
 
     Renderer2D::DrawQuad(&texture1, vec / 2.0f, vec);
     Renderer2D::DrawQuad(&texture2, vec / 2.0f);
+    Renderer2D::DrawEntity(entity);
 
     Renderer2D::EndScene();
 }

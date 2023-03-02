@@ -3,8 +3,8 @@
 #include <Saddle/Renderer/Renderer2D.h>
 #include <Saddle/Core/Input.h>
 
-Snake::Snake(Scene& scene, InputMode mode, uint32_t block_size, const std::string& name)
-    : Entity(scene), Mode(mode), BlockSize(block_size), Name(name), m_Scene(&scene) { }
+Snake::Snake(Scene* scene, InputMode mode, uint32_t block_size, const std::string& name)
+    : Entity(*scene), Mode(mode), BlockSize(block_size), Name(name), m_Scene(scene) { }
 
 void Snake::Reset()
 {
@@ -22,7 +22,7 @@ void Snake::Update(TimeStep ts)
     if(dir.x * curr_dir.x == -1.0f || dir.y * curr_dir.y == -1.0f) // Input asks for opposite direction
         dir == curr_dir;
 
-    Block new_block = Block(*m_Scene, glm::vec2(m_Blocks[m_Size - 1].GetPosition()) + (float)BlockSize * dir);
+    Block new_block = Block(m_Scene, glm::vec2(m_Blocks[m_Size - 1].GetPosition()) + (float)BlockSize * dir);
     m_Blocks.push_back(new_block);
 
     if(m_Blocks.size() > m_Size)

@@ -7,11 +7,9 @@
 
 #include "Input.h"
 
-using namespace Saddle;
-
 struct Block : public Entity {
-    Block(Scene& scene, glm::vec2 position)
-        : Entity(scene)
+    Block(Scene* scene, glm::vec2 position)
+        : Entity(*scene)
     { 
         this->AddComponent<TextureComponent>("Sandbox/assets/images/block_straight.png");
         this->AddComponent<TransformComponent>().Translation = glm::vec3(position, 0.0f);
@@ -30,9 +28,9 @@ struct Block : public Entity {
 struct Apple : public Entity {
     glm::vec2 Position{ 0.0f };
 
-    Apple(Scene& scene) : Entity(scene)
+    Apple(Scene* scene) : Entity(*scene)
     {
-        this->AddComponent<TextureComponent>("Sandbox/assets/images/apple.gif");
+        this->AddComponent<TextureComponent>("Sandbox/assets/images/apple.png");
     }
 
     ~Apple() = default;
@@ -45,7 +43,7 @@ public:
     const std::string Name;
 
 public:
-    Snake(Scene& scene, InputMode mode, uint32_t block_size, const std::string& name);
+    Snake(Scene* scene, InputMode mode, uint32_t block_size, const std::string& name);
     ~Snake() = default;
 
     void Reset();

@@ -19,7 +19,5 @@ Game::Game()
 
 void Game::OnUpdate(TimeStep ts)
 {
-    Renderer::Clear({ 1.0f, 0.0f, 0.0f, 1.0f });
-
-    
+    m_GameMode->Run();
 }
