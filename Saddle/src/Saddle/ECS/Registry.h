@@ -11,21 +11,19 @@ class Entity;
 
 class Registry {
 public:
-    Registry() : m_ComponentManager() { }
+    Registry() : m_Entities() { }
     ~Registry() = default;
 
     void AddEntity(Entity& entity);
     void RemoveEntity(Entity& entity);
 
-    std::set<Entity*> GetAllEntities();
+    std::set<Entity*> GetAllEntities() { return m_Entities; };
 
     template<typename TComponent>
     std::set<Entity*> GetAllEntitiesWith();
 
-    ComponentManager& GetComponentManager() { return m_ComponentManager; }
-
 private:
-    ComponentManager m_ComponentManager;
+    std::set<Entity*> m_Entities;
 };
 
 }

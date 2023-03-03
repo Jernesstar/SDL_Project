@@ -11,7 +11,7 @@ Game::Game()
             Application::Close();
     });
 
-    uint32_t block_size = 30;
+    uint32_t block_size = 50;
     std::string name = "Star";
 
     m_GameMode = new OnePlayerClassicSnake(name, block_size);

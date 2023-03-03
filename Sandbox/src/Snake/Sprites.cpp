@@ -3,8 +3,11 @@
 #include <Saddle/Renderer/Renderer2D.h>
 #include <Saddle/Core/Input.h>
 
-Snake::Snake(Scene* scene, InputMode mode, uint32_t block_size, const std::string& name)
-    : Entity(*scene), Mode(mode), BlockSize(block_size), Name(name), m_Scene(scene) { }
+Snake::Snake(InputMode mode, uint32_t block_size, const std::string& name)
+    : Entity(), Mode(mode), BlockSize(block_size), Name(name)
+{
+    Reset({ 0.0f, 0.0f }, { 1.0f, 0.0f });
+}
 
 void Snake::Reset(const glm::vec2& head_position, const glm::vec2& direction)
 {
@@ -12,9 +15,9 @@ void Snake::Reset(const glm::vec2& head_position, const glm::vec2& direction)
     m_Score = 0;
     m_Blocks.clear();
 
-    for(int i = 0; i < m_Size; i++)
+    for(uint32_t i = 0; i < m_Size; i++)
     {
-        m_Blocks.push_back(Block(m_Scene, head_position + float(i * BlockSize) * direction));
+        m_Blocks.emplace_back().SetPosition(head_position - float(i * BlockSize) * direction);
     }
 }
 
@@ -27,8 +30,7 @@ void Snake::Update(TimeStep ts)
     if(dir.x * curr_dir.x == -1.0f || dir.y * curr_dir.y == -1.0f) // Input asks for opposite direction
         dir == curr_dir;
 
-    Block new_block = Block(m_Scene, glm::vec2(m_Blocks[m_Size - 1].GetPosition()) + (float)BlockSize * dir);
-    m_Blocks.push_back(new_block);
+    m_Blocks.emplace_back().SetPosition(m_Blocks[m_Size - 1].GetPosition() + (float)BlockSize * dir);
 
     if(m_Blocks.size() > m_Size)
         m_Blocks.erase(m_Blocks.begin());
@@ -37,5 +39,5 @@ void Snake::Update(TimeStep ts)
 void Snake::Render()
 {
     for(Block& block : m_Blocks)
-        Renderer2D::DrawEntity(block, glm::vec2(BlockSize));
+        Renderer2D::DrawQuad(block.GetTexture(), block.GetPosition(), glm::vec2(BlockSize));
 }
