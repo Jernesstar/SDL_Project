@@ -11,7 +11,7 @@ class Entity;
 
 class ComponentManager {
 public:
-    ComponentManager() { }
+    ComponentManager() = default;
     ~ComponentManager() = default;
 
     template<typename TComponent>

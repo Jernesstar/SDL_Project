@@ -30,10 +30,10 @@ void Snake::Update(TimeStep ts)
     if(dir.x * curr_dir.x == -1.0f || dir.y * curr_dir.y == -1.0f) // Input asks for opposite direction
         dir == curr_dir;
 
-    m_Blocks.emplace_back().SetPosition(m_Blocks[m_Size - 1].GetPosition() + (float)BlockSize * dir);
+    // m_Blocks.emplace_back().SetPosition(m_Blocks[m_Size - 1].GetPosition() + (float)BlockSize * dir);
 
-    if(m_Blocks.size() > m_Size)
-        m_Blocks.erase(m_Blocks.begin());
+    // if(m_Blocks.size() > m_Size)
+    //     m_Blocks.erase(m_Blocks.begin());
 }
 
 void Snake::Render()
