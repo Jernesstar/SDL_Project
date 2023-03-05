@@ -1,6 +1,6 @@
 #pragma once
 
-#include <unordered_map>
+#include <vector>
 
 #include "Components.h"
 #include "Saddle/Core/Assert.h"
@@ -15,9 +15,9 @@ public:
     ~ComponentManager() = default;
 
     template<typename TComponent>
-    bool HasComponent(Entity* entity)
+    bool HasComponent()
     {
-        if(GetComponents<TComponent>().count(entity))
+        if(GetComponents<TComponent>().size() != 0)
             return true;
 
         return false;
@@ -26,41 +26,41 @@ public:
     template<typename TComponent, typename... Args>
     TComponent& AddComponent(Entity* entity, Args&&... args)
     {
-        if(HasComponent<TComponent>(entity))
+        if(HasComponent<TComponent>())
             SADDLE_CORE_LOG_WARNING("AddComponent(): Entity already has %s", TypeName<TComponent>::GetName()); 
         else
-            GetComponents<TComponent>().try_emplace(entity, std::forward<Args>(args)...);
+            GetComponents<TComponent>().emplace_back(std::forward<Args>(args)...);
 
-        return GetComponents<TComponent>()[entity]; 
+        return GetComponents<TComponent>()[0];
     }
 
     template<typename TComponent>
     TComponent& GetComponent(Entity* entity)
     {
-        SADDLE_CORE_ASSERT_ARGS(HasComponent<TComponent>(entity),
+        SADDLE_CORE_ASSERT_ARGS(HasComponent<TComponent>(),
             "GetComponent(): Entity does not have %s", TypeName<TComponent>::GetName());
 
-        return GetComponents<TComponent>()[entity];
+        return GetComponents<TComponent>()[0];
     }
 
     template<typename TComponent>
     void RemoveComponent(Entity* entity)
     {
-        if(!HasComponent<TComponent>(entity))
+        if(!HasComponent<TComponent>())
             SADDLE_CORE_LOG_WARNING("RemoveComponent(): Entity does not have %s", TypeName<TComponent>::GetName());
         else
-            GetComponents<TComponent>().erase(entity);
+            GetComponents<TComponent>().erase(GetComponents<TComponent>().begin());
     }
 
 private:
-    std::unordered_map<Entity*, EventListenerComponent> EventListenerComponents;
-    std::unordered_map<Entity*, TagComponent> TagComponents;
-    std::unordered_map<Entity*, TextureComponent> TextureComponents;
-    std::unordered_map<Entity*, TransformComponent> TransformComponents;
+    std::vector<EventListenerComponent> EventListenerComponents;
+    std::vector<TagComponent> TagComponents;
+    std::vector<TextureComponent> TextureComponents;
+    std::vector<TransformComponent> TransformComponents;
 
 private:
     template<typename TComponent>
-    std::unordered_map<Entity*, TComponent>& GetComponents();
+    std::vector<TComponent>& GetComponents();
 
     template<typename TComponent>
     struct TypeName

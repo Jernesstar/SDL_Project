@@ -4,7 +4,7 @@
 
 #define GET_COMPONENTS(TComponent) \
 template<> \
-std::unordered_map<Entity*, TComponent>& ComponentManager::GetComponents<TComponent>() \
+std::vector<TComponent>& ComponentManager::GetComponents<TComponent>() \
 { \
     return TComponent##s; \
 }

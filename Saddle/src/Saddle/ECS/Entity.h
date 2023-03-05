@@ -14,7 +14,7 @@ public:
     template<typename TComponent>
     bool HasComponent()
     {
-        return m_ComponentManager.HasComponent<TComponent>(this);
+        return m_ComponentManager.HasComponent<TComponent>();
     }
 
     template<typename TComponent, typename... Args>

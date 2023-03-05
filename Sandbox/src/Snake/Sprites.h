@@ -8,10 +8,10 @@
 #include "Input.h"
 
 struct Block : public Entity {
-    Block() : Entity()
-    { 
+    Block(const glm::vec2& position = glm::vec2(0.0f, 0.0f)) : Entity()
+    {
         this->AddComponent<TextureComponent>("Sandbox/assets/images/block_straight.png");
-        this->AddComponent<TransformComponent>();
+        this->AddComponent<TransformComponent>().Translation = glm::vec3(position, 0.0f);
     }
     ~Block() = default;
 
@@ -28,10 +28,10 @@ struct Block : public Entity {
 };
 
 struct Apple : public Entity {
-    Apple() : Entity()
+    Apple(const glm::vec2& position = glm::vec2(0.0f, 0.0f)) : Entity()
     {
         this->AddComponent<TextureComponent>("Sandbox/assets/images/apple.png");
-        this->AddComponent<TransformComponent>();
+        this->AddComponent<TransformComponent>().Translation = glm::vec3(position, 0.0f);
     }
     ~Apple() = default;
 
@@ -65,5 +65,6 @@ public:
 private:
     uint32_t m_Size;
     uint32_t m_Score;
+    glm::vec2 m_Direction;
     std::vector<Block> m_Blocks;
 };
