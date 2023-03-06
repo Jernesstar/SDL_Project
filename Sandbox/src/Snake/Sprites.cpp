@@ -3,7 +3,7 @@
 #include <Saddle/Renderer/Renderer2D.h>
 #include <Saddle/Core/Input.h>
 
-Snake::Snake(InputMode mode, uint32_t block_size, const std::string& name)
+Snake::Snake(InputMode mode, float block_size, const std::string& name)
     : Entity(), Mode(mode), BlockSize(block_size), Name(name)
 {
     Reset({ 0.0f, 0.0f }, { 1.0f, 0.0f });
@@ -15,9 +15,9 @@ void Snake::Reset(const glm::vec2& head_position, const glm::vec2& direction)
     m_Score = 0;
     m_Blocks.clear();
 
-    for(uint32_t i = m_Size; i > 0; i--)
+    for(float i = m_Size; i > 0; i--)
     {
-        Block new_block(head_position - float(i * BlockSize) * direction);
+        Block new_block(head_position - i * BlockSize * direction);
         m_Blocks.push_back(new_block);
     }
 
@@ -31,10 +31,11 @@ void Snake::Update(TimeStep ts)
 
     if(dir == glm::vec2(0.0f, 0.0f))
         return; // dir = m_Direction;
-    // if(dir.x * m_Direction.x == -1.0f || dir.y * m_Direction.y == -1.0f) // Input asks for opposite direction
-    //     return;
+    if(dir.x * m_Direction.x == -1.0f || dir.y * m_Direction.y == -1.0f) // Input asks for opposite direction
+        return;
+    m_Direction = dir;
 
-    Block new_block(m_Blocks[m_Size - 1].GetPosition() + (float)BlockSize * dir);
+    Block new_block(m_Blocks[m_Size - 1].GetPosition() + BlockSize * dir);
     m_Blocks.push_back(new_block);
 
     if(m_Blocks.size() > m_Size)

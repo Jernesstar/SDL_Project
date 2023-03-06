@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 #include <Saddle/Renderer/OrthographicCamera.h>
 
 #include "Sprites.h"
@@ -7,14 +9,14 @@
 
 class GameMode {
 protected:
-    uint32_t BlockSize;
-    Snake* Player1;
-    Snake* Player2;
+    float BlockSize;
+    std::unique_ptr<Snake> Player1;
 
     OrthographicCamera Camera;
 
 public:
     GameMode() : Camera(0.0f, 0.0f, 0.0f, 0.0f) { }
+    ~GameMode() = default;
 
     virtual void Update(TimeStep ts) = 0;
     virtual void Run() = 0;
@@ -22,8 +24,8 @@ public:
 
 class OnePlayerClassicSnake : public GameMode {
 public:
-    OnePlayerClassicSnake(const std::string name, uint32_t block_size);
+    OnePlayerClassicSnake(const std::string name, float block_size);
 
-    void Update(TimeStep ts) override { };
+    void Update(TimeStep ts) override;
     void Run() override;
 };

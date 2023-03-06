@@ -44,11 +44,11 @@ struct Apple : public Entity {
 class Snake : public Entity {
 public:
     const InputMode Mode;
-    const uint32_t BlockSize;
+    const float BlockSize;
     const std::string Name;
 
 public:
-    Snake(InputMode mode, uint32_t block_size, const std::string& name);
+    Snake(InputMode mode, float block_size, const std::string& name);
     ~Snake() = default;
 
     void Reset(const glm::vec2& head_position, const glm::vec2& direction);

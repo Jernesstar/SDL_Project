@@ -19,5 +19,5 @@ Game::Game()
 
 void Game::OnUpdate(TimeStep ts)
 {
-    m_GameMode->Run();
+    m_GameMode->Update(ts);
 }
