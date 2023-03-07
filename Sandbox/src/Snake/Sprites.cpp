@@ -9,20 +9,21 @@ Snake::Snake(InputMode mode, float block_size, const std::string& name)
     Reset({ 0.0f, 0.0f }, { 1.0f, 0.0f });
 }
 
-void Snake::Reset(const glm::vec2& head_position, const glm::vec2& direction)
+void Snake::Reset(const glm::vec2& head, const glm::vec2& dir, float speed)
 {
-    m_Size = 3;
-    m_Score = 0;
+    Size = 3;
+    Score = 0;
+    Speed = speed;
+    Head = head;
+    Direction = dir;
+
     m_Blocks.clear();
 
-    for(float i = m_Size; i > 0; i--)
+    for(float i = Size; i > 0.0f; i--)
     {
-        Block new_block(head_position - i * BlockSize * direction);
+        Block new_block(head - i * BlockSize * dir);
         m_Blocks.push_back(new_block);
     }
-
-    m_Direction = m_Blocks[m_Size - 1].GetPosition() - m_Blocks[m_Size - 2].GetPosition();
-    m_Direction /= abs(m_Direction);
 }
 
 void Snake::Update(TimeStep ts)
@@ -30,15 +31,15 @@ void Snake::Update(TimeStep ts)
     glm::vec2 dir = GameInput::GetInput(this->Mode);
 
     if(dir == glm::vec2(0.0f, 0.0f))
-        return; // dir = m_Direction;
-    if(dir.x * m_Direction.x == -1.0f || dir.y * m_Direction.y == -1.0f) // Input asks for opposite direction
+        return; // dir = Direction;
+    if(dir.x * Direction.x == -1.0f || dir.y * Direction.y == -1.0f) // Input asks for opposite direction
         return;
-    m_Direction = dir;
+    Direction = dir;
 
-    Block new_block(m_Blocks[m_Size - 1].GetPosition() + BlockSize * dir);
+    Block new_block(m_Blocks[Size - 1].GetPosition() + BlockSize * dir);
     m_Blocks.push_back(new_block);
 
-    if(m_Blocks.size() > m_Size)
+    if(m_Blocks.size() > Size)
         m_Blocks.erase(m_Blocks.begin());
 }
 

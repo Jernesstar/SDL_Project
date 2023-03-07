@@ -9,7 +9,7 @@ OnePlayerClassicSnake::OnePlayerClassicSnake(const std::string name, float block
     BlockSize = block_size;
     Player1 = std::make_unique<Snake>(InputMode::Keys, block_size, name);
 
-    Player1->Reset(glm::vec2{ 500.0f, 500.0f }, glm::vec2{ 1.0f, 0.0f });
+    Player1->Reset(glm::vec2{ 500.0f, 500.0f }, glm::vec2{ 1.0f, 0.0f }, 0.005f);
 }
 
 void OnePlayerClassicSnake::Run()
@@ -21,7 +21,7 @@ void OnePlayerClassicSnake::Update(TimeStep ts)
     glm::vec2 vec = Application::Get().GetWindow().GetFrameBufferSize();
     Camera.SetProjection(0.0f, vec.x, 0.0f, vec.y);
 
-    Player1->Update(TimeStep());
+    Player1->Update(ts);
 
     Renderer::Clear(glm::vec4(1.0f));
     Renderer2D::BeginScene(Camera);
