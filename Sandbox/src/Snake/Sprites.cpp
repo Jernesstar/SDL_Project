@@ -19,7 +19,7 @@ void Snake::Reset(const glm::vec2& head, const glm::vec2& dir, float speed)
 
     m_Blocks.clear();
 
-    for(float i = Size; i > 0.0f; i--)
+    for(float i = 0.0f; i < Size; i++)
     {
         Block new_block(head - i * BlockSize * dir);
         m_Blocks.push_back(new_block);
@@ -43,10 +43,10 @@ void Snake::Update(TimeStep ts)
     Direction = dir;
 
     for(uint32_t i = 0; i < Size - 1; i++)
-        m_Blocks[i].SetPosition(m_Blocks[i + 1].GetPosition());
+        m_Blocks[i + 1].SetPosition(m_Blocks[i].GetPosition());
 
     Head += BlockSize * Direction;
-    m_Blocks[Size - 1].SetPosition(Head);
+    m_Blocks[0].SetPosition(Head);
 }
 
 void Snake::Render()

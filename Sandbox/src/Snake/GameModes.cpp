@@ -9,7 +9,7 @@ OnePlayerClassicSnake::OnePlayerClassicSnake(const std::string name, float block
     BlockSize = block_size;
     Player1 = std::make_unique<Snake>(InputMode::Keys, block_size, name);
 
-    Player1->Reset(glm::vec2{ 500.0f, 500.0f }, glm::vec2{ 1.0f, 0.0f }, 0.005f);
+    Player1->Reset(glm::vec2{ 500.0f, 500.0f }, glm::vec2{ 1.0f, 0.0f }, 0.05f);
 }
 
 void OnePlayerClassicSnake::Run()
