@@ -60,12 +60,7 @@ public:
     void Update(TimeStep ts);
     void Render();
     void Reset(const glm::vec2& head = { 0.0f, 0.0f }, const glm::vec2& dir = { 1.0f, 0.0f, }, float speed = 1.0f);
-
-    void Increment()
-    {
-        Size++;
-        Score++;
-    }
+    void Increment();
 
 private:
     std::vector<Block> m_Blocks;

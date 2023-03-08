@@ -26,6 +26,12 @@ void Snake::Reset(const glm::vec2& head, const glm::vec2& dir, float speed)
     }
 }
 
+void Snake::Increment()
+{
+    Size++;
+    Score++;
+}
+
 void Snake::Update(TimeStep ts)
 {
     glm::vec2 dir = GameInput::GetInput(this->Mode);
@@ -36,15 +42,15 @@ void Snake::Update(TimeStep ts)
         return;
     Direction = dir;
 
-    Block new_block(m_Blocks[Size - 1].GetPosition() + BlockSize * dir);
-    m_Blocks.push_back(new_block);
+    for(uint32_t i = 0; i < Size - 1; i++)
+        m_Blocks[i].SetPosition(m_Blocks[i + 1].GetPosition());
 
-    if(m_Blocks.size() > Size)
-        m_Blocks.erase(m_Blocks.begin());
+    Head += BlockSize * Direction;
+    m_Blocks[Size - 1].SetPosition(Head);
 }
 
 void Snake::Render()
 {
     for(Block& block : m_Blocks)
-        Renderer2D::DrawQuad(block.GetTexture(), block.GetPosition(), glm::vec2(BlockSize));
+        Renderer2D::DrawQuad({ 0.0f, 0.0f, 1.0f, 1.0f }, block.GetPosition(), glm::vec2(BlockSize));
 }
