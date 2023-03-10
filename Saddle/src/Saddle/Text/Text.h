@@ -10,7 +10,7 @@
 namespace Saddle {
 
 class Text {
-public:
+private:
     struct CharacterQuad {
         Font::Character Character;
         glm::vec2 Vertices[4];

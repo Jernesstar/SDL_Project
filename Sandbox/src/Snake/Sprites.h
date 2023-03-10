@@ -8,37 +8,40 @@
 #include "Input.h"
 
 struct Block : public Entity {
-    Block(const glm::vec2& position = glm::vec2(0.0f, 0.0f)) : Entity()
+    glm::vec2 Velocity;
+
+    Block(const glm::vec2& pos = { 0.0f, 0.0f }, const glm::vec2& v = { 1.0f, 0.0f })
+        : Entity(), Velocity(v)
     {
-        this->AddComponent<TextureComponent>("Sandbox/assets/images/block_straight.png");
-        this->AddComponent<TransformComponent>().Translation = glm::vec3(position, 0.0f);
+        AddComponent<TextureComponent>("Sandbox/assets/images/block_straight.png");
+        AddComponent<TransformComponent>().Translation = glm::vec3(pos, 0.0f);
     }
     ~Block() = default;
 
+    glm::vec2 GetPosition() { return glm::vec2(GetComponent<TransformComponent>().Translation); }
+    Texture2D* GetImage() { return GetComponent<TextureComponent>().Texture; }
+
     void SetImage(Texture2D* texture, float rotation)
     {
-        this->GetComponent<TextureComponent>().Texture = texture;
-        this->GetComponent<TransformComponent>().Rotation = glm::vec3(0.0f, 0.0f, rotation);
+        GetComponent<TextureComponent>().Texture = texture;
+        GetComponent<TransformComponent>().Rotation = glm::vec3(0.0f, 0.0f, rotation);
     }
-
-    glm::vec2 GetPosition() { return glm::vec2(this->GetComponent<TransformComponent>().Translation); }
-    void SetPosition(const glm::vec2& pos) { this->GetComponent<TransformComponent>().Translation = glm::vec3(pos, 0.0f); }
-
-    Texture2D* GetTexture() { return this->GetComponent<TextureComponent>().Texture; }
+    void SetPosition(const glm::vec2& pos) { GetComponent<TransformComponent>().Translation = glm::vec3(pos, 0.0f); }
 };
 
 struct Apple : public Entity {
-    Apple(const glm::vec2& position = glm::vec2(0.0f, 0.0f)) : Entity()
+    Apple(const glm::vec2& position = glm::vec2(0.0f, 0.0f))
+        : Entity()
     {
         this->AddComponent<TextureComponent>("Sandbox/assets/images/apple.png");
         this->AddComponent<TransformComponent>().Translation = glm::vec3(position, 0.0f);
     }
     ~Apple() = default;
 
-    glm::vec2 GetPosition() { return glm::vec2(this->GetComponent<TransformComponent>().Translation); }
-    void SetPosition(const glm::vec2& pos) { this->GetComponent<TransformComponent>().Translation = glm::vec3(pos, 0.0f); }
-
     Texture2D* GetTexture() { return this->GetComponent<TextureComponent>().Texture; }
+    glm::vec2 GetPosition() { return glm::vec2(this->GetComponent<TransformComponent>().Translation); }
+
+    void SetPosition(const glm::vec2& pos) { this->GetComponent<TransformComponent>().Translation = glm::vec3(pos, 0.0f); }
 };
 
 class Snake : public Entity {
@@ -63,5 +66,6 @@ public:
     void Increment();
 
 private:
+    uint32_t m_Index;
     std::vector<Block> m_Blocks;
 };

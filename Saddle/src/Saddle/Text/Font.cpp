@@ -17,14 +17,28 @@ Font::Font(const std::string& font_path, uint32_t width, uint32_t height)
     SetSize(width, height);
 }
 
+Font::~Font()
+{
+    FT_Done_Face(m_Face);
+
+    DeleteCharacters();
+}
+
+void Font::DeleteCharacters()
+{
+    for(const auto& [_, ch] : m_Characters)
+        glDeleteTextures(1, &ch.TextureID);
+}
+
 void Font::UpdateCharacters()
 {
+    DeleteCharacters();
+
     for(unsigned char c = 0; c < 128; c++)
     {
-        // load character glyph 
         if(FT_Load_Char(m_Face, c, FT_LOAD_RENDER))
         {
-            SADDLE_CORE_LOG_ERROR("FREETYTPE: Failed to load glyph");
+            SADDLE_CORE_LOG_ERROR("Failed to load glyph: %s", c);
         }
 
         uint32_t w = m_Face->glyph->bitmap.width, h = m_Face->glyph->bitmap.rows;

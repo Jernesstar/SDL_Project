@@ -41,8 +41,6 @@ Texture2D::Texture2D(const std::string& path)
     stbi_image_free(pixel_data);
 }
 
-Texture2D::~Texture2D() { glDeleteTextures(1, &m_TextureID); }
-
 void Texture2D::Bind(uint32_t slot)
 {
     m_Slot = slot;
