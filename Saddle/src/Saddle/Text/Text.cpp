@@ -17,24 +17,15 @@ void Text::SetText(const std::string& text, const Font& font)
         float w = ch.Size.x;
         float h = ch.Size.y;
 
-        glm::vec2 vertices[4] =
-        {
-            { xpos,     ypos,    },
-            { xpos + w, ypos,    },
-            { xpos,     ypos + h },
-            { xpos + w, ypos + h },
-        };
-
-        x += (ch.Advance >> 6);
-
         CharacterQuad quad;
         quad.Character = ch;
-        quad.Vertices[0] = vertices[0];
-        quad.Vertices[1] = vertices[1];
-        quad.Vertices[2] = vertices[2];
-        quad.Vertices[3] = vertices[3];
+        quad.Vertices[0] = { xpos,     ypos,    };
+        quad.Vertices[1] = { xpos + w, ypos,    };
+        quad.Vertices[2] = { xpos,     ypos + h };
+        quad.Vertices[3] = { xpos + w, ypos + h };
 
         m_Quads.push_back(quad);
+        x += (ch.Advance >> 6);
     }
 }
 

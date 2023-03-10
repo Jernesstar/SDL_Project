@@ -6,15 +6,13 @@
 #include <Saddle/Events/EventSystem.h>
 
 #include "Sprites.h"
-#include "Input.h"
 
 class GameMode {
 protected:
     float BlockSize;
+    OrthographicCamera Camera;
 
     std::unique_ptr<Snake> Player1;
-
-    OrthographicCamera Camera;
 
 public:
     GameMode() : Camera(0.0f, 0.0f, 0.0f, 0.0f)

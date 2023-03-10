@@ -21,11 +21,8 @@ private:
 
 public:
     Text() : m_Text("") { }
-    Text(const std::string& text, const Font& font, const glm::vec4& color)
-        : m_Text(text), m_Color(color)
-    {
-        SetText(text, font);
-    }
+    Text(const std::string& text, const Font& font) : m_Text(text) { SetText(text, font); }
+    Text(const std::string& text, const Font& font, const glm::vec4& color) : m_Text(text), m_Color(color) { SetText(text, font); }
     ~Text() = default;
 
     void SetText(const std::string& text, const Font& font);
@@ -38,7 +35,7 @@ public:
     bool operator==(const Text& other) const { return m_Text == other.m_Text && m_Color == other.m_Color; }
 
 private:
-    glm::vec4 m_Color;
+    glm::vec4 m_Color = { 0.0f, 0.0f, 0.0f, 1.0f };
     std::string m_Text;
     std::vector<CharacterQuad> m_Quads;
 

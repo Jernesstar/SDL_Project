@@ -1,8 +1,5 @@
 #include "Game.h"
 
-#include <Saddle/Renderer/Renderer.h>
-#include <Saddle/Renderer/Renderer2D.h>
-
 Game::Game()
 {
     EventSystem::RegisterEventListener<KeyPressedEvent>(

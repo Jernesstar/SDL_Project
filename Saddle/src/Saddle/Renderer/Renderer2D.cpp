@@ -166,7 +166,7 @@ void Renderer2D::DrawEntity(Entity& entity, const glm::vec2& size)
 
 void Renderer2D::DrawText(const Text& text, const glm::mat4& transform)
 {
-    glm::vec4 color = text.GetColor();
+    const glm::vec4& color = text.GetColor();
     for(const Text::CharacterQuad& ch : text.GetCharacters())
     {
         DrawQuad(ch, color, transform);

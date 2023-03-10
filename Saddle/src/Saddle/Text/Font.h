@@ -42,9 +42,7 @@ public:
 
     const Character& GetCharacter(char character) const
     {
-        SADDLE_CORE_ASSERT_ARGS(
-            m_Characters.find(character) != m_Characters.end(), "%s is not a valid character!", character);
-
+        SADDLE_CORE_ASSERT_ARGS(m_Characters.find(character) != m_Characters.end(), "%s is not a valid character!", character);
         return m_Characters.at(character);
     };
 
