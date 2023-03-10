@@ -31,8 +31,8 @@ public:
     Font(const std::string& font_path, uint32_t width, uint32_t height);
     ~Font();
 
-    static void Init() { SADDLE_CORE_ASSERT(!FT_Init_FreeType(&m_FT), "Could not initialize FreeType Library"); }
-    static void Close() { FT_Done_FreeType(m_FT); }
+    static void Init() { SADDLE_CORE_ASSERT(!FT_Init_FreeType(&s_FT), "Could not initialize FreeType Library"); }
+    static void Close() { FT_Done_FreeType(s_FT); }
 
     void SetWidth(uint32_t width) { FT_Set_Pixel_Sizes(m_Face, width, 0); UpdateCharacters(); }
     void SetHeight(uint32_t height) { FT_Set_Pixel_Sizes(m_Face, 0, height); UpdateCharacters(); };
@@ -55,7 +55,7 @@ private:
     void DeleteCharacters();
     void UpdateCharacters();
 
-    inline static FT_Library m_FT;
+    inline static FT_Library s_FT;
 
     friend class Text;
 };

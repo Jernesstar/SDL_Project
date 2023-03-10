@@ -18,7 +18,7 @@ void main()
 
         else // Text quad
         {
-            color = vec4(v_Color.xyz, texture(u_Textures[v_TextureIndex], v_TextureCoordinate).r);
+            color = v_Color * vec4(1.0, 1.0, 1.0, texture(u_Textures[v_TextureIndex], v_TextureCoordinate).r);
         }
     }
 

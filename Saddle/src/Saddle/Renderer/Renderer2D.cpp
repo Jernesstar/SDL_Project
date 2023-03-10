@@ -166,7 +166,7 @@ void Renderer2D::DrawEntity(Entity& entity, const glm::vec2& size)
 
 void Renderer2D::DrawText(const Text& text, const glm::mat4& transform)
 {
-    glm::vec3 color = text.GetColor();
+    glm::vec4 color = text.GetColor();
     for(const Text::CharacterQuad& ch : text.GetCharacters())
     {
         DrawQuad(ch, color, transform);
@@ -249,7 +249,7 @@ void Renderer2D::DrawQuad(Texture2D* texture, const glm::mat4& transform)
     s_Data.QuadIndexCount += 6;
 }
 
-void Renderer2D::DrawQuad(const Text::CharacterQuad& ch, const glm::vec3& color, const glm::mat4& transform)
+void Renderer2D::DrawQuad(const Text::CharacterQuad& ch, const glm::vec4& color, const glm::mat4& transform)
 {
     if(s_Data.QuadIndexCount == Renderer2DData::MaxIndices || s_Data.TextureSlotIndex >= Renderer2DData::MaxTextureSlots
     || s_Data.TextSlotIndex < 0 || s_Data.TextureSlotIndex > s_Data.TextSlotIndex)
@@ -274,7 +274,7 @@ void Renderer2D::DrawQuad(const Text::CharacterQuad& ch, const glm::vec3& color,
     for(uint32_t i = 0; i < 4; i++)
     {
         s_Data.QuadVertexBufferPtr->Position = transform * glm::vec4(ch.Vertices[i], 0.0f, 1.0f);
-        s_Data.QuadVertexBufferPtr->Color = glm::vec4(color, 0.0f);
+        s_Data.QuadVertexBufferPtr->Color = color;
         s_Data.QuadVertexBufferPtr->TextureCoordinate = s_Data.TextCoords[i];
         s_Data.QuadVertexBufferPtr->TextureIndex = (int32_t)text_index;
         s_Data.QuadVertexBufferPtr++;

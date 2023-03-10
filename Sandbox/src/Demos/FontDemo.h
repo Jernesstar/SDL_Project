@@ -22,7 +22,7 @@ public:
 
 private:
     Font m_Font{ "Sandbox/assets/fonts/pixel_font.ttf", 0, 48 };
-    Text m_Text{ "This is not a piece of sample text", m_Font, glm::vec3(0.6, 0.7, 0.8) };
+    Text m_Text{ "This is not a piece of sample text", m_Font, glm::vec4(0.6f, 0.7f, 0.8f, 1.0f) };
 
     OrthographicCamera camera{ 0.0, 1600.0f, 0.0f, 900.0f };
 };

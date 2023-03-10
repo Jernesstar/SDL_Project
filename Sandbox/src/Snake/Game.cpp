@@ -15,9 +15,9 @@ Game::Game()
     std::string name = "Star";
 
     m_GameMode = new OnePlayerClassicSnake(name, block_size);
+    m_GameMode->Run();
 }
 
 void Game::OnUpdate(TimeStep ts)
 {
-    m_GameMode->Update(ts);
 }

@@ -2,10 +2,8 @@
 
 namespace Saddle {
 
-void Text::SetText(const std::string& text, const Font& font, const glm::vec3& color)
+void Text::SetText(const std::string& text, const Font& font)
 {
-    m_Color = color;
-
     m_Quads.reserve(text.size());
 
     float x = 0.0f, y = 0.0f;

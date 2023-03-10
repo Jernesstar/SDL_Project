@@ -3,6 +3,7 @@
 #include <memory>
 
 #include <Saddle/Renderer/OrthographicCamera.h>
+#include <Saddle/Events/EventSystem.h>
 
 #include "Sprites.h"
 #include "Input.h"
@@ -10,12 +11,19 @@
 class GameMode {
 protected:
     float BlockSize;
+
     std::unique_ptr<Snake> Player1;
 
     OrthographicCamera Camera;
 
 public:
-    GameMode() : Camera(0.0f, 0.0f, 0.0f, 0.0f) { }
+    GameMode() : Camera(0.0f, 0.0f, 0.0f, 0.0f)
+    {
+        EventSystem::RegisterEventListener<ApplicationUpdatedEvent> (
+        [this](const ApplicationUpdatedEvent& event) {
+            this->Update(event.DeltaTime);
+        });
+    }
     ~GameMode() = default;
 
     virtual void Update(TimeStep ts) = 0;

@@ -61,6 +61,8 @@ void Application::Close()
 {
     delete s_Instance;
 
+    Font::Close();
+
     glfwTerminate();
     exit(0);
 }
