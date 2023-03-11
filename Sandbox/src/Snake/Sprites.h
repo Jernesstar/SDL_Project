@@ -53,8 +53,10 @@ public:
     uint32_t Size;
     uint32_t Score;
     float Speed;
+
     glm::vec2 Head;
     glm::vec2 Direction;
+    std::vector<Block> Blocks;
 
 public:
     Snake(InputMode mode, float block_size, const std::string& name);
@@ -62,10 +64,6 @@ public:
 
     void Update(TimeStep ts);
     void Render();
-    void Reset(const glm::vec2& head = { 0.0f, 0.0f }, const glm::vec2& dir = { 1.0f, 0.0f, }, float speed = 1.0f);
+    void Reset(const glm::vec2& head = { 0.0f, 0.0f }, const glm::vec2& dir = { 1.0f, 0.0f, }, float speed = 1.0f, uint32_t size = 3);
     void Increment();
-
-private:
-    uint32_t m_Index;
-    std::vector<Block> m_Blocks;
 };

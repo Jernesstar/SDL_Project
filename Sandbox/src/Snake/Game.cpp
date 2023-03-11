@@ -17,4 +17,9 @@ Game::Game()
 
 void Game::OnUpdate(TimeStep ts)
 {
+    m_GameMode->Update(ts);
+    m_GameMode->CheckGameOver();
+
+    if(m_GameMode->GameOver)
+        Application::Close();
 }

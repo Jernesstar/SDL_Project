@@ -8,24 +8,22 @@
 #include "Sprites.h"
 
 class GameMode {
-protected:
+public:
     float BlockSize;
-    OrthographicCamera Camera;
+    bool GameOver = false;
 
+protected:
     std::unique_ptr<Snake> Player1;
 
+    OrthographicCamera Camera;
+
 public:
-    GameMode() : Camera(0.0f, 0.0f, 0.0f, 0.0f)
-    {
-        EventSystem::RegisterEventListener<ApplicationUpdatedEvent> (
-        [this](const ApplicationUpdatedEvent& event) {
-            this->Update(event.DeltaTime);
-        });
-    }
+    GameMode() : Camera(0.0f, 0.0f, 0.0f, 0.0f) { }
     ~GameMode() = default;
 
     virtual void Update(TimeStep ts) = 0;
     virtual void Run() = 0;
+    virtual void CheckGameOver() = 0;
 };
 
 class OnePlayerClassicSnake : public GameMode {
@@ -34,4 +32,5 @@ public:
 
     void Update(TimeStep ts) override;
     void Run() override;
+    void CheckGameOver() override;
 };

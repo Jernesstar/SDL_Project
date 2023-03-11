@@ -12,7 +12,7 @@ OnePlayerClassicSnake::OnePlayerClassicSnake(const std::string name, float block
 
 void OnePlayerClassicSnake::Run()
 {
-    Player1->Reset(glm::vec2{ 500.0f, 500.0f }, glm::vec2{ 1.0f, 0.0f }, 0.05f);
+    Player1->Reset(glm::vec2{ 500.0f, 500.0f }, glm::vec2{ 1.0f, 0.0f }, 0.05f, 20);
 }
 
 void OnePlayerClassicSnake::Update(TimeStep ts)
@@ -28,4 +28,16 @@ void OnePlayerClassicSnake::Update(TimeStep ts)
         Player1->Render();
     }
     Renderer2D::EndScene();
+}
+
+void OnePlayerClassicSnake::CheckGameOver()
+{
+    for(uint32_t i = 1; i < Player1->Size; i++)
+    {
+        if(Player1->Blocks[i].GetPosition() == Player1->Head)
+        {
+            GameOver = true;
+            break;
+        }
+    }
 }

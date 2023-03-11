@@ -9,21 +9,20 @@ Snake::Snake(InputMode mode, float block_size, const std::string& name)
     Reset({ 0.0f, 0.0f }, { 1.0f, 0.0f });
 }
 
-void Snake::Reset(const glm::vec2& head, const glm::vec2& dir, float speed)
+void Snake::Reset(const glm::vec2& head, const glm::vec2& dir, float speed, uint32_t size)
 {
-    Size = 5;
+    Size = size;
     Score = 0;
     Speed = speed;
     Head = head;
     Direction = dir;
-    m_Index = Size - 1;
 
-    m_Blocks.clear();
+    Blocks.clear();
 
     for(float i = 0.0f; i < Size; i++)
     {
         Block new_block(head - i * BlockSize * dir, dir);
-        m_Blocks.push_back(new_block);
+        Blocks.push_back(new_block);
     }
 }
 
@@ -43,17 +42,15 @@ void Snake::Update(TimeStep ts)
         return;
 
     Direction = dir;
-
     Head += BlockSize * Direction;
+    Blocks.emplace(Blocks.begin(), Head, Direction);
 
-    m_Blocks.emplace(m_Blocks.begin(), Head, Direction);
-
-    if(Size < m_Blocks.size())
-        m_Blocks.erase(m_Blocks.end());
+    if(Size < Blocks.size())
+        Blocks.erase(Blocks.end());
 }
 
 void Snake::Render()
 {
-    for(Block& block : m_Blocks)
+    for(Block& block : Blocks)
         Renderer2D::DrawQuad({ 0.0f, 0.0f, 1.0f, 1.0f }, block.GetPosition(), glm::vec2(BlockSize));
 }
