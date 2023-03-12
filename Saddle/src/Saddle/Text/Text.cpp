@@ -7,7 +7,7 @@ void Text::SetText(const std::string& text, const Font& font)
     m_Quads.reserve(text.size());
 
     float x = 0.0f, y = 0.0f;
-    for(std::string::const_iterator c = text.begin(); c != text.end(); c++)
+    for(auto c = text.begin(); c != text.end(); c++)
     {
         const Font::Character& ch = font.GetCharacter(*c);
 

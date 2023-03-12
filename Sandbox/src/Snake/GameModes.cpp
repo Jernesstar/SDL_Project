@@ -15,29 +15,23 @@ void OnePlayerClassicSnake::Run()
     Player1->Reset(glm::vec2{ 500.0f, 500.0f }, glm::vec2{ 1.0f, 0.0f }, 0.05f, 20);
 }
 
-void OnePlayerClassicSnake::Update(TimeStep ts)
+void OnePlayerClassicSnake::Render(TimeStep ts)
 {
-    glm::vec2 vec = Application::Get().GetWindow().GetFrameBufferSize();
-    Camera.SetProjection(0.0f, vec.x, 0.0f, vec.y);
-
     Player1->Update(ts);
-
-    Renderer::Clear(glm::vec4(1.0f));
-    Renderer2D::BeginScene(Camera);
-    {
-        Player1->Render();
-    }
-    Renderer2D::EndScene();
+    Player1->Render();
 }
 
-void OnePlayerClassicSnake::CheckGameOver()
+void OnePlayerClassicSnake::CheckGameOver(glm::vec2 bound)
 {
     for(uint32_t i = 1; i < Player1->Size; i++)
     {
         if(Player1->Blocks[i].GetPosition() == Player1->Head)
         {
             GameOver = true;
-            break;
+            return;
         }
     }
+
+    if(Player1->Head.x < 0.0f || Player1->Head.x > bound.x || Player1->Head.y < 0.0f || Player1->Head.y > bound.y)
+        GameOver = true;
 }

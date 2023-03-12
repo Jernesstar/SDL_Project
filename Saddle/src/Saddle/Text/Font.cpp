@@ -72,7 +72,7 @@ glm::vec2 Font::GetSize(const std::string& text) const
     {
         const Character& ch = GetCharacter(*c);
 
-        x += ch.Bearing.x + ch.Size.x + (ch.Advance >> 6);
+        x += ch.Advance >> 6;
         high_y = std::max((float)high_y, (float)ch.Bearing.y);
     }
 
