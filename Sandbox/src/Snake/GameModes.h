@@ -34,5 +34,11 @@ public:
     void CheckGameOver(glm::vec2 bound) override;
 
 private:
-    Texture2D* m_Background;
+    void TileBackground();
+
+    glm::vec2 m_ScreenSize;
+
+    Texture2D* m_Background = nullptr;
+    uint8_t* dark_green;
+    uint8_t* light_green;
 };
