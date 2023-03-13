@@ -2,9 +2,7 @@
 
 #include <string>
 
-#include <glad/glad.h>
-
-#include "Saddle/Core/Assert.h"
+#include <glm/vec2.hpp>
 
 namespace Saddle {
 
@@ -16,11 +14,12 @@ public:
     Texture2D(uint32_t width, uint32_t height);
     Texture2D(const std::string& path);
     Texture2D(const Texture2D& other) = default;
-    ~Texture2D() { glDeleteTextures(1, &m_TextureID); }
+    ~Texture2D();
 
     void Bind(uint32_t slot = 0);
     void SetData(const std::string& path);
     void SetData(const void* data, uint32_t size);
+    void SetData(const void* data, const glm::ivec2& pos, const glm::ivec2& size);
 
     const std::string& GetPath() { return m_Path; }
 

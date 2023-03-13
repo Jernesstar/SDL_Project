@@ -38,7 +38,7 @@ void Game::OnUpdate(TimeStep ts)
 void Game::ShowGameOver()
 {
     glm::vec2 vec = Application::Get().GetWindow().GetFrameBufferSize() / 2.0f;
-    vec.x -= m_Font.GetSize(m_GameOverText.GetText()).x / 2.0f;
+    vec -= m_Font.GetSize(m_GameOverText.GetText()) / 2.0f;
 
     Renderer2D::DrawText(m_GameOverText, vec);
 }

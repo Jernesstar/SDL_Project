@@ -3,7 +3,7 @@
 #include <Saddle/Renderer/Renderer2D.h>
 #include <Saddle/Core/Input.h>
 
-Snake::Snake(InputMode mode, float block_size, const std::string& name)
+Snake::Snake(InputMode mode, uint32_t block_size, const std::string& name)
     : Entity(), Mode(mode), BlockSize(block_size), Name(name)
 {
     Reset({ 0.0f, 0.0f }, { 1.0f, 0.0f });
@@ -42,7 +42,7 @@ void Snake::Update(TimeStep ts)
         return;
 
     Direction = dir;
-    Head += BlockSize * Direction;
+    Head += (float)BlockSize * Direction;
     Blocks.emplace(Blocks.begin(), Head, Direction);
 
     if(Size < Blocks.size())
@@ -52,5 +52,5 @@ void Snake::Update(TimeStep ts)
 void Snake::Render()
 {
     for(Block& block : Blocks)
-        Renderer2D::DrawQuad({ 0.0f, 0.0f, 1.0f, 1.0f }, block.GetPosition(), glm::vec2(BlockSize));
+        Renderer2D::DrawQuad(block.GetImage(), block.GetPosition(), glm::vec2(BlockSize));
 }

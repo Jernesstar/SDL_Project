@@ -4,12 +4,13 @@
 
 #include <Saddle/Renderer/OrthographicCamera.h>
 #include <Saddle/Events/EventSystem.h>
+#include <OpenGL/Texture2D.h>
 
 #include "Sprites.h"
 
 class GameMode {
 public:
-    float BlockSize;
+    uint32_t BlockSize;
     bool GameOver = false;
 
 protected:
@@ -26,9 +27,12 @@ public:
 
 class OnePlayerClassicSnake : public GameMode {
 public:
-    OnePlayerClassicSnake(const std::string name, float block_size);
+    OnePlayerClassicSnake(const std::string name, uint32_t block_size);
 
     void Run() override;
     void Render(TimeStep ts) override;
     void CheckGameOver(glm::vec2 bound) override;
+
+private:
+    Texture2D* m_Background;
 };

@@ -3,11 +3,24 @@
 #include <Saddle/Renderer/Renderer.h>
 #include <Saddle/Renderer/Renderer2D.h>
 
-OnePlayerClassicSnake::OnePlayerClassicSnake(const std::string name, float block_size)
-    : GameMode()
+OnePlayerClassicSnake::OnePlayerClassicSnake(const std::string name, uint32_t block_size)
 {
     BlockSize = block_size;
     Player1 = std::make_unique<Snake>(InputMode::Keys, block_size, name);
+
+    m_Background = new Texture2D(1900, 600);
+    uint32_t* dark_green = new uint32_t[BlockSize * BlockSize * 4];
+    uint8_t* light_green = new uint8_t[BlockSize * BlockSize * 4];
+
+    for(uint32_t i = 0; i < BlockSize * BlockSize * 4; i += 4)
+    {
+        dark_green[i + 0] = 0x00;
+        dark_green[i + 1] = 0xff;
+        dark_green[i + 2] = 0x00;
+        dark_green[i + 3] = 0xff;
+    }
+
+    m_Background->SetData(dark_green, { 100, 500 }, { BlockSize, BlockSize });
 }
 
 void OnePlayerClassicSnake::Run()
@@ -17,6 +30,8 @@ void OnePlayerClassicSnake::Run()
 
 void OnePlayerClassicSnake::Render(TimeStep ts)
 {
+    glm::vec2 vec = Application::Get().GetWindow().GetFrameBufferSize();
+    Renderer2D::DrawQuad(m_Background, vec / 2.0f, vec);
     Player1->Update(ts);
     Player1->Render();
 }

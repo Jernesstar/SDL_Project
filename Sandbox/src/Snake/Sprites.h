@@ -38,7 +38,7 @@ struct Apple : public Entity {
     }
     ~Apple() = default;
 
-    Texture2D* GetTexture() { return this->GetComponent<TextureComponent>().Texture; }
+    Texture2D* GetImage() { return this->GetComponent<TextureComponent>().Texture; }
     glm::vec2 GetPosition() { return glm::vec2(this->GetComponent<TransformComponent>().Translation); }
 
     void SetPosition(const glm::vec2& pos) { this->GetComponent<TransformComponent>().Translation = glm::vec3(pos, 0.0f); }
@@ -47,7 +47,7 @@ struct Apple : public Entity {
 class Snake : public Entity {
 public:
     const InputMode Mode;
-    const float BlockSize;
+    const uint32_t BlockSize;
     const std::string Name;
 
     uint32_t Size;
@@ -59,7 +59,7 @@ public:
     std::vector<Block> Blocks;
 
 public:
-    Snake(InputMode mode, float block_size, const std::string& name);
+    Snake(InputMode mode, uint32_t block_size, const std::string& name);
     ~Snake() = default;
 
     void Update(TimeStep ts);
