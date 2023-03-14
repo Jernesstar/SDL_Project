@@ -20,10 +20,10 @@ Application* CreateApplication(const ApplicationCommandLineArgs& args)
             return new Demo3D();
         if(project == "Texture")
             return new TextureDemo();
-        if(project == "Game")
-            return new Game();
         if(project == "Font")
             return new FontDemo();
+        if(project == "Game")
+            return new Game(1000, 600);
     }
 
     return new Demo3D();

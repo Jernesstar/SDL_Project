@@ -12,13 +12,14 @@
 
 namespace Saddle {
 
-Application::Application()
-    : Window(s_Specification.WindowSpecification)
+Application::Application(const ApplicationSpecification& specs)
+    : Window(specs.WindowSpecification)
 {
     SADDLE_CORE_ASSERT(!s_Instance, "Application already exists!");
     SADDLE_CORE_ASSERT(gladLoadGL(), "Glad could not load OpenGL");
 
     s_Instance = this;
+    s_Specification = specs;
 
     Renderer::Init();
     EventSystem::Init();

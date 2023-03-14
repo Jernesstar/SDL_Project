@@ -5,6 +5,7 @@
 #include <Saddle/Events/EventSystem.h>
 
 OnePlayerClassicSnake::OnePlayerClassicSnake(const std::string name, uint32_t block_size)
+    : GameMode(block_size)
 {
     EventSystem::RegisterEventListener<WindowResizedEvent>(
     [this](const WindowResizedEvent& event) {
@@ -12,7 +13,6 @@ OnePlayerClassicSnake::OnePlayerClassicSnake(const std::string name, uint32_t bl
         this->TileBackground();
     });
 
-    BlockSize = block_size;
     Player1 = std::make_unique<Snake>(InputMode::Keys, block_size, name);
 
     m_ScreenSize = Application::Get().GetWindow().GetFrameBufferSize();
@@ -28,7 +28,7 @@ OnePlayerClassicSnake::OnePlayerClassicSnake(const std::string name, uint32_t bl
         light_green[i + 3] = 0xff;
 
         dark_green[i + 0] = 0x00;
-        dark_green[i + 1] = 0x00;
+        dark_green[i + 1] = 0x82;
         dark_green[i + 2] = 0x00;
         dark_green[i + 3] = 0xff;
     }
@@ -38,7 +38,8 @@ OnePlayerClassicSnake::OnePlayerClassicSnake(const std::string name, uint32_t bl
 
 void OnePlayerClassicSnake::Run()
 {
-    Player1->Reset(glm::vec2{ 500.0f, 500.0f }, glm::vec2{ 1.0f, 0.0f }, 0.05f, 20);
+    Player1->Reset(glm::vec2{ 525.0f, 425.0f }, glm::vec2{ 1.0f, 0.0f }, 0.05f, 20);
+    GameOver = false;
 }
 
 void OnePlayerClassicSnake::Render(TimeStep ts)
@@ -72,9 +73,9 @@ void OnePlayerClassicSnake::TileBackground()
 
     std::vector<uint8_t*> colors = { dark_green, light_green };
 
-    for(uint32_t y = 0; y < m_ScreenSize.y / BlockSize - 1; y++)
+    for(uint32_t y = 0; y < m_ScreenSize.y / BlockSize; y++)
     {
-        for(uint32_t x = 0; x < m_ScreenSize.x / BlockSize - 1; x++)
+        for(uint32_t x = 0; x < m_ScreenSize.x / BlockSize; x++)
         {
             m_Background->SetData(colors[x % 2], { x * BlockSize, y * BlockSize }, { BlockSize, BlockSize });
         }

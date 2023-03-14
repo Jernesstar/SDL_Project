@@ -3,7 +3,8 @@
 #include <Saddle/Renderer/Renderer.h>
 #include <Saddle/Renderer/Renderer2D.h>
 
-Game::Game()
+Game::Game(uint32_t width, uint32_t height)
+    : Application(ApplicationSpecification(ApplicationCommandLineArgs(), WindowSpecification("Snake Game", 1250, 750)))
 {
     EventSystem::RegisterEventListener<KeyPressedEvent>(
     [](const KeyPressedEvent& event) {
@@ -20,6 +21,9 @@ Game::Game()
 
 void Game::OnUpdate(TimeStep ts)
 {
+    if(Input::KeyPressed(Key::Return) && m_GameMode->GameOver)
+        m_GameMode->Run();
+
     glm::vec2 vec = Application::Get().GetWindow().GetFrameBufferSize();
     m_Camera.SetProjection(0.0f, vec.x, 0.0f, vec.y);
 
@@ -38,7 +42,7 @@ void Game::OnUpdate(TimeStep ts)
 void Game::ShowGameOver()
 {
     glm::vec2 vec = Application::Get().GetWindow().GetFrameBufferSize() / 2.0f;
-    vec -= m_Font.GetSize(m_GameOverText.GetText()) / 2.0f;
 
-    Renderer2D::DrawText(m_GameOverText, vec);
+    Renderer2D::DrawText(m_GameOverText, vec - m_Font.GetSize(m_GameOverText.GetText()) / 2.0f);
+    Renderer2D::DrawText(m_ReturnText, vec - glm::vec2{ m_Font.GetSize(m_ReturnText.GetText()).x / 2.0f, m_Font.GetSize(m_ReturnText.GetText()).y + 25.0f });
 }

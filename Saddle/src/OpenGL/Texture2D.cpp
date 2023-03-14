@@ -64,7 +64,7 @@ void Texture2D::SetData(const void* data, uint32_t size)
 
 void Texture2D::SetData(const void* data, const glm::ivec2& pos, const glm::ivec2& size)
 {
-    SADDLE_CORE_ASSERT(pos.x + size.x < m_Width && pos.y + size.y < m_Height, "Offset and size must within the bounds of the texture.");
+    SADDLE_CORE_ASSERT(pos.x + size.x <= m_Width && pos.y + size.y <= m_Height, "Offset and size must within the bounds of the texture.");
     glTextureSubImage2D(m_TextureID, 0, pos.x, pos.y, size.x, size.y, DataFormat, GL_UNSIGNED_BYTE, data);
 }
 

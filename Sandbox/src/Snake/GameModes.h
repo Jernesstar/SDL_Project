@@ -10,14 +10,14 @@
 
 class GameMode {
 public:
-    uint32_t BlockSize;
+    const uint32_t BlockSize;
     bool GameOver = false;
 
 protected:
     std::unique_ptr<Snake> Player1;
 
 public:
-    GameMode() = default;
+    GameMode(uint32_t block_size) : BlockSize(block_size) { }
     ~GameMode() = default;
 
     virtual void Run() = 0;

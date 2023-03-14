@@ -56,7 +56,7 @@ protected:
     Window Window;
 
 protected:
-    Application();
+    Application(const ApplicationSpecification& specs = s_Specification);
     virtual ~Application() = default;
 
     friend int ::main(int argc, char** argv);
