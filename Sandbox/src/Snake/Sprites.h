@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <unordered_map>
 
 #include <Saddle/ECS/Entity.h>
 #include <OpenGL/Texture2D.h>
@@ -27,6 +28,9 @@ struct Block : public Entity {
         GetComponent<TransformComponent>().Rotation = glm::vec3(0.0f, 0.0f, rotation);
     }
     void SetPosition(const glm::vec2& pos) { GetComponent<TransformComponent>().Translation = glm::vec3(pos, 0.0f); }
+
+private:
+    static inline std::unordered_map<uint32_t, Texture2D*> m_Images;
 };
 
 struct Apple : public Entity {

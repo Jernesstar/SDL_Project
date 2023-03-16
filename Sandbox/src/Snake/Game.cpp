@@ -32,14 +32,14 @@ void Game::OnUpdate(TimeStep ts)
     {
         m_GameMode->CheckGameOver(vec);
         if(m_GameMode->GameOver)
-            ShowGameOver();
+            GameOverScreen();
         else
             m_GameMode->Render(ts);
     }
     Renderer2D::EndScene();
 }
 
-void Game::ShowGameOver()
+void Game::GameOverScreen()
 {
     glm::vec2 vec = Application::Get().GetWindow().GetFrameBufferSize() / 2.0f;
 

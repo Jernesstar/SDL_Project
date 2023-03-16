@@ -42,11 +42,23 @@ void Snake::Update(TimeStep ts)
         return;
 
     Direction = dir;
-    Head += (float)BlockSize * Direction;
-    Blocks.emplace(Blocks.begin(), Head, Direction);
+    Head = Blocks[1].GetPosition() + (float)BlockSize * Direction;
+    Blocks[0].SetPosition(Head);
+    Blocks[0].Velocity = Direction;
 
-    if(Size < Blocks.size())
-        Blocks.erase(Blocks.end());
+    for(uint32_t i = Size - 1; i > 0; i--)
+    {
+        Block& curr = Blocks[i];
+        Block& next = Blocks[i - 1];
+
+        if(curr.Velocity == next.Velocity)
+            curr.SetPosition(curr.GetPosition() + Speed * BlockSize * curr.Velocity);
+        else
+        {
+            curr.Velocity = next.Velocity;
+            curr.SetPosition(curr.GetPosition() + Speed * BlockSize * curr.Velocity);
+        }
+    }
 }
 
 void Snake::Render()
