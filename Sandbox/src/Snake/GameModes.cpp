@@ -13,6 +13,7 @@ OnePlayerClassicSnake::OnePlayerClassicSnake(const std::string name, uint32_t bl
         this->TileBackground();
     });
 
+    Block::Setup();
     Player1 = std::make_unique<Snake>(InputMode::Keys, block_size, name);
 
     m_ScreenSize = Application::Get().GetWindow().GetFrameBufferSize();
