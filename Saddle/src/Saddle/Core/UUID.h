@@ -19,12 +19,8 @@ private:
 
 namespace std {
 
-template<typename T>
-struct hash;
-
 template<>
-struct hash<Saddle::UUID>
-{
+struct hash<Saddle::UUID> {
     std::size_t operator()(const Saddle::UUID& uuid) const
     {
         return (uint64_t)uuid;

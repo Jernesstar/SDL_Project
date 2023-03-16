@@ -13,7 +13,6 @@ OnePlayerClassicSnake::OnePlayerClassicSnake(const std::string name, uint32_t bl
         this->TileBackground();
     });
 
-    Block::Setup();
     Player1 = std::make_unique<Snake>(InputMode::Keys, block_size, name);
 
     m_ScreenSize = Application::Get().GetWindow().GetFrameBufferSize();
@@ -39,7 +38,7 @@ OnePlayerClassicSnake::OnePlayerClassicSnake(const std::string name, uint32_t bl
 
 void OnePlayerClassicSnake::Run()
 {
-    Player1->Reset(glm::vec2{ 525.0f, 425.0f }, glm::vec2{ 1.0f, 0.0f }, 0.05f, 2);
+    Player1->Reset(glm::vec2{ 525.0f, 425.0f }, glm::vec2{ 1.0f, 0.0f }, 0.05f, 3);
     GameOver = false;
 }
 
