@@ -1,7 +1,67 @@
 #include "Sprites.h"
 
+#include <memory>
+
 #include <Saddle/Renderer/Renderer2D.h>
 #include <Saddle/Core/Input.h>
+
+struct Directions {
+    glm::vec2 First, Second;
+
+    bool operator ==(const Directions& other) const { return First == other.First && Second == other.Second; }
+};
+
+namespace std {
+
+template<>
+struct hash<Directions> {
+    std::size_t operator ()(const Directions& dir) const
+    {
+        glm::ivec2 f = glm::ivec2(dir.First);
+        glm::ivec2 s = glm::ivec2(dir.Second);
+
+        return (f.x << 2) ^ (s.x << 4) ^ (f.y << 6) ^ (s.y << 8);
+    }
+};
+
+}
+
+struct TextureAndTransform {
+    glm::vec3 Rotation;
+    uint32_t TextureIndex;
+};
+
+static std::unordered_map<uint32_t, std::unique_ptr<Texture2D>> Images;
+static std::unordered_map<Directions, TextureAndTransform> Transforms
+{
+    { { { }, { } }, { { 0.0f, 0.0f, 0.0f }, 0 } }
+};
+
+static inline const glm::vec2 LEFT  = { -1.0f,  0.0f };
+static inline const glm::vec2 RIGHT = {  1.0f,  0.0f };
+static inline const glm::vec2 UP    = {  0.0f,  1.0f };
+static inline const glm::vec2 DOWN  = {  0.0f, -1.0f };
+
+void InitSprites()
+{
+    Images[0] = std::make_unique<Texture2D>("Sandbox/assets/images/block_straight.png");
+    Images[1] = std::make_unique<Texture2D>("Sandbox/assets/images/block_left_up.png");
+    Images[2] = std::make_unique<Texture2D>("Sandbox/assets/images/block_right_up.png");
+    Images[3] = std::make_unique<Texture2D>("Sandbox/assets/images/apple.png");
+}
+
+Apple::Apple(const glm::vec2& position)
+{
+    this->AddComponent<TextureComponent>().Texture = Images[3].get();
+    this->AddComponent<TransformComponent>().Translation = glm::vec3(position, 0.0f);
+}
+
+void Block::SetImage(glm::vec2 first, glm::vec2 second)
+{
+    auto& tat = Transforms[{ first, second }];
+    this->GetComponent<TextureComponent>().Texture = Images[tat.TextureIndex].get();
+    this->GetComponent<TransformComponent>().Rotation = tat.Rotation;
+}
 
 Snake::Snake(InputMode mode, uint32_t block_size, const std::string& name)
     : Entity(), Mode(mode), BlockSize(block_size), Name(name)

@@ -13,7 +13,7 @@ OnePlayerClassicSnake::OnePlayerClassicSnake(const std::string name, uint32_t bl
         this->TileBackground();
     });
 
-    Block::Setup();
+    InitSprites();
     Player1 = std::make_unique<Snake>(InputMode::Keys, block_size, name);
 
     m_ScreenSize = Application::Get().GetWindow().GetFrameBufferSize();
@@ -74,9 +74,9 @@ void OnePlayerClassicSnake::TileBackground()
 
     std::vector<uint8_t*> colors = { dark_green, light_green };
 
-    for(uint32_t y = 0; y < m_ScreenSize.y / BlockSize; y++)
+    for(uint32_t y = 0; y < (uint32_t)floor(m_ScreenSize.y / BlockSize); y++)
     {
-        for(uint32_t x = 0; x < m_ScreenSize.x / BlockSize; x++)
+        for(uint32_t x = 0; x < (uint32_t)floor(m_ScreenSize.x / BlockSize); x++)
         {
             m_Background->SetData(colors[x % 2], { x * BlockSize, y * BlockSize }, { BlockSize, BlockSize });
         }
