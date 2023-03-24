@@ -31,16 +31,25 @@ struct TextureAndTransform {
     uint32_t TextureIndex;
 };
 
-static std::unordered_map<uint32_t, std::unique_ptr<Texture2D>> Images;
-static std::unordered_map<Directions, TextureAndTransform> Transforms
-{
-    { { { }, { } }, { { 0.0f, 0.0f, 0.0f }, 0 } }
+struct Turn {
+    uint32_t Index;
+    Block NewBlock;
 };
 
 static inline const glm::vec2 LEFT  = { -1.0f,  0.0f };
 static inline const glm::vec2 RIGHT = {  1.0f,  0.0f };
 static inline const glm::vec2 UP    = {  0.0f,  1.0f };
 static inline const glm::vec2 DOWN  = {  0.0f, -1.0f };
+
+static std::unordered_map<uint32_t, std::unique_ptr<Texture2D>> Images;
+
+static std::unordered_map<Directions, TextureAndTransform> Transforms
+{
+    { { { }, { } }, { { 0.0f, 0.0f, 0.0f }, 0 } },
+    { { UP, LEFT }, { { 0.0f, 0.0f, 0.0f }, 0 } },
+}; 
+
+static std::vector<Turn> Turns;
 
 void InitSprites()
 {
@@ -58,7 +67,7 @@ Apple::Apple(const glm::vec2& position)
 
 void Block::SetImage(glm::vec2 first, glm::vec2 second)
 {
-    auto& tat = Transforms[{ first, second }];
+    auto& tat = Transforms[{ glm::normalize(first), glm::normalize(second) }];
     this->GetComponent<TextureComponent>().Texture = Images[tat.TextureIndex].get();
     this->GetComponent<TransformComponent>().Rotation = tat.Rotation;
 }

@@ -17,7 +17,7 @@ public:
     static void Init();
     static void Clear(const glm::vec4& color = { 0.0f, 0.0f, 0.0f, 0.0f });
 
-    static void Submit(const VertexArray* vertex_array, uint32_t index_count = 0);
+    static void DrawIndexed(const VertexArray* vertex_array, uint32_t index_count = 0);
 
 private:
     Renderer() = delete;
