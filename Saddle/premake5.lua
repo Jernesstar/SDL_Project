@@ -21,11 +21,13 @@ project "Saddle"
         "%{Includes.glfw}",
         "%{Includes.glm}",
         "%{Includes.stb_image}",
+        "%{Includes.imgui}",
     }
     
     links
     {
         "freetype",
+        "imgui",
         "glad",
         "glfw",
         "stb_image",
