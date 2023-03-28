@@ -21,12 +21,14 @@ project "Sandbox"
         "%{Includes.glfw}",
         "%{Includes.glm}",
         "%{Includes.stb_image}",
+        "%{Includes.imgui}",
     }
 
     links
     {
         "Saddle",
         "freetype",
+        "imgui",
         "glfw",
         "glad",
         "stb_image",
