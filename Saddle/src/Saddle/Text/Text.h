@@ -21,8 +21,8 @@ private:
 
 public:
     Text() : m_Text("") { }
-    Text(const std::string& text, const Font& font) : m_Text(text) { SetText(text, font); }
-    Text(const std::string& text, const Font& font, const glm::vec4& color) : m_Text(text), m_Color(color) { SetText(text, font); }
+    Text(const std::string& text, const Font& font, const glm::vec4& color = { })
+        : m_Text(text), m_Color(color) { SetText(text, font); }
     ~Text() = default;
 
     void SetText(const std::string& text, const Font& font);

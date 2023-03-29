@@ -4,7 +4,7 @@
 
 #include "Demos/TextureDemo.h"
 #include "Demos/FontDemo.h"
-#include "Demos/Demo3D.h"
+#include "Demos/3DCube.h"
 #include "Snake/Game.h"
 
 using namespace Saddle;
@@ -16,8 +16,8 @@ Application* CreateApplication(const ApplicationCommandLineArgs& args)
         std::string project(args[2] ? args[2] : "Texture");
         std::cout << "Running " << project << " demo\n";
 
-        if(project == "3D") 
-            return new Demo3D();
+        if(project == "Cube") 
+            return new Cube3D();
         if(project == "Texture")
             return new TextureDemo();
         if(project == "Font")
@@ -26,5 +26,5 @@ Application* CreateApplication(const ApplicationCommandLineArgs& args)
             return new Game(1000, 600);
     }
 
-    return new Demo3D();
+    return new Cube3D();
 }

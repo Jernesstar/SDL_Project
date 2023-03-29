@@ -129,7 +129,7 @@ void Renderer2D::Flush()
     s_Data.QuadShader->Bind();
     s_Data.QuadShader->SetUniformMatrix4("u_ViewProjMatrix", s_ViewProjMatrix);
 
-    Renderer::Submit(s_Data.QuadVertexArray, s_Data.QuadIndexCount);
+    Renderer::DrawIndexed(s_Data.QuadVertexArray, s_Data.QuadIndexCount);
 }
 
 void Renderer2D::NextBatch()

@@ -8,13 +8,15 @@
 
 #include "Input.h"
 
+void InitSprites();
+
 struct Block : public Entity {
     glm::vec2 Velocity;
 
-    Block(const glm::vec2& pos = { 0.0f, 0.0f }, const glm::vec2& v = { 1.0f, 0.0f })
+    Block(const glm::vec2& pos = { 0.0f, 0.0f }, const glm::vec2& v = { 1.0f, 0.0f }, uint32_t image_index = 0)
         : Entity(), Velocity(v)
     {
-        AddComponent<TextureComponent>();
+        AddComponent<TextureComponent>().Texture;
         AddComponent<TransformComponent>().Translation = glm::vec3(pos, 0.0f);
 
         SetImage({ }, { });
@@ -29,12 +31,7 @@ struct Block : public Entity {
 };
 
 struct Apple : public Entity {
-    Apple(const glm::vec2& position = glm::vec2(0.0f, 0.0f))
-        : Entity()
-    {
-        this->AddComponent<TextureComponent>("Sandbox/assets/images/apple.png");
-        this->AddComponent<TransformComponent>().Translation = glm::vec3(position, 0.0f);
-    }
+    Apple(const glm::vec2& position = glm::vec2(0.0f, 0.0f));
     ~Apple() = default;
 
     Texture2D* GetImage() { return this->GetComponent<TextureComponent>().Texture; }
