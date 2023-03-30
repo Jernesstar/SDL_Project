@@ -7,29 +7,29 @@ project "glfw"
 
     files
     {
-        "include/GLFW/glfw3.h",
-        "include/GLFW/glfw3native.h",
-        "src/internal.h",
-        "src/platform.h",
-        "src/mappings.h",
-        "src/context.c",
-        "src/init.c",
-        "src/input.c",
-        "src/monitor.c",
-        "src/platform.c",
-        "src/vulkan.c",
-        "src/window.c",
-        "src/null_platform.h",
-        "src/null_joystick.h",
-        "src/null_init.c",
-        "src/null_monitor.c",
-        "src/null_window.c",
-        "src/null_joystick.c",
+        "%{VendorPaths.glfw}/include/GLFW/glfw3.h",
+        "%{VendorPaths.glfw}/include/GLFW/glfw3native.h",
+        "%{VendorPaths.glfw}/src/internal.h",
+        "%{VendorPaths.glfw}/src/platform.h",
+        "%{VendorPaths.glfw}/src/mappings.h",
+        "%{VendorPaths.glfw}/src/context.c",
+        "%{VendorPaths.glfw}/src/init.c",
+        "%{VendorPaths.glfw}/src/input.c",
+        "%{VendorPaths.glfw}/src/monitor.c",
+        "%{VendorPaths.glfw}/src/platform.c",
+        "%{VendorPaths.glfw}/src/vulkan.c",
+        "%{VendorPaths.glfw}/src/window.c",
+        "%{VendorPaths.glfw}/src/null_platform.h",
+        "%{VendorPaths.glfw}/src/null_joystick.h",
+        "%{VendorPaths.glfw}/src/null_init.c",
+        "%{VendorPaths.glfw}/src/null_monitor.c",
+        "%{VendorPaths.glfw}/src/null_window.c",
+        "%{VendorPaths.glfw}/src/null_joystick.c",
     }
 
     includedirs
     {
-        "src"
+        "%{VendorPaths.glfw}/src"
     }
 
     filter "system:windows"
@@ -37,18 +37,18 @@ project "glfw"
     
         files
         {
-            "src/win32_init.c",
-            "src/win32_module.c",
-            "src/win32_joystick.c",
-            "src/win32_monitor.c",
-            "src/win32_time.h",
-            "src/win32_time.c",
-            "src/win32_thread.h",
-            "src/win32_thread.c",
-            "src/win32_window.c",
-            "src/wgl_context.c",
-            "src/egl_context.c",
-            "src/osmesa_context.c"
+            "%{VendorPaths.glfw}/src/win32_init.c",
+            "%{VendorPaths.glfw}/src/win32_module.c",
+            "%{VendorPaths.glfw}/src/win32_joystick.c",
+            "%{VendorPaths.glfw}/src/win32_monitor.c",
+            "%{VendorPaths.glfw}/src/win32_time.h",
+            "%{VendorPaths.glfw}/src/win32_time.c",
+            "%{VendorPaths.glfw}/src/win32_thread.h",
+            "%{VendorPaths.glfw}/src/win32_thread.c",
+            "%{VendorPaths.glfw}/src/win32_window.c",
+            "%{VendorPaths.glfw}/src/wgl_context.c",
+            "%{VendorPaths.glfw}/src/egl_context.c",
+            "%{VendorPaths.glfw}/src/osmesa_context.c"
         }
 
         defines 

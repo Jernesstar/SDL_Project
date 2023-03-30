@@ -7,39 +7,39 @@ project "freetype"
 
     files
     {
-        "src/base/ftsystem.c",
-        "src/base/ftinit.c",
-        "src/base/ftdebug.c",
-        "src/base/ftbase.c",
-        "src/base/ftbbox.c",
-        "src/base/ftglyph.c",
-        "src/base/ftbitmap.c",
-        "src/base/ftstroke.c",
-        "src/base/ftsynth.c",
-        "src/sfnt/sfnt.c",
-        "src/truetype/truetype.c",
-        "src/type1/type1.c",
-        "src/cff/cff.c",
-        "src/cid/type1cid.c",
-        "src/bdf/bdf.c",
-        "src/pcf/pcf.c",
-        "src/pfr/pfr.c",
-        "src/type42/type42.c",
-        "src/winfonts/winfnt.c",
-        "src/gzip/ftgzip.c",
-        "src/psaux/psaux.c",
-        "src/raster/raster.c",
-        "src/sdf/sdf.c",
-        "src/smooth/smooth.c",
-        "src/autofit/autofit.c",
-        "src/pshinter/pshinter.c",
-        "src/psnames/psnames.c",
-        "src/svg/svg.c"
+        "%{VendorPaths.freetype}/src/base/ftsystem.c",
+        "%{VendorPaths.freetype}/src/base/ftinit.c",
+        "%{VendorPaths.freetype}/src/base/ftdebug.c",
+        "%{VendorPaths.freetype}/src/base/ftbase.c",
+        "%{VendorPaths.freetype}/src/base/ftbbox.c",
+        "%{VendorPaths.freetype}/src/base/ftglyph.c",
+        "%{VendorPaths.freetype}/src/base/ftbitmap.c",
+        "%{VendorPaths.freetype}/src/base/ftstroke.c",
+        "%{VendorPaths.freetype}/src/base/ftsynth.c",
+        "%{VendorPaths.freetype}/src/sfnt/sfnt.c",
+        "%{VendorPaths.freetype}/src/truetype/truetype.c",
+        "%{VendorPaths.freetype}/src/type1/type1.c",
+        "%{VendorPaths.freetype}/src/cff/cff.c",
+        "%{VendorPaths.freetype}/src/cid/type1cid.c",
+        "%{VendorPaths.freetype}/src/bdf/bdf.c",
+        "%{VendorPaths.freetype}/src/pcf/pcf.c",
+        "%{VendorPaths.freetype}/src/pfr/pfr.c",
+        "%{VendorPaths.freetype}/src/type42/type42.c",
+        "%{VendorPaths.freetype}/src/winfonts/winfnt.c",
+        "%{VendorPaths.freetype}/src/gzip/ftgzip.c",
+        "%{VendorPaths.freetype}/src/psaux/psaux.c",
+        "%{VendorPaths.freetype}/src/raster/raster.c",
+        "%{VendorPaths.freetype}/src/sdf/sdf.c",
+        "%{VendorPaths.freetype}/src/smooth/smooth.c",
+        "%{VendorPaths.freetype}/src/autofit/autofit.c",
+        "%{VendorPaths.freetype}/src/pshinter/pshinter.c",
+        "%{VendorPaths.freetype}/src/psnames/psnames.c",
+        "%{VendorPaths.freetype}/src/svg/svg.c"
     }
 
     includedirs
     {
-        "include"
+        "%{VendorPaths.freetype}/include"
     }
 
     buildoptions 

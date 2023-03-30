@@ -7,18 +7,18 @@ project "glad"
 
     files
     {
-        "include/*.h",
-        "src/glad.c"
+        "%{VendorPaths.glad}/include/*.h",
+        "%{VendorPaths.glad}/src/glad.c"
     }
 
     includedirs
     {
-        "include"
+        "%{VendorPaths.glad}/include"
     }
 
     filter "system:windows"
         
         files
         {
-            "src/glad_wgl.c"
+            "%{VendorPaths.glad}/src/glad_wgl.c"
         }

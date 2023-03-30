@@ -8,8 +8,6 @@
 /bin/
 /obj/
 
-# Submodules
-/Saddle/vendor/
-
 # GNU Makefiles
 Makefile
+**.make

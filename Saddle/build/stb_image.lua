@@ -7,11 +7,11 @@ project "stb_image"
 
     files
     {
-        "include/stb_image/stb_image.h",
-        "src/stb_image.cpp",
+        "%{VendorPaths.stb_image}/include/stb_image/stb_image.h",
+        "%{VendorPaths.stb_image}/src/stb_image.cpp",
     }
 
     includedirs
     {
-        "include"
+        "%{VendorPaths.stb_image}/include"
     }
