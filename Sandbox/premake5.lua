@@ -28,7 +28,7 @@ project "Sandbox"
     {
         "Saddle",
         "freetype",
-        "imgui",
+        -- "imgui",
         "glfw",
         "glad",
         "stb_image",

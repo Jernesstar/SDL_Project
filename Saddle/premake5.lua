@@ -27,7 +27,7 @@ project "Saddle"
     links
     {
         "freetype",
-        "imgui",
+        -- "imgui",
         "glad",
         "glfw",
         "stb_image",
