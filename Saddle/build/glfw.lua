@@ -34,7 +34,7 @@ project "glfw"
 
     filter "system:windows"
         systemversion "latest"
-    
+
         files
         {
             "%{VendorPaths.glfw}/src/win32_init.c",

@@ -17,7 +17,7 @@ project "glad"
     }
 
     filter "system:windows"
-        
+
         files
         {
             "%{VendorPaths.glad}/src/glad_wgl.c"
