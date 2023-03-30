@@ -1,19 +1,6 @@
-[submodule "Saddle/vendor/glm"]
-	path = Saddle/vendor/glm
-	url = https://github.com/Jernesstar/glm
-[submodule "Saddle/vendor/glfw"]
-	path = Saddle/vendor/glfw
-	url = https://github.com/Jernesstar/glfw
-[submodule "Saddle/vendor/glad"]
-	path = Saddle/vendor/glad
-	url = https://github.com/Jernesstar/glad
-	branch = c
 [submodule "Saddle/vendor/stb_image"]
 	path = Saddle/vendor/stb_image
 	url = https://github.com/Jernesstar/stb_image
 [submodule "Saddle/vendor/freetype"]
 	path = Saddle/vendor/freetype
 	url = https://github.com/Jernesstar/freetype
-[submodule "Saddle/vendor/imgui"]
-	path = Saddle/vendor/imgui
-	url = https://github.com/Jernesstar/imgui

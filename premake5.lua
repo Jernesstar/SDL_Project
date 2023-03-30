@@ -1,10 +1,20 @@
+VendorPath = "%{wks.location}/Saddle/vendor"
+
+VendorPaths = {}
+VendorPaths["glm"] = "%{VendorPath}/glm"
+VendorPaths["glfw"] = "%{VendorPath}/glfw"
+VendorPaths["glad"] = "%{VendorPath}/glad"
+VendorPaths["freetype"] = "%{VendorPath}/freetype"
+VendorPaths["stb_image"] = "%{VendorPath}/stb_image"
+VendorPaths["imgui"] = "%{VendorPath}/imgui"
+
 Includes = {}
-Includes["glm"] = "%{wks.location}/Saddle/vendor/glm"
-Includes["glfw"] = "%{wks.location}/Saddle/vendor/glfw/include"
-Includes["glad"] = "%{wks.location}/Saddle/vendor/glad/include"
-Includes["freetype"] = "%{wks.location}/Saddle/vendor/freetype/include"
-Includes["stb_image"] = "%{wks.location}/Saddle/vendor/stb_image/include"
-Includes["imgui"] = "%{wks.location}/Saddle/vendor/imgui"
+Includes["glm"] = "%{VendorPaths.glm}"
+Includes["glfw"] = "%{VendorPaths.glfw}/include"
+Includes["glad"] = "%{VendorPaths.glad}/include"
+Includes["freetype"] = "%{VendorPaths.freetype}/include"
+Includes["stb_image"] = "%{VendorPaths.stb_image}/include"
+Includes["imgui"] = "%{VendorPaths.imgui}"
 
 workspace "Saddle"
     architecture "x64"
@@ -16,10 +26,10 @@ workspace "Saddle"
         "Dist"
     }
 
-include "Saddle/vendor/freetype"
-include "Saddle/vendor/glad"
-include "Saddle/vendor/glfw"
-include "Saddle/vendor/stb_image"
-include "Saddle/vendor/imgui"
+include "Saddle/build/freetype"
+include "Saddle/build/glad"
+include "Saddle/build/glfw"
+include "Saddle/build/stb_image"
+-- include "Saddle/build/imgui"
 include "Saddle"
 include "Sandbox"
