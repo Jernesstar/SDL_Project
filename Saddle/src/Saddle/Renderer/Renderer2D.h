@@ -2,7 +2,7 @@
 
 #include <glm/mat4x4.hpp>
 
-#include "OrthographicCamera.h"
+#include "Camera.h"
 
 #include "Saddle/ECS/Entity.h"
 #include "Saddle/ECS/Entity.h"
@@ -17,7 +17,7 @@ namespace Saddle {
 class Renderer2D {
 public:
     static void Init();
-    static void BeginScene(const OrthographicCamera& camera);
+    static void BeginScene(const Camera& camera);
 
     static void DrawEntity(Entity& entity, float scale = 1.0f);
     static void DrawEntity(Entity& entity, const glm::vec2& size);

@@ -95,9 +95,9 @@ void Renderer2D::Init()
     s_Data.QuadShader = new Shader("Saddle/assets/shaders/Quad.glsl.vert", "Saddle/assets/shaders/Quad.glsl.frag");
 }
 
-void Renderer2D::BeginScene(const OrthographicCamera& camera)
+void Renderer2D::BeginScene(const Camera& camera)
 {
-    s_ViewProjMatrix = camera.GetViewProjectionMatrix();
+    s_ViewProjMatrix = camera.GetViewProjection();
 
     StartBatch();
 }

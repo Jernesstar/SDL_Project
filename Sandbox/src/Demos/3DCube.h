@@ -108,8 +108,7 @@ void Cube3D::OnUpdate(TimeStep ts)
     model *= transform.GetTransform();
 
     shader.SetUniformMatrix4("u_ModelMatrix", model);
-    shader.SetUniformMatrix4("u_ViewMatrix", camera.GetViewMatrix());
-    shader.SetUniformMatrix4("u_ProjMatrix", camera.GetProjectionMatrix());
+    shader.SetUniformMatrix4("u_ViewProjMatrix", camera.GetViewProjection());
 
     Renderer::Clear({ 0.f, 0.f, 0.f, 0.f });
     Renderer::DrawIndexed(vertex_array);

@@ -1,4 +1,4 @@
-#include "Camera.h"
+#include "StereographicCamera.h"
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/quaternion.hpp>
@@ -8,14 +8,14 @@
 
 using namespace Saddle;
 
-Camera::Camera(float verticalFOV, float nearClip, float farClip)
+StereographicCamera::StereographicCamera(float verticalFOV, float nearClip, float farClip)
     : m_VerticalFOV(verticalFOV), m_NearClip(nearClip), m_FarClip(farClip)
 {
     m_ForwardDirection = glm::vec3(0, 0, -1);
-    m_Position = glm::vec3(0, 0, 3);
+    Position = glm::vec3(0, 0, 3);
 }
 
-void Camera::OnUpdate(float ts)
+void StereographicCamera::OnUpdate(float ts)
 {
     glm::vec2 mousePos = Input::GetMousePosition();
     glm::vec2 delta = (mousePos - m_LastMousePosition) * 0.002f;
@@ -39,32 +39,32 @@ void Camera::OnUpdate(float ts)
     // Movement
     if (Input::KeyPressed(Key::W))
     {
-        m_Position += m_ForwardDirection * speed * ts;
+        Position += m_ForwardDirection * speed * ts;
         moved = true;
     }
     else if (Input::KeyPressed(Key::S))
     {
-        m_Position -= m_ForwardDirection * speed * ts;
+        Position -= m_ForwardDirection * speed * ts;
         moved = true;
     }
     if (Input::KeyPressed(Key::A))
     {
-        m_Position -= rightDirection * speed * ts;
+        Position -= rightDirection * speed * ts;
         moved = true;
     }
     else if (Input::KeyPressed(Key::D))
     {
-        m_Position += rightDirection * speed * ts;
+        Position += rightDirection * speed * ts;
         moved = true;
     }
     if (Input::KeyPressed(Key::Q))
     {
-        m_Position -= upDirection * speed * ts;
+        Position -= upDirection * speed * ts;
         moved = true;
     }
     else if (Input::KeyPressed(Key::E))
     {
-        m_Position += upDirection * speed * ts;
+        Position += upDirection * speed * ts;
         moved = true;
     }
 
@@ -81,14 +81,13 @@ void Camera::OnUpdate(float ts)
         moved = true;
     }
 
-    if (moved)
+    if(moved)
     {
-        RecalculateView();
-        RecalculateRayDirections();
+        CalculateView();
     }
 }
 
-void Camera::OnResize(uint32_t width, uint32_t height)
+void StereographicCamera::OnResize(uint32_t width, uint32_t height)
 {
     if (width == m_ViewportWidth && height == m_ViewportHeight)
         return;
@@ -96,41 +95,19 @@ void Camera::OnResize(uint32_t width, uint32_t height)
     m_ViewportWidth = width;
     m_ViewportHeight = height;
 
-    RecalculateProjection();
-    RecalculateRayDirections();
+    CalculateProjection();
 }
 
-float Camera::GetRotationSpeed()
+void StereographicCamera::CalculateProjection()
 {
-    return 0.3f;
+    Projection = glm::perspectiveFov(glm::radians(m_VerticalFOV), (float)m_ViewportWidth, (float)m_ViewportHeight, m_NearClip, m_FarClip);
+    InverseProjection = glm::inverse(Projection);
+    ViewProjection = Projection * View;
 }
 
-void Camera::RecalculateProjection()
+void StereographicCamera::CalculateView()
 {
-    m_Projection = glm::perspectiveFov(glm::radians(m_VerticalFOV), (float)m_ViewportWidth, (float)m_ViewportHeight, m_NearClip, m_FarClip);
-    m_InverseProjection = glm::inverse(m_Projection);
-}
-
-void Camera::RecalculateView()
-{
-    m_View = glm::lookAt(m_Position, m_Position + m_ForwardDirection, glm::vec3(0, 1, 0));
-    m_InverseView = glm::inverse(m_View);
-}
-
-void Camera::RecalculateRayDirections()
-{
-    m_RayDirections.resize(m_ViewportWidth * m_ViewportHeight);
-
-    for (uint32_t y = 0; y < m_ViewportHeight; y++)
-    {
-        for (uint32_t x = 0; x < m_ViewportWidth; x++)
-        {
-            glm::vec2 coord = { (float)x / (float)m_ViewportWidth, (float)y / (float)m_ViewportHeight };
-            coord = coord * 2.0f - 1.0f; // -1 -> 1
-
-            glm::vec4 target = m_InverseProjection * glm::vec4(coord.x, coord.y, 1, 1);
-            glm::vec3 rayDirection = glm::vec3(m_InverseView * glm::vec4(glm::normalize(glm::vec3(target) / target.w), 0)); // World space
-            m_RayDirections[x + y * m_ViewportWidth] = rayDirection;
-        }
-    }
+    View = glm::lookAt(Position, Position + m_ForwardDirection, glm::vec3(0, 1, 0));
+    InverseView = glm::inverse(View);
+    ViewProjection = Projection * View;
 }
