@@ -9,7 +9,7 @@
 #include <Saddle/Events/EventSystem.h>
 #include <Saddle/Renderer/Renderer.h>
 #include <Saddle/Renderer/OrthographicCamera.h>
-#include <Saddle/Renderer/OrthographicCameraController.h>
+#include <Saddle/Renderer/CameraController.h>
 
 #include <OpenGL/Shader.h>
 #include <OpenGL/VertexBuffer.h>
@@ -89,7 +89,7 @@ private:
     };
 
     OrthographicCamera camera{ -ratio, ratio, -1.0f, 1.0f };
-    OrthographicCameraController controller{ camera };
+    CameraController controller{ camera };
 };
 
 Cube3D::Cube3D()

@@ -14,7 +14,7 @@
 #include <Saddle/Events/EventSystem.h>
 #include <Saddle/Renderer/Renderer.h>
 #include <Saddle/Renderer/OrthographicCamera.h>
-#include <Saddle/Renderer/OrthographicCameraController.h>
+#include <Saddle/Renderer/CameraController.h>
 #include <Saddle/Renderer/Renderer2D.h>
 
 #include <OpenGL/Shader.h>
@@ -39,7 +39,7 @@ public:
     Texture2D texture2{ "Sandbox/assets/images/kick_drum.png" };
 
     OrthographicCamera camera{ 0.0f, 0.0f, 0.0f, 0.0f };
-    OrthographicCameraController controller{ camera };
+    CameraController controller{ camera };
 };
 
 TextureDemo::TextureDemo()

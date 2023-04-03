@@ -20,10 +20,10 @@ if "%arg%"=="make" (
 )
 if "%arg%"=="vs" (
     set "target=vs2022"
-    set "rint_target=Visual Studio 2022"
+    set "print_target=Visual Studio 2022"
 )
 
-echo -----Generating files for %print_target% -----
+echo ----- Generating files for %print_target% -----
 vendor\premake\bin\premake5.exe %target%
 echo --------------------------------
 
