@@ -8,18 +8,19 @@
 
 namespace Saddle {
 
-CameraController::CameraController(Camera& camera)
-    : m_Camera(&camera)
+CameraController::CameraController(Camera& camera, MovementSettings settings)
+    : m_Camera(&camera), m_MovementSettings(settings)
 {
     EventSystem::RegisterEventListener<ApplicationUpdatedEvent>(
     [this](const ApplicationUpdatedEvent& event) {
         this->OnUpdate(event.DeltaTime);
     });
 
-    EventSystem::RegisterEventListener<MouseEvent>(
-    [this](const MouseEvent& event) {
-        this->OnMouseEvent(event);
-    });
+    // Todo: Get this to work
+    // auto callback = EventSystem::RegisterEventListener<MouseEvent>(
+    // [this](const MouseEvent& event) {
+    //     this->OnMouseEvent(event);
+    // });
 }
 
 void CameraController::OnUpdate(TimeStep ts)

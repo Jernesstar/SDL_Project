@@ -11,21 +11,19 @@ namespace Saddle {
 
 class CameraController {
 public:
-    struct MovementOptions {
+    struct MovementSettings {
     private:
-        enum class Options { Up, Down, Left, Right, Forward, Backward };
+        enum class Settings { Up, Down, Left, Right, Forward, Backward };
 
-        KeyCode Get(std::unordered_map<Options, KeyCode> options, Options option, KeyCode default_val)
+        KeyCode Get(std::unordered_map<Settings, KeyCode> settings, Settings setting, KeyCode default_val)
         {
-            if(options.find(option) != options.end())
-                return options[option];
-            return default_val;
+            return settings.find(setting) != settings.end() ? settings[setting] :  default_val;
         }
 
     public:
         const KeyCode UP, DOWN, LEFT, RIGHT, FORWARD, BACKWARD;
 
-        MovementOptions(
+        MovementSettings(
             KeyCode up   = Key::Q,
             KeyCode down  = Key::E,
             KeyCode left  = Key::A,
@@ -34,13 +32,13 @@ public:
             KeyCode backward = Key::S
         ) : UP(up), DOWN(down), LEFT(left), RIGHT(right), FORWARD(forward), BACKWARD(backward) { }
 
-        MovementOptions(std::unordered_map<Options, KeyCode> map)
-            : UP(Get(map, Options::Up, Key::Q)),
-              DOWN(Get(map, Options::Down, Key::E)),
-              LEFT(Get(map, Options::Left, Key::A)),
-              RIGHT(Get(map, Options::Right, Key::D)),
-              FORWARD(Get(map, Options::Forward, Key::W)),
-              BACKWARD(Get(map, Options::Backward, Key::S)) { }
+        MovementSettings(std::unordered_map<Settings, KeyCode> map)
+            : UP(Get(map, Settings::Up, Key::Q)),
+              DOWN(Get(map, Settings::Down, Key::E)),
+              LEFT(Get(map, Settings::Left, Key::A)),
+              RIGHT(Get(map, Settings::Right, Key::D)),
+              FORWARD(Get(map, Settings::Forward, Key::W)),
+              BACKWARD(Get(map, Settings::Backward, Key::S)) { }
     };
 
 public:
@@ -48,7 +46,7 @@ public:
     float RotationSpeed = 0.3f;
 
 public:
-    CameraController(Camera& camera, MovementOptions options = { });
+    CameraController(Camera& camera, MovementSettings settings = { });
 
     void OnUpdate(TimeStep ts);
     void OnMouseEvent(const MouseEvent& event);
@@ -58,8 +56,7 @@ private:
     glm::vec2 m_LastMousePosition = { 0.0f, 0.0f };
 
     Camera* m_Camera;
+    MovementSettings m_MovementSettings;
 };
 
 }
-
-
