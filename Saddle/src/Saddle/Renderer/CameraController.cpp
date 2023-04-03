@@ -8,8 +8,8 @@
 
 namespace Saddle {
 
-CameraController::CameraController(Camera& camera, MovementSettings settings)
-    : m_Camera(&camera), m_MovementSettings(settings)
+CameraController::CameraController(Camera& camera, MovementControls controls)
+    : m_Camera(&camera), Controls(controls)
 {
     EventSystem::RegisterEventListener<ApplicationUpdatedEvent>(
     [this](const ApplicationUpdatedEvent& event) {
@@ -37,32 +37,32 @@ void CameraController::OnUpdate(TimeStep ts)
     const glm::vec3 up_direction(0.0f, 1.0f, 0.0f);
     glm::vec3 rightDirection = glm::cross(forward_direction, up_direction);
 
-    if(Input::KeyPressed(Key::W))
+    if(Input::KeyPressed(Controls[Control::Forward]))
     {
         position += forward_direction * TranslationSpeed * (float)ts;
         moved = true;
     }
-    else if(Input::KeyPressed(Key::S))
+    else if(Input::KeyPressed(Controls[Control::Down]))
     {
         position -= forward_direction * TranslationSpeed * (float)ts;
         moved = true;
     }
-    if(Input::KeyPressed(Key::A))
+    if(Input::KeyPressed(Controls[Control::Left]))
     {
         position -= rightDirection * TranslationSpeed * (float)ts;
         moved = true;
     }
-    else if(Input::KeyPressed(Key::D))
+    else if(Input::KeyPressed(Controls[Control::Right]))
     {
         position += rightDirection * TranslationSpeed * (float)ts;
         moved = true;
     }
-    if (Input::KeyPressed(Key::Q))
+    if (Input::KeyPressed(Controls[Control::Up]))
     {
         position -= up_direction * TranslationSpeed * (float)ts;
         moved = true;
     }
-    else if (Input::KeyPressed(Key::E))
+    else if (Input::KeyPressed(Controls[Control::Down]))
     {
         position += up_direction * TranslationSpeed * (float)ts;
         moved = true;

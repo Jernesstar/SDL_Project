@@ -11,52 +11,52 @@ namespace Saddle {
 
 class CameraController {
 public:
-    struct MovementSettings {
-    private:
-        enum class Settings { Up, Down, Left, Right, Forward, Backward };
+    enum class Control { Up, Down, Left, Right, Forward, Backward };
 
-        KeyCode Get(std::unordered_map<Settings, KeyCode> settings, Settings setting, KeyCode default_val)
+    struct MovementControls {
+    public:
+        std::unordered_map<Control, KeyCode> Map;
+
+        MovementControls(std::unordered_map<Control, KeyCode> map = { })
+            : Map(GetControls(map)) { }
+
+        KeyCode operator [](const Control& control) const { return Map.at(control); }
+
+    private:
+        std::unordered_map<Control, KeyCode> GetControls(std::unordered_map<Control, KeyCode> map)
         {
-            return settings.find(setting) != settings.end() ? settings[setting] :  default_val;
+            std::unordered_map<Control, KeyCode> controls;
+            controls[Control::Up]       = Get(map, Control::Up,       Key::Q);
+            controls[Control::Down]     = Get(map, Control::Down,     Key::E);
+            controls[Control::Left]     = Get(map, Control::Left,     Key::A);
+            controls[Control::Right]    = Get(map, Control::Right,    Key::D);
+            controls[Control::Forward]  = Get(map, Control::Forward,  Key::W);
+            controls[Control::Backward] = Get(map, Control::Backward, Key::S);
+            return controls;
         }
 
-    public:
-        const KeyCode UP, DOWN, LEFT, RIGHT, FORWARD, BACKWARD;
-
-        MovementSettings(
-            KeyCode up   = Key::Q,
-            KeyCode down  = Key::E,
-            KeyCode left  = Key::A,
-            KeyCode right = Key::D,
-            KeyCode forward  = Key::W,
-            KeyCode backward = Key::S
-        ) : UP(up), DOWN(down), LEFT(left), RIGHT(right), FORWARD(forward), BACKWARD(backward) { }
-
-        MovementSettings(std::unordered_map<Settings, KeyCode> map)
-            : UP(Get(map, Settings::Up, Key::Q)),
-              DOWN(Get(map, Settings::Down, Key::E)),
-              LEFT(Get(map, Settings::Left, Key::A)),
-              RIGHT(Get(map, Settings::Right, Key::D)),
-              FORWARD(Get(map, Settings::Forward, Key::W)),
-              BACKWARD(Get(map, Settings::Backward, Key::S)) { }
+        KeyCode Get(std::unordered_map<Control, KeyCode> map, Control control, KeyCode default_val)
+        {
+            return map.find(control) != map.end() ? map[control] : default_val;
+        }
     };
 
 public:
     float TranslationSpeed = 0.005f;
     float RotationSpeed = 0.3f;
+    const MovementControls Controls;
 
 public:
-    CameraController(Camera& camera, MovementSettings settings = { });
+    CameraController(Camera& camera, MovementControls constrols = { });
 
     void OnUpdate(TimeStep ts);
     void OnMouseEvent(const MouseEvent& event);
-    void OnResize();
+    void OnResize(uint32_t width, uint32_t height);
 
 private:
     glm::vec2 m_LastMousePosition = { 0.0f, 0.0f };
 
     Camera* m_Camera;
-    MovementSettings m_MovementSettings;
 };
 
 }
