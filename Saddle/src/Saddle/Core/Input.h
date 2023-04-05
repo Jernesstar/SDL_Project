@@ -8,13 +8,13 @@ namespace Saddle {
 
 class Input {
 public:
-    static bool KeyPressed(KeyCode key);
-    static bool KeysPressed(KeyCode key1, KeyCode key2);
-    static bool KeysPressed(KeyCode key1, KeyCode key2, KeyCode key3);
-    static bool KeysPressed(KeyCode key1, KeyCode key2, KeyCode key3, KeyCode key4);
+    static bool KeyPressed(Key key);
+    static bool KeysPressed(Key key1, Key key2);
+    static bool KeysPressed(Key key1, Key key2, Key key3);
+    static bool KeysPressed(Key key1, Key key2, Key key3, Key key4);
 
     static void SetCursorMode(CursorMode mode);
-    static bool MouseButtonPressed(MouseCode mouse_button);
+    static bool MouseButtonPressed(Mouse mouse_button);
 
     static glm::vec2 GetMousePosition();
     static float GetMouseX();

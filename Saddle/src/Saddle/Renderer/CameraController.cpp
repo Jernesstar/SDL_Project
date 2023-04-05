@@ -25,64 +25,53 @@ CameraController::CameraController(Camera& camera, MovementControls controls)
 
 void CameraController::OnUpdate(TimeStep ts)
 {
-    glm::vec3 position = m_Camera->GetPosition();
+    bool rotated = false;
+    if(Input::MouseButtonPressed(Mouse::LeftButton))
+    {
+        Input::SetCursorMode(CursorMode::Locked);
+        rotated = true;
+    }
+    else
+        Input::SetCursorMode(CursorMode::Normal);
+
     glm::vec3 forward_direction = m_Camera->GetDirection();
-
-    glm::vec2 mousePos = Input::GetMousePosition();
-    glm::vec2 delta = (mousePos - m_LastMousePosition) * 0.002f;
-    m_LastMousePosition = mousePos;
-
-    bool moved = false;
 
     const glm::vec3 up_direction(0.0f, 1.0f, 0.0f);
     glm::vec3 right_direction = glm::cross(forward_direction, up_direction);
 
-    if(Input::KeyPressed(Controls[Control::Forward]))
+    bool moved = false;
+    if(int8_t x = Input::KeyPressed(Controls[Control::Right]) - Input::KeyPressed(Controls[Control::Left]))
     {
-        position += forward_direction * TranslationSpeed * (float)ts;
+        m_Camera->Position += (float)x * right_direction * TranslationSpeed * (float)ts;
         moved = true;
     }
-    else if(Input::KeyPressed(Controls[Control::Backward]))
+    if(int8_t y = Input::KeyPressed(Controls[Control::Up]) - Input::KeyPressed(Controls[Control::Down]))
     {
-        position -= forward_direction * TranslationSpeed * (float)ts;
+        m_Camera->Position += (float)y * up_direction * TranslationSpeed * (float)ts;
         moved = true;
     }
-    if(Input::KeyPressed(Controls[Control::Left]))
+    if(int8_t z = Input::KeyPressed(Controls[Control::Forward]) - Input::KeyPressed(Controls[Control::Backward]))
     {
-        position -= right_direction * TranslationSpeed * (float)ts;
-        moved = true;
-    }
-    else if(Input::KeyPressed(Controls[Control::Right]))
-    {
-        position += right_direction * TranslationSpeed * (float)ts;
-        moved = true;
-    }
-    if (Input::KeyPressed(Controls[Control::Up]))
-    {
-        position += up_direction * TranslationSpeed * (float)ts;
-        moved = true;
-    }
-    else if (Input::KeyPressed(Controls[Control::Down]))
-    {
-        position -= up_direction * TranslationSpeed * (float)ts;
+        m_Camera->Position += (float)z * forward_direction * TranslationSpeed * (float)ts;
         moved = true;
     }
 
-    // Todo: Fix this
-    if (delta.x != 0.0f || delta.y != 0.0f)
+    glm::vec2 mouse_pos = Input::GetMousePosition();
+    glm::vec2 delta = (mouse_pos - m_LastMousePosition) * 0.001f;
+    m_LastMousePosition = mouse_pos;
+
+    if(rotated && (delta.x != 0.0f || delta.y != 0.0f))
     {
         float pitch_delta = delta.y * RotationSpeed;
         float yaw_delta = delta.x * RotationSpeed;
 
         glm::quat q = glm::normalize(glm::cross(glm::angleAxis(-pitch_delta, right_direction),
-            glm::angleAxis(-yaw_delta, up_direction)));
-        forward_direction = glm::rotate(q, forward_direction);
-
-        moved = true;
+                                                glm::angleAxis(-yaw_delta, up_direction)));
+        m_Camera->ForwardDirection = glm::rotate(q, forward_direction);
     }
 
-    m_Camera->SetPosition(position);
-    // m_Camera->SetDirection(forward_direction);
+    if(moved || rotated)
+        m_Camera->CalculateView();
 }
 
 void CameraController::OnMouseEvent(const MouseEvent& event)

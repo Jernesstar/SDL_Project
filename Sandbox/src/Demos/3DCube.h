@@ -96,10 +96,6 @@ private:
 
 Cube3D::Cube3D()
 {
-    shader.Bind();
-
-    camera2.SetPosition({ 0.0f, 0.0f, 3.0f });
-
     EventSystem::RegisterEventListener<KeyPressedEvent>(
     [](const KeyPressedEvent& event) {
         if(event.Key == Key::Escape)
@@ -110,6 +106,11 @@ Cube3D::Cube3D()
     [this](const WindowResizedEvent& event) {
         this->camera2.Resize(event.Width, event.Height);
     });
+
+    shader.Bind();
+
+    camera2.SetPosition({ 0.0f, 0.0f, 3.0f });
+    controller.RotationSpeed = 1.0f;
 }
 
 void Cube3D::OnUpdate(TimeStep ts)

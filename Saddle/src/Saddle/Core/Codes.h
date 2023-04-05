@@ -166,7 +166,7 @@ enum Mouse : MouseCode {
     RightButton  = Button3
 };
 
-enum class CursorMode
+enum class CursorMode : uint8_t
 {
     Normal = 0,
     Hidden = 1,

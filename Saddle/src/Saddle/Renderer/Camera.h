@@ -32,6 +32,8 @@ protected:
 
     virtual void CalculateView() = 0;
     virtual void CalculateProjection() = 0;
+
+    friend class CameraController;
 };
 
 }

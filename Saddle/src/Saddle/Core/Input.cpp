@@ -4,7 +4,7 @@
 
 namespace Saddle {
 
-bool Input::KeyPressed(KeyCode key)
+bool Input::KeyPressed(Key key)
 {   
     // Note: Get the special cases to work
     // Special cases
@@ -24,7 +24,7 @@ void Input::SetCursorMode(CursorMode mode)
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL + (int)mode);
 }
 
-bool Input::MouseButtonPressed(MouseCode mouse_button)
+bool Input::MouseButtonPressed(Mouse mouse_button)
 {
     auto window = Application::Get().GetWindow().GetNativeWindow();
     auto state = glfwGetMouseButton(window, (int)(mouse_button));
@@ -44,14 +44,14 @@ glm::vec2 Input::GetMousePosition()
 float Input::GetMouseX() { return GetMousePosition().x; }
 float Input::GetMouseY() { return GetMousePosition().y; }
 
-bool Input::KeysPressed(KeyCode key1, KeyCode key2)
+bool Input::KeysPressed(Key key1, Key key2)
 {
     if(KeyPressed(key1))
         if(KeyPressed(key2)) return true;
     return false;
 }
 
-bool Input::KeysPressed(KeyCode key1, KeyCode key2, KeyCode key3)
+bool Input::KeysPressed(Key key1, Key key2, Key key3)
 {
     if(KeyPressed(key1))
         if(KeyPressed(key2))
@@ -59,7 +59,7 @@ bool Input::KeysPressed(KeyCode key1, KeyCode key2, KeyCode key3)
     return false;
 }
 
-bool Input::KeysPressed(KeyCode key1, KeyCode key2, KeyCode key3, KeyCode key4)
+bool Input::KeysPressed(Key key1, Key key2, Key key3, Key key4)
 {
     if(KeyPressed(key1))
         if(KeyPressed(key2))

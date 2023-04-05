@@ -15,17 +15,17 @@ public:
 
     struct MovementControls {
     public:
-        std::unordered_map<Control, KeyCode> Map;
+        std::unordered_map<Control, Key> Map;
 
-        MovementControls(std::unordered_map<Control, KeyCode> map = { })
+        MovementControls(std::unordered_map<Control, Key> map = { })
             : Map(GetControls(map)) { }
 
-        KeyCode operator [](const Control& control) const { return Map.at(control); }
+        Key operator [](const Control& control) const { return Map.at(control); }
 
     private:
-        std::unordered_map<Control, KeyCode> GetControls(std::unordered_map<Control, KeyCode> map)
+        std::unordered_map<Control, Key> GetControls(std::unordered_map<Control, Key> map)
         {
-            std::unordered_map<Control, KeyCode> controls;
+            std::unordered_map<Control, Key> controls;
             controls[Control::Up]       = Get(map, Control::Up,       Key::Q);
             controls[Control::Down]     = Get(map, Control::Down,     Key::E);
             controls[Control::Left]     = Get(map, Control::Left,     Key::A);
@@ -35,7 +35,7 @@ public:
             return controls;
         }
 
-        KeyCode Get(std::unordered_map<Control, KeyCode> map, Control control, KeyCode default_val)
+        Key Get(std::unordered_map<Control, Key> map, Control control, Key default_val)
         {
             return map.find(control) != map.end() ? map[control] : default_val;
         }
@@ -43,7 +43,7 @@ public:
 
 public:
     float TranslationSpeed = 0.005f;
-    float RotationSpeed = 0.3f;
+    float RotationSpeed = 0.6f;
     const MovementControls Controls;
 
 public:
