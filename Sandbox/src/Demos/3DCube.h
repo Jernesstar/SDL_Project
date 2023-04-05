@@ -90,15 +90,15 @@ private:
     };
 
     OrthographicCamera camera{ -ratio, ratio, -1.0f, 1.0f };
-    StereographicCamera camera2{ 90.0f, -10.0f, 10.0f, 1600, 900 };
-    CameraController controller{ camera, CameraController::MovementControls{  } };
+    StereographicCamera camera2{ 90.0f, 0.0f, 1.0f, 1600, 900 };
+    CameraController controller{ camera2 };
 };
 
 Cube3D::Cube3D()
 {
     shader.Bind();
 
-    camera2.SetPosition({ 0.0f, 0.0f, -3.0f});
+    camera2.SetPosition({ 0.0f, 0.0f, 3.0f });
 
     EventSystem::RegisterEventListener<KeyPressedEvent>(
     [](const KeyPressedEvent& event) {
@@ -117,7 +117,7 @@ void Cube3D::OnUpdate(TimeStep ts)
     model *= transform.GetTransform();
 
     shader.SetUniformMatrix4("u_ModelMatrix", model);
-    shader.SetUniformMatrix4("u_ViewProjMatrix", camera.GetViewProjection());
+    shader.SetUniformMatrix4("u_ViewProjMatrix", camera2.GetViewProjection());
 
     Renderer::Clear({ 0.f, 0.f, 0.f, 0.f });
     Renderer::DrawIndexed(vertex_array);

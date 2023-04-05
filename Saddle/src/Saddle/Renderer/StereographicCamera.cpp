@@ -23,7 +23,7 @@ void StereographicCamera::SetProjection(float vertical_fov, float near_clip, flo
 
 void StereographicCamera::Resize(uint32_t width, uint32_t height)
 {
-    if (width == m_ViewportWidth && height == m_ViewportHeight)
+    if(width == m_ViewportWidth && height == m_ViewportHeight)
         return;
 
     m_ViewportWidth = width;
