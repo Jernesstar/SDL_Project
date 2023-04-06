@@ -14,7 +14,7 @@ Includes["glfw"] = "%{VendorPaths.glfw}/include"
 Includes["glad"] = "%{VendorPaths.glad}/include"
 Includes["freetype"] = "%{VendorPaths.freetype}/include"
 Includes["stb_image"] = "%{VendorPaths.stb_image}/include"
-Includes["imgui"] = "%{VendorPaths.imgui}"
+Includes["imgui"] = "%{VendorPath}"
 
 workspace "Saddle"
     architecture "x64"

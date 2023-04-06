@@ -9,9 +9,14 @@ project "imgui"
     {
         "%{VendorPaths.imgui}/*.h",
         "%{VendorPaths.imgui}/*.cpp",
+
+        "%{VendorPaths.imgui}/backends/imgui_impl_glfw.cpp",
+        "%{VendorPaths.imgui}/backends/imgui_impl_opengl3.cpp",
     }
 
     includedirs
     {
-        "%{VendorPaths.imgui}/include"
+        "%{Includes.imgui}",
+        "%{Includes.imgui}/imgui",
+        "%{Includes.glfw}"
     }

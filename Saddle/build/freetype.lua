@@ -39,7 +39,7 @@ project "freetype"
 
     includedirs
     {
-        "%{VendorPaths.freetype}/include"
+        "%{Includes.freetype}"
     }
 
     buildoptions 

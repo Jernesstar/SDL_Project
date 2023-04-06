@@ -3,6 +3,10 @@
 #define GLFW_INCLUDE_NONE
 #include <glad/glad.h>
 
+#include <imgui/imgui.h>
+#include <imgui/backends/imgui_impl_glfw.h>
+#include <imgui/backends/imgui_impl_opengl3.h>
+
 #include "Assert.h"
 #include "Saddle/Events/EventSystem.h"
 #include "Saddle/Events/ApplicationEvents.h"
@@ -20,6 +24,21 @@ Application::Application(const ApplicationSpecification& specs)
 
     s_Instance = this;
     s_Specification = specs;
+
+    IMGUI_CHECKVERSION();
+    auto* c = ImGui::CreateContext();
+    ImGui::SetCurrentContext(c);
+
+    ImGuiIO& io = ImGui::GetIO();
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+    io.DisplaySize = ImVec2{ 1600, 900 };
+
+    ImGui::StyleColorsDark();
+
+    ImGui_ImplGlfw_InitForOpenGL(s_Instance->Window.GetNativeWindow(), true);
+    ImGui_ImplOpenGL3_Init("#version 450 core");
+    ImGui_ImplOpenGL3_NewFrame();
 
     Renderer::Init();
     EventSystem::Init();
@@ -53,8 +72,12 @@ void Application::Run()
         EventSystem::Dispatch(event);
         EventSystem::PollEvents();
 
+        ImGui::NewFrame();
+
         s_Instance->OnUpdate(ts);
         s_Instance->Window.Update();
+
+        ImGui::Render();
     }
 }
 

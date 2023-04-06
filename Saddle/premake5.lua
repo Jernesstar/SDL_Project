@@ -22,6 +22,7 @@ project "Saddle"
         "%{Includes.glm}",
         "%{Includes.stb_image}",
         "%{Includes.imgui}",
+        "%{Includes.imgui}/imgui",
     }
     
     links

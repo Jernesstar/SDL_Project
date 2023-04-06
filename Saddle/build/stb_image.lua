@@ -13,5 +13,5 @@ project "stb_image"
 
     includedirs
     {
-        "%{VendorPaths.stb_image}/include"
+        "%{Includes.stb_image}"
     }

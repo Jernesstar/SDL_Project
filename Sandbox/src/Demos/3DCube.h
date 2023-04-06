@@ -4,6 +4,8 @@
 #include <glm/mat4x4.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
+#include <imgui/imgui.h>
+
 #include <Saddle/Core/Application.h>
 #include <Saddle/ECS/Components.h>
 #include <Saddle/Events/EventSystem.h>
@@ -115,6 +117,12 @@ Cube3D::Cube3D()
 
 void Cube3D::OnUpdate(TimeStep ts)
 {
+    ImGui::Begin("Tab");
+    {
+        ImGui::Text("Test Text");
+    }
+    ImGui::End();
+
     model *= transform.GetTransform();
 
     shader.SetUniformMatrix4("u_ModelMatrix", model);
