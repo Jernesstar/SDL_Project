@@ -44,6 +44,9 @@ private:
     WindowSpecification m_Specs;
 
     GLFWwindow* m_Window = nullptr;
+
+    void InitImGui();
+    void CloseImGui();
 };
 
 }

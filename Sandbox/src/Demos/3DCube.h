@@ -93,7 +93,7 @@ private:
 
     OrthographicCamera camera{ -ratio, ratio, -1.0f, 1.0f };
     StereographicCamera camera2{ 90.0f, 0.0f, 1.0f, 1600, 900 };
-    CameraController controller{ camera2 };
+    // CameraController controller{ camera2 };
 };
 
 Cube3D::Cube3D()
@@ -112,7 +112,7 @@ Cube3D::Cube3D()
     shader.Bind();
 
     camera2.SetPosition({ 0.0f, 0.0f, 3.0f });
-    controller.RotationSpeed = 1.0f;
+    // controller.RotationSpeed = 1.0f;
 }
 
 void Cube3D::OnUpdate(TimeStep ts)
@@ -120,6 +120,7 @@ void Cube3D::OnUpdate(TimeStep ts)
     ImGui::Begin("Tab");
     {
         ImGui::Text("Test Text");
+        ImGui::ShowDemoWindow();
     }
     ImGui::End();
 

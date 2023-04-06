@@ -25,21 +25,6 @@ Application::Application(const ApplicationSpecification& specs)
     s_Instance = this;
     s_Specification = specs;
 
-    IMGUI_CHECKVERSION();
-    auto* c = ImGui::CreateContext();
-    ImGui::SetCurrentContext(c);
-
-    ImGuiIO& io = ImGui::GetIO();
-    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
-    io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
-    io.DisplaySize = ImVec2{ 1600, 900 };
-
-    ImGui::StyleColorsDark();
-
-    ImGui_ImplGlfw_InitForOpenGL(s_Instance->Window.GetNativeWindow(), true);
-    ImGui_ImplOpenGL3_Init("#version 450 core");
-    ImGui_ImplOpenGL3_NewFrame();
-
     Renderer::Init();
     EventSystem::Init();
 }
@@ -72,12 +57,16 @@ void Application::Run()
         EventSystem::Dispatch(event);
         EventSystem::PollEvents();
 
+        ImGui_ImplOpenGL3_NewFrame();
+        ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
 
         s_Instance->OnUpdate(ts);
-        s_Instance->Window.Update();
 
         ImGui::Render();
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+        s_Instance->Window.Update();
     }
 }
 

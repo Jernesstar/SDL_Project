@@ -25,14 +25,13 @@ CameraController::CameraController(Camera& camera, MovementControls controls)
 
 void CameraController::OnUpdate(TimeStep ts)
 {
-    bool rotated = false;
     if(Input::MouseButtonPressed(Mouse::LeftButton))
-    {
         Input::SetCursorMode(CursorMode::Locked);
-        rotated = true;
-    }
     else
+    {
         Input::SetCursorMode(CursorMode::Normal);
+        return;
+    }
 
     glm::vec3 forward_direction = m_Camera->GetDirection();
 
@@ -60,7 +59,7 @@ void CameraController::OnUpdate(TimeStep ts)
     glm::vec2 delta = (mouse_pos - m_LastMousePosition) * 0.001f;
     m_LastMousePosition = mouse_pos;
 
-    if(rotated && (delta.x != 0.0f || delta.y != 0.0f))
+    if(delta.x != 0.0f || delta.y != 0.0f)
     {
         float pitch_delta = delta.y * RotationSpeed;
         float yaw_delta = delta.x * RotationSpeed;
@@ -68,9 +67,10 @@ void CameraController::OnUpdate(TimeStep ts)
         glm::quat q = glm::normalize(glm::cross(glm::angleAxis(-pitch_delta, right_direction),
                                                 glm::angleAxis(-yaw_delta, up_direction)));
         m_Camera->ForwardDirection = glm::rotate(q, forward_direction);
+        moved = true;
     }
 
-    if(moved || rotated)
+    if(moved)
         m_Camera->CalculateView();
 }
 

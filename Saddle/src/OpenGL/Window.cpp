@@ -1,6 +1,9 @@
 #include "Window.h"
 
 #include <glad/glad.h>
+#include <imgui/imgui.h>
+#include <imgui/backends/imgui_impl_glfw.h>
+#include <imgui/backends/imgui_impl_opengl3.h>
 
 #include <stb_image/stb_image.h>
 
@@ -32,12 +35,16 @@ Window::Window(const WindowSpecification& specs)
     [this](const WindowResizedEvent& event) {
         SetFramebufferSize(event.Width, event.Height);
     });
+
+    InitImGui();
 }
 
 Window::~Window()
 {
     if(m_Window) glfwDestroyWindow(m_Window);
     m_Window = nullptr;
+
+    CloseImGui();
 }
 
 void Window::SetWindowIcon(const std::string& path)
@@ -78,6 +85,51 @@ glm::vec2 Window::GetFrameBufferSize() const
     int width, height;
     glfwGetFramebufferSize(m_Window, &width, &height);
     return { width, height };
+}
+
+void Window::InitImGui()
+{
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+    ImGui::StyleColorsDark();
+
+    ImGui_ImplGlfw_InitForOpenGL(m_Window, true);
+    ImGui_ImplOpenGL3_Init("#version 450");
+
+    ImGuiIO& io = ImGui::GetIO();
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableSetMousePos;
+    io.DisplaySize = ImVec2{ 1600, 900 };
+
+    EventSystem::RegisterEventListener<MouseButtonPressedEvent>(
+    [](const MouseButtonPressedEvent& event) {
+        ImGuiIO& io = ImGui::GetIO();
+        io.MouseDown[event.MouseButton] = true;
+    });
+    EventSystem::RegisterEventListener<MouseButtonReleasedEvent>(
+    [](const MouseButtonReleasedEvent& event) {
+        ImGuiIO& io = ImGui::GetIO();
+        io.MouseDown[event.MouseButton] = false;
+    });
+    EventSystem::RegisterEventListener<MouseMovedEvent>(
+    [](const MouseMovedEvent& event) {
+        ImGuiIO& io = ImGui::GetIO();
+        io.MousePos = ImVec2{ event.x, event.y };
+    });
+    EventSystem::RegisterEventListener<WindowResizedEvent>(
+    [](const WindowResizedEvent& event) {
+        ImGuiIO& io = ImGui::GetIO();
+        io.DisplaySize = ImVec2{ (float)event.Width, (float)event.Height };
+    });
+
+    // Todo: Add more event handlers
+}
+
+void Window::CloseImGui()
+{
+    ImGui_ImplOpenGL3_Shutdown();
+    ImGui_ImplGlfw_Shutdown();
+    ImGui::DestroyContext();
 }
 
 }
