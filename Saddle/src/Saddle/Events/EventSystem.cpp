@@ -17,18 +17,6 @@ Callbacks<TEvent>& EventSystem::GetCallbacks<TEvent>() \
 
 namespace Saddle {
 
-GET_CALLBACKS(KeyPressedEvent);
-GET_CALLBACKS(KeyReleasedEvent);
-GET_CALLBACKS(KeyCharEvent);
-GET_CALLBACKS(MouseMovedEvent);
-GET_CALLBACKS(MouseScrolledEvent);
-GET_CALLBACKS(MouseButtonPressedEvent);
-GET_CALLBACKS(MouseButtonReleasedEvent);
-GET_CALLBACKS(WindowResizedEvent);
-GET_CALLBACKS(WindowMovedEvent);
-GET_CALLBACKS(WindowClosedEvent);
-GET_CALLBACKS(ApplicationUpdatedEvent);
-
 void EventSystem::Init()
 {
     GLFWwindow* window = Application::Get().GetWindow().GetNativeWindow();
@@ -51,12 +39,24 @@ void EventSystem::Init()
     glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, NULL, GL_TRUE);
 }
 
+GET_CALLBACKS(KeyPressedEvent);
+GET_CALLBACKS(KeyReleasedEvent);
+GET_CALLBACKS(KeyCharEvent);
+GET_CALLBACKS(MouseMovedEvent);
+GET_CALLBACKS(MouseScrolledEvent);
+GET_CALLBACKS(MouseButtonPressedEvent);
+GET_CALLBACKS(MouseButtonReleasedEvent);
+GET_CALLBACKS(WindowResizedEvent);
+GET_CALLBACKS(WindowMovedEvent);
+GET_CALLBACKS(WindowClosedEvent);
+GET_CALLBACKS(ApplicationUpdatedEvent);
+
 template<>
-EventCallback<KeyEvent> EventSystem::RegisterEventListener<KeyEvent>(const std::function<void(const KeyEvent&)>& event_callback)
+EventCallback<KeyEvent> EventSystem::RegisterEventListener<KeyEvent>(const std::function<void(KeyEvent&)>& event_callback)
 {
     EventCallback<KeyEvent> _event_callback(event_callback);
-    RegisterEventListener<KeyPressedEvent>(_event_callback);
-    RegisterEventListener<KeyReleasedEvent>(_event_callback);
+    RegisterEventListener<KeyPressedEvent>((EventCallback<KeyEvent>)_event_callback);
+    RegisterEventListener<KeyReleasedEvent>((EventCallback<KeyEvent>)_event_callback);
     return _event_callback;
 }
 
@@ -68,13 +68,13 @@ void EventSystem::RegisterEventListener<KeyEvent>(const EventCallback<KeyEvent>&
 }
 
 template<>
-EventCallback<MouseEvent> EventSystem::RegisterEventListener<MouseEvent>(const std::function<void(const MouseEvent&)>& event_callback)
+EventCallback<MouseEvent> EventSystem::RegisterEventListener<MouseEvent>(const std::function<void(MouseEvent&)>& event_callback)
 {
     EventCallback<MouseEvent> _event_callback(event_callback);
-    RegisterEventListener<MouseMovedEvent>(_event_callback);
-    RegisterEventListener<MouseScrolledEvent>(_event_callback);
-    RegisterEventListener<MouseButtonPressedEvent>(_event_callback);
-    RegisterEventListener<MouseButtonReleasedEvent>(_event_callback);
+    RegisterEventListener<MouseMovedEvent>((EventCallback<MouseMovedEvent>)_event_callback);
+    RegisterEventListener<MouseScrolledEvent>((EventCallback<MouseScrolledEvent>)_event_callback);
+    RegisterEventListener<MouseButtonPressedEvent>((EventCallback<MouseButtonPressedEvent>)_event_callback);
+    RegisterEventListener<MouseButtonReleasedEvent>((EventCallback<MouseButtonReleasedEvent>)_event_callback);
     return _event_callback;
 }
 
@@ -88,11 +88,11 @@ void EventSystem::RegisterEventListener<MouseEvent>(const EventCallback<MouseEve
 }
 
 template<>
-EventCallback<WindowEvent> EventSystem::RegisterEventListener<WindowEvent>(const std::function<void(const WindowEvent&)>& event_callback)
+EventCallback<WindowEvent> EventSystem::RegisterEventListener<WindowEvent>(const std::function<void(WindowEvent&)>& event_callback)
 {
     EventCallback<WindowEvent> _event_callback(event_callback);
-    RegisterEventListener<WindowResizedEvent>(_event_callback);
-    RegisterEventListener<WindowClosedEvent>(_event_callback);
+    RegisterEventListener<WindowResizedEvent>((EventCallback<WindowResizedEvent>)_event_callback);
+    RegisterEventListener<WindowClosedEvent>((EventCallback<WindowClosedEvent>)_event_callback);
     return _event_callback;
 }
 
@@ -104,12 +104,12 @@ void EventSystem::RegisterEventListener<WindowEvent>(const EventCallback<WindowE
 }
 
 template<>
-EventCallback<Event> EventSystem::RegisterEventListener<Event>(const std::function<void(const Event&)>& event_callback)
+EventCallback<Event> EventSystem::RegisterEventListener<Event>(const std::function<void(Event&)>& event_callback)
 {
     EventCallback<Event> _event_callback(event_callback);
-    RegisterEventListener<KeyEvent>(event_callback);
-    RegisterEventListener<MouseEvent>(event_callback);
-    RegisterEventListener<WindowEvent>(event_callback);
+    RegisterEventListener<KeyEvent>((EventCallback<KeyEvent>)_event_callback);
+    RegisterEventListener<MouseEvent>((EventCallback<MouseEvent>)_event_callback);
+    RegisterEventListener<WindowEvent>((EventCallback<WindowEvent>)_event_callback);
     return _event_callback;
 }
 

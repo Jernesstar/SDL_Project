@@ -36,10 +36,10 @@ public:
     }
 
     template<typename TEvent>
-    static EventCallback<TEvent> RegisterEventListener(const std::function<void(const TEvent&)>& event_callback)
+    static EventCallback<TEvent> RegisterEventListener(const std::function<void(TEvent&)>& event_callback)
     {
         EventCallback<TEvent> _event_callback(event_callback);
-        RegisterEventListener<TEvent>((const EventCallback<TEvent>&)_event_callback);
+        RegisterEventListener<TEvent>((EventCallback<TEvent>&)_event_callback);
         return _event_callback;
     }
 
@@ -66,7 +66,7 @@ private:
 
 private:
     template<typename TEvent>
-    static void Dispatch(const TEvent& event)
+    static void Dispatch(TEvent& event)
     {
         Callbacks<TEvent>& callback_list = GetCallbacks<TEvent>();
     

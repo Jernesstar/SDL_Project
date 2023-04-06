@@ -3,8 +3,9 @@
 #include <glm/gtc/quaternion.hpp>
 #include <glm/gtx/quaternion.hpp>
 
-#include "Saddle/Events/EventSystem.h"
+#include "Saddle/Core/Application.h"
 #include "Saddle/Core/Input.h"
+#include "Saddle/Events/EventSystem.h"
 
 namespace Saddle {
 
@@ -15,12 +16,6 @@ CameraController::CameraController(Camera& camera, MovementControls controls)
     [this](const ApplicationUpdatedEvent& event) {
         this->OnUpdate(event.DeltaTime);
     });
-
-    // Todo: Get this to work
-    // auto callback = EventSystem::RegisterEventListener<MouseEvent>(
-    // [this](const MouseEvent& event) {
-    //     this->OnMouseEvent(event);
-    // });
 }
 
 void CameraController::OnUpdate(TimeStep ts)

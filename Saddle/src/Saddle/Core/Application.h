@@ -42,10 +42,13 @@ public:
     Window& GetWindow() { return Window; }
     const ApplicationSpecification& GetSpecification() { return s_Specification; }
 
+    static TimeStep GetTimeStep() { return s_TimeStep; }
+
 private:
     inline static Application* s_Instance = nullptr;
     inline static ApplicationSpecification s_Specification;
     inline static TimePoint s_LastFrame{ Time::GetTime() };
+    inline static TimeStep s_TimeStep;
 
 private:
     static void Init(const ApplicationSpecification& specs = ApplicationSpecification());

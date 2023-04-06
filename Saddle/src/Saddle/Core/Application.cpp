@@ -52,6 +52,7 @@ void Application::Run()
         TimePoint time = Time::GetTime();
         TimeStep ts = time - s_LastFrame;
         s_LastFrame = time;
+        s_TimeStep = ts;
 
         ApplicationUpdatedEvent event(ts);
         EventSystem::Dispatch(event);

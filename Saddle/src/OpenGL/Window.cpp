@@ -102,14 +102,16 @@ void Window::InitImGui()
     io.DisplaySize = ImVec2{ 1600, 900 };
 
     EventSystem::RegisterEventListener<MouseButtonPressedEvent>(
-    [](const MouseButtonPressedEvent& event) {
+    [](MouseButtonPressedEvent& event) {
         ImGuiIO& io = ImGui::GetIO();
         io.MouseDown[event.MouseButton] = true;
+        event.Handled = true;
     });
     EventSystem::RegisterEventListener<MouseButtonReleasedEvent>(
-    [](const MouseButtonReleasedEvent& event) {
+    [](MouseButtonReleasedEvent& event) {
         ImGuiIO& io = ImGui::GetIO();
         io.MouseDown[event.MouseButton] = false;
+        event.Handled = true;
     });
     EventSystem::RegisterEventListener<MouseMovedEvent>(
     [](const MouseMovedEvent& event) {
