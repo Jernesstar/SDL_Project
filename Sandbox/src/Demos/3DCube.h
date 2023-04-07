@@ -136,7 +136,7 @@ void Cube3D::OnUpdate(TimeStep ts)
 
     vertex_buffer->SetData(vertices);
 
-    // model *= transform.GetTransform();
+    model *= transform.GetTransform();
     controller.OnUpdate(ts);
 
     shader.SetUniformMatrix4("u_ModelMatrix", model);
