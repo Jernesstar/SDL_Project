@@ -3,6 +3,7 @@
 #include <glm/vec3.hpp>
 #include <glm/mat4x4.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 #include <imgui/imgui.h>
 
@@ -34,7 +35,7 @@ private:
         glm::vec3 Color;
     };
 
-    const Vertex vertices[8] = 
+    Vertex vertices[8] = 
     {
         { glm::vec3(-0.5f,  0.5f,  0.5), glm::vec3(0.f, 1.f, 0.f) }, // 0 Front Top Left
         { glm::vec3( 0.5f,  0.5f,  0.5), glm::vec3(1.f, 0.f, 1.f) }, // 1 Front Top Right
@@ -117,14 +118,25 @@ Cube3D::Cube3D()
 
 void Cube3D::OnUpdate(TimeStep ts)
 {
-    ImGui::Begin("Tab");
+    ImGui::ShowDemoWindow();
+    ImGui::Begin("Vertices");
     {
-        ImGui::Text("Test Text");
-        ImGui::ShowDemoWindow();
+        for(uint32_t i = 0; i < 8; i++)
+        {
+            ImGui::PushID(i);
+            
+            ImGui::ColorEdit3("Vertex", glm::value_ptr(vertices[i].Color));
+            ImGui::SliderFloat3("Vertex", glm::value_ptr(vertices[i].Position), -5.0f, 5.0f);
+
+            ImGui::Separator();
+            ImGui::PopID();
+        }
     }
     ImGui::End();
 
-    model *= transform.GetTransform();
+    vertex_buffer->SetData(vertices);
+
+    // model *= transform.GetTransform();
     controller.OnUpdate(ts);
 
     shader.SetUniformMatrix4("u_ModelMatrix", model);

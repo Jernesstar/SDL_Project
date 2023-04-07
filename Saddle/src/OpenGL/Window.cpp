@@ -118,6 +118,12 @@ void Window::InitImGui()
         ImGuiIO& io = ImGui::GetIO();
         io.MousePos = ImVec2{ event.x, event.y };
     });
+    EventSystem::RegisterEventListener<MouseScrolledEvent>(
+    [](const MouseScrolledEvent& event) {
+        ImGuiIO& io = ImGui::GetIO();
+        io.MouseWheelH += event.ScrollX;
+        io.MouseWheel += event.ScrollY;
+    });
     EventSystem::RegisterEventListener<WindowResizedEvent>(
     [](const WindowResizedEvent& event) {
         ImGuiIO& io = ImGui::GetIO();

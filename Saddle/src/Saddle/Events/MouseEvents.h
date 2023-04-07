@@ -18,8 +18,8 @@ struct MouseMovedEvent : public MouseEvent {
 };
 
 struct MouseScrolledEvent : public MouseEvent {
-    const float ScrollX; /* The amount scrolled horizontally, positive to the right and negative to the left, with float precision */
-    const float ScrollY; /* The amount scrolled vertically, positive away from the user and negative toward the user, with float precision */
+    const float ScrollX;
+    const float ScrollY;
 
     MouseScrolledEvent(float scroll_x, float scroll_y)
         : MouseEvent(EventType::MouseScrolled), 
