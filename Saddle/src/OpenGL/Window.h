@@ -5,6 +5,8 @@
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
 
+#include <imgui/imgui.h>
+
 #include <glm/vec2.hpp>
 
 namespace Saddle {
@@ -33,10 +35,11 @@ public:
     void SetFramebufferSize(uint32_t width, uint32_t height);
 
     bool IsOpen() const { return !glfwWindowShouldClose(m_Window); }
+    bool IsImGuiFocused() const { ImGuiIO& io = ImGui::GetIO(); return io.WantCaptureMouse; }
 
     const std::string& GetTitle() const { return m_Specs.Title; }
     glm::vec2 GetFrameBufferSize() const;
-    float GetAspectRatio() const { auto v =  GetFrameBufferSize(); return v.x / v.y; }
+    float GetAspectRatio() const { auto v = GetFrameBufferSize(); return v.x / v.y; }
 
     GLFWwindow* GetNativeWindow() const { return m_Window; }
 

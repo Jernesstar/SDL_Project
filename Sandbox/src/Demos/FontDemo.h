@@ -45,6 +45,7 @@ FontDemo::FontDemo()
 
 void FontDemo::OnUpdate(TimeStep ts)
 {
+    controller.OnUpdate(ts);
     Renderer::Clear({ });
     Renderer2D::BeginScene(camera2);
 

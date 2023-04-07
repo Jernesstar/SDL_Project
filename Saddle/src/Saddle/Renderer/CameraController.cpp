@@ -3,24 +3,17 @@
 #include <glm/gtc/quaternion.hpp>
 #include <glm/gtx/quaternion.hpp>
 
+#include <imgui/imgui.h>
+
 #include "Saddle/Core/Application.h"
 #include "Saddle/Core/Input.h"
 #include "Saddle/Events/EventSystem.h"
 
 namespace Saddle {
 
-CameraController::CameraController(Camera& camera, MovementControls controls)
-    : m_Camera(&camera), Controls(controls)
-{
-    EventSystem::RegisterEventListener<ApplicationUpdatedEvent>(
-    [this](const ApplicationUpdatedEvent& event) {
-        this->OnUpdate(event.DeltaTime);
-    });
-}
-
 void CameraController::OnUpdate(TimeStep ts)
 {
-    if(Input::MouseButtonPressed(Mouse::LeftButton))
+    if(Input::MouseButtonPressed(Mouse::LeftButton) && !Application::Get().GetWindow().IsImGuiFocused())
         Input::SetCursorMode(CursorMode::Locked);
     else
     {

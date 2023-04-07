@@ -47,7 +47,8 @@ public:
     const MovementControls Controls;
 
 public:
-    CameraController(Camera& camera, MovementControls constrols = { });
+    CameraController(Camera& camera, MovementControls controls = { })
+    : m_Camera(&camera), Controls(controls) { }
 
     void OnUpdate(TimeStep ts);
     void OnMouseEvent(const MouseEvent& event);

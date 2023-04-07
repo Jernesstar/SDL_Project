@@ -125,6 +125,7 @@ void Cube3D::OnUpdate(TimeStep ts)
     ImGui::End();
 
     model *= transform.GetTransform();
+    controller.OnUpdate(ts);
 
     shader.SetUniformMatrix4("u_ModelMatrix", model);
     shader.SetUniformMatrix4("u_ViewProjMatrix", camera2.GetViewProjection());
