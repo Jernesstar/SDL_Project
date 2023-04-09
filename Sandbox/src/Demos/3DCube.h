@@ -100,13 +100,14 @@ private:
 Cube3D::Cube3D()
 {
     EventSystem::RegisterEventListener<KeyPressedEvent>(
-    [](const KeyPressedEvent& event) {
+    [](const KeyPressedEvent& event)
+    {
         if(event.Key == Key::Escape)
             Application::Close();
     });
-
     EventSystem::RegisterEventListener<WindowResizedEvent>(
-    [this](const WindowResizedEvent& event) {
+    [this](const WindowResizedEvent& event)
+    {
         this->camera2.Resize(event.Width, event.Height);
     });
 

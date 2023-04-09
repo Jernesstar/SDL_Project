@@ -23,6 +23,7 @@ project "Saddle"
         "%{Includes.stb_image}",
         "%{Includes.imgui}",
         "%{Includes.imgui}/imgui",
+        "%{Includes.assimp}"
     }
     
     links
@@ -32,7 +33,13 @@ project "Saddle"
         "glad",
         "glfw",
         "stb_image",
+        "assimp",
         "gdi32",
+    }
+
+    linkoptions
+    {
+        "../bin/assimp-vc143-mtd.lib",
     }
 
     filter "system:windows"

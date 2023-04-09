@@ -12,11 +12,11 @@ namespace Saddle {
 Texture2D::Texture2D(uint32_t width, uint32_t height)
     : InternalFormat(GL_RGBA8), DataFormat(GL_RGBA), m_Slot(-1), m_Width(width), m_Height(height)
 {
-    glCreateTextures(GL_TEXTURE_2D, 1, &m_TextureID); // Creating 2D texture
+    glCreateTextures(GL_TEXTURE_2D, 1, &m_TextureID);
     glTextureStorage2D(m_TextureID, 1, InternalFormat, m_Width, m_Height);
 
-    glTextureParameteri(m_TextureID, GL_TEXTURE_MIN_FILTER, GL_LINEAR); // Setting the behavior for miniaturization
-    glTextureParameteri(m_TextureID, GL_TEXTURE_MAG_FILTER, GL_LINEAR); // Setting the behavior of magnification
+    glTextureParameteri(m_TextureID, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTextureParameteri(m_TextureID, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
     glTextureParameteri(m_TextureID, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTextureParameteri(m_TextureID, GL_TEXTURE_WRAP_T, GL_REPEAT);
@@ -27,11 +27,11 @@ Texture2D::Texture2D(const std::string& path)
 {
     unsigned char* pixel_data = Utils::ReadImage(path.c_str(), m_Width, m_Height, 4, 1);
     
-    glCreateTextures(GL_TEXTURE_2D, 1, &m_TextureID); // Creating 2D texture
+    glCreateTextures(GL_TEXTURE_2D, 1, &m_TextureID);
     glTextureStorage2D(m_TextureID, 1, InternalFormat, m_Width, m_Height);
 
-    glTextureParameteri(m_TextureID, GL_TEXTURE_MIN_FILTER, GL_LINEAR); // Setting the behavior for miniaturization
-    glTextureParameteri(m_TextureID, GL_TEXTURE_MAG_FILTER, GL_LINEAR); // Setting the behavior of magnification
+    glTextureParameteri(m_TextureID, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTextureParameteri(m_TextureID, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
     glTextureParameteri(m_TextureID, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTextureParameteri(m_TextureID, GL_TEXTURE_WRAP_T, GL_REPEAT);

@@ -9,6 +9,8 @@
 
 #include <glm/vec2.hpp>
 
+#include "Saddle/Events/EventCallback.h"
+
 namespace Saddle {
 
 struct WindowSpecification {

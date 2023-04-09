@@ -8,7 +8,8 @@ OnePlayerClassicSnake::OnePlayerClassicSnake(const std::string name, uint32_t bl
     : GameMode(block_size)
 {
     EventSystem::RegisterEventListener<WindowResizedEvent>(
-    [this](const WindowResizedEvent& event) {
+    [this](const WindowResizedEvent& event)
+    {
         this->m_ScreenSize = glm::vec2(event.Width, event.Height);
         this->TileBackground();
     });

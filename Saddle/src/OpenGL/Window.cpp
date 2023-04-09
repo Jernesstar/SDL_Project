@@ -27,12 +27,14 @@ Window::Window(const WindowSpecification& specs)
     SetWindowIcon(specs.IconPath);
 
     EventSystem::RegisterEventListener<WindowClosedEvent>(
-    [](const WindowClosedEvent& event) {
+    [](const WindowClosedEvent& event)
+    {
         Application::Close();
     });
 
     EventSystem::RegisterEventListener<WindowResizedEvent>(
-    [this](const WindowResizedEvent& event) {
+    [this](const WindowResizedEvent& event)
+    {
         SetFramebufferSize(event.Width, event.Height);
     });
 
@@ -102,30 +104,36 @@ void Window::InitImGui()
     io.DisplaySize = ImVec2{ 1600, 900 };
 
     EventSystem::RegisterEventListener<MouseButtonPressedEvent>(
-    [](MouseButtonPressedEvent& event) {
+    [](MouseButtonPressedEvent& event)
+    {
         ImGuiIO& io = ImGui::GetIO();
         io.MouseDown[event.MouseButton] = true;
         event.Handled = true;
     });
     EventSystem::RegisterEventListener<MouseButtonReleasedEvent>(
-    [](MouseButtonReleasedEvent& event) {
+    [](MouseButtonReleasedEvent& event)
+    {
         ImGuiIO& io = ImGui::GetIO();
         io.MouseDown[event.MouseButton] = false;
         event.Handled = true;
     });
-    EventSystem::RegisterEventListener<MouseMovedEvent>(
-    [](const MouseMovedEvent& event) {
-        ImGuiIO& io = ImGui::GetIO();
-        io.MousePos = ImVec2{ event.x, event.y };
-    });
     EventSystem::RegisterEventListener<MouseScrolledEvent>(
-    [](const MouseScrolledEvent& event) {
+    [](MouseScrolledEvent& event)
+    {
         ImGuiIO& io = ImGui::GetIO();
         io.MouseWheelH += event.ScrollX;
         io.MouseWheel += event.ScrollY;
+        event.Handled = true;
+    });
+    EventSystem::RegisterEventListener<MouseMovedEvent>(
+    [](const MouseMovedEvent& event)
+    {
+        ImGuiIO& io = ImGui::GetIO();
+        io.MousePos = ImVec2{ event.x, event.y };
     });
     EventSystem::RegisterEventListener<WindowResizedEvent>(
-    [](const WindowResizedEvent& event) {
+    [](const WindowResizedEvent& event)
+    {
         ImGuiIO& io = ImGui::GetIO();
         io.DisplaySize = ImVec2{ (float)event.Width, (float)event.Height };
     });

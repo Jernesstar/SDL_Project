@@ -22,6 +22,7 @@ project "Sandbox"
         "%{Includes.glm}",
         "%{Includes.stb_image}",
         "%{Includes.imgui}",
+        "%{Includes.assimp}"
     }
 
     links
@@ -32,7 +33,13 @@ project "Sandbox"
         "glfw",
         "glad",
         "stb_image",
+        "assimp",
         "gdi32",
+    }
+
+    linkoptions
+    {
+        "../bin/assimp-vc143-mtd.lib",
     }
 
     filter "system:windows"

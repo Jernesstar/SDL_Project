@@ -7,7 +7,8 @@ Game::Game(uint32_t width, uint32_t height)
     : Application(ApplicationSpecification(ApplicationCommandLineArgs(), WindowSpecification("Snake Game", 1250, 750)))
 {
     EventSystem::RegisterEventListener<KeyPressedEvent>(
-    [](const KeyPressedEvent& event) {
+    [](const KeyPressedEvent& event)
+    {
         if(event.Key == Key::Escape)
             Application::Close();
     });

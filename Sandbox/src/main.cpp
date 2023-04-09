@@ -2,6 +2,7 @@
 
 #include <Saddle/Core/Application.h>
 
+#include "MineCraft/MineCraft.h"
 #include "Demos/TextureDemo.h"
 #include "Demos/FontDemo.h"
 #include "Demos/3DCube.h"
@@ -24,6 +25,8 @@ Application* CreateApplication(const ApplicationCommandLineArgs& args)
             return new FontDemo();
         if(project == "Game")
             return new Game(1000, 600);
+        if(project == "MineCraft")
+            return new MineCraft();
     }
 
     return new Cube3D();

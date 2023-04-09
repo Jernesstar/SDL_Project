@@ -1,6 +1,6 @@
 project "imgui"
     kind "StaticLib"
-    language "C"
+    language "C++"
 
     targetdir ("%{wks.location}/bin")
     objdir ("%{wks.location}/obj")
