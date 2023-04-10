@@ -6,13 +6,6 @@ project "assimp"
     targetdir ("%{wks.location}/bin")
     objdir ("%{wks.location}/obj")
 
-    configurations
-    {
-        "Debug",
-        "Release",
-        "Dist"
-    }
-
     files
     {
         "%{VendorPaths.assimp}/code/",
@@ -63,6 +56,8 @@ project "assimp"
     defines
     {
         "ASSIMP_NO_EXPORT",
+        "ASSIMP_ASAN=OFF",
+        "ASSIMP_UBSAN=OFF",
         "ASSIMP_BUILD_RELEASE",
         "ASSIMP_BUILD_NO_M3D_IMPORTER",
         "ASSIMP_BUILD_NO_M3D_EXPORTER",
@@ -77,9 +72,9 @@ project "assimp"
         "-fvisibility=hidden",
         "-fno-strict-aliasing",
         "-Wall",
-        -- "-Wno",
+        "-Wno",
         "-long-long",
-        "-Wa,-mbig-obj",
+        "-mbig-obj", -- -Wa
         "-O3",
         "-fsanitize=address",
         "-fsanitize=undefined,shift,shift-exponent,integer-divide-by-zero,unreachable,vla-bound,null,return,signed-integer-overflow,bounds,float-divide-by-zero,float-cast-overflow,nonnull-attribute,returns-nonnull-attribute,bool,enum,vptr,pointer-overflow,builtin",
@@ -88,7 +83,8 @@ project "assimp"
 
     links
     {
-        "zlib"
+        "zlib",
+        "asan"
     }
 
     filter "system:windows"

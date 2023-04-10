@@ -37,10 +37,5 @@ project "Sandbox"
         "gdi32",
     }
 
-    linkoptions
-    {
-        "../bin/assimp-vc143-mtd.lib",
-    }
-
     filter "system:windows"
         systemversion "latest"
