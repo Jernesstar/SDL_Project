@@ -44,8 +44,8 @@ void Mesh::LoadMesh(const std::string& path)
     }
 
     m_Positions.reserve(vertex_count);
-    m_Normals.reserve(vertex_count);
     m_TextureCoords.reserve(vertex_count);
+    m_Normals.reserve(vertex_count);
     m_Indices.reserve(index_count);
 
     for(uint32_t i = 0; i < m_SubMeshes.size(); i++)
@@ -63,6 +63,26 @@ void Mesh::LoadMesh(const std::string& path)
 
     for(uint32_t i = 0; i < scene->mNumMaterials; i++)
         LoadMaterial(scene, path, dir, i);
+
+    BufferLayout l1({ { "Position",          BufferDataType::Vec3, false } }, false);
+    BufferLayout l2({ { "TextureCoordinate", BufferDataType::Vec3, false } }, false);
+    BufferLayout l3({ { "Normal",            BufferDataType::Vec3, false } }, false);
+
+    m_Buffers[BufferIndex::Position]          = std::make_unique<VertexBuffer>(m_Positions.size(), l1);
+    m_Buffers[BufferIndex::TextureCoordinate] = std::make_unique<VertexBuffer>(m_TextureCoords.size(), l2);
+    m_Buffers[BufferIndex::Normal]            = std::make_unique<VertexBuffer>(m_Normals.size(), l3);
+
+    m_Buffers[BufferIndex::Position]->SetData(&m_Positions[0], m_Positions.size() * sizeof(glm::vec3));
+    m_Buffers[BufferIndex::TextureCoordinate]->SetData(&m_TextureCoords[0], m_TextureCoords.size() * sizeof(glm::vec2));
+    m_Buffers[BufferIndex::Normal]->SetData(&m_Normals[0], m_Normals.size() * sizeof(glm::vec3));
+
+    m_IndexBuffer = std::make_unique<IndexBuffer>(&m_Indices[0], m_Indices.size());
+
+    m_VertexArray = std::make_unique<VertexArray>();
+    m_VertexArray->SetIndexBuffer(m_IndexBuffer.get());
+    m_VertexArray->AddVertexBuffer(m_Buffers[BufferIndex::Position].get());
+    m_VertexArray->AddVertexBuffer(m_Buffers[BufferIndex::TextureCoordinate].get());
+    m_VertexArray->AddVertexBuffer(m_Buffers[BufferIndex::Normal].get());
 }
 
 void Mesh::LoadSubMesh(const aiMesh* mesh)
@@ -98,10 +118,15 @@ void Mesh::LoadMaterial(const aiScene* scene, const std::string& path, const std
         return;
 
     aiString texture_path;
-    if(material->GetTexture(aiTextureType_DIFFUSE, 0, &texture_path) != AI_SUCCESS)
+    if(material->GetTexture(aiTextureType_DIFFUSE, 0, &texture_path) == AI_FAILURE)
         return;
 
     std::string p(texture_path.data);
+    if(p.substr(0, 2) == ".\\")
+        p = p.substr(2, p.size() - 2);
+
+    std::string full_path = dir + "/" + p;
+    m_Textures[index] = new Texture2D(full_path);
 }
 
 }

@@ -19,6 +19,8 @@ void Renderer::Init()
     glFrontFace(GL_CW);
     glCullFace(GL_BACK);
 
+    // glEnable(GL_DEPTH_TEST);
+
     Renderer2D::Init();
 }
 
@@ -33,5 +35,23 @@ void Renderer::DrawIndexed(const VertexArray* vertex_array, uint32_t indices)
     vertex_array->Bind();
     glDrawElements(GL_TRIANGLES, indices != 0 ? indices : vertex_array->GetIndexBuffer()->Count, GL_UNSIGNED_INT, nullptr);
 }
+
+void Renderer::RenderMesh(Mesh* mesh)
+{
+    mesh->m_VertexArray->Bind();
+
+    for(uint32_t i = 0; i < mesh->GetSubMeshCount(); i++)
+    {
+        if(mesh->m_Textures[i])
+            mesh->m_Textures[i]->Bind(0);
+        
+        glDrawElementsBaseVertex(GL_TRIANGLES,
+                                mesh->m_SubMeshes[i].IndexCount,
+                                GL_UNSIGNED_INT,
+                                (void*)(sizeof(uint32_t) * mesh->m_SubMeshes[i].BaseIndex),
+                                mesh->m_SubMeshes[i].BaseVertex);
+    }
+}
+
 
 }

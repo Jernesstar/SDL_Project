@@ -7,11 +7,15 @@
 
 namespace Saddle {
 
-VertexArray::VertexArray(VertexBuffer* vertex_buffer, IndexBuffer* index_buffer)
-    : m_VertexBuffer(vertex_buffer), m_IndexBuffer(index_buffer)
+VertexArray::VertexArray()
 {
     glCreateVertexArrays(1, &m_VertexArrayID);
-    SetVertexBuffer(vertex_buffer);
+}
+
+VertexArray::VertexArray(VertexBuffer* vertex_buffer, IndexBuffer* index_buffer)
+{
+    glCreateVertexArrays(1, &m_VertexArrayID);
+    AddVertexBuffer(vertex_buffer);
     SetIndexBuffer(index_buffer);
 }
 
@@ -22,23 +26,17 @@ void VertexArray::Bind() const
     glBindVertexArray(m_VertexArrayID);
     m_IndexBuffer->Bind();
 }
+
 void VertexArray::Unbind() const
 {
     glBindVertexArray(0);
     m_IndexBuffer->Unbind();
 }
 
-void VertexArray::SetVertexBuffer(VertexBuffer* vertex_buffer)
+void VertexArray::AddVertexBuffer(VertexBuffer* vertex_buffer)
 {
     glBindVertexArray(m_VertexArrayID);
     vertex_buffer->Bind();
-
-    // Enabling a vertex attribute: glEnableVertexAttribArray
-
-    // Setting the data for the attribute: glVertexAttribPointer
-    // 1. the attribute index, 2. the number of elements that make up the attribute, 3. The type of the elements
-    // 4. whether of not to normalize to values, 5. the size in bytes of the whole vertex
-    // 6. a pointer to the start of the attribute in each vertex
 
     uint64_t offset = 0;
     uint32_t buffer_index = 0;
@@ -97,7 +95,7 @@ void VertexArray::SetVertexBuffer(VertexBuffer* vertex_buffer)
         offset += element.Size;
     }
 
-    m_VertexBuffer = vertex_buffer;
+    m_VertexBuffers.push_back(vertex_buffer);
 }
 
 void VertexArray::SetIndexBuffer(IndexBuffer* index_buffer)

@@ -57,10 +57,11 @@ class BufferLayout {
 public:
     const std::vector<BufferElement> Elements;
     const uint32_t Stride;
+    const bool Dynamic;
 
 public:
-    BufferLayout(const std::initializer_list<BufferElement>& elements)
-        : Elements(elements), Stride(CalculateStride(elements)) { }
+    BufferLayout(const std::initializer_list<BufferElement>& elements, bool dynamic = true)
+        : Elements(elements), Stride(CalculateStride(elements)), Dynamic(dynamic) { }
 
     std::vector<BufferElement>::const_iterator begin() const { return Elements.begin(); }
     std::vector<BufferElement>::const_iterator end() const { return Elements.end(); }
