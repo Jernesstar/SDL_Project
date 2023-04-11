@@ -1,6 +1,7 @@
 project "imgui"
     kind "StaticLib"
     language "C++"
+    cppdialect "C++20"
 
     targetdir ("%{wks.location}/bin")
     objdir ("%{wks.location}/obj")
