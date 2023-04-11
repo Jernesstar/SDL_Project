@@ -31,15 +31,15 @@ private:
     };
 
     std::vector<SubMesh> m_SubMeshes;
-    // std::vector<Texture2D> m_Textures;
+    std::vector<Texture2D*> m_Textures;
 
     std::vector<glm::vec3> m_Positions;
     std::vector<glm::vec3> m_Normals;
     std::vector<glm::vec2> m_TextureCoords;
     std::vector<uint32_t> m_Indices;
 
-
-    void LoadSubMesh(aiMesh* mesh);
+    void LoadSubMesh(const aiMesh* mesh);
+    void LoadMaterial(const aiScene* scene, const std::string& path, const std::string& dir, uint32_t index);
 };
 
 }

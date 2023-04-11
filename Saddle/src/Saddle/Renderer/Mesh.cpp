@@ -25,7 +25,7 @@ void Mesh::LoadMesh(const std::string& path)
         SADDLE_CORE_ASSERT_ARGS(false, "Error importing from %s: %s", path.c_str(), imp.GetErrorString())
     
     m_SubMeshes.resize(scene->mNumMeshes);
-    // m_Textures.resize(scene->mNumMaterials);
+    m_Textures.resize(scene->mNumMaterials);
 
     uint32_t vertex_count = 0;
     uint32_t index_count = 0;
@@ -49,12 +49,23 @@ void Mesh::LoadMesh(const std::string& path)
     m_Indices.reserve(index_count);
 
     for(uint32_t i = 0; i < m_SubMeshes.size(); i++)
-    {
         LoadSubMesh(scene->mMeshes[i]);
-    }
+
+    std::size_t slash_index = path.find_last_of("/");
+    std::string dir;
+
+    if(slash_index == std::string::npos)
+        dir = ".";
+    else if(slash_index == 0)
+        dir = "/";
+    else
+        dir = path.substr(0, slash_index);
+
+    for(uint32_t i = 0; i < scene->mNumMaterials; i++)
+        LoadMaterial(scene, path, dir, i);
 }
 
-void Mesh::LoadSubMesh(aiMesh* mesh)
+void Mesh::LoadSubMesh(const aiMesh* mesh)
 {
     const aiVector3D Zero3D(0.0f, 0.0f, 0.0f);
 
@@ -76,6 +87,21 @@ void Mesh::LoadSubMesh(aiMesh* mesh)
         m_Indices.push_back(face.mIndices[1]);
         m_Indices.push_back(face.mIndices[2]);
     }
+}
+
+void Mesh::LoadMaterial(const aiScene* scene, const std::string& path, const std::string& dir, uint32_t index)
+{
+    const aiMaterial* material = scene->mMaterials[index];
+    m_Textures[index] = nullptr;
+
+    if(material->GetTextureCount(aiTextureType_DIFFUSE) == 0)
+        return;
+
+    aiString texture_path;
+    if(material->GetTexture(aiTextureType_DIFFUSE, 0, &texture_path) != AI_SUCCESS)
+        return;
+
+    std::string p(texture_path.data);
 }
 
 }

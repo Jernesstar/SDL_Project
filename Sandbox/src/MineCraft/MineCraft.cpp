@@ -4,5 +4,5 @@
 
 MineCraft::MineCraft()
 {
-    Mesh mesh("Sandbox/assest/models/cube.obj");
+    Mesh mesh("Sandbox/assets/models/backpack/backpack.obj");
 }
