@@ -51,7 +51,7 @@ Window::~Window()
 
 void Window::SetWindowIcon(const std::string& path)
 {
-    if(path == "") 
+    if(path == "" || path.find_first_not_of(" ") == std::string::npos) 
     {
         glfwSetWindowIcon(m_Window, 0, nullptr);
         return;

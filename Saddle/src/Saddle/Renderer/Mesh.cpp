@@ -9,21 +9,45 @@
 namespace Saddle {
 
 Mesh::Mesh(const std::string& path)
+    : m_Path(path)
 {
-    if(path == "")
+    if(path == "" || path.find_first_not_of(" ") == std::string::npos)
         return;
+
     LoadMesh(path);
+}
+
+Mesh::~Mesh() { Clear(); }
+
+void Mesh::Clear()
+{
+    m_SubMeshes.clear();
+    m_Textures.clear();
+
+    m_Positions.clear();
+    m_Normals.clear();
+    m_TextureCoords.clear();
+    m_Indices.clear();
+
+    m_Buffers[BufferIndex::Position].reset();
+    m_Buffers[BufferIndex::TextureCoordinate].reset();
+    m_Buffers[BufferIndex::Normal].reset();
+    m_IndexBuffer.reset();
+    m_VertexArray.reset();
 }
 
 void Mesh::LoadMesh(const std::string& path)
 {
+    Clear();
+
     Assimp::Importer imp;
     uint32_t load_flags = aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs | aiProcess_JoinIdenticalVertices;
     const aiScene* scene = imp.ReadFile(path.c_str(), load_flags);
 
     if(!scene)
-        SADDLE_CORE_ASSERT_ARGS(false, "Error importing from %s: %s", path.c_str(), imp.GetErrorString())
-    
+        SADDLE_CORE_ASSERT_ARGS(false, "Error importing from %s: %s", path.c_str(), imp.GetErrorString());
+
+    m_Path = path;
     m_SubMeshes.resize(scene->mNumMeshes);
     m_Textures.resize(scene->mNumMaterials);
 
@@ -62,19 +86,19 @@ void Mesh::LoadMesh(const std::string& path)
         dir = path.substr(0, slash_index);
 
     for(uint32_t i = 0; i < scene->mNumMaterials; i++)
-        LoadMaterial(scene, path, dir, i);
+        LoadMaterial(scene, dir, i);
 
     BufferLayout l1({ { "Position",          BufferDataType::Vec3, false } }, false);
-    BufferLayout l2({ { "TextureCoordinate", BufferDataType::Vec3, false } }, false);
+    BufferLayout l2({ { "TextureCoordinate", BufferDataType::Vec2, false } }, false);
     BufferLayout l3({ { "Normal",            BufferDataType::Vec3, false } }, false);
 
     m_Buffers[BufferIndex::Position]          = std::make_unique<VertexBuffer>(m_Positions.size(), l1);
     m_Buffers[BufferIndex::TextureCoordinate] = std::make_unique<VertexBuffer>(m_TextureCoords.size(), l2);
     m_Buffers[BufferIndex::Normal]            = std::make_unique<VertexBuffer>(m_Normals.size(), l3);
 
-    m_Buffers[BufferIndex::Position]->SetData(&m_Positions[0], m_Positions.size() * sizeof(glm::vec3));
-    m_Buffers[BufferIndex::TextureCoordinate]->SetData(&m_TextureCoords[0], m_TextureCoords.size() * sizeof(glm::vec2));
-    m_Buffers[BufferIndex::Normal]->SetData(&m_Normals[0], m_Normals.size() * sizeof(glm::vec3));
+    m_Buffers[BufferIndex::Position]->SetData(&m_Positions[0], m_Positions.size());
+    m_Buffers[BufferIndex::TextureCoordinate]->SetData(&m_TextureCoords[0], m_TextureCoords.size());
+    m_Buffers[BufferIndex::Normal]->SetData(&m_Normals[0], m_Normals.size());
 
     m_IndexBuffer = std::make_unique<IndexBuffer>(&m_Indices[0], m_Indices.size());
 
@@ -97,7 +121,7 @@ void Mesh::LoadSubMesh(const aiMesh* mesh)
 
         m_Positions.push_back(glm::vec3(position.x, position.y, position.z));
         m_Normals.push_back(glm::vec3(normal.x, normal.y, normal.z));
-        m_TextureCoords.push_back(glm::vec2(normal.x, normal.y));
+        m_TextureCoords.push_back(glm::vec2(texture_coord.x, texture_coord.y));
     }
 
     for(uint32_t i = 0; i < mesh->mNumFaces; i++)
@@ -109,10 +133,10 @@ void Mesh::LoadSubMesh(const aiMesh* mesh)
     }
 }
 
-void Mesh::LoadMaterial(const aiScene* scene, const std::string& path, const std::string& dir, uint32_t index)
+void Mesh::LoadMaterial(const aiScene* scene, const std::string& dir, uint32_t index)
 {
     const aiMaterial* material = scene->mMaterials[index];
-    m_Textures[index] = nullptr;
+    m_Textures[index].reset();
 
     if(material->GetTextureCount(aiTextureType_DIFFUSE) == 0)
         return;
@@ -122,11 +146,11 @@ void Mesh::LoadMaterial(const aiScene* scene, const std::string& path, const std
         return;
 
     std::string p(texture_path.data);
-    if(p.substr(0, 2) == ".\\")
+    if(p.substr(0, 2) == "./")
         p = p.substr(2, p.size() - 2);
 
     std::string full_path = dir + "/" + p;
-    m_Textures[index] = new Texture2D(full_path);
+    m_Textures[index].reset(new Texture2D(full_path));
 }
 
 }

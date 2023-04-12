@@ -117,8 +117,8 @@ void Renderer2D::StartBatch()
 
 void Renderer2D::Flush()
 {
-    std::size_t data_size = (s_Data.QuadVertexBufferPtr - s_Data.QuadVertexBufferBase) * sizeof(QuadVertex);
-    s_Data.QuadVertexBuffer->SetData(s_Data.QuadVertexBufferBase, data_size);
+    std::size_t data_count = s_Data.QuadVertexBufferPtr - s_Data.QuadVertexBufferBase;
+    s_Data.QuadVertexBuffer->SetData(s_Data.QuadVertexBufferBase, data_count);
 
     for(uint32_t i = 0; i < s_Data.TextureSlotIndex; i++)
         ((Texture2D*)s_Data.TextureSlots[i])->Bind(i);

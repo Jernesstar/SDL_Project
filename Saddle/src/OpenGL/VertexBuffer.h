@@ -41,10 +41,10 @@ public:
         glBufferSubData(GL_ARRAY_BUFFER, 0, TCount * Layout.Stride, vertices);
     }
 
-    void SetData(const void* data, std::size_t size)
+    void SetData(const void* data, std::size_t count)
     {
         glBindBuffer(GL_ARRAY_BUFFER, m_VertexBufferID);
-        glBufferSubData(GL_ARRAY_BUFFER, 0, size, data);
+        glBufferSubData(GL_ARRAY_BUFFER, 0, count * Layout.Stride, data);
     }
 
 private:

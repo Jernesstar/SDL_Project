@@ -4,10 +4,10 @@
 
 MineCraft::MineCraft()
 {
-    m_Mesh.LoadMesh("Sandbox/assets/models/backpack/backpack.obj");
     m_Shader.Bind();
-}
 
+    m_Mesh.LoadMesh("Sandbox/assets/models/backpack/backpack.obj");
+}
 
 void MineCraft::OnUpdate(TimeStep ts)
 {

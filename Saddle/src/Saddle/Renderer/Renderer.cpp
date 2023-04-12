@@ -42,8 +42,10 @@ void Renderer::RenderMesh(Mesh* mesh)
 
     for(uint32_t i = 0; i < mesh->GetSubMeshCount(); i++)
     {
-        if(mesh->m_Textures[i])
-            mesh->m_Textures[i]->Bind(0);
+        uint32_t material_index = mesh->m_SubMeshes[i].MaterialIndex;
+
+        if(mesh->m_Textures[material_index])
+            mesh->m_Textures[material_index]->Bind(0);
         
         glDrawElementsBaseVertex(GL_TRIANGLES,
                                 mesh->m_SubMeshes[i].IndexCount,

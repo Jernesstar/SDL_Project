@@ -25,6 +25,7 @@ public:
 
 private:
     uint32_t m_VertexArrayID;
+    uint32_t m_BufferIndex = 0;
 
     std::vector<VertexBuffer*> m_VertexBuffers;
     IndexBuffer* m_IndexBuffer;
