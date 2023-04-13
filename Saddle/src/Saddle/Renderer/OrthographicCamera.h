@@ -9,7 +9,9 @@ namespace Saddle {
 
 class OrthographicCamera : public Camera {
 public:
+    OrthographicCamera() = default;
     OrthographicCamera(float left, float right, float bottom, float top);
+    ~OrthographicCamera() = default;
 
     void SetProjection(float left, float right, float bottom, float top);
     void SetRotation(float rotation) { m_Rotation = rotation; CalculateView(); }

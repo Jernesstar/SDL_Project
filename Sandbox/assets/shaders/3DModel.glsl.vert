@@ -1,15 +1,18 @@
 #version 450 core
 
-uniform mat4 u_ModelMatrix;
-uniform mat4 u_ViewProjMatrix;
+uniform mat4 u_Model;
+uniform mat4 u_ViewProj;
 
-layout(location = 0) in vec3 a_VertexPosition;
-layout(location = 1) in vec3 a_Color;
+layout(location = 0) in vec3 a_Position;
+layout(location = 1) in vec2 a_TextureCoordinate;
+layout(location = 2) in vec3 a_Normal;
 
-out vec3 v_Color;
+layout(location = 0) out vec2 v_TextureCoordinate;
+layout(location = 1) out vec3 v_Normal;
 
 void main()
 {
-    gl_Position = u_ViewProjMatrix * u_ModelMatrix * vec4(a_VertexPosition, 1.0);
-    v_Color = a_Color;
+    gl_Position = u_ViewProj * u_Model * vec4(a_Position, 1.0);
+    v_TextureCoordinate = a_TextureCoordinate;
+    v_Normal = a_Normal;
 }
