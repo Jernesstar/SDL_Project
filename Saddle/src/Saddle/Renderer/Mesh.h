@@ -36,6 +36,11 @@ private:
         uint32_t MaterialIndex = 0;
     };
 
+    struct Material {
+        std::unique_ptr<Texture2D> Diffuse;
+        std::unique_ptr<Texture2D> Specular;
+    };
+
     std::string m_Path;
 
     std::vector<SubMesh> m_SubMeshes;

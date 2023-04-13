@@ -3,6 +3,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 #include "Saddle/Core/Input.h"
+#include "Saddle/Core/Assert.h"
 
 namespace Saddle {
 
@@ -18,6 +19,7 @@ void StereographicCamera::SetProjection(float vertical_fov, float near_clip, flo
     m_NearClip = near_clip;
     m_FarClip = far_clip;
 
+    SADDLE_CORE_ASSERT(m_ViewportWidth != 0 && m_ViewportHeight != 0, "Viewport width and height must not be 0");
     CalculateProjection();
 }
 
@@ -29,6 +31,7 @@ void StereographicCamera::Resize(uint32_t width, uint32_t height)
     m_ViewportWidth = width;
     m_ViewportHeight = height;
 
+    SADDLE_CORE_ASSERT(m_ViewportWidth != 0 && m_ViewportHeight != 0, "Viewport width and height must not be 0");
     CalculateProjection();
 }
 
