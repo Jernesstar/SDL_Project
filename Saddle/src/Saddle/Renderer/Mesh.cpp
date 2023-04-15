@@ -22,7 +22,7 @@ Mesh::~Mesh() { Clear(); }
 void Mesh::Clear()
 {
     m_SubMeshes.clear();
-    m_Textures.clear();
+    m_Materials.clear();
 
     m_Positions.clear();
     m_Normals.clear();
@@ -49,7 +49,7 @@ void Mesh::LoadMesh(const std::string& path)
 
     m_Path = path;
     m_SubMeshes.resize(scene->mNumMeshes);
-    m_Textures.resize(scene->mNumMaterials);
+    m_Materials.resize(scene->mNumMaterials);
 
     uint32_t vertex_count = 0;
     uint32_t index_count = 0;
@@ -75,18 +75,8 @@ void Mesh::LoadMesh(const std::string& path)
     for(uint32_t i = 0; i < m_SubMeshes.size(); i++)
         LoadSubMesh(scene->mMeshes[i]);
 
-    std::size_t slash_index = path.find_last_of("/");
-    std::string dir;
-
-    if(slash_index == std::string::npos)
-        dir = ".";
-    else if(slash_index == 0)
-        dir = "/";
-    else
-        dir = path.substr(0, slash_index);
-
     for(uint32_t i = 0; i < scene->mNumMaterials; i++)
-        LoadMaterial(scene, dir, i);
+        LoadMaterial(scene->mMaterials[i], path, i);
 
     BufferLayout l1({ { "Position",          BufferDataType::Vec3, false } }, false);
     BufferLayout l2({ { "TextureCoordinate", BufferDataType::Vec2, false } }, false);
@@ -133,24 +123,38 @@ void Mesh::LoadSubMesh(const aiMesh* mesh)
     }
 }
 
-void Mesh::LoadMaterial(const aiScene* scene, const std::string& dir, uint32_t index)
+void Mesh::LoadMaterial(const aiMaterial* material, const std::string& path, uint32_t index)
 {
-    const aiMaterial* material = scene->mMaterials[index];
-    m_Textures[index].reset();
+    std::size_t slash_index = path.find_last_of("/");
+    std::string dir;
 
-    if(material->GetTextureCount(aiTextureType_DIFFUSE) == 0)
-        return;
+    if(slash_index == std::string::npos)
+        dir = ".";
+    else if(slash_index == 0)
+        dir = "/";
+    else
+        dir = path.substr(0, slash_index);
 
-    aiString texture_path;
-    if(material->GetTexture(aiTextureType_DIFFUSE, 0, &texture_path) == AI_FAILURE)
-        return;
+    m_Materials[index].Diffuse.reset(LoadTexture(material, dir, aiTextureType_DIFFUSE));
+    m_Materials[index].Specular.reset(LoadTexture(material, dir, aiTextureType_SPECULAR));
+}
 
-    std::string p(texture_path.data);
+Texture2D* Mesh::LoadTexture(const aiMaterial* material, const std::string& dir, aiTextureType type)
+{
+    if(material->GetTextureCount(type) == 0)
+        return nullptr;
+
+    // Todo: Maybe load all possible textures ?
+    aiString path;
+    if(material->GetTexture(type, 0, &path) == AI_FAILURE)
+        return nullptr;
+
+    std::string p(path.data);
     if(p.substr(0, 2) == "./")
         p = p.substr(2, p.size() - 2);
 
     std::string full_path = dir + "/" + p;
-    m_Textures[index].reset(new Texture2D(full_path));
+    return new Texture2D(full_path);
 }
 
 }

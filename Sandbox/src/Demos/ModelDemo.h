@@ -1,9 +1,31 @@
-#include "MineCraft.h"
+#include <Saddle/Core/Application.h>
 
-#include <Saddle/Renderer/Renderer.h>
+#include <OpenGL/Shader.h>
+
 #include <Saddle/Events/EventSystem.h>
+#include <Saddle/Renderer/Mesh.h>
+#include <Saddle/Renderer/StereographicCamera.h>
+#include <Saddle/Renderer/CameraController.h>
+#include <Saddle/Renderer/Renderer.h>
 
-MineCraft::MineCraft()
+using namespace Saddle;
+
+class ModelDemo : public Application {
+public:
+    ModelDemo();
+
+    void OnUpdate(TimeStep ts) override;
+
+private:
+    Shader m_Shader{ "Sandbox/assets/shaders/3DModel.glsl.vert", "Sandbox/assets/shaders/3DModel.glsl.frag" };
+    
+    StereographicCamera m_Camera;
+    CameraController m_Controller{ m_Camera };
+
+    Mesh m_Mesh;
+};
+
+ModelDemo::ModelDemo()
 {
     EventSystem::RegisterEventListener<KeyPressedEvent>(
     [](const KeyPressedEvent& event)
@@ -27,7 +49,7 @@ MineCraft::MineCraft()
     m_Mesh.LoadMesh("Sandbox/assets/models/backpack/backpack.obj");
 }
 
-void MineCraft::OnUpdate(TimeStep ts)
+void ModelDemo::OnUpdate(TimeStep ts)
 {
     Renderer::Clear();
 

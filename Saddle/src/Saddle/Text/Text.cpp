@@ -17,6 +17,7 @@ void Text::SetText(const std::string& text, const Font& font)
         float w = ch.Size.x;
         float h = ch.Size.y;
 
+        // Todo: Fix this
         CharacterQuad quad;
         quad.Character = ch;
         quad.Vertices[0] = { xpos,     ypos,    };

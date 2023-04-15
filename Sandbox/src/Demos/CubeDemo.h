@@ -23,9 +23,9 @@
 
 using namespace Saddle;
 
-class Cube3D : public Application {
+class CubeDemo : public Application {
 public:
-    Cube3D();
+    CubeDemo();
 
     void OnUpdate(TimeStep ts);
 
@@ -97,7 +97,7 @@ private:
     CameraController controller{ camera2 };
 };
 
-Cube3D::Cube3D()
+CubeDemo::CubeDemo()
 {
     EventSystem::RegisterEventListener<KeyPressedEvent>(
     [](const KeyPressedEvent& event)
@@ -117,7 +117,7 @@ Cube3D::Cube3D()
     controller.RotationSpeed = 1.0f;
 }
 
-void Cube3D::OnUpdate(TimeStep ts)
+void CubeDemo::OnUpdate(TimeStep ts)
 {
     ImGui::ShowDemoWindow();
     ImGui::Begin("Vertices");
@@ -135,14 +135,15 @@ void Cube3D::OnUpdate(TimeStep ts)
     }
     ImGui::End();
 
+    Renderer::Clear({ 0.f, 0.f, 0.f, 0.f });
+
     vertex_buffer->SetData(vertices);
 
-    model *= transform.GetTransform();
+    // model *= transform.GetTransform();
     controller.OnUpdate(ts);
 
     shader.SetUniformMatrix4("u_ModelMatrix", model);
     shader.SetUniformMatrix4("u_ViewProjMatrix", camera2.GetViewProjection());
 
-    Renderer::Clear({ 0.f, 0.f, 0.f, 0.f });
     Renderer::DrawIndexed(vertex_array);
 }

@@ -18,7 +18,7 @@ void Renderer::Init()
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     glEnable(GL_CULL_FACE);
-    glFrontFace(GL_CW);
+    glFrontFace(GL_CCW);
     glCullFace(GL_BACK);
 
     Renderer2D::Init();
@@ -45,8 +45,8 @@ void Renderer::RenderMesh(Mesh* mesh)
         const Mesh::SubMesh& sub_mesh = mesh->m_SubMeshes[i];
         uint32_t material_index = sub_mesh.MaterialIndex;
 
-        if(mesh->m_Textures[material_index])
-            mesh->m_Textures[material_index]->Bind(0);
+        if(mesh->m_Materials[material_index].Diffuse)
+            mesh->m_Materials[material_index].Diffuse->Bind(0);
 
         glDrawElementsBaseVertex(GL_TRIANGLES, sub_mesh.IndexCount, GL_UNSIGNED_INT, (void*)(sizeof(uint32_t) * sub_mesh.BaseIndex), sub_mesh.BaseVertex);
     }

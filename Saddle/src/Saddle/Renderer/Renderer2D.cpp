@@ -38,24 +38,16 @@ struct Renderer2DData {
     {
         { -0.5f, -0.5f, 0.0f, 1.0f }, // Bottom left,  0
         {  0.5f, -0.5f, 0.0f, 1.0f }, // Bottom right, 1
-        { -0.5f,  0.5f, 0.0f, 1.0f }, // Top left,     2
-        {  0.5f,  0.5f, 0.0f, 1.0f }, // Top right,    3
+        {  0.5f,  0.5f, 0.0f, 1.0f }, // Top right,    2
+        { -0.5f,  0.5f, 0.0f, 1.0f }, // Top left,     3
     };
 
     glm::vec2 TextureCoords[4] =
     {
         { 0.0f, 0.0f }, // Bottom left,  0
         { 1.0f, 0.0f }, // Bottom right, 1
-        { 0.0f, 1.0f }, // Top left,     2
-        { 1.0f, 1.0f }, // Top right,    3
-    };
-
-    glm::vec2 TextCoords[4] = // These coordinates don't make sense
-    {
-        { 0.0f, 1.0f },
-        { 1.0f, 1.0f },
-        { 0.0f, 0.0f },
-        { 1.0f, 0.0f },
+        { 1.0f, 1.0f }, // Top right,    2
+        { 0.0f, 1.0f }, // Top left,     3
     };
 };
 
@@ -70,11 +62,11 @@ void Renderer2D::Init()
     for(uint32_t i = 0; i < Renderer2DData::MaxQuads; i++)
     {
         indices[6*i + 0] = 4*i + 0;
-        indices[6*i + 1] = 4*i + 2;
-        indices[6*i + 2] = 4*i + 3;
+        indices[6*i + 1] = 4*i + 1;
+        indices[6*i + 2] = 4*i + 2;
 
-        indices[6*i + 3] = 4*i + 3;
-        indices[6*i + 4] = 4*i + 1;
+        indices[6*i + 3] = 4*i + 2;
+        indices[6*i + 4] = 4*i + 3;
         indices[6*i + 5] = 4*i + 0;
     }
 
@@ -173,28 +165,28 @@ void Renderer2D::DrawText(const Text& text, const glm::mat4& transform)
     }
 }
 
-void Renderer2D::DrawText(const Text& text, const glm::vec2& position, float scale)
+void Renderer2D::DrawText(const Text& text, const glm::vec3& position, float scale)
 {
-    glm::mat4 transform = glm::translate(glm::mat4(1.0f), glm::vec3(position, 0.0f))
+    glm::mat4 transform = glm::translate(glm::mat4(1.0f), position)
                         * glm::scale(glm::mat4(1.0f), glm::vec3(scale, scale, 1.0f));
     DrawText(text, transform);
 }
 
-void Renderer2D::DrawQuad(const glm::vec4& color, const glm::vec2& position, const glm::vec2& size)
+void Renderer2D::DrawQuad(const glm::vec4& color, const glm::vec3& position, const glm::vec2& size)
 {
-    glm::mat4 transform = glm::translate(glm::mat4(1.0f), glm::vec3(position, 0.0f))
+    glm::mat4 transform = glm::translate(glm::mat4(1.0f), position)
                         * glm::scale(glm::mat4(1.0f), glm::vec3(size, 1.0f));
     DrawQuad(color, transform);
 }
 
-void Renderer2D::DrawQuad(Texture2D* texture, const glm::vec2& position, float scale)
+void Renderer2D::DrawQuad(Texture2D* texture, const glm::vec3& position, float scale)
 {
     DrawQuad(texture, position, scale * glm::vec2(texture->GetWidth(), texture->GetHeight()));
 }
 
-void Renderer2D::DrawQuad(Texture2D* texture, const glm::vec2& position, const glm::vec2& size)
+void Renderer2D::DrawQuad(Texture2D* texture, const glm::vec3& position, const glm::vec2& size)
 {
-    glm::mat4 transform = glm::translate(glm::mat4(1.0f), glm::vec3(position, 0.0f))
+    glm::mat4 transform = glm::translate(glm::mat4(1.0f), position)
                         * glm::scale(glm::mat4(1.0f), glm::vec3(size, 1.0f));
     DrawQuad(texture, transform);
 }
@@ -275,7 +267,7 @@ void Renderer2D::DrawQuad(const Text::CharacterQuad& ch, const glm::vec4& color,
     {
         s_Data.QuadVertexBufferPtr->Position = transform * glm::vec4(ch.Vertices[i], 0.0f, 1.0f);
         s_Data.QuadVertexBufferPtr->Color = color;
-        s_Data.QuadVertexBufferPtr->TextureCoordinate = s_Data.TextCoords[i];
+        s_Data.QuadVertexBufferPtr->TextureCoordinate = s_Data.TextureCoords[i];
         s_Data.QuadVertexBufferPtr->TextureIndex = (int32_t)text_index;
         s_Data.QuadVertexBufferPtr++;
     }

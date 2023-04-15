@@ -44,7 +44,7 @@ private:
     std::string m_Path;
 
     std::vector<SubMesh> m_SubMeshes;
-    std::vector<std::unique_ptr<Texture2D>> m_Textures;
+    std::vector<Material> m_Materials;
 
     std::vector<glm::vec3> m_Positions;
     std::vector<glm::vec3> m_Normals;
@@ -57,7 +57,8 @@ private:
 
     void Clear();
     void LoadSubMesh(const aiMesh* mesh);
-    void LoadMaterial(const aiScene* scene, const std::string& dir, uint32_t index);
+    void LoadMaterial(const aiMaterial* material, const std::string& path, uint32_t index);
+    Texture2D* LoadTexture(const aiMaterial* material, const std::string& dir, aiTextureType type);
 
     friend class Renderer;
 };
