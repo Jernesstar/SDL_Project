@@ -19,6 +19,15 @@ VertexArray::VertexArray(VertexBuffer* vertex_buffer, IndexBuffer* index_buffer)
     SetIndexBuffer(index_buffer);
 }
 
+VertexArray::VertexArray(std::initializer_list<VertexBuffer*> vertex_buffers, IndexBuffer* index_buffer)
+{
+    glCreateVertexArrays(1, &m_VertexArrayID);
+    SetIndexBuffer(index_buffer);
+
+    for(auto* buffer : vertex_buffers)
+        AddVertexBuffer(buffer);
+}
+
 VertexArray::~VertexArray() { glDeleteVertexArrays(1, &m_VertexArrayID); }
 
 void VertexArray::Bind() const

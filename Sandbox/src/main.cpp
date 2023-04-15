@@ -2,10 +2,11 @@
 
 #include <Saddle/Core/Application.h>
 
+#include "Demos/CubeDemo.h"
+#include "Demos/FontDemo.h"
+#include "Demos/LightingDemo.h"
 #include "Demos/ModelDemo.h"
 #include "Demos/TextureDemo.h"
-#include "Demos/FontDemo.h"
-#include "Demos/CubeDemo.h"
 #include "Snake/Game.h"
 
 using namespace Saddle;
@@ -21,10 +22,12 @@ Application* CreateApplication(const ApplicationCommandLineArgs& args)
             return new CubeDemo();
         if(project == "Font")
             return new FontDemo();
-        if(project == "Texture")
-            return new TextureDemo();
+        if(project == "Lighting")
+            return new LightingDemo();
         if(project == "Model")
             return new ModelDemo();
+        if(project == "Texture")
+            return new TextureDemo();
         if(project == "Game")
             return new Game(1000, 600);
     }

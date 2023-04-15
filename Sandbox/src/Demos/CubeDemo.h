@@ -50,23 +50,23 @@ private:
 
     uint32_t indices[36] =
     {
-        3, 2, 0, // Front face
-        0, 1, 3,
+        0, 2, 3,
+        3, 1, 0,
 
-        6, 7, 5, // Back face
-        5, 4, 6,
+        5, 7, 6,
+        6, 4, 5,
 
-        2, 6, 4, // Left face
-        4, 0, 2,
+        4, 6, 2,
+        2, 0, 4,
 
-        7, 3, 1, // Right face
-        1, 5, 7,
+        1, 3, 7,
+        7, 5, 1,
 
-        1, 0, 4, // Top face
-        4, 5, 1,
+        4, 0, 1,
+        1, 5, 4,
 
-        2, 3, 7, // Bottom face
-        7, 6, 2,
+        7, 3, 2,
+        2, 6, 7,
     };
 
     BufferLayout layout =
@@ -93,7 +93,7 @@ private:
     };
 
     OrthographicCamera camera{ -ratio, ratio, -1.0f, 1.0f };
-    StereographicCamera camera2{ 90.0f, 0.0f, 1.0f, 1600, 900 };
+    StereographicCamera camera2{ 90.0f, 0.01f, 100.0f, 1600, 900 };
     CameraController controller{ camera2 };
 };
 
@@ -135,8 +135,6 @@ void CubeDemo::OnUpdate(TimeStep ts)
     }
     ImGui::End();
 
-    Renderer::Clear({ 0.f, 0.f, 0.f, 0.f });
-
     vertex_buffer->SetData(vertices);
 
     // model *= transform.GetTransform();
@@ -145,5 +143,6 @@ void CubeDemo::OnUpdate(TimeStep ts)
     shader.SetUniformMatrix4("u_ModelMatrix", model);
     shader.SetUniformMatrix4("u_ViewProjMatrix", camera2.GetViewProjection());
 
+    Renderer::Clear({ 0.f, 0.f, 0.f, 0.f });
     Renderer::DrawIndexed(vertex_array);
 }

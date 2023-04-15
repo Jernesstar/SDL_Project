@@ -15,11 +15,13 @@ StereographicCamera::StereographicCamera(float vertical_fov, float near_clip, fl
 
 void StereographicCamera::SetProjection(float vertical_fov, float near_clip, float far_clip)
 {
+    SADDLE_CORE_ASSERT(m_ViewportWidth != 0 && m_ViewportHeight != 0, "Viewport width and height must not be 0");
+    SADDLE_CORE_ASSERT(near_clip != 0, "Near clip must not be 0");
+
     m_VerticalFOV = vertical_fov;
     m_NearClip = near_clip;
     m_FarClip = far_clip;
 
-    SADDLE_CORE_ASSERT(m_ViewportWidth != 0 && m_ViewportHeight != 0, "Viewport width and height must not be 0");
     CalculateProjection();
 }
 
