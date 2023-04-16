@@ -37,15 +37,15 @@ private:
 
     Vertex vertices[8] = 
     {
-        { glm::vec3(-0.5f,  0.5f,  0.5), glm::vec3(0.f, 1.f, 0.f) }, // 0 Front Top Left
-        { glm::vec3( 0.5f,  0.5f,  0.5), glm::vec3(1.f, 0.f, 1.f) }, // 1 Front Top Right
-        { glm::vec3(-0.5f, -0.5f,  0.5), glm::vec3(0.f, 1.f, 0.f) }, // 2 Front Bottom Left
-        { glm::vec3( 0.5f, -0.5f,  0.5), glm::vec3(1.f, 0.f, 1.f) }, // 3 Front Bottom Right
+        { { -0.5f,  0.5f,  0.5 }, { 0.f, 1.f, 0.f } }, // 0 Front Top Left
+        { {  0.5f,  0.5f,  0.5 }, { 1.f, 0.f, 1.f } }, // 1 Front Top Right
+        { { -0.5f, -0.5f,  0.5 }, { 0.f, 1.f, 0.f } }, // 2 Front Bottom Left
+        { {  0.5f, -0.5f,  0.5 }, { 1.f, 0.f, 1.f } }, // 3 Front Bottom Right
 
-        { glm::vec3(-0.5f,  0.5f, -0.5), glm::vec3(0.f, 1.f, 0.f) }, // 4 Back Top Left 
-        { glm::vec3( 0.5f,  0.5f, -0.5), glm::vec3(1.f, 0.f, 0.f) }, // 5 Back Top Right
-        { glm::vec3(-0.5f, -0.5f, -0.5), glm::vec3(1.f, 0.f, 0.f) }, // 6 Back Bottom Left
-        { glm::vec3( 0.5f, -0.5f, -0.5), glm::vec3(0.f, 1.f, 1.f) }, // 7 Back Bottom Right
+        { { -0.5f,  0.5f, -0.5 }, { 0.f, 1.f, 0.f } }, // 4 Back Top Left 
+        { {  0.5f,  0.5f, -0.5 }, { 1.f, 0.f, 0.f } }, // 5 Back Top Right
+        { { -0.5f, -0.5f, -0.5 }, { 1.f, 0.f, 0.f } }, // 6 Back Bottom Left
+        { {  0.5f, -0.5f, -0.5 }, { 0.f, 1.f, 1.f } }, // 7 Back Bottom Right
     };
 
     uint32_t indices[36] =
@@ -71,7 +71,7 @@ private:
 
     BufferLayout layout =
     {
-        { "a_VertexPosition", BufferDataType::Vec3, true },
+        { "a_Position", BufferDataType::Vec3, true },
         { "a_Color", BufferDataType::Vec3, true },
     };
 
@@ -79,7 +79,7 @@ private:
     IndexBuffer* index_buffer = new IndexBuffer(indices);
     VertexArray* vertex_array = new VertexArray(vertex_buffer, index_buffer);
 
-    Shader shader{ "Sandbox/assets/shaders/3D.glsl.vert", "Sandbox/assets/shaders/3D.glsl.frag" };
+    Shader shader{ "Sandbox/assets/shaders/Cube.glsl.vert", "Sandbox/assets/shaders/Cube.glsl.frag" };
 
     glm::vec2 vec{ Window.GetFrameBufferSize() };
     float ratio{ vec.x / vec.y };
@@ -140,8 +140,8 @@ void CubeDemo::OnUpdate(TimeStep ts)
     // model *= transform.GetTransform();
     controller.OnUpdate(ts);
 
-    shader.SetUniformMatrix4("u_ModelMatrix", model);
-    shader.SetUniformMatrix4("u_ViewProjMatrix", camera2.GetViewProjection());
+    shader.SetUniformMatrix4("u_Model", model);
+    shader.SetUniformMatrix4("u_ViewProj", camera2.GetViewProjection());
 
     Renderer::Clear({ 0.f, 0.f, 0.f, 0.f });
     Renderer::DrawIndexed(vertex_array);

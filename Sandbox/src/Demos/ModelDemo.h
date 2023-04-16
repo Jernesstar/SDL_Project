@@ -17,12 +17,12 @@ public:
     void OnUpdate(TimeStep ts) override;
 
 private:
-    Shader m_Shader{ "Sandbox/assets/shaders/3DModel.glsl.vert", "Sandbox/assets/shaders/3DModel.glsl.frag" };
-    
-    StereographicCamera m_Camera;
+    Shader m_Shader{ "Sandbox/assets/shaders/Model.glsl.vert", "Sandbox/assets/shaders/Model.glsl.frag" };
+
+    StereographicCamera m_Camera{ 90.0f, 0.1f, 100.0f, 1600, 900 };
     CameraController m_Controller{ m_Camera };
 
-    Mesh m_Mesh;
+    Mesh* m_Mesh = new Mesh();
 };
 
 ModelDemo::ModelDemo()
@@ -39,14 +39,12 @@ ModelDemo::ModelDemo()
         this->m_Camera.Resize(event.Width, event.Height);
     });
 
-    m_Camera.Resize(1600, 900);
     m_Camera.SetPosition({ 0.0f, 0.0f, 0.0f });
-    m_Camera.SetProjection(90.0f, 0.1f, 100.0f);
 
     m_Shader.Bind();
     m_Shader.SetUniformMatrix4("u_Model", glm::mat4(1.0f));
 
-    m_Mesh.LoadMesh("Sandbox/assets/models/backpack/backpack.obj");
+    m_Mesh->LoadMesh("Sandbox/assets/models/backpack/backpack.obj");
 }
 
 void ModelDemo::OnUpdate(TimeStep ts)
@@ -56,5 +54,5 @@ void ModelDemo::OnUpdate(TimeStep ts)
     m_Controller.OnUpdate(ts);
     m_Shader.SetUniformMatrix4("u_ViewProj", m_Camera.GetViewProjection());
 
-    Renderer::RenderMesh(&m_Mesh);
+    Renderer::RenderMesh(m_Mesh);
 }

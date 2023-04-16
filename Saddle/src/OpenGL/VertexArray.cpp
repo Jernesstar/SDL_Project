@@ -5,6 +5,8 @@
 
 #include <glad/glad.h>
 
+#include "Saddle/Core/Log.h"
+
 namespace Saddle {
 
 VertexArray::VertexArray()
@@ -33,17 +35,21 @@ VertexArray::~VertexArray() { glDeleteVertexArrays(1, &m_VertexArrayID); }
 void VertexArray::Bind() const
 {
     glBindVertexArray(m_VertexArrayID);
-    m_IndexBuffer->Bind();
 }
 
 void VertexArray::Unbind() const
 {
     glBindVertexArray(0);
-    m_IndexBuffer->Unbind();
 }
 
 void VertexArray::AddVertexBuffer(VertexBuffer* vertex_buffer)
 {
+    if(!vertex_buffer)
+    {
+        SADDLE_CORE_LOG_WARNING("Vertex buffer is nullptr");
+        return;
+    }
+
     glBindVertexArray(m_VertexArrayID);
     vertex_buffer->Bind();
 
@@ -107,7 +113,14 @@ void VertexArray::AddVertexBuffer(VertexBuffer* vertex_buffer)
 
 void VertexArray::SetIndexBuffer(IndexBuffer* index_buffer)
 {
+    if(!index_buffer)
+    {
+        SADDLE_CORE_LOG_WARNING("Index buffer is nullptr");
+        return;
+    }
+
     glBindVertexArray(m_VertexArrayID);
+    index_buffer->Bind();
     m_IndexBuffer = index_buffer;
 }
 
