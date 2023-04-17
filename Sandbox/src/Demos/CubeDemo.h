@@ -79,7 +79,10 @@ private:
     IndexBuffer* index_buffer = new IndexBuffer(indices);
     VertexArray* vertex_array = new VertexArray(vertex_buffer, index_buffer);
 
-    Shader shader{ "Sandbox/assets/shaders/Cube.glsl.vert", "Sandbox/assets/shaders/Cube.glsl.frag" };
+    Shader shader{
+        { ShaderType::VertexShader, "Sandbox/assets/shaders/Cube.glsl.vert" },
+        { ShaderType::FragmentShader, "Sandbox/assets/shaders/Cube.glsl.frag" } 
+    };
 
     glm::vec2 vec{ Window.GetFrameBufferSize() };
     float ratio{ vec.x / vec.y };

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <vector>
 
 #include <glm/vec2.hpp>
 #include <glm/vec3.hpp>
@@ -10,29 +11,19 @@
 #include <glm/mat3x3.hpp>
 #include <glm/mat4x4.hpp>
 
-#include "Saddle/Core/Utils.h"
-
 namespace Saddle {
 
-enum class ShaderType { VertexShader, FragmentShader };
+enum class ShaderType { VertexShader, FragmentShader, ComputeShader };
 
 class Shader {
-private:
+public:
     struct ShaderFile {
         const ShaderType Type;
         const std::string Path;
-        const std::string Source;
-
-        ShaderFile(ShaderType type, const std::string& path)
-            : Type(type), Path(path), Source(Utils::ReadFile(path)) { }
     };
 
 public:
-    const ShaderFile VertexShader;
-    const ShaderFile FragmentShader;
-
-public:
-    Shader(const std::string& vertex_shader_path, const std::string& fragment_shader_path);
+    Shader(const std::initializer_list<ShaderFile>& files);
     ~Shader();
 
     void Bind() const;
@@ -53,10 +44,11 @@ public:
 
 private:
     uint32_t m_ProgramID;
+    std::vector<ShaderFile> m_ShaderFiles;
 
 private:
-    static uint32_t CreateShader(const ShaderFile& shader_file);
-    static uint32_t CreateProgram(const ShaderFile& vertex_shader, const ShaderFile& fragment_shader);
+    uint32_t CreateShader(const ShaderFile& file);
+    void CreateProgram();
 };
 
 }

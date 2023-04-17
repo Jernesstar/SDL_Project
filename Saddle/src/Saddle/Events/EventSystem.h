@@ -87,9 +87,6 @@ private:
     static void WindowMovedCallback(GLFWwindow* window, int x, int y);
     static void WindowClosedCallback(GLFWwindow* window);
 
-    static void OpenGLMessageCallback(uint32_t source, uint32_t type, uint32_t id, 
-        uint32_t severity, int length, const char* message, const void* userParam);
-
     friend class Application;
 };
 

@@ -84,7 +84,11 @@ void Renderer2D::Init()
     s_Data.QuadVertexBuffer = new VertexBuffer(Renderer2DData::MaxVertices, layout);
     s_Data.QuadVertexArray = new VertexArray(s_Data.QuadVertexBuffer, s_Data.QuadIndexBuffer);
 
-    s_Data.QuadShader = new Shader("Saddle/assets/shaders/Quad.glsl.vert", "Saddle/assets/shaders/Quad.glsl.frag");
+    s_Data.QuadShader = new Shader(
+    { 
+        { ShaderType::VertexShader, "Saddle/assets/shaders/Quad.glsl.vert" },
+        { ShaderType::FragmentShader, "Saddle/assets/shaders/Quad.glsl.frag" }
+    });
 }
 
 void Renderer2D::BeginScene(const Camera& camera)

@@ -136,13 +136,19 @@ private:
     VertexBuffer* cube_buffer = new VertexBuffer(cube_vertices, l2);
     VertexArray* cube_array = new VertexArray(cube_buffer, nullptr);
 
-    Shader light_shader{ "Sandbox/assets/shaders/Light.glsl.vert", "Sandbox/assets/shaders/Light.glsl.frag" };
-    Shader cube_shader{ "Sandbox/assets/shaders/Lighting.glsl.vert", "Sandbox/assets/shaders/Lighting.glsl.frag" };
+    Shader light_shader{
+        { ShaderType::VertexShader, "Sandbox/assets/shaders/Light.glsl.vert" },
+        { ShaderType::FragmentShader, "Sandbox/assets/shaders/Light.glsl.frag" } 
+    };
+    Shader cube_shader{
+        { ShaderType::VertexShader, "Sandbox/assets/shaders/Lighting.glsl.vert" },
+        { ShaderType::FragmentShader, "Sandbox/assets/shaders/Lighting.glsl.frag" } 
+    };
 
     glm::mat4 light_model{ 1.0f };
     glm::mat4 cube_model{ 1.0f };
-    glm::vec3 light_pos = glm::vec3(1.2f, 1.0f, 2.0f), light_color = glm::vec3(1.0f, 1.0f, 1.0f);
-    glm::vec3 cube_pos = glm::vec3(0.0f, 0.0f, 0.0f), cube_color = glm::vec3(1.0f, 0.5f, 0.31f);
+    glm::vec3 light_pos = { 1.2f, 1.0f, 2.0f }, light_color = { 1.0f, 1.0f, 1.0f };
+    glm::vec3 cube_pos = { 0.0f, 0.0f, 0.0f }, cube_color = { 1.0f, 0.5f, 0.31f };
 
     StereographicCamera camera{ 75.0f, 0.01f, 100.0f, 1600, 900 };
     CameraController controller{ camera };
@@ -193,6 +199,7 @@ void LightingDemo::OnUpdate(TimeStep ts)
 
     cube_shader.Bind();
     cube_shader.SetUniformMatrix4("u_ViewProj", camera.GetViewProjection());
+    cube_shader.SetUniformVec3("u_CameraPosition", camera.GetPosition());
     cube_array->Bind();
     glDrawArrays(GL_TRIANGLES, 0, 36);
 }

@@ -32,11 +32,6 @@ void EventSystem::Init()
     glfwSetWindowPosCallback(window, WindowMovedCallback);
     glfwSetWindowSizeCallback(window, WindowResizedCallback);
     glfwSetWindowCloseCallback(window, WindowClosedCallback);
-
-    glEnable(GL_DEBUG_OUTPUT);
-    glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
-    glDebugMessageCallback(OpenGLMessageCallback, nullptr);
-    glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, NULL, GL_TRUE);
 }
 
 GET_CALLBACKS(KeyPressedEvent);
@@ -195,18 +190,6 @@ void EventSystem::WindowClosedCallback(GLFWwindow* window)
 {
     WindowClosedEvent event;
     Dispatch(event);
-}
-
-void EventSystem::OpenGLMessageCallback(uint32_t source, uint32_t type, uint32_t id, 
-    uint32_t severity, int length, const char* message, const void* userParam)
-{
-    switch(severity)
-    {
-        case GL_DEBUG_SEVERITY_HIGH:         SADDLE_CORE_LOG_ERROR(message);   return;
-        case GL_DEBUG_SEVERITY_MEDIUM:       SADDLE_CORE_LOG_ERROR(message);   return;
-        case GL_DEBUG_SEVERITY_LOW:          SADDLE_CORE_LOG_WARNING(message); return;
-        case GL_DEBUG_SEVERITY_NOTIFICATION: SADDLE_CORE_LOG_INFO(message);    return;
-    }
 }
 
 }

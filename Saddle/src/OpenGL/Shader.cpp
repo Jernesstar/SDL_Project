@@ -5,14 +5,14 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include "Saddle/Core/Assert.h"
+#include "Saddle/Core/Utils.h"
 
 namespace Saddle {
 
-Shader::Shader(const std::string& vertex_shader, const std::string& fragment_shader)
-    : VertexShader(ShaderType::VertexShader, vertex_shader),
-        FragmentShader(ShaderType::FragmentShader, fragment_shader)
+Shader::Shader(const std::initializer_list<ShaderFile>& files)
+    : m_ShaderFiles(files)
 {
-    m_ProgramID = CreateProgram(VertexShader, FragmentShader);
+    CreateProgram();
 }
 
 Shader::~Shader() { glDeleteProgram(m_ProgramID); }
@@ -70,37 +70,49 @@ void Shader::SetUniformMatrix4(const std::string& name, const glm::mat4& matrix)
 
 uint32_t Shader::CreateShader(const ShaderFile& file)
 {
-    uint32_t shader_id = glCreateShader(file.Type == ShaderType::VertexShader ? GL_VERTEX_SHADER : GL_FRAGMENT_SHADER);
+    uint32_t type;
+    if(file.Type == ShaderType::VertexShader)
+        type = GL_VERTEX_SHADER;
+    if(file.Type == ShaderType::FragmentShader)
+        type = GL_FRAGMENT_SHADER;
+    if(file.Type == ShaderType::ComputeShader)
+        type = GL_COMPUTE_SHADER;
 
-    const char* address = file.Source.c_str();
-    // Setting the data of the shader, setting last value to nullptr will use the whole shader_text
+    uint32_t shader_id = glCreateShader(type);
+
+    std::string source = Utils::ReadFile(file.Path);
+    const char* address = source.c_str();
     glShaderSource(shader_id, 1, &address, nullptr);
-    glCompileShader(shader_id); // Compiling the shader
+    glCompileShader(shader_id);
 
     int result;
-    glGetShaderiv(shader_id, GL_COMPILE_STATUS, &result); // Getting the compile status, whether or not the shader compiled
+    glGetShaderiv(shader_id, GL_COMPILE_STATUS, &result);
 
     if(result == GL_FALSE)
     {
         int length;
-        glGetShaderiv(shader_id, GL_INFO_LOG_LENGTH, &length); // Get the length of the error message
+        glGetShaderiv(shader_id, GL_INFO_LOG_LENGTH, &length);
         char* message = (char*)alloca(length * sizeof(char));
-        glGetShaderInfoLog(shader_id, length, &length, message); // Get the error message
+        glGetShaderInfoLog(shader_id, length, &length, message);
 
-        SADDLE_CORE_ASSERT_ARGS(false, "A compile error was detected for shader file %s:\n%s", file.Path.c_str(), message);
+        SADDLE_CORE_ASSERT_ARGS(false, "A compile error was detected for shader file at %s:\n%s", file.Path.c_str(), message);
     }
 
     return shader_id;
 }
 
-uint32_t Shader::CreateProgram(const ShaderFile& vertex_shader, const ShaderFile& fragment_shader)
+void Shader::CreateProgram()
 {
     uint32_t program = glCreateProgram();
-    uint32_t shader1 = CreateShader(vertex_shader);
-    uint32_t shader2 = CreateShader(fragment_shader);
+    std::vector<uint32_t> shader_ids(m_ShaderFiles.size());
 
-    glAttachShader(program, shader1);
-    glAttachShader(program, shader2);
+    for(const auto& shader : m_ShaderFiles)
+    {
+        uint32_t shader_id = CreateShader(shader);
+        glAttachShader(program, shader_id);
+        shader_ids.push_back(shader_id);
+    }
+
     glLinkProgram(program);
 
     int result;
@@ -114,20 +126,19 @@ uint32_t Shader::CreateProgram(const ShaderFile& vertex_shader, const ShaderFile
         char* message = (char*)alloca(length * sizeof(char));
         glGetProgramInfoLog(program, length, &length, message);
 
-        SADDLE_CORE_ASSERT_ARGS(false, "%sError occured when trying to link the following shader files:\n%s, %s", 
-            message, vertex_shader.Path.c_str(), fragment_shader.Path.c_str()
-        );
+        SADDLE_CORE_ASSERT_ARGS(false, "An error occured while linking %s: \n%s", message);
 
         glDeleteProgram(program);
-        return 0;
+        return;
     }
 
-    glDetachShader(program, shader1);
-    glDetachShader(program, shader2);
-    glDeleteShader(shader1);
-    glDeleteShader(shader2);
+    for(const auto& shader_id : shader_ids)
+    {
+        glDetachShader(program, shader_id);
+        glDeleteShader(shader_id);
+    }
 
-    return program;
+    m_ProgramID = program;
 }
 
 }

@@ -17,7 +17,10 @@ public:
     void OnUpdate(TimeStep ts) override;
 
 private:
-    Shader m_Shader{ "Sandbox/assets/shaders/Model.glsl.vert", "Sandbox/assets/shaders/Model.glsl.frag" };
+    Shader m_Shader{
+        { ShaderType::VertexShader, "Sandbox/assets/shaders/Model.glsl.vert" },
+        { ShaderType::FragmentShader, "Sandbox/assets/shaders/Model.glsl.frag" } 
+    };
 
     StereographicCamera m_Camera{ 90.0f, 0.1f, 100.0f, 1600, 900 };
     CameraController m_Controller{ m_Camera };
