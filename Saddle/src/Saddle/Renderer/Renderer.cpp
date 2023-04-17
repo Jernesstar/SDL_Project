@@ -45,12 +45,10 @@ void Renderer::RenderMesh(Mesh* mesh)
         const Mesh::SubMesh& sub_mesh = mesh->m_SubMeshes[i];
         uint32_t material_index = sub_mesh.MaterialIndex;
 
-        if(mesh->m_Materials[material_index].Diffuse)
-            mesh->m_Materials[material_index].Diffuse->Bind(0);
+        mesh->m_Materials[material_index].Bind();
 
         glDrawElementsBaseVertex(GL_TRIANGLES, sub_mesh.IndexCount, GL_UNSIGNED_INT, (void*)(sizeof(uint32_t) * sub_mesh.BaseIndex), sub_mesh.BaseVertex);
     }
 }
-
 
 }

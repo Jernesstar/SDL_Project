@@ -39,6 +39,12 @@ private:
     struct Material {
         std::unique_ptr<Texture2D> Diffuse;
         std::unique_ptr<Texture2D> Specular;
+
+        void Bind()
+        {
+            if(Diffuse) Diffuse->Bind(0);
+            if(Specular) Specular->Bind(1);
+        }
     };
 
     std::string m_Path;
