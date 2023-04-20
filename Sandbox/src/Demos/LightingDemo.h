@@ -36,6 +36,7 @@ private:
     struct Vertex2 {
         glm::vec3 Position;
         glm::vec3 Normal;
+        glm::vec2 TextureCoordinates;
     };
 
     Vertex1 vertices[8] = 
@@ -53,47 +54,47 @@ private:
 
     Vertex2 cube_vertices[6 * 6] =
     {
-        { { -0.5f, -0.5f, -0.5f }, { 0.0f,  0.0f, -1.0f } },
-        { {  0.5f, -0.5f, -0.5f }, { 0.0f,  0.0f, -1.0f } },
-        { {  0.5f,  0.5f, -0.5f }, { 0.0f,  0.0f, -1.0f } },
-        { {  0.5f,  0.5f, -0.5f }, { 0.0f,  0.0f, -1.0f } },
-        { { -0.5f,  0.5f, -0.5f }, { 0.0f,  0.0f, -1.0f } },
-        { { -0.5f, -0.5f, -0.5f }, { 0.0f,  0.0f, -1.0f } },
+        { { -0.5f, -0.5f, -0.5f }, { 0.0f, 0.0f, -1.0f }, { 0.0f, 0.0f } },
+        { {  0.5f, -0.5f, -0.5f }, { 0.0f, 0.0f, -1.0f }, { 1.0f, 0.0f } },
+        { {  0.5f,  0.5f, -0.5f }, { 0.0f, 0.0f, -1.0f }, { 1.0f, 1.0f } },
+        { {  0.5f,  0.5f, -0.5f }, { 0.0f, 0.0f, -1.0f }, { 1.0f, 1.0f } },
+        { { -0.5f,  0.5f, -0.5f }, { 0.0f, 0.0f, -1.0f }, { 0.0f, 1.0f } },
+        { { -0.5f, -0.5f, -0.5f }, { 0.0f, 0.0f, -1.0f }, { 0.0f, 0.0f } },
 
-        { { -0.5f, -0.5f, 0.5f }, { 0.0f, 0.0f, 1.0f } },
-        { {  0.5f, -0.5f, 0.5f }, { 0.0f, 0.0f, 1.0f } },
-        { {  0.5f,  0.5f, 0.5f }, { 0.0f, 0.0f, 1.0f } },
-        { {  0.5f,  0.5f, 0.5f }, { 0.0f, 0.0f, 1.0f } },
-        { { -0.5f,  0.5f, 0.5f }, { 0.0f, 0.0f, 1.0f } },
-        { { -0.5f, -0.5f, 0.5f }, { 0.0f, 0.0f, 1.0f } },
+        { { -0.5f, -0.5f, 0.5f }, { 0.0f, 0.0f, 1.0f }, { 0.0f, 0.0f } },
+        { {  0.5f, -0.5f, 0.5f }, { 0.0f, 0.0f, 1.0f }, { 1.0f, 0.0f } },
+        { {  0.5f,  0.5f, 0.5f }, { 0.0f, 0.0f, 1.0f }, { 1.0f, 1.0f } },
+        { {  0.5f,  0.5f, 0.5f }, { 0.0f, 0.0f, 1.0f }, { 1.0f, 1.0f } },
+        { { -0.5f,  0.5f, 0.5f }, { 0.0f, 0.0f, 1.0f }, { 0.0f, 1.0f } },
+        { { -0.5f, -0.5f, 0.5f }, { 0.0f, 0.0f, 1.0f }, { 0.0f, 0.0f } },
 
-        { { -0.5f,  0.5f,  0.5f }, { -1.0f, 0.0f, 0.0f } },
-        { { -0.5f,  0.5f, -0.5f }, { -1.0f, 0.0f, 0.0f } },
-        { { -0.5f, -0.5f, -0.5f }, { -1.0f, 0.0f, 0.0f } },
-        { { -0.5f, -0.5f, -0.5f }, { -1.0f, 0.0f, 0.0f } },
-        { { -0.5f, -0.5f,  0.5f }, { -1.0f, 0.0f, 0.0f } },
-        { { -0.5f,  0.5f,  0.5f }, { -1.0f, 0.0f, 0.0f } },
+        { { -0.5f,  0.5f,  0.5f }, { -1.0f, 0.0f, 0.0f }, { 1.0f, 0.0f } },
+        { { -0.5f,  0.5f, -0.5f }, { -1.0f, 0.0f, 0.0f }, { 1.0f, 1.0f } },
+        { { -0.5f, -0.5f, -0.5f }, { -1.0f, 0.0f, 0.0f }, { 0.0f, 1.0f } },
+        { { -0.5f, -0.5f, -0.5f }, { -1.0f, 0.0f, 0.0f }, { 0.0f, 1.0f } },
+        { { -0.5f, -0.5f,  0.5f }, { -1.0f, 0.0f, 0.0f }, { 0.0f, 0.0f } },
+        { { -0.5f,  0.5f,  0.5f }, { -1.0f, 0.0f, 0.0f }, { 1.0f, 0.0f } },
 
-        { { 0.5f,  0.5f,  0.5f }, { 1.0f, 0.0f, 0.0f } },
-        { { 0.5f,  0.5f, -0.5f }, { 1.0f, 0.0f, 0.0f } },
-        { { 0.5f, -0.5f, -0.5f }, { 1.0f, 0.0f, 0.0f } },
-        { { 0.5f, -0.5f, -0.5f }, { 1.0f, 0.0f, 0.0f } },
-        { { 0.5f, -0.5f,  0.5f }, { 1.0f, 0.0f, 0.0f } },
-        { { 0.5f,  0.5f,  0.5f }, { 1.0f, 0.0f, 0.0f } },
+        { { 0.5f,  0.5f,  0.5f }, { 1.0f, 0.0f, 0.0f }, { 1.0f, 0.0f } },
+        { { 0.5f,  0.5f, -0.5f }, { 1.0f, 0.0f, 0.0f }, { 1.0f, 1.0f } },
+        { { 0.5f, -0.5f, -0.5f }, { 1.0f, 0.0f, 0.0f }, { 0.0f, 1.0f } },
+        { { 0.5f, -0.5f, -0.5f }, { 1.0f, 0.0f, 0.0f }, { 0.0f, 1.0f } },
+        { { 0.5f, -0.5f,  0.5f }, { 1.0f, 0.0f, 0.0f }, { 0.0f, 0.0f } },
+        { { 0.5f,  0.5f,  0.5f }, { 1.0f, 0.0f, 0.0f }, { 1.0f, 0.0f } },
 
-        { { -0.5f, -0.5f, -0.5f }, { 0.0f, -1.0f, 0.0f } },
-        { {  0.5f, -0.5f, -0.5f }, { 0.0f, -1.0f, 0.0f } },
-        { {  0.5f, -0.5f,  0.5f }, { 0.0f, -1.0f, 0.0f } },
-        { {  0.5f, -0.5f,  0.5f }, { 0.0f, -1.0f, 0.0f } },
-        { { -0.5f, -0.5f,  0.5f }, { 0.0f, -1.0f, 0.0f } },
-        { { -0.5f, -0.5f, -0.5f }, { 0.0f, -1.0f, 0.0f } },
+        { { -0.5f, -0.5f, -0.5f }, { 0.0f, -1.0f, 0.0f }, { 0.0f, 1.0f } },
+        { {  0.5f, -0.5f, -0.5f }, { 0.0f, -1.0f, 0.0f }, { 1.0f, 1.0f } },
+        { {  0.5f, -0.5f,  0.5f }, { 0.0f, -1.0f, 0.0f }, { 1.0f, 0.0f } },
+        { {  0.5f, -0.5f,  0.5f }, { 0.0f, -1.0f, 0.0f }, { 1.0f, 0.0f } },
+        { { -0.5f, -0.5f,  0.5f }, { 0.0f, -1.0f, 0.0f }, { 0.0f, 0.0f } },
+        { { -0.5f, -0.5f, -0.5f }, { 0.0f, -1.0f, 0.0f }, { 0.0f, 1.0f } },
 
-        { { -0.5f,  0.5f, -0.5f }, { 0.0f, 1.0f, 0.0f } },
-        { {  0.5f,  0.5f, -0.5f }, { 0.0f, 1.0f, 0.0f } },
-        { {  0.5f,  0.5f,  0.5f }, { 0.0f, 1.0f, 0.0f } },
-        { {  0.5f,  0.5f,  0.5f }, { 0.0f, 1.0f, 0.0f } },
-        { { -0.5f,  0.5f,  0.5f }, { 0.0f, 1.0f, 0.0f } },
-        { { -0.5f,  0.5f, -0.5f }, { 0.0f, 1.0f, 0.0f } }
+        { { -0.5f,  0.5f, -0.5f }, { 0.0f, 1.0f, 0.0f }, { 0.0f, 1.0f } },
+        { {  0.5f,  0.5f, -0.5f }, { 0.0f, 1.0f, 0.0f }, { 1.0f, 1.0f } },
+        { {  0.5f,  0.5f,  0.5f }, { 0.0f, 1.0f, 0.0f }, { 1.0f, 0.0f } },
+        { {  0.5f,  0.5f,  0.5f }, { 0.0f, 1.0f, 0.0f }, { 1.0f, 0.0f } },
+        { { -0.5f,  0.5f,  0.5f }, { 0.0f, 1.0f, 0.0f }, { 0.0f, 0.0f } },
+        { { -0.5f,  0.5f, -0.5f }, { 0.0f, 1.0f, 0.0f }, { 0.0f, 1.0 } }
     };
 
     uint32_t indices[36] =
@@ -126,6 +127,7 @@ private:
     {
         { "a_Position", BufferDataType::Vec3, true },
         { "a_Normal",   BufferDataType::Vec3, true },
+        { "a_TextureCoordinate",   BufferDataType::Vec2, true },
     };
 
     IndexBuffer* index_buffer = new IndexBuffer(indices);
@@ -145,10 +147,20 @@ private:
         { ShaderType::FragmentShader, "Sandbox/assets/shaders/Lighting.glsl.frag" } 
     };
 
+    Texture2D wood{ "Sandbox/assets/images/wood.png" };
+    Texture2D wood_specular{ "Sandbox/assets/images/wood_specular.png" };
+
     glm::mat4 light_model{ 1.0f };
     glm::mat4 cube_model{ 1.0f };
     glm::vec3 light_pos = { 1.2f, 1.0f, 2.0f }, light_color = { 1.0f, 1.0f, 1.0f };
     glm::vec3 cube_pos = { 0.0f, 0.0f, 0.0f }, cube_color = { 1.0f, 0.5f, 0.31f };
+
+    glm::vec3 light_ambient = { 0.2f, 0.2f, 0.2f };
+    glm::vec3 light_diffuse = { 0.5f, 0.5f, 0.5f };
+    glm::vec3 light_specular = { 1.0f, 1.0f, 1.0f };
+
+    glm::vec3 ambient = { 1.0f, 0.5f, 0.31f }, diffuse = { 1.0f, 0.5f, 0.31f }, specular = { 0.5f, 0.5f, 0.5f };
+    float shininess = 32.0f;
 
     StereographicCamera camera{ 75.0f, 0.01f, 100.0f, 1600, 900 };
     CameraController controller{ camera };
@@ -175,14 +187,18 @@ LightingDemo::LightingDemo()
     light_model = glm::scale(light_model, glm::vec3(0.2f));
 
     cube_shader.Bind();
-    cube_shader.SetUniformVec3("u_LightColor", light_color);
-    cube_shader.SetUniformVec3("u_ObjectColor", cube_color);
-    cube_shader.SetUniformVec3("u_LightPosition", light_pos);
     cube_shader.SetUniformMatrix4("u_Model", cube_model);
+    cube_shader.SetUniformVec3("u_ObjectColor", cube_color);
+    cube_shader.SetUniformVec3("u_Light.Position", light_pos);
+
+    wood.Bind(0);
+    cube_shader.SetUniformInt("u_Material.Diffuse", 0);
+    wood_specular.Bind(1);
+    cube_shader.SetUniformInt("u_Material.Specular", 1);
 
     light_shader.Bind();
-    light_shader.SetUniformVec3("u_LightColor", light_color);
     light_shader.SetUniformMatrix4("u_Model", light_model);
+    light_shader.SetUniformVec3("u_LightColor", light_color);
 
     glDisable(GL_CULL_FACE);
 }
@@ -191,6 +207,23 @@ void LightingDemo::OnUpdate(TimeStep ts)
 {
     controller.OnUpdate(ts);
 
+    ImGui::Begin("Material");
+    {
+        ImGui::ColorEdit3("Material.Ambient",  glm::value_ptr(ambient));
+        ImGui::ColorEdit3("Material.Diffuse",  glm::value_ptr(diffuse));
+        ImGui::ColorEdit3("Material.Specular", glm::value_ptr(specular));
+        ImGui::SliderFloat("Material.Shininess", &shininess, 0.0f, 512.0f);
+    }
+    ImGui::End();
+
+    ImGui::Begin("Light");
+    {
+        ImGui::ColorEdit3("Light.Ambient",  glm::value_ptr(light_ambient));
+        ImGui::ColorEdit3("Light.Diffuse",  glm::value_ptr(light_diffuse));
+        ImGui::ColorEdit3("Light.Specular", glm::value_ptr(light_specular));
+    }
+    ImGui::End();
+
     Renderer::Clear({ 0.f, 0.f, 0.f, 0.f });
 
     light_shader.Bind();
@@ -198,6 +231,15 @@ void LightingDemo::OnUpdate(TimeStep ts)
     Renderer::DrawIndexed(light_array);
 
     cube_shader.Bind();
+    // cube_shader.SetUniformVec3("u_Material.Ambient",  ambient);
+    // cube_shader.SetUniformVec3("u_Material.Diffuse",  diffuse);
+    cube_shader.SetUniformVec3("u_Material.Specular", specular);
+    cube_shader.SetUniformFloat("u_Material.Shininess", shininess);
+
+    cube_shader.SetUniformVec3("u_Light.Ambient",  light_ambient);
+    cube_shader.SetUniformVec3("u_Light.Diffuse",  light_diffuse);
+    cube_shader.SetUniformVec3("u_Light.Specular", light_specular);
+
     cube_shader.SetUniformMatrix4("u_ViewProj", camera.GetViewProjection());
     cube_shader.SetUniformVec3("u_CameraPosition", camera.GetPosition());
     cube_array->Bind();

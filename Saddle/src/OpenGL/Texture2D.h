@@ -24,6 +24,7 @@ public:
     const std::string& GetPath() { return m_Path; }
 
     uint32_t GetSlot() const { return m_Slot; }
+    uint32_t GetID() const { return m_TextureID; }
     uint32_t GetWidth() const { return m_Width; }
     uint32_t GetHeight() const { return m_Height; }
 

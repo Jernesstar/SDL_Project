@@ -128,7 +128,7 @@ void CubeDemo::OnUpdate(TimeStep ts)
         for(uint32_t i = 0; i < 8; i++)
         {
             ImGui::PushID(i);
-            
+
             ImGui::ColorEdit3("Vertex", glm::value_ptr(vertices[i].Color));
             ImGui::SliderFloat3("Vertex", glm::value_ptr(vertices[i].Position), -5.0f, 5.0f);
 

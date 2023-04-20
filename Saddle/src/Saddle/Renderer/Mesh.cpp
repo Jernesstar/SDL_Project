@@ -144,7 +144,6 @@ Texture2D* Mesh::LoadTexture(const aiMaterial* material, const std::string& dir,
     if(material->GetTextureCount(type) == 0)
         return nullptr;
 
-    // Todo: Maybe load all possible textures ?
     aiString path;
     if(material->GetTexture(type, 0, &path) == AI_FAILURE)
         return nullptr;
