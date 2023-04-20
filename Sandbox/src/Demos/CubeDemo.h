@@ -9,7 +9,6 @@
 
 #include <Saddle/Core/Application.h>
 #include <Saddle/ECS/Components.h>
-#include <Saddle/Events/EventSystem.h>
 #include <Saddle/Renderer/Renderer.h>
 #include <Saddle/Renderer/OrthographicCamera.h>
 #include <Saddle/Renderer/StereographicCamera.h>

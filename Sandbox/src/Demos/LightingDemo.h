@@ -1,25 +1,15 @@
 #pragma once
 
-#include <glm/vec3.hpp>
-#include <glm/mat4x4.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
-
 #include <imgui/imgui.h>
 
 #include <Saddle/Core/Application.h>
-#include <Saddle/ECS/Components.h>
-#include <Saddle/Events/EventSystem.h>
 #include <Saddle/Renderer/Renderer.h>
 #include <Saddle/Renderer/OrthographicCamera.h>
 #include <Saddle/Renderer/StereographicCamera.h>
 #include <Saddle/Renderer/CameraController.h>
 
 #include <OpenGL/Shader.h>
-#include <OpenGL/VertexBuffer.h>
-#include <OpenGL/IndexBuffer.h>
-#include <OpenGL/VertexArray.h>
-#include <OpenGL/Texture2D.h>
+#include <OpenGL/UniformBuffer.h>
 
 using namespace Saddle;
 
@@ -94,7 +84,7 @@ private:
         { {  0.5f,  0.5f,  0.5f }, { 0.0f, 1.0f, 0.0f }, { 1.0f, 0.0f } },
         { {  0.5f,  0.5f,  0.5f }, { 0.0f, 1.0f, 0.0f }, { 1.0f, 0.0f } },
         { { -0.5f,  0.5f,  0.5f }, { 0.0f, 1.0f, 0.0f }, { 0.0f, 0.0f } },
-        { { -0.5f,  0.5f, -0.5f }, { 0.0f, 1.0f, 0.0f }, { 0.0f, 1.0 } }
+        { { -0.5f,  0.5f, -0.5f }, { 0.0f, 1.0f, 0.0f }, { 0.0f, 1.0f } }
     };
 
     uint32_t indices[36] =
@@ -120,15 +110,25 @@ private:
 
     BufferLayout l1 =
     {
-        { "a_Position", BufferDataType::Vec3, true },
+        { "a_Position", BufferDataType::Vec3 },
     };
 
     BufferLayout l2 =
     {
-        { "a_Position", BufferDataType::Vec3, true },
-        { "a_Normal",   BufferDataType::Vec3, true },
-        { "a_TextureCoordinate",   BufferDataType::Vec2, true },
+        { "a_Position", BufferDataType::Vec3 },
+        { "a_Normal",   BufferDataType::Vec3 },
+        { "a_TextureCoordinate",   BufferDataType::Vec2 },
     };
+
+    BufferLayout l3 =
+    {
+        { "Position", BufferDataType::Vec3 },
+        { "Ambient",  BufferDataType::Vec3 },
+        { "Diffuse",  BufferDataType::Vec3 },
+        { "Specular", BufferDataType::Vec3 },
+    };
+
+    UniformBuffer uniform_buffer{ l3, 1 };
 
     IndexBuffer* index_buffer = new IndexBuffer(indices);
 
@@ -152,14 +152,13 @@ private:
 
     glm::mat4 light_model{ 1.0f };
     glm::mat4 cube_model{ 1.0f };
-    glm::vec3 light_pos = { 1.2f, 1.0f, 2.0f }, light_color = { 1.0f, 1.0f, 1.0f };
-    glm::vec3 cube_pos = { 0.0f, 0.0f, 0.0f }, cube_color = { 1.0f, 0.5f, 0.31f };
+    glm::vec3 light_position = { 1.2f, 1.0f, 2.0f }, light_color = { 1.0f, 1.0f, 1.0f };
+    glm::vec3 cube_position = { 0.0f, 0.0f, 0.0f };
 
     glm::vec3 light_ambient = { 0.2f, 0.2f, 0.2f };
     glm::vec3 light_diffuse = { 0.5f, 0.5f, 0.5f };
     glm::vec3 light_specular = { 1.0f, 1.0f, 1.0f };
 
-    glm::vec3 ambient = { 1.0f, 0.5f, 0.31f }, diffuse = { 1.0f, 0.5f, 0.31f }, specular = { 0.5f, 0.5f, 0.5f };
     float shininess = 32.0f;
 
     StereographicCamera camera{ 75.0f, 0.01f, 100.0f, 1600, 900 };
@@ -183,17 +182,15 @@ LightingDemo::LightingDemo()
     camera.SetPosition({ 0.0f, 0.0f, 4.0f });
     controller.RotationSpeed = 1.0f;
 
-    light_model = glm::translate(light_model, light_pos);
+    light_model = glm::translate(light_model, light_position);
     light_model = glm::scale(light_model, glm::vec3(0.2f));
 
     cube_shader.Bind();
     cube_shader.SetUniformMatrix4("u_Model", cube_model);
-    cube_shader.SetUniformVec3("u_ObjectColor", cube_color);
-    cube_shader.SetUniformVec3("u_Light.Position", light_pos);
 
     wood.Bind(0);
-    cube_shader.SetUniformInt("u_Material.Diffuse", 0);
     wood_specular.Bind(1);
+    cube_shader.SetUniformInt("u_Material.Diffuse", 0);
     cube_shader.SetUniformInt("u_Material.Specular", 1);
 
     light_shader.Bind();
@@ -207,17 +204,17 @@ void LightingDemo::OnUpdate(TimeStep ts)
 {
     controller.OnUpdate(ts);
 
+    glm::vec3 pos = light_position;
+
     ImGui::Begin("Material");
     {
-        ImGui::ColorEdit3("Material.Ambient",  glm::value_ptr(ambient));
-        ImGui::ColorEdit3("Material.Diffuse",  glm::value_ptr(diffuse));
-        ImGui::ColorEdit3("Material.Specular", glm::value_ptr(specular));
         ImGui::SliderFloat("Material.Shininess", &shininess, 0.0f, 512.0f);
     }
     ImGui::End();
 
     ImGui::Begin("Light");
     {
+        ImGui::ColorEdit3("Light.Position", glm::value_ptr(pos));
         ImGui::ColorEdit3("Light.Ambient",  glm::value_ptr(light_ambient));
         ImGui::ColorEdit3("Light.Diffuse",  glm::value_ptr(light_diffuse));
         ImGui::ColorEdit3("Light.Specular", glm::value_ptr(light_specular));
@@ -228,17 +225,23 @@ void LightingDemo::OnUpdate(TimeStep ts)
 
     light_shader.Bind();
     light_shader.SetUniformMatrix4("u_ViewProj", camera.GetViewProjection());
+
+    if(light_position != pos)
+    {
+        light_position = pos;
+        light_model = glm::translate(light_model, light_position);
+        light_shader.SetUniformMatrix4("u_Model", light_model);
+        uniform_buffer.SetData("Position", &light_position);
+    }
+
     Renderer::DrawIndexed(light_array);
 
     cube_shader.Bind();
-    // cube_shader.SetUniformVec3("u_Material.Ambient",  ambient);
-    // cube_shader.SetUniformVec3("u_Material.Diffuse",  diffuse);
-    cube_shader.SetUniformVec3("u_Material.Specular", specular);
     cube_shader.SetUniformFloat("u_Material.Shininess", shininess);
 
-    cube_shader.SetUniformVec3("u_Light.Ambient",  light_ambient);
-    cube_shader.SetUniformVec3("u_Light.Diffuse",  light_diffuse);
-    cube_shader.SetUniformVec3("u_Light.Specular", light_specular);
+    uniform_buffer.SetData("Ambient",  &light_ambient);
+    uniform_buffer.SetData("Diffuse",  &light_diffuse);
+    uniform_buffer.SetData("Specular", &light_specular);
 
     cube_shader.SetUniformMatrix4("u_ViewProj", camera.GetViewProjection());
     cube_shader.SetUniformVec3("u_CameraPosition", camera.GetPosition());

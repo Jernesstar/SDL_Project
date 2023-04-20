@@ -3,14 +3,11 @@
 #include <ft2build.h>
 #include <freetype/freetype.h>
 
-#include <glm/vec3.hpp>
-
 #include <Saddle/Core/Application.h>
 #include <Saddle/Renderer/Renderer2D.h>
 #include <Saddle/Renderer/OrthographicCamera.h>
 #include <Saddle/Renderer/StereographicCamera.h>
 #include <Saddle/Renderer/CameraController.h>
-#include <Saddle/ECS/Components.h>
 #include <Saddle/Text/Font.h>
 #include <Saddle/Text/Text.h>
 

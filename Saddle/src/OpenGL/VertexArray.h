@@ -12,7 +12,7 @@ class VertexArray {
 public:
     VertexArray();
     VertexArray(VertexBuffer* vertex_buffer, IndexBuffer* index_buffer);
-    VertexArray(std::initializer_list<VertexBuffer*> vertex_buffersy, IndexBuffer* index_buffer);
+    VertexArray(std::initializer_list<VertexBuffer*> vertex_buffers, IndexBuffer* index_buffer);
     ~VertexArray();
 
     void Bind() const;
