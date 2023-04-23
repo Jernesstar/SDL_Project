@@ -86,8 +86,8 @@ void Renderer2D::Init()
 
     s_Data.QuadShader = new Shader(
     { 
-        { ShaderType::VertexShader, "Saddle/assets/shaders/Quad.glsl.vert" },
-        { ShaderType::FragmentShader, "Saddle/assets/shaders/Quad.glsl.frag" }
+        { ShaderType::Vertex, "Saddle/assets/shaders/Quad.glsl.vert" },
+        { ShaderType::Fragment, "Saddle/assets/shaders/Quad.glsl.frag" }
     });
 }
 

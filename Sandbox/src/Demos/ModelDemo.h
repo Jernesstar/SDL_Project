@@ -66,12 +66,12 @@ private:
     VertexArray* light_array = new VertexArray(light_buffer, index_buffer);
 
     Shader m_Shader{
-        { ShaderType::VertexShader, "Sandbox/assets/shaders/Model.glsl.vert" },
-        { ShaderType::FragmentShader, "Sandbox/assets/shaders/Model.glsl.frag" } 
+        { ShaderType::Vertex, "Sandbox/assets/shaders/Model.glsl.vert" },
+        { ShaderType::Fragment, "Sandbox/assets/shaders/Model.glsl.frag" } 
     };
     Shader light_shader{
-        { ShaderType::VertexShader, "Sandbox/assets/shaders/Light.glsl.vert" },
-        { ShaderType::FragmentShader, "Sandbox/assets/shaders/Light.glsl.frag" } 
+        { ShaderType::Vertex, "Sandbox/assets/shaders/Light.glsl.vert" },
+        { ShaderType::Fragment, "Sandbox/assets/shaders/Light.glsl.frag" } 
     };
 
     glm::vec3 light_pos = { 1.2f, 1.0f, 2.0f }, light_color = { 1.0f, 1.0f, 1.0f };

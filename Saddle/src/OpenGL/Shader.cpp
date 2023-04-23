@@ -9,10 +9,25 @@
 
 namespace Saddle {
 
+Shader::ShaderFile FindShaderFile(const std::string& path);
+uint32_t CreateProgram(const std::vector<Shader::ShaderFile>& shader_files);
+
+Shader::Shader(const std::vector<std::string>& paths)
+{
+    m_ShaderFiles.reserve(paths.size());
+    for(const auto& path : paths)
+    {
+        ShaderFile file = FindShaderFile(path);
+        m_ShaderFiles.push_back(file);
+    }
+
+    m_ProgramID = CreateProgram(m_ShaderFiles);
+}
+
 Shader::Shader(const std::initializer_list<ShaderFile>& files)
     : m_ShaderFiles(files)
 {
-    CreateProgram();
+    m_ProgramID = CreateProgram(m_ShaderFiles);
 }
 
 Shader::~Shader() { glDeleteProgram(m_ProgramID); }
@@ -68,15 +83,27 @@ void Shader::SetUniformMatrix4(const std::string& name, const glm::mat4& matrix)
     glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
 }
 
-uint32_t Shader::CreateShader(const ShaderFile& file)
+uint32_t GetShaderType(ShaderType type)
 {
-    uint32_t type;
-    if(file.Type == ShaderType::VertexShader)
-        type = GL_VERTEX_SHADER;
-    if(file.Type == ShaderType::FragmentShader)
-        type = GL_FRAGMENT_SHADER;
-    if(file.Type == ShaderType::ComputeShader)
-        type = GL_COMPUTE_SHADER;
+    switch(type)
+    {
+        case ShaderType::Vertex:   return GL_VERTEX_SHADER;
+        case ShaderType::Fragment: return GL_FRAGMENT_SHADER;
+        case ShaderType::Compute:  return GL_COMPUTE_SHADER;
+        case ShaderType::Geometry: return GL_GEOMETRY_SHADER;
+    }
+
+    return 0;
+}
+
+Shader::ShaderFile FindShaderFile(const std::string& path)
+{
+
+}
+
+uint32_t CreateShader(const Shader::ShaderFile& file)
+{
+    uint32_t type = GetShaderType(file.Type);
 
     uint32_t shader_id = glCreateShader(type);
 
@@ -101,44 +128,44 @@ uint32_t Shader::CreateShader(const ShaderFile& file)
     return shader_id;
 }
 
-void Shader::CreateProgram()
+uint32_t CreateProgram(const std::vector<Shader::ShaderFile>& shader_files)
 {
-    uint32_t program = glCreateProgram();
-    std::vector<uint32_t> shader_ids(m_ShaderFiles.size());
+    uint32_t program_id = glCreateProgram();
+    std::vector<uint32_t> shader_ids(shader_files.size());
 
-    for(const auto& shader : m_ShaderFiles)
+    for(const auto& shader : shader_files)
     {
         uint32_t shader_id = CreateShader(shader);
-        glAttachShader(program, shader_id);
+        glAttachShader(program_id, shader_id);
         shader_ids.push_back(shader_id);
     }
 
-    glLinkProgram(program);
+    glLinkProgram(program_id);
 
     int result;
-    glGetProgramiv(program, GL_LINK_STATUS, &result);
+    glGetProgramiv(program_id, GL_LINK_STATUS, &result);
 
     if(result == GL_FALSE)
     {
         GLint length;
-        glGetProgramiv(program, GL_INFO_LOG_LENGTH, &length);
+        glGetProgramiv(program_id, GL_INFO_LOG_LENGTH, &length);
 
         char* message = (char*)alloca(length * sizeof(char));
-        glGetProgramInfoLog(program, length, &length, message);
+        glGetProgramInfoLog(program_id, length, &length, message);
 
         SADDLE_CORE_ASSERT_ARGS(false, "An error occured while linking %s: \n%s", message);
 
-        glDeleteProgram(program);
-        return;
+        glDeleteProgram(program_id);
+        return 0;
     }
 
-    for(const auto& shader_id : shader_ids)
+    for(auto& shader_id : shader_ids)
     {
-        glDetachShader(program, shader_id);
+        glDetachShader(program_id, shader_id);
         glDeleteShader(shader_id);
     }
 
-    m_ProgramID = program;
+    return program_id;
 }
 
 }

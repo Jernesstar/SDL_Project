@@ -13,7 +13,7 @@
 
 namespace Saddle {
 
-enum class ShaderType { VertexShader, FragmentShader, ComputeShader };
+enum class ShaderType { Vertex, Fragment, Compute, Geometry };
 
 class Shader {
 public:
@@ -23,6 +23,7 @@ public:
     };
 
 public:
+    Shader(const std::vector<std::string>& paths);
     Shader(const std::initializer_list<ShaderFile>& files);
     ~Shader();
 
@@ -40,15 +41,11 @@ public:
     void SetUniformMatrix3(const std::string& name, const glm::mat3& matrix);
     void SetUniformMatrix4(const std::string& name, const glm::mat4& matrix);
 
-    operator uint32_t() const { return m_ProgramID; } 
+    const std::vector<ShaderFile>& GetShaderFiles() const { return m_ShaderFiles; }
 
 private:
     uint32_t m_ProgramID;
     std::vector<ShaderFile> m_ShaderFiles;
-
-private:
-    uint32_t CreateShader(const ShaderFile& file);
-    void CreateProgram();
 };
 
 }

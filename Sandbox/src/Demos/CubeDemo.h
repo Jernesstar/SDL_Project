@@ -79,8 +79,8 @@ private:
     VertexArray* vertex_array = new VertexArray(vertex_buffer, index_buffer);
 
     Shader shader{
-        { ShaderType::VertexShader, "Sandbox/assets/shaders/Cube.glsl.vert" },
-        { ShaderType::FragmentShader, "Sandbox/assets/shaders/Cube.glsl.frag" } 
+        { ShaderType::Vertex, "Sandbox/assets/shaders/Cube.glsl.vert" },
+        { ShaderType::Fragment, "Sandbox/assets/shaders/Cube.glsl.frag" } 
     };
 
     glm::vec2 vec{ Window.GetFrameBufferSize() };
