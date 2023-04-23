@@ -13,13 +13,13 @@
 
 namespace Saddle {
 
-enum class ShaderType { Vertex, Fragment, Compute, Geometry };
+enum class ShaderType { Vertex, Fragment, Geometry, Compute, Unknown };
 
 class Shader {
 public:
     struct ShaderFile {
-        const ShaderType Type;
         const std::string Path;
+        const ShaderType Type;
     };
 
 public:
@@ -30,22 +30,19 @@ public:
     void Bind() const;
     void Unbind() const;
 
-    void SetUniformInt(const std::string& name, int _int);
-    void SetUniformFloat(const std::string& name, float _float);
+    void SetInt(const std::string& name, int _int);
+    void SetFloat(const std::string& name, float _float);
 
-    void SetUniformVec2(const std::string& name, const glm::vec2& vec);
-    void SetUniformVec3(const std::string& name, const glm::vec3& vec);
-    void SetUniformVec4(const std::string& name, const glm::vec4& vec);
+    void SetVec2(const std::string& name, const glm::vec2& vec);
+    void SetVec3(const std::string& name, const glm::vec3& vec);
+    void SetVec4(const std::string& name, const glm::vec4& vec);
 
-    void SetUniformMatrix2(const std::string& name, const glm::mat2& matrix);
-    void SetUniformMatrix3(const std::string& name, const glm::mat3& matrix);
-    void SetUniformMatrix4(const std::string& name, const glm::mat4& matrix);
-
-    const std::vector<ShaderFile>& GetShaderFiles() const { return m_ShaderFiles; }
+    void SetMat2(const std::string& name, const glm::mat2& mat);
+    void SetMat3(const std::string& name, const glm::mat3& mat);
+    void SetMat4(const std::string& name, const glm::mat4& mat);
 
 private:
     uint32_t m_ProgramID;
-    std::vector<ShaderFile> m_ShaderFiles;
 };
 
 }

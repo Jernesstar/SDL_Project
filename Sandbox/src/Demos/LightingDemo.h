@@ -144,12 +144,12 @@ private:
     VertexArray* cube_array = new VertexArray(cube_buffer, nullptr);
 
     Shader light_shader{
-        { ShaderType::Vertex, "Sandbox/assets/shaders/Light.glsl.vert" },
-        { ShaderType::Fragment, "Sandbox/assets/shaders/Light.glsl.frag" } 
+        { "Sandbox/assets/shaders/Light.glsl.vert", ShaderType::Vertex },
+        { "Sandbox/assets/shaders/Light.glsl.frag", ShaderType::Fragment } 
     };
     Shader cube_shader{
-        { ShaderType::Vertex, "Sandbox/assets/shaders/Lighting.glsl.vert" },
-        { ShaderType::Fragment, "Sandbox/assets/shaders/Lighting.glsl.frag" } 
+        { "Sandbox/assets/shaders/Lighting.glsl.vert", ShaderType::Vertex },
+        { "Sandbox/assets/shaders/Lighting.glsl.frag", ShaderType::Fragment } 
     };
 
     Texture2D wood{ "Sandbox/assets/images/wood.png" };
@@ -193,14 +193,14 @@ LightingDemo::LightingDemo()
     light_model = glm::scale(light_model, glm::vec3(0.2f));
     
     light_shader.Bind();
-    light_shader.SetUniformMatrix4("u_Model", light_model);
-    light_shader.SetUniformVec3("u_LightColor", { 1.0f, 1.0f, 1.0f });
+    light_shader.SetMat4("u_Model", light_model);
+    light_shader.SetVec3("u_LightColor", { 1.0f, 1.0f, 1.0f });
 
     cube_shader.Bind();
-    cube_shader.SetUniformMatrix4("u_Model", cube_model);
-    cube_shader.SetUniformVec3("u_Light.Position", light.Position);
-    cube_shader.SetUniformInt("u_Material.Diffuse", 0);
-    cube_shader.SetUniformInt("u_Material.Specular", 1);
+    cube_shader.SetMat4("u_Model", cube_model);
+    cube_shader.SetVec3("u_Light.Position", light.Position);
+    cube_shader.SetInt("u_Material.Diffuse", 0);
+    cube_shader.SetInt("u_Material.Specular", 1);
     wood.Bind(0);
     wood_specular.Bind(1);
 
@@ -228,17 +228,17 @@ void LightingDemo::OnUpdate(TimeStep ts)
     Renderer::Clear({ 0.0f, 0.0f, 0.0f, 0.0f });
 
     light_shader.Bind();
-    light_shader.SetUniformMatrix4("u_ViewProj", camera.GetViewProjection());
+    light_shader.SetMat4("u_ViewProj", camera.GetViewProjection());
     Renderer::DrawIndexed(light_array);
 
     cube_shader.Bind();
-    cube_shader.SetUniformFloat("u_Material.Shininess", shininess);
-    cube_shader.SetUniformVec3("u_CameraPosition", camera.GetPosition());
-    cube_shader.SetUniformMatrix4("u_ViewProj", camera.GetViewProjection());
+    cube_shader.SetFloat("u_Material.Shininess", shininess);
+    cube_shader.SetVec3("u_CameraPosition", camera.GetPosition());
+    cube_shader.SetMat4("u_ViewProj", camera.GetViewProjection());
 
-    cube_shader.SetUniformVec3("u_Light.Ambient", light.Ambient);
-    cube_shader.SetUniformVec3("u_Light.Diffuse", light.Diffuse);
-    cube_shader.SetUniformVec3("u_Light.Specular", light.Specular);
+    cube_shader.SetVec3("u_Light.Ambient", light.Ambient);
+    cube_shader.SetVec3("u_Light.Diffuse", light.Diffuse);
+    cube_shader.SetVec3("u_Light.Specular", light.Specular);
 
     cube_array->Bind();
     glDrawArrays(GL_TRIANGLES, 0, 36);

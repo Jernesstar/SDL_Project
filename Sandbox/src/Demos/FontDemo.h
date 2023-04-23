@@ -25,9 +25,8 @@ private:
     Text text1{ "This is not a piece of sample text", font1, glm::vec4(0.6f, 0.7f, 0.8f, 1.0f) };
     Text text2{ "Jersey, cool name", font2, glm::vec4(0.6f, 0.7f, 0.8f, 1.0f) };
 
-    OrthographicCamera camera{ 0.0, 1600.0f, 0.0f, 900.0f };
-    StereographicCamera camera2{ 90.0f, 0.0f, 1.0f, 1600, 900 };
-    CameraController controller{ camera2 };
+    StereographicCamera camera{ 90.0f, 0.1f, 1000.0f, 1600, 900 };
+    CameraController controller{ camera };
 };
 
 FontDemo::FontDemo()
@@ -39,7 +38,7 @@ FontDemo::FontDemo()
             Application::Close();
     });
 
-    camera2.SetPosition({ 0.0f, 0.0f, 500.0f });
+    camera.SetPosition({ 0.0f, 0.0f, 100.0f });
     controller.TranslationSpeed = 0.5f;
 }
 
@@ -48,11 +47,12 @@ void FontDemo::OnUpdate(TimeStep ts)
     controller.OnUpdate(ts);
 
     Renderer::Clear({ });
-    Renderer2D::BeginScene(camera2);
-    {
-        Renderer2D::DrawQuad(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), glm::vec3(200.0f, 300.0f, 0.0f), glm::vec2(50.0f, 50.0f));
-        Renderer2D::DrawText(text1, glm::vec3(500.0f, 400.0f, 0.0f));
-        Renderer2D::DrawText(text2, glm::vec3(500.0f, 300.0f, 0.0f));
-    }
+    Renderer2D::BeginScene(camera);
+
+    Renderer2D::DrawQuad(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec2(100.0f, 100.0f));
+
+    Renderer2D::DrawText(text1, glm::vec3(500.0f, 400.0f, 0.0f));
+    Renderer2D::DrawText(text2, glm::vec3(500.0f, 300.0f, 0.0f));
+
     Renderer2D::EndScene();
 }

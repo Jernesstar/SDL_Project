@@ -65,14 +65,8 @@ private:
     VertexBuffer* light_buffer = new VertexBuffer(vertices, l1);
     VertexArray* light_array = new VertexArray(light_buffer, index_buffer);
 
-    Shader m_Shader{
-        { ShaderType::Vertex, "Sandbox/assets/shaders/Model.glsl.vert" },
-        { ShaderType::Fragment, "Sandbox/assets/shaders/Model.glsl.frag" } 
-    };
-    Shader light_shader{
-        { ShaderType::Vertex, "Sandbox/assets/shaders/Light.glsl.vert" },
-        { ShaderType::Fragment, "Sandbox/assets/shaders/Light.glsl.frag" } 
-    };
+    Shader m_Shader{ { "Sandbox/assets/shaders/Model.glsl.vert", "Sandbox/assets/shaders/Model.glsl.frag" } };
+    Shader light_shader{ { "Sandbox/assets/shaders/Light.glsl.frag", "Sandbox/assets/shaders/Light.glsl.vert" } };
 
     glm::vec3 light_pos = { 1.2f, 1.0f, 2.0f }, light_color = { 1.0f, 1.0f, 1.0f };
     glm::mat4 light_model{ 1.0f };
@@ -100,16 +94,16 @@ ModelDemo::ModelDemo()
     light_model = glm::translate(light_model, light_pos);
     light_model = glm::scale(light_model, glm::vec3(0.2f));
 
-    m_Camera.SetPosition({ 0.0f, 0.0f, 0.0f });
+    m_Camera.SetPosition({ 0.0f, 0.0f, 5.0f });
 
     m_Shader.Bind();
-    m_Shader.SetUniformMatrix4("u_Model", glm::mat4(1.0f));
-    m_Shader.SetUniformVec3("u_LightPosition", light_pos);
-    m_Shader.SetUniformVec3("u_LightColor", light_color);
+    m_Shader.SetMat4("u_Model", glm::mat4(1.0f));
+    m_Shader.SetVec3("u_LightPosition", light_pos);
+    m_Shader.SetVec3("u_LightColor", light_color);
 
     light_shader.Bind();
-    light_shader.SetUniformVec3("u_LightColor", light_color);
-    light_shader.SetUniformMatrix4("u_Model", light_model);
+    light_shader.SetVec3("u_LightColor", light_color);
+    light_shader.SetMat4("u_Model", light_model);
 
     m_Mesh = new Mesh();
     m_Mesh->LoadMesh("Sandbox/assets/models/backpack/backpack.obj");
@@ -122,11 +116,11 @@ void ModelDemo::OnUpdate(TimeStep ts)
     m_Controller.OnUpdate(ts);
 
     light_shader.Bind();
-    light_shader.SetUniformMatrix4("u_ViewProj", m_Camera.GetViewProjection());
+    light_shader.SetMat4("u_ViewProj", m_Camera.GetViewProjection());
     Renderer::DrawIndexed(light_array);
 
     m_Shader.Bind();
-    m_Shader.SetUniformMatrix4("u_ViewProj", m_Camera.GetViewProjection());
-    m_Shader.SetUniformVec3("u_CameraPosition", m_Camera.GetPosition());
+    m_Shader.SetMat4("u_ViewProj", m_Camera.GetViewProjection());
+    m_Shader.SetVec3("u_CameraPosition", m_Camera.GetPosition());
     Renderer::RenderMesh(m_Mesh);
 }

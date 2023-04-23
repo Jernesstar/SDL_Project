@@ -11,19 +11,18 @@ void Text::SetText(const std::string& text, const Font& font)
     {
         const Font::Character& ch = font.GetCharacter(*c);
 
-        float xpos = x + ch.Bearing.x;
-        float ypos = y - (ch.Size.y - ch.Bearing.y);
-
         float w = ch.Size.x;
         float h = ch.Size.y;
 
-        // Todo: Fix this
+        float xpos = x + ch.Bearing.x + 0.5f * w;
+        float ypos = y - (ch.Size.y - ch.Bearing.y) + 0.5f * h;
+
         CharacterQuad quad;
         quad.Character = ch;
-        quad.Vertices[0] = { xpos,     ypos,    };
-        quad.Vertices[1] = { xpos + w, ypos,    };
-        quad.Vertices[2] = { xpos,     ypos + h };
-        quad.Vertices[3] = { xpos + w, ypos + h };
+        quad.Vertices[0] = { xpos - 0.5f * w, ypos - 0.5f * h };
+        quad.Vertices[1] = { xpos + 0.5f * w, ypos - 0.5f * h };
+        quad.Vertices[2] = { xpos + 0.5f * w, ypos + 0.5f * h };
+        quad.Vertices[3] = { xpos - 0.5f * w, ypos + 0.5f * h };
 
         m_Quads.push_back(quad);
         x += (ch.Advance >> 6);

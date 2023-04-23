@@ -101,7 +101,7 @@ void Window::InitImGui()
     ImGuiIO& io = ImGui::GetIO();
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableSetMousePos;
-    io.DisplaySize = ImVec2{ 1600, 900 };
+    io.DisplaySize = ImVec2{ m_Specs.Width, m_Specs.Height };
 
     EventSystem::RegisterEventListener<MouseButtonPressedEvent>(
     [](MouseButtonPressedEvent& event)
