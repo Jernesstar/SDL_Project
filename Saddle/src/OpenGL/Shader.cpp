@@ -153,7 +153,7 @@ uint32_t CreateProgram(const std::vector<Shader::ShaderFile>& shader_files)
         char* message = (char*)alloca(length * sizeof(char));
         glGetProgramInfoLog(program_id, length, &length, message);
 
-        SADDLE_CORE_ASSERT_ARGS(false, "An error occured while linking %s: \n%s", message);
+        SADDLE_CORE_ASSERT_ARGS(false, "An linking error has occured: \n%s", message);
 
         glDeleteProgram(program_id);
         return 0;
