@@ -95,13 +95,13 @@ void Window::InitImGui()
     ImGui::CreateContext();
     ImGui::StyleColorsDark();
 
-    ImGui_ImplGlfw_InitForOpenGL(m_Window, true);
+    ImGui_ImplGlfw_InitForOpenGL(m_Window, false);
     ImGui_ImplOpenGL3_Init("#version 450");
 
     ImGuiIO& io = ImGui::GetIO();
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableSetMousePos;
-    io.DisplaySize = ImVec2{ m_Specs.Width, m_Specs.Height };
+    io.DisplaySize = ImVec2{ (float)m_Specs.Width, (float)m_Specs.Height };
 
     EventSystem::RegisterEventListener<MouseButtonPressedEvent>(
     [](MouseButtonPressedEvent& event)

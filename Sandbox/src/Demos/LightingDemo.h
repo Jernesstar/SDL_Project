@@ -160,8 +160,21 @@ private:
     glm::vec3 cube_position = { 0.0f, 0.0f, 0.0f };
 
     Light light;
-
     float shininess = 32.0f;
+
+    glm::mat4 cube_positions[10] =
+    {
+        glm::rotate(glm::translate(glm::mat4(1.0f), {  0.0f,  0.0f,  0.0f }), glm::radians(20.0f * 0.0f), { 1.0f, 0.3f, 0.5f }),
+        glm::rotate(glm::translate(glm::mat4(1.0f), {  2.0f,  5.0f, -9.0f }), glm::radians(20.0f * 1.0f), { 1.0f, 0.3f, 0.5f }),
+        glm::rotate(glm::translate(glm::mat4(1.0f), { -1.5f, -2.2f, -2.5f }), glm::radians(20.0f * 2.0f), { 1.0f, 0.3f, 0.5f }),
+        glm::rotate(glm::translate(glm::mat4(1.0f), { -3.8f, -2.0f, -9.3f }), glm::radians(20.0f * 3.0f), { 1.0f, 0.3f, 0.5f }),
+        glm::rotate(glm::translate(glm::mat4(1.0f), {  2.4f, -0.4f, -3.5f }), glm::radians(20.0f * 4.0f), { 1.0f, 0.3f, 0.5f }),
+        glm::rotate(glm::translate(glm::mat4(1.0f), { -1.7f,  3.0f, -7.5f }), glm::radians(20.0f * 5.0f), { 1.0f, 0.3f, 0.5f }),
+        glm::rotate(glm::translate(glm::mat4(1.0f), {  1.3f, -2.0f, -2.5f }), glm::radians(20.0f * 6.0f), { 1.0f, 0.3f, 0.5f }),
+        glm::rotate(glm::translate(glm::mat4(1.0f), {  1.5f,  2.0f, -2.5f }), glm::radians(20.0f * 7.0f), { 1.0f, 0.3f, 0.5f }),
+        glm::rotate(glm::translate(glm::mat4(1.0f), {  1.5f,  0.2f, -1.5f }), glm::radians(20.0f * 8.0f), { 1.0f, 0.3f, 0.5f }),
+        glm::rotate(glm::translate(glm::mat4(1.0f), { -1.3f,  1.0f, -1.5f }), glm::radians(20.0f * 9.0f), { 1.0f, 0.3f, 0.5f }),
+    };
 
     StereographicCamera camera{ 75.0f, 0.01f, 100.0f, 1600, 900 };
     CameraController controller{ camera };
@@ -191,7 +204,7 @@ LightingDemo::LightingDemo()
 
     light_model = glm::translate(light_model, light.Position);
     light_model = glm::scale(light_model, glm::vec3(0.2f));
-    
+
     light_shader.Bind();
     light_shader.SetMat4("u_Model", light_model);
     light_shader.SetVec3("u_LightColor", { 1.0f, 1.0f, 1.0f });
@@ -241,5 +254,9 @@ void LightingDemo::OnUpdate(TimeStep ts)
     cube_shader.SetVec3("u_Light.Specular", light.Specular);
 
     cube_array->Bind();
-    glDrawArrays(GL_TRIANGLES, 0, 36);
+    for(uint32_t i = 0; i < 10; i++)
+    {
+        cube_shader.SetMat4("u_Model", cube_positions[i]);
+        glDrawArrays(GL_TRIANGLES, 0, 36);
+    }
 }
