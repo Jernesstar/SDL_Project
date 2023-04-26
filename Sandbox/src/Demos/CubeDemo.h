@@ -78,10 +78,7 @@ private:
     IndexBuffer* index_buffer = new IndexBuffer(indices);
     VertexArray* vertex_array = new VertexArray(vertex_buffer, index_buffer);
 
-    Shader shader{
-        { ShaderType::Vertex, "Sandbox/assets/shaders/Cube.glsl.vert" },
-        { ShaderType::Fragment, "Sandbox/assets/shaders/Cube.glsl.frag" } 
-    };
+    Shader shader{ { "Sandbox/assets/shaders/Cube.glsl.frag", "Sandbox/assets/shaders/Cube.glsl.vert" } };
 
     glm::vec2 vec{ Window.GetFrameBufferSize() };
     float ratio{ vec.x / vec.y };
@@ -142,8 +139,8 @@ void CubeDemo::OnUpdate(TimeStep ts)
     // model *= transform.GetTransform();
     controller.OnUpdate(ts);
 
-    shader.SetUniformMatrix4("u_Model", model);
-    shader.SetUniformMatrix4("u_ViewProj", camera2.GetViewProjection());
+    shader.SetMat4("u_Model", model);
+    shader.SetMat4("u_ViewProj", camera2.GetViewProjection());
 
     Renderer::Clear({ 0.f, 0.f, 0.f, 0.f });
     Renderer::DrawIndexed(vertex_array);

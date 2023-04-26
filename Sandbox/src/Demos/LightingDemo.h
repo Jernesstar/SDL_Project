@@ -144,12 +144,12 @@ private:
     VertexArray* cube_array = new VertexArray(cube_buffer, nullptr);
 
     Shader light_shader{
-        { ShaderType::Vertex, "Sandbox/assets/shaders/Light.glsl.vert" },
-        { ShaderType::Fragment, "Sandbox/assets/shaders/Light.glsl.frag" } 
+        { "Sandbox/assets/shaders/Light.glsl.vert", ShaderType::Vertex },
+        { "Sandbox/assets/shaders/Light.glsl.frag", ShaderType::Fragment } 
     };
     Shader cube_shader{
-        { ShaderType::Vertex, "Sandbox/assets/shaders/Lighting.glsl.vert" },
-        { ShaderType::Fragment, "Sandbox/assets/shaders/Lighting.glsl.frag" } 
+        { "Sandbox/assets/shaders/Lighting.glsl.vert", ShaderType::Vertex },
+        { "Sandbox/assets/shaders/Lighting.glsl.frag", ShaderType::Fragment } 
     };
 
     Texture2D wood{ "Sandbox/assets/images/wood.png" };
@@ -160,8 +160,21 @@ private:
     glm::vec3 cube_position = { 0.0f, 0.0f, 0.0f };
 
     Light light;
-
     float shininess = 32.0f;
+
+    glm::mat4 cube_positions[10] =
+    {
+        glm::rotate(glm::translate(glm::mat4(1.0f), {  0.0f,  0.0f,  0.0f }), glm::radians(20.0f * 0.0f), { 1.0f, 0.3f, 0.5f }),
+        glm::rotate(glm::translate(glm::mat4(1.0f), {  2.0f,  5.0f, -9.0f }), glm::radians(20.0f * 1.0f), { 1.0f, 0.3f, 0.5f }),
+        glm::rotate(glm::translate(glm::mat4(1.0f), { -1.5f, -2.2f, -2.5f }), glm::radians(20.0f * 2.0f), { 1.0f, 0.3f, 0.5f }),
+        glm::rotate(glm::translate(glm::mat4(1.0f), { -3.8f, -2.0f, -9.3f }), glm::radians(20.0f * 3.0f), { 1.0f, 0.3f, 0.5f }),
+        glm::rotate(glm::translate(glm::mat4(1.0f), {  2.4f, -0.4f, -3.5f }), glm::radians(20.0f * 4.0f), { 1.0f, 0.3f, 0.5f }),
+        glm::rotate(glm::translate(glm::mat4(1.0f), { -1.7f,  3.0f, -7.5f }), glm::radians(20.0f * 5.0f), { 1.0f, 0.3f, 0.5f }),
+        glm::rotate(glm::translate(glm::mat4(1.0f), {  1.3f, -2.0f, -2.5f }), glm::radians(20.0f * 6.0f), { 1.0f, 0.3f, 0.5f }),
+        glm::rotate(glm::translate(glm::mat4(1.0f), {  1.5f,  2.0f, -2.5f }), glm::radians(20.0f * 7.0f), { 1.0f, 0.3f, 0.5f }),
+        glm::rotate(glm::translate(glm::mat4(1.0f), {  1.5f,  0.2f, -1.5f }), glm::radians(20.0f * 8.0f), { 1.0f, 0.3f, 0.5f }),
+        glm::rotate(glm::translate(glm::mat4(1.0f), { -1.3f,  1.0f, -1.5f }), glm::radians(20.0f * 9.0f), { 1.0f, 0.3f, 0.5f }),
+    };
 
     StereographicCamera camera{ 75.0f, 0.01f, 100.0f, 1600, 900 };
     CameraController controller{ camera };
@@ -191,16 +204,16 @@ LightingDemo::LightingDemo()
 
     light_model = glm::translate(light_model, light.Position);
     light_model = glm::scale(light_model, glm::vec3(0.2f));
-    
+
     light_shader.Bind();
-    light_shader.SetUniformMatrix4("u_Model", light_model);
-    light_shader.SetUniformVec3("u_LightColor", { 1.0f, 1.0f, 1.0f });
+    light_shader.SetMat4("u_Model", light_model);
+    light_shader.SetVec3("u_LightColor", { 1.0f, 1.0f, 1.0f });
 
     cube_shader.Bind();
-    cube_shader.SetUniformMatrix4("u_Model", cube_model);
-    cube_shader.SetUniformVec3("u_Light.Position", light.Position);
-    cube_shader.SetUniformInt("u_Material.Diffuse", 0);
-    cube_shader.SetUniformInt("u_Material.Specular", 1);
+    cube_shader.SetMat4("u_Model", cube_model);
+    cube_shader.SetVec3("u_Light.Position", light.Position);
+    cube_shader.SetInt("u_Material.Diffuse", 0);
+    cube_shader.SetInt("u_Material.Specular", 1);
     wood.Bind(0);
     wood_specular.Bind(1);
 
@@ -228,18 +241,22 @@ void LightingDemo::OnUpdate(TimeStep ts)
     Renderer::Clear({ 0.0f, 0.0f, 0.0f, 0.0f });
 
     light_shader.Bind();
-    light_shader.SetUniformMatrix4("u_ViewProj", camera.GetViewProjection());
+    light_shader.SetMat4("u_ViewProj", camera.GetViewProjection());
     Renderer::DrawIndexed(light_array);
 
     cube_shader.Bind();
-    cube_shader.SetUniformFloat("u_Material.Shininess", shininess);
-    cube_shader.SetUniformVec3("u_CameraPosition", camera.GetPosition());
-    cube_shader.SetUniformMatrix4("u_ViewProj", camera.GetViewProjection());
+    cube_shader.SetFloat("u_Material.Shininess", shininess);
+    cube_shader.SetVec3("u_CameraPosition", camera.GetPosition());
+    cube_shader.SetMat4("u_ViewProj", camera.GetViewProjection());
 
-    cube_shader.SetUniformVec3("u_Light.Ambient", light.Ambient);
-    cube_shader.SetUniformVec3("u_Light.Diffuse", light.Diffuse);
-    cube_shader.SetUniformVec3("u_Light.Specular", light.Specular);
+    cube_shader.SetVec3("u_Light.Ambient", light.Ambient);
+    cube_shader.SetVec3("u_Light.Diffuse", light.Diffuse);
+    cube_shader.SetVec3("u_Light.Specular", light.Specular);
 
     cube_array->Bind();
-    glDrawArrays(GL_TRIANGLES, 0, 36);
+    for(uint32_t i = 0; i < 10; i++)
+    {
+        cube_shader.SetMat4("u_Model", cube_positions[i]);
+        glDrawArrays(GL_TRIANGLES, 0, 36);
+    }
 }

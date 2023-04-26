@@ -14,20 +14,21 @@ uint32_t CreateProgram(const std::vector<Shader::ShaderFile>& shader_files);
 
 Shader::Shader(const std::vector<std::string>& paths)
 {
-    m_ShaderFiles.reserve(paths.size());
+    std::vector<ShaderFile> files;
+    files.reserve(paths.size());
+
     for(const auto& path : paths)
     {
         ShaderFile file = FindShaderFile(path);
-        m_ShaderFiles.push_back(file);
+        files.push_back(file);
     }
 
-    m_ProgramID = CreateProgram(m_ShaderFiles);
+    m_ProgramID = CreateProgram(files);
 }
 
 Shader::Shader(const std::initializer_list<ShaderFile>& files)
-    : m_ShaderFiles(files)
 {
-    m_ProgramID = CreateProgram(m_ShaderFiles);
+    m_ProgramID = CreateProgram(files);
 }
 
 Shader::~Shader() { glDeleteProgram(m_ProgramID); }
@@ -35,49 +36,49 @@ Shader::~Shader() { glDeleteProgram(m_ProgramID); }
 void Shader::Bind() const { glUseProgram(m_ProgramID); }
 void Shader::Unbind() const { glUseProgram(0); }
 
-void Shader::SetUniformInt(const std::string& name, int _int)
+void Shader::SetInt(const std::string& name, int _int)
 {
     GLint location = glGetUniformLocation(m_ProgramID, name.c_str());
     glUniform1i(location, _int);
 }
 
-void Shader::SetUniformFloat(const std::string& name, float _float)
+void Shader::SetFloat(const std::string& name, float _float)
 {
     GLint location = glGetUniformLocation(m_ProgramID, name.c_str());
     glUniform1f(location, _float);
 }
 
-void Shader::SetUniformVec2(const std::string& name, const glm::vec2& vec)
+void Shader::SetVec2(const std::string& name, const glm::vec2& vec)
 {
     GLint location = glGetUniformLocation(m_ProgramID, name.c_str());
     glUniform2f(location, vec.x, vec.y);
 }
 
-void Shader::SetUniformVec3(const std::string& name, const glm::vec3& vec)
+void Shader::SetVec3(const std::string& name, const glm::vec3& vec)
 {
     GLint location = glGetUniformLocation(m_ProgramID, name.c_str());
     glUniform3f(location, vec.x, vec.y, vec.z);
 }
 
-void Shader::SetUniformVec4(const std::string& name, const glm::vec4& vec)
+void Shader::SetVec4(const std::string& name, const glm::vec4& vec)
 {
     GLint location = glGetUniformLocation(m_ProgramID, name.c_str());
     glUniform4f(location, vec.r, vec.g, vec.b, vec.a);
 }
 
-void Shader::SetUniformMatrix2(const std::string& name, const glm::mat2& matrix)
+void Shader::SetMat2(const std::string& name, const glm::mat2& matrix)
 {
     GLint location = glGetUniformLocation(m_ProgramID, name.c_str());
     glUniformMatrix2fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
 }
 
-void Shader::SetUniformMatrix3(const std::string& name, const glm::mat3& matrix)
+void Shader::SetMat3(const std::string& name, const glm::mat3& matrix)
 {
     GLint location = glGetUniformLocation(m_ProgramID, name.c_str());
     glUniformMatrix3fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
 }
 
-void Shader::SetUniformMatrix4(const std::string& name, const glm::mat4& matrix)
+void Shader::SetMat4(const std::string& name, const glm::mat4& matrix)
 {
     GLint location = glGetUniformLocation(m_ProgramID, name.c_str());
     glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
@@ -89,22 +90,32 @@ uint32_t GetShaderType(ShaderType type)
     {
         case ShaderType::Vertex:   return GL_VERTEX_SHADER;
         case ShaderType::Fragment: return GL_FRAGMENT_SHADER;
-        case ShaderType::Compute:  return GL_COMPUTE_SHADER;
         case ShaderType::Geometry: return GL_GEOMETRY_SHADER;
+        case ShaderType::Compute:  return GL_COMPUTE_SHADER;
     }
 
     return 0;
 }
 
+bool StringContains(const std::string& str, const std::string& sub_str) { return str.find(sub_str) != std::string::npos; }
+
 Shader::ShaderFile FindShaderFile(const std::string& path)
 {
+    std::size_t dot = path.find_first_of('.');
+    std::string sub_str = path.substr(dot);
 
+    if(StringContains(sub_str, "vert")) return Shader::ShaderFile{ path, ShaderType::Vertex   };
+    if(StringContains(sub_str, "frag")) return Shader::ShaderFile{ path, ShaderType::Fragment };
+    if(StringContains(sub_str, "geom")) return Shader::ShaderFile{ path, ShaderType::Geometry };
+    if(StringContains(sub_str, "comp")) return Shader::ShaderFile{ path, ShaderType::Compute  };
+
+    SADDLE_CORE_ASSERT_ARGS(false, "File %s is of unknown shader type", path);
+    return Shader::ShaderFile{ "", ShaderType::Unknown };
 }
 
 uint32_t CreateShader(const Shader::ShaderFile& file)
 {
     uint32_t type = GetShaderType(file.Type);
-
     uint32_t shader_id = glCreateShader(type);
 
     std::string source = Utils::ReadFile(file.Path);
@@ -153,7 +164,7 @@ uint32_t CreateProgram(const std::vector<Shader::ShaderFile>& shader_files)
         char* message = (char*)alloca(length * sizeof(char));
         glGetProgramInfoLog(program_id, length, &length, message);
 
-        SADDLE_CORE_ASSERT_ARGS(false, "An error occured while linking %s: \n%s", message);
+        SADDLE_CORE_ASSERT_ARGS(false, "An linking error has occured: \n%s", message);
 
         glDeleteProgram(program_id);
         return 0;

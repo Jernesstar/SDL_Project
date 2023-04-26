@@ -42,12 +42,21 @@ struct Renderer2DData {
         { -0.5f,  0.5f, 0.0f, 1.0f }, // Top left,     3
     };
 
-    glm::vec2 TextureCoords[4] =
+    glm::vec2 TextureCoordinates[4] =
     {
         { 0.0f, 0.0f }, // Bottom left,  0
         { 1.0f, 0.0f }, // Bottom right, 1
         { 1.0f, 1.0f }, // Top right,    2
         { 0.0f, 1.0f }, // Top left,     3
+    };
+
+    // Todo: Get this to work
+    glm::vec2 TextCoordinates[4] = // These coordinates don't make sense
+    {
+        { 0.0f, 0.0f },
+        { 1.0f, 0.0f },
+        { 1.0f, 1.0f },
+        { 0.0f, 1.0f },
     };
 };
 
@@ -86,8 +95,8 @@ void Renderer2D::Init()
 
     s_Data.QuadShader = new Shader(
     { 
-        { ShaderType::Vertex, "Saddle/assets/shaders/Quad.glsl.vert" },
-        { ShaderType::Fragment, "Saddle/assets/shaders/Quad.glsl.frag" }
+        { "Saddle/assets/shaders/Quad.glsl.vert", ShaderType::Vertex },
+        { "Saddle/assets/shaders/Quad.glsl.frag", ShaderType::Fragment }
     });
 }
 
@@ -123,7 +132,7 @@ void Renderer2D::Flush()
         ((Text::CharacterQuad*)s_Data.TextureSlots[i])->Bind(i);
 
     s_Data.QuadShader->Bind();
-    s_Data.QuadShader->SetUniformMatrix4("u_ViewProjMatrix", s_ViewProjMatrix);
+    s_Data.QuadShader->SetMat4("u_ViewProjMatrix", s_ViewProjMatrix);
 
     Renderer::DrawIndexed(s_Data.QuadVertexArray, s_Data.QuadIndexCount);
 }
@@ -204,6 +213,7 @@ void Renderer2D::DrawQuad(const glm::vec4& color, const glm::mat4& transform)
     {
         s_Data.QuadVertexBufferPtr->Position = transform * s_Data.VertexPositions[i];
         s_Data.QuadVertexBufferPtr->Color = color;
+        s_Data.QuadVertexBufferPtr->TextureCoordinate = s_Data.TextureCoordinates[i];
         s_Data.QuadVertexBufferPtr->TextureIndex = -1;
         s_Data.QuadVertexBufferPtr++;
     }
@@ -237,7 +247,7 @@ void Renderer2D::DrawQuad(Texture2D* texture, const glm::mat4& transform)
     {
         s_Data.QuadVertexBufferPtr->Position = transform * s_Data.VertexPositions[i];
         s_Data.QuadVertexBufferPtr->Color = glm::vec4(0.0f, 0.0f, 0.0f, 0.0f);
-        s_Data.QuadVertexBufferPtr->TextureCoordinate = s_Data.TextureCoords[i];
+        s_Data.QuadVertexBufferPtr->TextureCoordinate = s_Data.TextureCoordinates[i];
         s_Data.QuadVertexBufferPtr->TextureIndex = (int32_t)texture_index;
         s_Data.QuadVertexBufferPtr++;
     }
@@ -271,7 +281,7 @@ void Renderer2D::DrawQuad(const Text::CharacterQuad& ch, const glm::vec4& color,
     {
         s_Data.QuadVertexBufferPtr->Position = transform * glm::vec4(ch.Vertices[i], 0.0f, 1.0f);
         s_Data.QuadVertexBufferPtr->Color = color;
-        s_Data.QuadVertexBufferPtr->TextureCoordinate = s_Data.TextureCoords[i];
+        s_Data.QuadVertexBufferPtr->TextureCoordinate = s_Data.TextCoordinates[i];
         s_Data.QuadVertexBufferPtr->TextureIndex = (int32_t)text_index;
         s_Data.QuadVertexBufferPtr++;
     }
