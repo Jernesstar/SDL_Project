@@ -36,6 +36,18 @@ private:
         glm::vec3 Specular;
     };
 
+    struct PointLight {
+        glm::vec3 Position;
+
+        glm::vec3 Ambient;
+        glm::vec3 Diffuse;
+        glm::vec3 Specular;
+
+        float Constant;
+        float Linear;
+        float Quadratic;
+    };
+
     Vertex1 vertices[8] = 
     {
         { { -0.5f,  0.5f,  0.5 } }, // 0 Front Top Left
@@ -127,14 +139,6 @@ private:
         { "a_TextureCoordinate",   BufferDataType::Vec2 },
     };
 
-    BufferLayout l3 =
-    {
-        { "Position", BufferDataType::Vec3 },
-        { "Ambient",  BufferDataType::Vec3 },
-        { "Diffuse",  BufferDataType::Vec3 },
-        { "Specular", BufferDataType::Vec2 },
-    };
-
     IndexBuffer* index_buffer = new IndexBuffer(indices);
 
     VertexBuffer* light_buffer = new VertexBuffer(vertices, l1);
@@ -159,7 +163,8 @@ private:
     glm::mat4 cube_model{ 1.0f };
     glm::vec3 cube_position = { 0.0f, 0.0f, 0.0f };
 
-    Light light;
+    // Light light;
+    PointLight light;
     float shininess = 32.0f;
 
     glm::mat4 cube_positions[10] =
@@ -201,6 +206,9 @@ LightingDemo::LightingDemo()
     light.Ambient  = { 0.5f, 0.5f, 0.5f };
     light.Diffuse  = { 0.5f, 0.5f, 0.5f };
     light.Specular = { 1.0f, 1.0f, 1.0f };
+    light.Constant  = 1.0f;
+    light.Linear    = 0.09f;
+    light.Quadratic = 0.032f;
 
     light_model = glm::translate(light_model, light.Position);
     light_model = glm::scale(light_model, glm::vec3(0.2f));
@@ -214,10 +222,6 @@ LightingDemo::LightingDemo()
     cube_shader.SetVec3("u_Light.Position", light.Position);
     cube_shader.SetInt("u_Material.Diffuse", 0);
     cube_shader.SetInt("u_Material.Specular", 1);
-
-    cube_shader.SetFloat("u_Light.Constant",  1.0f);
-    cube_shader.SetFloat("u_Light.Linear",    0.09f);
-    cube_shader.SetFloat("u_Light.Quadratic", 0.032f);	
 
     wood.Bind(0);
     wood_specular.Bind(1);
@@ -240,6 +244,10 @@ void LightingDemo::OnUpdate(TimeStep ts)
         ImGui::ColorEdit3("Light.Ambient",  glm::value_ptr(light.Ambient));
         ImGui::ColorEdit3("Light.Diffuse",  glm::value_ptr(light.Diffuse));
         ImGui::ColorEdit3("Light.Specular", glm::value_ptr(light.Specular));
+
+        ImGui::SliderFloat("Light.Constant",  &light.Constant, 0, 100);
+        ImGui::SliderFloat("Light.Linear",    &light.Linear, 0, 100);
+        ImGui::SliderFloat("Light.Quadratic", &light.Quadratic, 0, 100);
     }
     ImGui::End();
 
@@ -250,13 +258,18 @@ void LightingDemo::OnUpdate(TimeStep ts)
     Renderer::DrawIndexed(light_array);
 
     cube_shader.Bind();
-    cube_shader.SetFloat("u_Material.Shininess", shininess);
     cube_shader.SetVec3("u_CameraPosition", camera.GetPosition());
     cube_shader.SetMat4("u_ViewProj", camera.GetViewProjection());
 
-    cube_shader.SetVec3("u_Light.Ambient", light.Ambient);
-    cube_shader.SetVec3("u_Light.Diffuse", light.Diffuse);
+    cube_shader.SetFloat("u_Material.Shininess", shininess);
+
+    cube_shader.SetVec3("u_Light.Ambient",  light.Ambient);
+    cube_shader.SetVec3("u_Light.Diffuse",  light.Diffuse);
     cube_shader.SetVec3("u_Light.Specular", light.Specular);
+
+    cube_shader.SetFloat("u_Light.Constant",  light.Constant);
+    cube_shader.SetFloat("u_Light.Linear",    light.Linear);
+    cube_shader.SetFloat("u_Light.Quadratic", light.Quadratic);
 
     cube_array->Bind();
     for(uint32_t i = 0; i < 10; i++)

@@ -42,9 +42,9 @@ uniform PointLight u_Light;
 
 float CalculateAttenuation(PointLight light, vec3 pos)
 {
-    float dist = length(light.Position - pos);
-    return 1.0 / (light.Constant + light.Linear * dist + 
-                light.Quadratic * (dist * dist));
+    vec3 dist_vec = pos - light.Position;
+    float dist = sqrt(dot(dist_vec, dist_vec));
+    return 1.0 / (light.Constant + light.Linear * dist + light.Quadratic * (dist * dist));
 }
 
 void main()
@@ -62,9 +62,12 @@ void main()
 
     float attenuation = CalculateAttenuation(u_Light, v_Position);
 
-    vec3 ambient  = attenuation * u_Light.Ambient  * diffuse_color;
-    vec3 diffuse  = attenuation * u_Light.Diffuse  * (diff * diffuse_color);
-    vec3 specular = attenuation * u_Light.Specular * (spec * specular_color);
+    vec3 ambient  = u_Light.Ambient  * diffuse_color;
+    vec3 diffuse  = u_Light.Diffuse  * (diff * diffuse_color);
+    vec3 specular = u_Light.Specular * (spec * specular_color);
+    ambient  *= attenuation;
+    diffuse  *= attenuation;
+    specular *= attenuation;
 
     vec3 result = ambient + diffuse + specular;
     FragColor = vec4(result, 1.0);
