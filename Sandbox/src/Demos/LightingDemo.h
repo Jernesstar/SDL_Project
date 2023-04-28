@@ -214,6 +214,11 @@ LightingDemo::LightingDemo()
     cube_shader.SetVec3("u_Light.Position", light.Position);
     cube_shader.SetInt("u_Material.Diffuse", 0);
     cube_shader.SetInt("u_Material.Specular", 1);
+
+    cube_shader.SetFloat("u_Light.Constant",  1.0f);
+    cube_shader.SetFloat("u_Light.Linear",    0.09f);
+    cube_shader.SetFloat("u_Light.Quadratic", 0.032f);	
+
     wood.Bind(0);
     wood_specular.Bind(1);
 

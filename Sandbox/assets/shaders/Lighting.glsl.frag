@@ -4,6 +4,8 @@ layout(location = 0) in vec3 v_Position;
 layout(location = 1) in vec3 v_Normal;
 layout(location = 2) in vec2 v_TextureCoordinate;
 
+layout(location = 0) out vec4 FragColor;
+
 struct Material
 {
     sampler2D Diffuse;
@@ -19,10 +21,31 @@ struct Light
     vec3 Specular;
 };
 
+struct PointLight
+{
+    vec3 Position;
+
+    vec3 Ambient;
+    vec3 Diffuse;
+    vec3 Specular;
+
+    float Constant;
+    float Linear;
+    float Quadratic;
+};
+
 uniform vec3 u_CameraPosition;
 
-layout(binding = 0) uniform Material u_Material;
-layout(binding = 1) uniform Light u_Light;
+uniform Material u_Material;
+// uniform Light u_Light;
+uniform PointLight u_Light;
+
+float CalculateAttenuation(PointLight light, vec3 pos)
+{
+    float dist = length(light.Position - pos);
+    return 1.0 / (light.Constant + light.Linear * dist + 
+                light.Quadratic * (dist * dist));
+}
 
 void main()
 {
@@ -37,10 +60,12 @@ void main()
     vec3 reflect_dir = reflect(light_dir, normal);
     float spec = pow(max(dot(view_dir, reflect_dir), 0.0), u_Material.Shininess);
 
-    vec3 ambient  = u_Light.Ambient  * diffuse_color;
-    vec3 diffuse  = u_Light.Diffuse  * (diff * diffuse_color);
-    vec3 specular = u_Light.Specular * (spec * specular_color);
+    float attenuation = CalculateAttenuation(u_Light, v_Position);
+
+    vec3 ambient  = attenuation * u_Light.Ambient  * diffuse_color;
+    vec3 diffuse  = attenuation * u_Light.Diffuse  * (diff * diffuse_color);
+    vec3 specular = attenuation * u_Light.Specular * (spec * specular_color);
 
     vec3 result = ambient + diffuse + specular;
-    gl_FragColor = vec4(result, 1.0);
+    FragColor = vec4(result, 1.0);
 }
