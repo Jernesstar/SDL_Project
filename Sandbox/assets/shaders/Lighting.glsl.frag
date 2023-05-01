@@ -6,21 +6,25 @@ layout(location = 2) in vec2 v_TextureCoordinate;
 
 layout(location = 0) out vec4 FragColor;
 
-struct Material {
+struct Material
+{
     sampler2D Diffuse;
     sampler2D Specular;
     float Shininess;
 };
 
-// struct Light {
+// struct Light
+// {
 //     vec3 Position;
 //     vec3 Ambient;
 //     vec3 Diffuse;
 //     vec3 Specular;
 // };
 
-struct PointLight {
+struct PointLight
+{
     vec3 Position;
+
     vec3 Ambient;
     vec3 Diffuse;
     vec3 Specular;
@@ -55,7 +59,6 @@ void main()
     vec3 ambient  = u_Light.Ambient  * diffuse_color;
     vec3 diffuse  = u_Light.Diffuse  * (diff * diffuse_color);
     vec3 specular = u_Light.Specular * (spec * specular_color);
-
     ambient  *= attenuation;
     diffuse  *= attenuation;
     specular *= attenuation;
