@@ -146,14 +146,8 @@ private:
     VertexBuffer* cube_buffer = new VertexBuffer(cube_vertices, l2);
     VertexArray* cube_array = new VertexArray(cube_buffer, nullptr);
 
-    Shader light_shader{
-        { "Sandbox/assets/shaders/Light.glsl.vert", ShaderType::Vertex },
-        { "Sandbox/assets/shaders/Light.glsl.frag", ShaderType::Fragment } 
-    };
-    Shader cube_shader{
-        { "Sandbox/assets/shaders/Lighting.glsl.vert", ShaderType::Vertex },
-        { "Sandbox/assets/shaders/Lighting.glsl.frag", ShaderType::Fragment } 
-    };
+    Shader light_shader{ { "Sandbox/assets/shaders/Light.glsl.vert" ,"Sandbox/assets/shaders/Light.glsl.frag" } };
+    Shader cube_shader{ { "Sandbox/assets/shaders/Lighting.glsl.vert", "Sandbox/assets/shaders/Lighting.glsl.frag" } };
 
     Texture2D wood{ "Sandbox/assets/images/wood.png" };
     Texture2D wood_specular{ "Sandbox/assets/images/wood_specular.png" };
@@ -161,10 +155,10 @@ private:
     glm::mat4 light_model{ 1.0f };
     glm::mat4 cube_model{ 1.0f };
     glm::vec3 cube_position = { 0.0f, 0.0f, 0.0f };
-
-    // Light light;
-    PointLight light;
     float shininess = 32.0f;
+
+    PointLight light;
+    UniformBuffer buffer{ sizeof(PointLight), 2 };
 
     glm::mat4 cube_positions[10] =
     {
@@ -208,6 +202,8 @@ LightingDemo::LightingDemo()
     light.Constant  = 1.0f;
     light.Linear    = 0.09f;
     light.Quadratic = 0.032f;
+
+    buffer.SetData(0, sizeof(PointLight), &light);
 
     light_model = glm::translate(light_model, light.Position);
     light_model = glm::scale(light_model, glm::vec3(0.2f));
