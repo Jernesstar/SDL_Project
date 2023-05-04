@@ -82,13 +82,9 @@ void Mesh::LoadMesh(const std::string& path)
     BufferLayout l2({ { "TextureCoordinate", BufferDataType::Vec2, false } }, false);
     BufferLayout l3({ { "Normal",            BufferDataType::Vec3, false } }, false);
 
-    m_Buffers[BufferIndex::Position]          = std::make_unique<VertexBuffer>(m_Positions.size(), l1);
-    m_Buffers[BufferIndex::TextureCoordinate] = std::make_unique<VertexBuffer>(m_TextureCoords.size(), l2);
-    m_Buffers[BufferIndex::Normal]            = std::make_unique<VertexBuffer>(m_Normals.size(), l3);
-
-    m_Buffers[BufferIndex::Position]->SetData(&m_Positions[0], m_Positions.size());
-    m_Buffers[BufferIndex::TextureCoordinate]->SetData(&m_TextureCoords[0], m_TextureCoords.size());
-    m_Buffers[BufferIndex::Normal]->SetData(&m_Normals[0], m_Normals.size());
+    m_Buffers[BufferIndex::Position]          = std::make_unique<VertexBuffer>(m_Positions.size(), l1, &m_Positions[0]);
+    m_Buffers[BufferIndex::TextureCoordinate] = std::make_unique<VertexBuffer>(m_TextureCoords.size(), l2, &m_TextureCoords[0]);
+    m_Buffers[BufferIndex::Normal]            = std::make_unique<VertexBuffer>(m_Normals.size(), l3, &m_Normals[0]);
 
     m_IndexBuffer = std::make_unique<IndexBuffer>(&m_Indices[0], m_Indices.size());
 

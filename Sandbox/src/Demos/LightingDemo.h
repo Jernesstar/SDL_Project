@@ -158,7 +158,7 @@ private:
     float shininess = 32.0f;
 
     PointLight light;
-    UniformBuffer buffer{ sizeof(PointLight), 2 };
+    UniformBuffer buffer{ 2, sizeof(PointLight) };
 
     glm::mat4 cube_positions[10] =
     {
@@ -203,7 +203,7 @@ LightingDemo::LightingDemo()
     light.Linear    = 0.09f;
     light.Quadratic = 0.032f;
 
-    buffer.SetData(0, sizeof(PointLight), &light);
+    buffer.SetData(&light, 0, sizeof(PointLight));
 
     light_model = glm::translate(light_model, light.Position);
     light_model = glm::scale(light_model, glm::vec3(0.2f));
