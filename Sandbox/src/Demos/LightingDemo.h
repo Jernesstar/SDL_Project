@@ -158,7 +158,7 @@ private:
     float shininess = 32.0f;
 
     PointLight light;
-    UniformBuffer buffer{ 2, sizeof(PointLight) };
+    UniformBuffer* buffer;
 
     glm::mat4 cube_positions[10] =
     {
@@ -203,7 +203,8 @@ LightingDemo::LightingDemo()
     light.Linear    = 0.09f;
     light.Quadratic = 0.032f;
 
-    buffer.SetData(&light, 0, sizeof(PointLight));
+    buffer = new UniformBuffer(0, sizeof(PointLight));
+    buffer->SetData(&light, 0, sizeof(PointLight));
 
     light_model = glm::translate(light_model, light.Position);
     light_model = glm::scale(light_model, glm::vec3(0.2f));
@@ -252,13 +253,7 @@ void LightingDemo::OnUpdate(TimeStep ts)
     cube_shader.SetVec3("u_CameraPosition", camera.GetPosition());
     cube_shader.SetMat4("u_ViewProj", camera.GetViewProjection());
 
-    cube_shader.SetVec3("u_Light.Ambient",  light.Ambient);
-    cube_shader.SetVec3("u_Light.Diffuse",  light.Diffuse);
-    cube_shader.SetVec3("u_Light.Specular", light.Specular);
-
-    cube_shader.SetFloat("u_Light.Constant",  light.Constant);
-    cube_shader.SetFloat("u_Light.Linear",    light.Linear);
-    cube_shader.SetFloat("u_Light.Quadratic", light.Quadratic);
+    buffer->SetData(&light, 0, sizeof(PointLight));
 
     cube_array->Bind();
     for(uint32_t i = 0; i < 10; i++)

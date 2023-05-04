@@ -36,7 +36,7 @@ struct Material
 uniform vec3 u_CameraPosition;
 uniform Material u_Material;
 
-layout(std140, binding = 2) uniform PointLight
+layout(std140, binding = 0) uniform PointLight
 {
     vec3 Position;
     vec3 Ambient;
