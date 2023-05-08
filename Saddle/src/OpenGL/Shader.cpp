@@ -107,7 +107,7 @@ Shader::ShaderFile FindShaderFile(const std::string& path)
     if(StringContains(sub_str, "vert") || StringContains(sub_str, "vs")) return Shader::ShaderFile{ path, ShaderType::Vertex   };
     if(StringContains(sub_str, "frag") || StringContains(sub_str, "fs")) return Shader::ShaderFile{ path, ShaderType::Fragment };
     if(StringContains(sub_str, "geom") || StringContains(sub_str, "gs")) return Shader::ShaderFile{ path, ShaderType::Geometry };
-    if(StringContains(sub_str, "comp")                                 ) return Shader::ShaderFile{ path, ShaderType::Compute  };
+    if(StringContains(sub_str, "comp") || StringContains(sub_str, "compute")) return Shader::ShaderFile{ path, ShaderType::Compute  };
 
     SADDLE_CORE_ASSERT_ARGS(false, "File %s is of unknown shader type", path);
     return Shader::ShaderFile{ "", ShaderType::Unknown };
