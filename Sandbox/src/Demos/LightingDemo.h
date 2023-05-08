@@ -146,8 +146,14 @@ private:
     VertexBuffer* cube_buffer = new VertexBuffer(cube_vertices, l2);
     VertexArray* cube_array = new VertexArray(cube_buffer, nullptr);
 
-    Shader light_shader{ { "Sandbox/assets/shaders/Light.glsl.vert" ,"Sandbox/assets/shaders/Light.glsl.frag" } };
-    Shader cube_shader{ { "Sandbox/assets/shaders/Lighting.glsl.vert", "Sandbox/assets/shaders/Lighting.glsl.frag" } };
+    Shader light_shader{
+        { "Sandbox/assets/shaders/Light.glsl.vert", ShaderType::Vertex },
+        { "Sandbox/assets/shaders/Light.glsl.frag", ShaderType::Fragment } 
+    };
+    Shader cube_shader{
+        { "Sandbox/assets/shaders/Lighting.glsl.vert", ShaderType::Vertex },
+        { "Sandbox/assets/shaders/Lighting.glsl.frag", ShaderType::Fragment } 
+    };
 
     Texture2D wood{ "Sandbox/assets/images/wood.png" };
     Texture2D wood_specular{ "Sandbox/assets/images/wood_specular.png" };
@@ -155,10 +161,10 @@ private:
     glm::mat4 light_model{ 1.0f };
     glm::mat4 cube_model{ 1.0f };
     glm::vec3 cube_position = { 0.0f, 0.0f, 0.0f };
-    float shininess = 32.0f;
 
+    // Light light;
     PointLight light;
-    UniformBuffer* buffer;
+    float shininess = 32.0f;
 
     glm::mat4 cube_positions[10] =
     {
@@ -202,9 +208,6 @@ LightingDemo::LightingDemo()
     light.Constant  = 1.0f;
     light.Linear    = 0.09f;
     light.Quadratic = 0.032f;
-
-    buffer = new UniformBuffer(0, sizeof(PointLight));
-    buffer->SetData(&light, 0, sizeof(PointLight));
 
     light_model = glm::translate(light_model, light.Position);
     light_model = glm::scale(light_model, glm::vec3(0.2f));
@@ -253,7 +256,13 @@ void LightingDemo::OnUpdate(TimeStep ts)
     cube_shader.SetVec3("u_CameraPosition", camera.GetPosition());
     cube_shader.SetMat4("u_ViewProj", camera.GetViewProjection());
 
-    buffer->SetData(&light, 0, sizeof(PointLight));
+    cube_shader.SetVec3("u_Light.Ambient",  light.Ambient);
+    cube_shader.SetVec3("u_Light.Diffuse",  light.Diffuse);
+    cube_shader.SetVec3("u_Light.Specular", light.Specular);
+
+    cube_shader.SetFloat("u_Light.Constant",  light.Constant);
+    cube_shader.SetFloat("u_Light.Linear",    light.Linear);
+    cube_shader.SetFloat("u_Light.Quadratic", light.Quadratic);
 
     cube_array->Bind();
     for(uint32_t i = 0; i < 10; i++)
