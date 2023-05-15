@@ -17,16 +17,15 @@ public:
         : Binding(binding)
     {
         glCreateBuffers(1, &m_BufferID);
-        glBindBuffer(GL_UNIFORM_BUFFER, m_BufferID);
-        glBufferData(GL_UNIFORM_BUFFER, size, nullptr, dynamic ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
+        glNamedBufferData(m_BufferID, size, nullptr, dynamic ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
         glBindBufferBase(GL_UNIFORM_BUFFER, binding, m_BufferID);
     }
+
     ~UniformBuffer() { glDeleteBuffers(1, &m_BufferID); }
 
-    void SetData(const void* data, uint32_t offset, uint32_t size)
+    void SetData(const void* data, uint32_t size, uint32_t offset = 0)
     {
-        glBindBuffer(GL_UNIFORM_BUFFER, m_BufferID);
-        glBufferSubData(GL_UNIFORM_BUFFER, offset, size, data); 
+        glNamedBufferSubData(m_BufferID, offset, size, data);
     }
 
 private:

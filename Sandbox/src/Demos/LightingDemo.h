@@ -29,22 +29,28 @@ private:
         glm::vec2 TextureCoordinates;
     };
 
-    // struct Light {
-    //     glm::vec3 Position;
-    //     glm::vec3 Ambient;
-    //     glm::vec3 Diffuse;
-    //     glm::vec3 Specular;
-    // };
-
-    struct PointLight {
+    struct Light {
         glm::vec3 Position;
         glm::vec3 Ambient;
         glm::vec3 Diffuse;
         glm::vec3 Specular;
+    };
 
+    struct DirectionLight : public Light {
+        glm::vec3 Direction;
+    };
+
+    struct PointLight : public Light {
         float Constant;
         float Linear;
         float Quadratic;
+    };
+
+    struct SpotLight : public Light {
+        glm::vec3 Direction;
+
+        float CutoffAngle;
+        float OuterCutoffAngle;
     };
 
     Vertex1 vertices[8] = 
@@ -126,6 +132,20 @@ private:
         2, 6, 7,
     };
 
+    glm::mat4 cube_positions[10] =
+    {
+        glm::rotate(glm::translate(glm::mat4(1.0f), {  0.0f,  0.0f,  0.0f }), glm::radians(20.0f * 0.0f), { 1.0f, 0.3f, 0.5f }),
+        glm::rotate(glm::translate(glm::mat4(1.0f), {  2.0f,  5.0f, -9.0f }), glm::radians(20.0f * 1.0f), { 1.0f, 0.3f, 0.5f }),
+        glm::rotate(glm::translate(glm::mat4(1.0f), { -1.5f, -2.2f, -2.5f }), glm::radians(20.0f * 2.0f), { 1.0f, 0.3f, 0.5f }),
+        glm::rotate(glm::translate(glm::mat4(1.0f), { -3.8f, -2.0f, -9.3f }), glm::radians(20.0f * 3.0f), { 1.0f, 0.3f, 0.5f }),
+        glm::rotate(glm::translate(glm::mat4(1.0f), {  2.4f, -0.4f, -3.5f }), glm::radians(20.0f * 4.0f), { 1.0f, 0.3f, 0.5f }),
+        glm::rotate(glm::translate(glm::mat4(1.0f), { -1.7f,  3.0f, -7.5f }), glm::radians(20.0f * 5.0f), { 1.0f, 0.3f, 0.5f }),
+        glm::rotate(glm::translate(glm::mat4(1.0f), {  1.3f, -2.0f, -2.5f }), glm::radians(20.0f * 6.0f), { 1.0f, 0.3f, 0.5f }),
+        glm::rotate(glm::translate(glm::mat4(1.0f), {  1.5f,  2.0f, -2.5f }), glm::radians(20.0f * 7.0f), { 1.0f, 0.3f, 0.5f }),
+        glm::rotate(glm::translate(glm::mat4(1.0f), {  1.5f,  0.2f, -1.5f }), glm::radians(20.0f * 8.0f), { 1.0f, 0.3f, 0.5f }),
+        glm::rotate(glm::translate(glm::mat4(1.0f), { -1.3f,  1.0f, -1.5f }), glm::radians(20.0f * 9.0f), { 1.0f, 0.3f, 0.5f }),
+    };
+
     BufferLayout l1 =
     {
         { "a_Position", BufferDataType::Vec3 },
@@ -146,13 +166,15 @@ private:
     VertexBuffer* cube_buffer = new VertexBuffer(cube_vertices, l2);
     VertexArray* cube_array = new VertexArray(cube_buffer, nullptr);
 
-    Shader light_shader{
+    Shader light_shader
+    {
         { "Sandbox/assets/shaders/Light.glsl.vert", ShaderType::Vertex },
-        { "Sandbox/assets/shaders/Light.glsl.frag", ShaderType::Fragment } 
+        { "Sandbox/assets/shaders/Light.glsl.frag", ShaderType::Fragment }
     };
-    Shader cube_shader{
+    Shader cube_shader
+    {
         { "Sandbox/assets/shaders/Lighting.glsl.vert", ShaderType::Vertex },
-        { "Sandbox/assets/shaders/Lighting.glsl.frag", ShaderType::Fragment } 
+        { "Sandbox/assets/shaders/Lighting.glsl.frag", ShaderType::Fragment }
     };
 
     Texture2D wood{ "Sandbox/assets/images/wood.png" };
@@ -163,28 +185,20 @@ private:
     glm::mat4 cube_model{ 1.0f };
     glm::vec3 cube_position = { 0.0f, 0.0f, 0.0f };
 
-    PointLight lights[4];
-
-    glm::mat4 cube_positions[10] =
-    {
-        glm::rotate(glm::translate(glm::mat4(1.0f), {  0.0f,  0.0f,  0.0f }), glm::radians(20.0f * 0.0f), { 1.0f, 0.3f, 0.5f }),
-        glm::rotate(glm::translate(glm::mat4(1.0f), {  2.0f,  5.0f, -9.0f }), glm::radians(20.0f * 1.0f), { 1.0f, 0.3f, 0.5f }),
-        glm::rotate(glm::translate(glm::mat4(1.0f), { -1.5f, -2.2f, -2.5f }), glm::radians(20.0f * 2.0f), { 1.0f, 0.3f, 0.5f }),
-        glm::rotate(glm::translate(glm::mat4(1.0f), { -3.8f, -2.0f, -9.3f }), glm::radians(20.0f * 3.0f), { 1.0f, 0.3f, 0.5f }),
-        glm::rotate(glm::translate(glm::mat4(1.0f), {  2.4f, -0.4f, -3.5f }), glm::radians(20.0f * 4.0f), { 1.0f, 0.3f, 0.5f }),
-        glm::rotate(glm::translate(glm::mat4(1.0f), { -1.7f,  3.0f, -7.5f }), glm::radians(20.0f * 5.0f), { 1.0f, 0.3f, 0.5f }),
-        glm::rotate(glm::translate(glm::mat4(1.0f), {  1.3f, -2.0f, -2.5f }), glm::radians(20.0f * 6.0f), { 1.0f, 0.3f, 0.5f }),
-        glm::rotate(glm::translate(glm::mat4(1.0f), {  1.5f,  2.0f, -2.5f }), glm::radians(20.0f * 7.0f), { 1.0f, 0.3f, 0.5f }),
-        glm::rotate(glm::translate(glm::mat4(1.0f), {  1.5f,  0.2f, -1.5f }), glm::radians(20.0f * 8.0f), { 1.0f, 0.3f, 0.5f }),
-        glm::rotate(glm::translate(glm::mat4(1.0f), { -1.3f,  1.0f, -1.5f }), glm::radians(20.0f * 9.0f), { 1.0f, 0.3f, 0.5f }),
-    };
-
     StereographicCamera camera{ 75.0f, 0.01f, 100.0f, 1600, 900 };
     CameraController controller{ camera };
+
+    PointLight pointlights[4];
+    SpotLight directionallight;
+
+    UniformBuffer* point_lights;
+    UniformBuffer* directional_light;
 };
 
 LightingDemo::LightingDemo()
 {
+    glDisable(GL_CULL_FACE);
+
     EventSystem::RegisterEventListener<KeyPressedEvent>(
     [](const KeyPressedEvent& event)
     {
@@ -200,15 +214,23 @@ LightingDemo::LightingDemo()
     camera.SetPosition({ 0.0f, 0.0f, 4.0f });
     controller.RotationSpeed = 1.0f;
 
+    glm::vec3 positions[4] =
+    {
+        { 1.0f, -3.5f, -3.5f  },
+        { 1.0f,  5.0f,  2.5f  },
+        { 1.0f,  1.5f, -10.0f },
+        { 1.0f,  0.5f, -3.0f  },
+    };
+
     for(uint32_t i = 0; i < 4; i++)
     {
-        lights[i].Position = { 1.2f, 1.0f, 2.0f };
-        lights[i].Ambient  = { 0.2f, 0.2f, 0.2f };
-        lights[i].Diffuse  = { 0.5f, 0.5f, 0.5f };
-        lights[i].Specular = { 1.0f, 1.0f, 1.0f };
-        lights[i].Constant  = 1.0f;
-        lights[i].Linear    = 0.09f;
-        lights[i].Quadratic = 0.032f;
+        pointlights[i].Position = positions[i];
+        pointlights[i].Ambient  = { 0.2f, 0.2f, 0.2f };
+        pointlights[i].Diffuse  = { 0.5f, 0.5f, 0.5f };
+        pointlights[i].Specular = { 1.0f, 1.0f, 1.0f };
+        pointlights[i].Constant  = 0.3f;
+        pointlights[i].Linear    = 0.0f;
+        pointlights[i].Quadratic = 0.032f;
     }
 
     light_model = glm::scale(light_model, glm::vec3(0.2f));
@@ -219,6 +241,18 @@ LightingDemo::LightingDemo()
     cube_shader.Bind();
     cube_shader.SetMat4("u_Model", cube_model);
 
+    for(uint32_t i = 0; i < 4; i++)
+    {
+        std::string name = "u_PointLights[" + std::to_string(i) + "]";
+        cube_shader.SetVec3(name + ".Ambient",  pointlights[i].Ambient);
+        cube_shader.SetVec3(name + ".Diffuse",  pointlights[i].Diffuse);
+        cube_shader.SetVec3(name + ".Specular", pointlights[i].Specular);
+
+        cube_shader.SetFloat(name + ".Constant",  pointlights[i].Constant);
+        cube_shader.SetFloat(name + ".Linear",    pointlights[i].Linear);
+        cube_shader.SetFloat(name + ".Quadratic", pointlights[i].Quadratic);
+    }
+
     cube_shader.SetInt("u_Material.Diffuse", 0);
     cube_shader.SetInt("u_Material.Specular", 1);
     cube_shader.SetFloat("u_Material.Shininess", 32.0f);
@@ -226,7 +260,8 @@ LightingDemo::LightingDemo()
     wood.Bind(0);
     wood_specular.Bind(1);
 
-    glDisable(GL_CULL_FACE);
+    point_lights = new UniformBuffer(0, sizeof(PointLight) * 4);
+    spot_light = new UniformBuffer(0, sizeof(SpotLight));
 }
 
 void LightingDemo::OnUpdate(TimeStep ts)
@@ -235,18 +270,11 @@ void LightingDemo::OnUpdate(TimeStep ts)
 
     ImGui::Begin("Light");
     {
-        for(uint32_t i = 0; i < 8; i++)
+        for(uint32_t i = 0; i < 4; i++)
         {
             ImGui::PushID(i);
 
-            ImGui::SliderFloat3("Light.Position", glm::value_ptr(lights[i].Position), 0.0f, 100.0f);
-            ImGui::ColorEdit3("Light.Ambient",  glm::value_ptr(lights[i].Ambient));
-            ImGui::ColorEdit3("Light.Diffuse",  glm::value_ptr(lights[i].Diffuse));
-            ImGui::ColorEdit3("Light.Specular", glm::value_ptr(lights[i].Specular));
-
-            ImGui::SliderFloat("Light.Constant",  &lights[i].Constant,  0.0f, 1.0f);
-            ImGui::SliderFloat("Light.Linear",    &lights[i].Linear,    0.0f, 1.0f);
-            ImGui::SliderFloat("Light.Quadratic", &lights[i].Quadratic, 0.0f, 1.0f);
+            ImGui::SliderFloat3("Light.Position", glm::value_ptr(pointlights[i].Position), -100.0f, 100.0f);
 
             ImGui::Separator();
             ImGui::PopID();
@@ -261,7 +289,7 @@ void LightingDemo::OnUpdate(TimeStep ts)
 
     for(uint32_t i = 0; i < 4; i++)
     {
-        light_shader.SetVec3("u_Position", lights[i].Position);
+        light_shader.SetVec3("u_Position", pointlights[i].Position);
 
         Renderer::DrawIndexed(light_array);
     }
@@ -272,14 +300,8 @@ void LightingDemo::OnUpdate(TimeStep ts)
 
     for(uint32_t i = 0; i < 4; i++)
     {
-        std::string name = "u_Light[" + std::to_string(i) + "]";
-        cube_shader.SetVec3(name + ".Ambient",  lights[i].Ambient);
-        cube_shader.SetVec3(name + ".Diffuse",  lights[i].Diffuse);
-        cube_shader.SetVec3(name + ".Specular", lights[i].Specular);
-
-        cube_shader.SetFloat(name + ".Constant",  lights[i].Constant);
-        cube_shader.SetFloat(name + ".Linear",    lights[i].Linear);
-        cube_shader.SetFloat(name + ".Quadratic", lights[i].Quadratic);
+        std::string name = "u_PointLights[" + std::to_string(i) + "]";
+        cube_shader.SetVec3(name + ".Position",  pointlights[i].Position);
     }
 
     cube_array->Bind();
