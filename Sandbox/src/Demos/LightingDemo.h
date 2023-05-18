@@ -189,7 +189,7 @@ private:
     CameraController controller{ camera };
 
     PointLight pointlights[4];
-    DirectionalLight spotlight;
+    SpotLight spotlight;
 
     UniformBuffer* point_lights;
     UniformBuffer* spot_light;
@@ -233,6 +233,9 @@ LightingDemo::LightingDemo()
         pointlights[i].Quadratic = 0.032f;
     }
 
+    spotlight.Position = glm::vec3(10.0f, 30.0f, 20.0f);
+    spotlight.Direction = glm::vec3(-1.0, 0.0f, 0.0f);
+
     light_model = glm::scale(light_model, glm::vec3(0.2f));
 
     light_shader.Bind();
@@ -261,7 +264,7 @@ LightingDemo::LightingDemo()
     wood_specular.Bind(1);
 
     point_lights = new UniformBuffer(0, sizeof(PointLight) * 4);
-    spot_light = new UniformBuffer(0, sizeof(SpotLight));
+    spot_light = new UniformBuffer(1, sizeof(SpotLight));
 }
 
 void LightingDemo::OnUpdate(TimeStep ts)

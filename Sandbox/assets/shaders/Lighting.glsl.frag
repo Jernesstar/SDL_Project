@@ -50,8 +50,8 @@ uniform vec3 u_CameraPosition;
 
 uniform Material u_Material;
 
-uniform SpotLight u_SpotLight;
-uniform PointLight u_PointLights[POINT_LIGHTS];
+layout(binding = 0) uniform PointLight u_PointLights[POINT_LIGHTS];
+layout(binding = 1) uniform SpotLight u_SpotLight;
 
 vec3 CalcDirLight(DirectionalLight light, vec3 normal, vec3 view_dir);
 vec3 CalcPointLight(PointLight light, vec3 normal, vec3 view_dir);
