@@ -36,7 +36,7 @@ private:
         glm::vec3 Specular;
     };
 
-    struct DirectionLight : public Light {
+    struct DirectionalLight : public Light {
         glm::vec3 Direction;
     };
 
@@ -189,10 +189,10 @@ private:
     CameraController controller{ camera };
 
     PointLight pointlights[4];
-    SpotLight directionallight;
+    DirectionalLight spotlight;
 
     UniformBuffer* point_lights;
-    UniformBuffer* directional_light;
+    UniformBuffer* spot_light;
 };
 
 LightingDemo::LightingDemo()
