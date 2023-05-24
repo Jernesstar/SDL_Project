@@ -51,7 +51,19 @@ uniform vec3 u_CameraPosition;
 uniform Material u_Material;
 
 layout(binding = 0) uniform PointLight u_PointLights[POINT_LIGHTS];
-layout(binding = 1) uniform SpotLight u_SpotLight;
+uniform SpotLight u_SpotLight;
+
+// layout(binding = 1) uniform SpotLight {
+//     vec3 Position;
+//     vec3 Direction;
+
+//     vec3 Ambient;
+//     vec3 Diffuse;
+//     vec3 Specular;
+
+//     float CutoffAngle;
+//     float OuterCutoffAngle;
+// } u_SpotLight;
 
 vec3 CalcDirLight(DirectionalLight light, vec3 normal, vec3 view_dir);
 vec3 CalcPointLight(PointLight light, vec3 normal, vec3 view_dir);
@@ -63,9 +75,10 @@ void main()
     vec3 view_dir = normalize(u_CameraPosition - v_FragPosition);
 
     vec3 result = vec3(0.0, 0.0, 0.0);
+    result += CalcSpotLight(u_SpotLight, normal, view_dir);
+
     for(int i = 0; i < POINT_LIGHTS; i++)
         result += CalcPointLight(u_PointLights[i], normal, view_dir);
-    result += CalcSpotLight(u_SpotLight, normal, view_dir);
 
     FragColor = vec4(result, 1.0);
 }

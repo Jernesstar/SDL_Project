@@ -1,6 +1,7 @@
 #pragma once
 
 #include <imgui/imgui.h>
+#include <glm/gtc/matrix_transform.hpp>
 
 #include <Saddle/Core/Application.h>
 #include <Saddle/Renderer/Renderer.h>
@@ -236,6 +237,13 @@ LightingDemo::LightingDemo()
     spotlight.Position = glm::vec3(10.0f, 30.0f, 20.0f);
     spotlight.Direction = glm::vec3(-1.0, 0.0f, 0.0f);
 
+    spotlight.Ambient  = { 0.2f, 0.2f, 0.2f };
+    spotlight.Diffuse  = { 0.5f, 0.5f, 0.5f };
+    spotlight.Specular = { 1.0f, 1.0f, 1.0f };
+
+    spotlight.CutoffAngle = 10.0f;
+    spotlight.OuterCutoffAngle = 16.0f;
+
     light_model = glm::scale(light_model, glm::vec3(0.2f));
 
     light_shader.Bind();
@@ -271,7 +279,7 @@ void LightingDemo::OnUpdate(TimeStep ts)
 {
     controller.OnUpdate(ts);
 
-    ImGui::Begin("Light");
+    ImGui::Begin("Point Lights");
     {
         for(uint32_t i = 0; i < 4; i++)
         {
@@ -282,6 +290,13 @@ void LightingDemo::OnUpdate(TimeStep ts)
             ImGui::Separator();
             ImGui::PopID();
         }
+
+    }
+    ImGui::End();
+
+    ImGui::Begin("Spot Light");
+    {
+        ImGui::SliderFloat3("Light.Position", glm::value_ptr(spotlight.Position), -100.0f, 100.0f);
     }
     ImGui::End();
 
@@ -300,6 +315,8 @@ void LightingDemo::OnUpdate(TimeStep ts)
     cube_shader.Bind();
     cube_shader.SetVec3("u_CameraPosition", camera.GetPosition());
     cube_shader.SetMat4("u_ViewProj", camera.GetViewProjection());
+
+    cube_shader.SetVec3("u_SpotLight.Position", spotlight.Position);
 
     for(uint32_t i = 0; i < 4; i++)
     {
