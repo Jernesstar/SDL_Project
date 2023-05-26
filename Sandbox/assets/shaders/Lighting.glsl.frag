@@ -125,5 +125,5 @@ vec3 CalcSpotLight(SpotLight light, vec3 normal, vec3 view_dir)
     vec3 diffuse  = light.Diffuse  * vec3(texture(u_Material.Diffuse, v_TextureCoordinate));
     vec3 specular = light.Specular * vec3(texture(u_Material.Specular, v_TextureCoordinate));
 
-    return (ambient + diffuse + specular) * intensity;
+    return ambient + (diffuse + specular) * intensity;
 }

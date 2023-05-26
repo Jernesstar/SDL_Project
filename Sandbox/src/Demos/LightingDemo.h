@@ -234,15 +234,15 @@ LightingDemo::LightingDemo()
         pointlights[i].Quadratic = 0.032f;
     }
 
-    spotlight.Position = glm::vec3(10.0f, 30.0f, 20.0f);
+    spotlight.Position = glm::vec3(0.0f, 0.0f, 2.0f);
     spotlight.Direction = glm::vec3(-1.0, 0.0f, 0.0f);
 
     spotlight.Ambient  = { 0.2f, 0.2f, 0.2f };
     spotlight.Diffuse  = { 0.5f, 0.5f, 0.5f };
     spotlight.Specular = { 1.0f, 1.0f, 1.0f };
 
-    spotlight.CutoffAngle = 10.0f;
-    spotlight.OuterCutoffAngle = 16.0f;
+    spotlight.CutoffAngle =  glm::cos(glm::radians(12.5f));
+    spotlight.OuterCutoffAngle =  glm::cos(glm::radians(15.0f));
 
     light_model = glm::scale(light_model, glm::vec3(0.2f));
 
@@ -294,12 +294,6 @@ void LightingDemo::OnUpdate(TimeStep ts)
     }
     ImGui::End();
 
-    ImGui::Begin("Spot Light");
-    {
-        ImGui::SliderFloat3("Light.Position", glm::value_ptr(spotlight.Position), -100.0f, 100.0f);
-    }
-    ImGui::End();
-
     Renderer::Clear({ 0.0f, 0.0f, 0.0f, 0.0f });
 
     light_shader.Bind();
@@ -308,15 +302,18 @@ void LightingDemo::OnUpdate(TimeStep ts)
     for(uint32_t i = 0; i < 4; i++)
     {
         light_shader.SetVec3("u_Position", pointlights[i].Position);
-
         Renderer::DrawIndexed(light_array);
     }
+
+    light_shader.SetVec3("u_Position", spotlight.Position);
+    Renderer::DrawIndexed(light_array);
 
     cube_shader.Bind();
     cube_shader.SetVec3("u_CameraPosition", camera.GetPosition());
     cube_shader.SetMat4("u_ViewProj", camera.GetViewProjection());
 
-    cube_shader.SetVec3("u_SpotLight.Position", spotlight.Position);
+    cube_shader.SetVec3("u_SpotLight.Position", camera.GetPosition());
+    cube_shader.SetVec3("u_SpotLight.Direction", camera.GetDirection());
 
     for(uint32_t i = 0; i < 4; i++)
     {
