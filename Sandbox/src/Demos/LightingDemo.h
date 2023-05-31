@@ -264,6 +264,13 @@ LightingDemo::LightingDemo()
         cube_shader.SetFloat(name + ".Quadratic", pointlights[i].Quadratic);
     }
 
+    cube_shader.SetFloat("u_SpotLight.CutoffAngle", spotlight.CutoffAngle);
+    cube_shader.SetFloat("u_SpotLight.OuterCutoffAngle", spotlight.CutoffAngle);
+
+    cube_shader.SetVec3("u_SpotLight.Ambient", spotlight.Ambient);
+    cube_shader.SetVec3("u_SpotLight.Diffuse", spotlight.Diffuse);
+    cube_shader.SetVec3("u_SpotLight.Specular", spotlight.Specular);
+
     cube_shader.SetInt("u_Material.Diffuse", 0);
     cube_shader.SetInt("u_Material.Specular", 1);
     cube_shader.SetFloat("u_Material.Shininess", 32.0f);
@@ -271,8 +278,8 @@ LightingDemo::LightingDemo()
     wood.Bind(0);
     wood_specular.Bind(1);
 
-    point_lights = new UniformBuffer(0, sizeof(PointLight) * 4);
-    spot_light = new UniformBuffer(1, sizeof(SpotLight));
+    // point_lights = new UniformBuffer(0, sizeof(PointLight) * 4);
+    // spot_light = new UniformBuffer(1, sizeof(SpotLight));
 }
 
 void LightingDemo::OnUpdate(TimeStep ts)
@@ -294,6 +301,13 @@ void LightingDemo::OnUpdate(TimeStep ts)
     }
     ImGui::End();
 
+    ImGui::Begin("Spotlight");
+    {
+        ImGui::SliderFloat("Light.CutoffAngle", &spotlight.CutoffAngle, 0.0f, 180.0f);
+        ImGui::SliderFloat("Light.OuterCutoffAngle", &spotlight.OuterCutoffAngle, 0.0f, 180.0f);
+    }
+    ImGui::End();
+
     Renderer::Clear({ 0.0f, 0.0f, 0.0f, 0.0f });
 
     light_shader.Bind();
@@ -305,15 +319,14 @@ void LightingDemo::OnUpdate(TimeStep ts)
         Renderer::DrawIndexed(light_array);
     }
 
-    light_shader.SetVec3("u_Position", spotlight.Position);
-    Renderer::DrawIndexed(light_array);
-
     cube_shader.Bind();
     cube_shader.SetVec3("u_CameraPosition", camera.GetPosition());
     cube_shader.SetMat4("u_ViewProj", camera.GetViewProjection());
 
     cube_shader.SetVec3("u_SpotLight.Position", camera.GetPosition());
     cube_shader.SetVec3("u_SpotLight.Direction", camera.GetDirection());
+    cube_shader.SetFloat("u_SpotLight.CutoffAngle", spotlight.CutoffAngle);
+    cube_shader.SetFloat("u_SpotLight.OuterCutoffAngle", spotlight.CutoffAngle);
 
     for(uint32_t i = 0; i < 4; i++)
     {

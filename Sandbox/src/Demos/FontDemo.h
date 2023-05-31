@@ -23,7 +23,7 @@ private:
     Font font1{ "Sandbox/assets/fonts/pixel_font.ttf", 0, 48 };
     Font font2{ "C:/Users/ruthj/AppData/Local/Microsoft/Windows/Fonts/JetBrainsMono-ExtraBoldItalic.ttf", 0, 48 };
     Text text1{ "This is not a piece of sample text", font1, glm::vec4(0.6f, 0.7f, 0.8f, 1.0f) };
-    Text text2{ "This is definitely not a piece of te", font2, glm::vec4(0.6f, 0.7f, 0.8f, 1.0f) };
+    Text text2{ "This is definitely not a piece of text", font2, glm::vec4(0.6f, 0.7f, 0.8f, 1.0f) };
 
     StereographicCamera camera{ 90.0f, 0.1f, 1000.0f, 1600, 900 };
     CameraController controller{ camera };
