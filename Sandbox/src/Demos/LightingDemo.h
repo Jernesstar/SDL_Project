@@ -241,8 +241,8 @@ LightingDemo::LightingDemo()
     spotlight.Diffuse  = { 0.5f, 0.5f, 0.5f };
     spotlight.Specular = { 1.0f, 1.0f, 1.0f };
 
-    spotlight.CutoffAngle =  glm::cos(glm::radians(12.5f));
-    spotlight.OuterCutoffAngle =  glm::cos(glm::radians(15.0f));
+    spotlight.CutoffAngle = glm::radians(12.5f);
+    spotlight.OuterCutoffAngle = glm::radians(15.0f);
 
     light_model = glm::scale(light_model, glm::vec3(0.2f));
 
@@ -279,7 +279,7 @@ LightingDemo::LightingDemo()
     wood_specular.Bind(1);
 
     // point_lights = new UniformBuffer(0, sizeof(PointLight) * 4);
-    // spot_light = new UniformBuffer(1, sizeof(SpotLight));
+    spot_light = new UniformBuffer(1, sizeof(SpotLight));
 }
 
 void LightingDemo::OnUpdate(TimeStep ts)
@@ -303,8 +303,8 @@ void LightingDemo::OnUpdate(TimeStep ts)
 
     ImGui::Begin("Spotlight");
     {
-        ImGui::SliderFloat("Light.CutoffAngle", &spotlight.CutoffAngle, 0.0f, 180.0f);
-        ImGui::SliderFloat("Light.OuterCutoffAngle", &spotlight.OuterCutoffAngle, 0.0f, 180.0f);
+        ImGui::SliderFloat("Light.CutoffAngle", &spotlight.CutoffAngle, 0.0f, 3.14159265358979323846264338327950288419716939937510f);
+        ImGui::SliderFloat("Light.OuterCutoffAngle", &spotlight.OuterCutoffAngle, 0.0f, 3.14159265358979323846264338327950288419716939937510f);
     }
     ImGui::End();
 
@@ -326,7 +326,7 @@ void LightingDemo::OnUpdate(TimeStep ts)
     cube_shader.SetVec3("u_SpotLight.Position", camera.GetPosition());
     cube_shader.SetVec3("u_SpotLight.Direction", camera.GetDirection());
     cube_shader.SetFloat("u_SpotLight.CutoffAngle", spotlight.CutoffAngle);
-    cube_shader.SetFloat("u_SpotLight.OuterCutoffAngle", spotlight.CutoffAngle);
+    cube_shader.SetFloat("u_SpotLight.OuterCutoffAngle", spotlight.OuterCutoffAngle);
 
     for(uint32_t i = 0; i < 4; i++)
     {
