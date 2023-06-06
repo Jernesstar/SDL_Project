@@ -2,6 +2,7 @@
 
 #include <imgui/imgui.h>
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 #include <Saddle/Core/Application.h>
 #include <Saddle/Renderer/Renderer.h>
@@ -264,12 +265,12 @@ LightingDemo::LightingDemo()
         cube_shader.SetFloat(name + ".Quadratic", pointlights[i].Quadratic);
     }
 
-    cube_shader.SetFloat("u_SpotLight.CutoffAngle", spotlight.CutoffAngle);
-    cube_shader.SetFloat("u_SpotLight.OuterCutoffAngle", spotlight.CutoffAngle);
+    // cube_shader.SetFloat("u_SpotLight.CutoffAngle", spotlight.CutoffAngle);
+    // cube_shader.SetFloat("u_SpotLight.OuterCutoffAngle", spotlight.CutoffAngle);
 
-    cube_shader.SetVec3("u_SpotLight.Ambient", spotlight.Ambient);
-    cube_shader.SetVec3("u_SpotLight.Diffuse", spotlight.Diffuse);
-    cube_shader.SetVec3("u_SpotLight.Specular", spotlight.Specular);
+    // cube_shader.SetVec3("u_SpotLight.Ambient", spotlight.Ambient);
+    // cube_shader.SetVec3("u_SpotLight.Diffuse", spotlight.Diffuse);
+    // cube_shader.SetVec3("u_SpotLight.Specular", spotlight.Specular);
 
     cube_shader.SetInt("u_Material.Diffuse", 0);
     cube_shader.SetInt("u_Material.Specular", 1);
@@ -278,8 +279,9 @@ LightingDemo::LightingDemo()
     wood.Bind(0);
     wood_specular.Bind(1);
 
-    // point_lights = new UniformBuffer(0, sizeof(PointLight) * 4);
-    spot_light = new UniformBuffer(1, sizeof(SpotLight));
+    // point_lights = new UniformBuffer("u_PointLights", 0, sizeof(PointLight) * 4);
+    spot_light = new UniformBuffer("u_SpotLight", 1, sizeof(SpotLight));
+    cube_shader.BindUniform(spot_light);
 }
 
 void LightingDemo::OnUpdate(TimeStep ts)
@@ -304,7 +306,7 @@ void LightingDemo::OnUpdate(TimeStep ts)
     ImGui::Begin("Spotlight");
     {
         ImGui::SliderFloat("Light.CutoffAngle", &spotlight.CutoffAngle, 0.0f, 3.14159265358979323846264338327950288419716939937510f);
-        ImGui::SliderFloat("Light.OuterCutoffAngle", &spotlight.OuterCutoffAngle, 0.0f, 3.14159265358979323846264338327950288419716939937510f);
+        ImGui::SliderFloat("Light.OutcerCutoffAngle", &spotlight.OuterCutoffAngle, 0.0f, 3.14159265358979323846264338327950288419716939937510f);
     }
     ImGui::End();
 
@@ -323,10 +325,12 @@ void LightingDemo::OnUpdate(TimeStep ts)
     cube_shader.SetVec3("u_CameraPosition", camera.GetPosition());
     cube_shader.SetMat4("u_ViewProj", camera.GetViewProjection());
 
-    cube_shader.SetVec3("u_SpotLight.Position", camera.GetPosition());
-    cube_shader.SetVec3("u_SpotLight.Direction", camera.GetDirection());
-    cube_shader.SetFloat("u_SpotLight.CutoffAngle", spotlight.CutoffAngle);
-    cube_shader.SetFloat("u_SpotLight.OuterCutoffAngle", spotlight.OuterCutoffAngle);
+    // cube_shader.SetVec3("u_SpotLight.Position", camera.GetPosition());
+    // cube_shader.SetVec3("u_SpotLight.Direction", camera.GetDirection());
+    // cube_shader.SetFloat("u_SpotLight.CutoffAngle", spotlight.CutoffAngle);
+    // cube_shader.SetFloat("u_SpotLight.OuterCutoffAngle", spotlight.OuterCutoffAngle);
+
+    spot_light->SetData(&spotlight, sizeof(SpotLight));
 
     for(uint32_t i = 0; i < 4; i++)
     {

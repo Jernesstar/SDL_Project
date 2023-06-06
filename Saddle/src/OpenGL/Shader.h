@@ -11,6 +11,8 @@
 #include <glm/mat3x3.hpp>
 #include <glm/mat4x4.hpp>
 
+#include "UniformBuffer.h"
+
 namespace Saddle {
 
 enum class ShaderType { Vertex, Fragment, Geometry, Compute, Unknown };
@@ -40,6 +42,8 @@ public:
     void SetMat2(const std::string& name, const glm::mat2& mat);
     void SetMat3(const std::string& name, const glm::mat3& mat);
     void SetMat4(const std::string& name, const glm::mat4& mat);
+
+    void BindUniform(UniformBuffer* buffer);
 
 private:
     uint32_t m_ProgramID;

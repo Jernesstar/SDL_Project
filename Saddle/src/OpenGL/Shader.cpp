@@ -84,6 +84,12 @@ void Shader::SetMat4(const std::string& name, const glm::mat4& matrix)
     glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
 }
 
+void Shader::BindUniform(UniformBuffer* buffer)
+{
+    uint32_t index = glGetUniformBlockIndex(m_ProgramID, buffer->Name.c_str());
+    glUniformBlockBinding(m_ProgramID, index, buffer->Binding);
+}
+
 uint32_t GetShaderType(ShaderType type)
 {
     switch(type)
