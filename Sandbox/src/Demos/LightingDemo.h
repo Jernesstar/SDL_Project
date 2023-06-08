@@ -280,7 +280,7 @@ LightingDemo::LightingDemo()
     wood_specular.Bind(1);
 
     // point_lights = new UniformBuffer("u_PointLights", 0, sizeof(PointLight) * 4);
-    spot_light = new UniformBuffer("u_SpotLight", 1, sizeof(SpotLight));
+    spot_light = new UniformBuffer("SpotLight", 1, sizeof(SpotLight));
     cube_shader.BindUniform(spot_light);
 }
 

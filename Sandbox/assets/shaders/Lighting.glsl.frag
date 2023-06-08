@@ -51,7 +51,7 @@ uniform Material u_Material;
 uniform PointLight u_PointLights[POINT_LIGHTS];
 // uniform SpotLight u_SpotLight;
 
-layout(binding = 1) uniform SpotLight {
+layout(std140, binding = 1) uniform SpotLight {
     vec3 Position;
     vec3 Direction;
  

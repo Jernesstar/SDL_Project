@@ -14,12 +14,13 @@ public:
     const std::string Name;
 
 public:
-    UniformBuffer(const std::string& name, uint32_t binding, std::size_t size, bool dynamic = true)
+    UniformBuffer(const std::string& name, uint32_t binding, std::size_t size, const void* data = nullptr, bool dynamic = true)
         : Name(name), Binding(binding)
     {
         glCreateBuffers(1, &m_BufferID);
         glBindBuffer(GL_UNIFORM_BUFFER, m_BufferID);
-        glBufferData(GL_UNIFORM_BUFFER, size, nullptr, dynamic ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
+        glBufferData(GL_UNIFORM_BUFFER, size, data, dynamic ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
+        glBindBuffer(GL_UNIFORM_BUFFER, 0);
         // glNamedBufferData(m_BufferID, size, nullptr, dynamic ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
         glBindBufferBase(GL_UNIFORM_BUFFER, binding, m_BufferID);
     }
