@@ -20,10 +20,10 @@ void Text::SetText(const std::string& text, const Font& font)
         // Todo: Fix this
         CharacterQuad quad;
         quad.Character = ch;
-        quad.Vertices[0] = { xpos + w, ypos + h };
-        quad.Vertices[1] = { xpos,     ypos + h };
-        quad.Vertices[2] = { xpos + w, ypos,    };
-        quad.Vertices[3] = { xpos,     ypos,    };
+        quad.Vertices[0] = { xpos,     ypos     };
+        quad.Vertices[1] = { xpos + w, ypos     };
+        quad.Vertices[2] = { xpos + w, ypos + h };
+        quad.Vertices[3] = { xpos,     ypos + h };
 
         m_Quads.push_back(quad);
         x += (ch.Advance >> 6);
