@@ -43,7 +43,7 @@ FontDemo::FontDemo()
             Application::Close();
     });
 
-    camera.SetPosition({ 0.0f, 0.0f, 0.0f });
+    camera.SetPosition({ 0.0f, 0.0f, 1.0f });
     controller.TranslationSpeed = 0.5f;
 }
 
@@ -51,10 +51,10 @@ void FontDemo::OnUpdate(TimeStep ts)
 {
     controller.OnUpdate(ts);
 
-    Renderer::Clear({ });
+    Renderer::Clear({ 0.0f, 0.0f, 0.0f, 0.0f });
     Renderer2D::BeginScene(camera);
     {
-        Renderer2D::DrawQuad(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), glm::vec3(200.0f, 300.0f, 0.0f), glm::vec2(50.0f, 50.0f));
+        Renderer2D::DrawQuad(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), glm::vec3(200.0f, 30.0f, 0.0f), glm::vec2(50.0f, 50.0f));
         Renderer2D::DrawText(text1, glm::vec3(500.0f, 400.0f, 0.0f));
         Renderer2D::DrawText(text2, glm::vec3(500.0f, 300.0f, 0.0f));
     }
