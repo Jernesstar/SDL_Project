@@ -28,7 +28,7 @@ Application* CreateApplication(const ApplicationCommandLineArgs& args)
             return new ModelDemo();
         if(project == "Texture")
             return new TextureDemo();
-        if(project == "Game")
+        if(project == "Snake")
             return new Game(1000, 600);
     }
 

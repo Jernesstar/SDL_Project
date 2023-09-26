@@ -106,7 +106,7 @@ void Snake::Update(TimeStep ts)
     glm::vec2 dir = GameInput::GetInput(Mode);
 
     if(dir == glm::vec2(0.0f, 0.0f))
-        return; // dir = Direction;
+        return;
     if(dir.x * Direction.x == -1.0f || dir.y * Direction.y == -1.0f)
         return;
 

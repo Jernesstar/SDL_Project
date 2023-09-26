@@ -19,7 +19,7 @@ class Font {
 private:
     struct Character {
         uint32_t   TextureID; // ID handle of the glyph texture
-        glm::ivec2 Size;      // Size of glyph1
+        glm::ivec2 Size;      // Size of glyph
         glm::ivec2 Bearing;   // Offset from baseline to left/top of glyph
         uint32_t   Advance;   // Offset to advance to next glyph
     };
