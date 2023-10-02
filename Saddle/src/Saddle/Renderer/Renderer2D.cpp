@@ -50,22 +50,12 @@ struct Renderer2DData {
         { 0.0f, 1.0f }, // Top left,     3
     };
 
-<<<<<<< HEAD
-    // Todo: Get this to work
-    glm::vec2 TextCoordinates[4] = // These coordinates don't make sense
-    {
-        { 0.0f, 0.0f },
-        { 1.0f, 0.0f },
-        { 1.0f, 1.0f },
-        { 0.0f, 1.0f },
-=======
     glm::vec2 TextCoords[4] =
     {
         { 0.0f, 1.0f }, // Bottom left,  0
         { 1.0f, 1.0f }, // Bottom right, 1
         { 1.0f, 0.0f }, // Top right,    2
         { 0.0f, 0.0f }, // Top left,     3
->>>>>>> master
     };
 };
 
@@ -290,11 +280,7 @@ void Renderer2D::DrawQuad(const Text::CharacterQuad& ch, const glm::vec4& color,
     {
         s_Data.QuadVertexBufferPtr->Position = transform * glm::vec4(ch.Vertices[i], 0.0f, 1.0f);
         s_Data.QuadVertexBufferPtr->Color = color;
-<<<<<<< HEAD
-        s_Data.QuadVertexBufferPtr->TextureCoordinate = s_Data.TextCoordinates[i];
-=======
         s_Data.QuadVertexBufferPtr->TextureCoordinate = s_Data.TextCoords[i];
->>>>>>> master
         s_Data.QuadVertexBufferPtr->TextureIndex = (int32_t)text_index;
         s_Data.QuadVertexBufferPtr++;
     }

@@ -19,17 +19,10 @@ void Text::SetText(const std::string& text, const Font& font)
 
         CharacterQuad quad;
         quad.Character = ch;
-<<<<<<< HEAD
-        quad.Vertices[0] = { xpos - 0.5f * w, ypos - 0.5f * h };
-        quad.Vertices[1] = { xpos + 0.5f * w, ypos - 0.5f * h };
-        quad.Vertices[2] = { xpos + 0.5f * w, ypos + 0.5f * h };
-        quad.Vertices[3] = { xpos - 0.5f * w, ypos + 0.5f * h };
-=======
         quad.Vertices[0] = { xpos,     ypos     };
         quad.Vertices[1] = { xpos + w, ypos     };
         quad.Vertices[2] = { xpos + w, ypos + h };
         quad.Vertices[3] = { xpos,     ypos + h };
->>>>>>> master
 
         m_Quads.push_back(quad);
         x += (ch.Advance >> 6);

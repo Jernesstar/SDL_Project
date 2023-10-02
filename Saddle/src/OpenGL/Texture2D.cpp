@@ -25,7 +25,7 @@ Texture2D::Texture2D(uint32_t width, uint32_t height)
 Texture2D::Texture2D(const std::string& path)
     : m_Path(path), InternalFormat(GL_RGBA8), DataFormat(GL_RGBA), m_Slot(-1)
 {
-    unsigned char* pixel_data = Utils::ReadImage(path.c_str(), m_Width, m_Height, 4, 1);
+    unsigned char* pixel_data = Utils::ReadImage(path.c_str(), m_Width, m_Height, 4, true);
     
     glCreateTextures(GL_TEXTURE_2D, 1, &m_TextureID);
     glTextureStorage2D(m_TextureID, 1, InternalFormat, m_Width, m_Height);
@@ -51,7 +51,7 @@ void Texture2D::Bind(uint32_t slot)
 void Texture2D::SetData(const std::string& path)
 {
     m_Path = path;
-    unsigned char* pixel_data = Utils::ReadImage(path.c_str(), m_Width, m_Height, 4, 1);
+    unsigned char* pixel_data = Utils::ReadImage(path.c_str(), m_Width, m_Height, 4, true);
     glTextureSubImage2D(m_TextureID, 0, 0, 0, m_Width, m_Height, DataFormat, GL_UNSIGNED_BYTE, pixel_data);
     stbi_image_free(pixel_data);
 }
