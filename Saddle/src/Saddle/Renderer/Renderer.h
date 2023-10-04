@@ -6,9 +6,8 @@
 #include <glm/vec4.hpp>
 
 #include "OpenGL/Shader.h"
-#include "OpenGL/VertexBuffer.h"
-#include "OpenGL/IndexBuffer.h"
 #include "OpenGL/VertexArray.h"
+#include "OpenGL/Cubemap.h"
 
 #include "Mesh.h"
 
@@ -21,6 +20,7 @@ public:
 
     static void DrawIndexed(const VertexArray* vertex_array, uint32_t index_count = 0);
     static void RenderMesh(Mesh* mesh);
+    static void RenderCubemap(Cubemap* cubemap, const VertexArray* vertex_array);
 
 private:
     Renderer() = delete;

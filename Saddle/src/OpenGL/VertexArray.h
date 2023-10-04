@@ -23,6 +23,7 @@ public:
 
     std::vector<VertexBuffer*> GetVertexBuffer() const { return m_VertexBuffers; }
     IndexBuffer* GetIndexBuffer() const { return m_IndexBuffer; }
+    bool HasIndexBuffer() const { return m_IndexBuffer != nullptr; }
 
 private:
     uint32_t m_VertexArrayID;

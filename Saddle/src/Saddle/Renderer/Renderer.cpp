@@ -51,4 +51,12 @@ void Renderer::RenderMesh(Mesh* mesh)
     }
 }
 
+void Renderer::RenderCubemap(Cubemap* cubemap, const VertexArray* vertex_array)
+{
+    glDepthMask(GL_FALSE);
+    vertex_array->Bind();
+    glDrawArrays(GL_TRIANGLES, 0, 36);
+    glDepthMask(GL_TRUE);
+}
+
 }
