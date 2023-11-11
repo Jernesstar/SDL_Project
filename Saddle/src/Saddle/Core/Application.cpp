@@ -17,7 +17,7 @@
 namespace Saddle {
 
 Application::Application(const ApplicationSpecification& specs)
-    : Window(specs.WindowSpecification)
+    : m_Window(specs.WindowSpecification)
 {
     SADDLE_CORE_ASSERT(!s_Instance, "Application already exists!");
     SADDLE_CORE_ASSERT(gladLoadGL(), "Glad could not load OpenGL");
@@ -47,7 +47,7 @@ void Application::Init(const ApplicationCommandLineArgs& args, const Application
 
 void Application::Run()
 {
-    while(s_Instance->Window.IsOpen())
+    while(s_Instance->m_Window.IsOpen())
     {
         TimePoint time = Time::GetTime();
         TimeStep ts = time - s_LastFrame;
@@ -67,7 +67,7 @@ void Application::Run()
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
-        s_Instance->Window.Update();
+        s_Instance->m_Window.Update();
     }
 }
 

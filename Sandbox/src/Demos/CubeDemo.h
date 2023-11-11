@@ -80,7 +80,7 @@ private:
 
     Shader shader{ { "Sandbox/assets/shaders/Cube.glsl.frag", "Sandbox/assets/shaders/Cube.glsl.vert" } };
 
-    glm::vec2 vec{ Window.GetFrameBufferSize() };
+    glm::vec2 vec{ GetWindow().GetFrameBufferSize() };
     float ratio{ vec.x / vec.y };
     glm::mat4 model{ 1.0f };
 
