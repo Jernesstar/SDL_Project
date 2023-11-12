@@ -1,6 +1,7 @@
 #include "Cubemap.h"
 
 #include <vector>
+#include <unordered_map>
 #include <filesystem>
 
 #include <glad/glad.h>
@@ -11,7 +12,7 @@
 
 namespace Saddle {
 
-std::vector<std::string> GetImagePaths(const std::string& folder)
+std::vector<std::Path> GetImagePaths(const std::string& folder)
 {
     std::vector<std::string> paths;
     for(const auto& p : std::filesystem::directory_iterator(folder.c_str()))
@@ -32,19 +33,24 @@ Cubemap::Cubemap(const std::string& cubemap_folder)
 {
     glCreateTextures(GL_TEXTURE_CUBE_MAP, 1, &m_TextureID);
 
-    std::vector<std::string> faces = GetImagePaths(cubemap_folder);
+    std::vector<std::Path> faces = GetImagePaths(cubemap_folder);
+    std::unordered_map<std::string, int> map =
+    {
+        { "right", 0 }, { "left", 1 }, { "top", 2 }, { "bottom", 3 }, { "front", 4 }, { "back", 5 }
+    };
 
     int width, height;
-    for(unsigned int i = 0; i < faces.size(); i++)
+    for(auto& face : faces)
     {
-        unsigned char* data = Utils::ReadImage(faces[i].c_str(), width, height, true);
+        unsigned char* data = Utils::ReadImage(face.path().c_str(), width, height, true);
         if(data)
         {
-            glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+            glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + map[face.path().name()], 0, GL_RGB, width,
+                height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
         }
         else
         {
-            SADDLE_CORE_LOG_WARNING("Cubemap tex failed to load at path: %s", faces[i].c_str());
+            SADDLE_CORE_LOG_WARNING("Could not load image: %s", face.c_str());
         }
         stbi_image_free(data);
     }

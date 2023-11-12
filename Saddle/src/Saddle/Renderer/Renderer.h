@@ -20,7 +20,10 @@ public:
 
     static void DrawIndexed(const VertexArray* vertex_array, uint32_t index_count = 0);
     static void RenderMesh(Mesh* mesh);
-    static void RenderCubemap(Cubemap* cubemap, const VertexArray* vertex_array);
+    static void RenderCubemap(Cubemap* cubemap);
+
+private:
+    static VertexArray* s_CubemapArray;
 
 private:
     Renderer() = delete;
