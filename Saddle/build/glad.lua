@@ -22,3 +22,9 @@ project "glad"
         {
             "%{VendorPaths.glad}/src/glad_wgl.c"
         }
+
+    filter "system:linux"
+        files
+        {
+            "%{VendorPaths.glad}/src/glad_glx.c"
+        }

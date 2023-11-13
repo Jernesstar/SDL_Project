@@ -18,7 +18,7 @@ public:
     static void Init();
     static void Clear(const glm::vec4& color = { 0.0f, 0.0f, 0.0f, 0.0f });
 
-    static void DrawIndexed(const VertexArray* vertex_array, uint32_t index_count = 0);
+    static void DrawIndexed(const VertexArray* vertex_array, uint32_t indices = 0);
     static void RenderMesh(Mesh* mesh);
     static void RenderCubemap(Cubemap* cubemap);
 

@@ -12,13 +12,13 @@
 
 namespace Saddle {
 
-std::vector<std::Path> GetImagePaths(const std::string& folder)
+std::vector<std::filesystem::path> GetImagePaths(const std::string& folder)
 {
-    std::vector<std::string> paths;
+    std::vector<std::filesystem::path> paths;
     for(const auto& p : std::filesystem::directory_iterator(folder.c_str()))
     {
         if(p.path().extension() == ".jpg" || p.path().extension() == ".jpeg" || p.path().extension() == ".png")
-            paths.push_back(p.path().string());
+            paths.push_back(p);
         
         if(paths.size() == 6)
             break;
@@ -33,7 +33,7 @@ Cubemap::Cubemap(const std::string& cubemap_folder)
 {
     glCreateTextures(GL_TEXTURE_CUBE_MAP, 1, &m_TextureID);
 
-    std::vector<std::Path> faces = GetImagePaths(cubemap_folder);
+    std::vector<std::filesystem::path> faces = GetImagePaths(cubemap_folder);
     std::unordered_map<std::string, int> map =
     {
         { "right", 0 }, { "left", 1 }, { "top", 2 }, { "bottom", 3 }, { "front", 4 }, { "back", 5 }
@@ -42,10 +42,10 @@ Cubemap::Cubemap(const std::string& cubemap_folder)
     int width, height;
     for(auto& face : faces)
     {
-        unsigned char* data = Utils::ReadImage(face.path().c_str(), width, height, true);
+        unsigned char* data = Utils::ReadImage(face, width, height, true);
         if(data)
         {
-            glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + map[face.path().name()], 0, GL_RGB, width,
+            glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + map[face.stem()], 0, GL_RGB, width,
                 height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
         }
         else

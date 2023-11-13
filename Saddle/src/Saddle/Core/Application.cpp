@@ -2,6 +2,7 @@
 
 #define GLFW_INCLUDE_NONE
 #include <glad/glad.h>
+#include <GLFW/glfw3.h>
 
 #include <imgui/imgui.h>
 #include <imgui/backends/imgui_impl_glfw.h>
@@ -30,7 +31,7 @@ Application::Application(const ApplicationSpecification& specs)
 }
 
 void Application::Init(const ApplicationSpecification& specs)
-{    
+{
     SADDLE_CORE_ASSERT(!s_Instance, "Application was constructed before calling Application::Init");
     SADDLE_CORE_ASSERT(glfwInit(), "Failed to initialize GLFW");
 

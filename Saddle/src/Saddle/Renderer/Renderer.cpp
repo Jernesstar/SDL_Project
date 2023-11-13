@@ -10,6 +10,8 @@
 
 namespace Saddle {
 
+VertexArray* Renderer::s_CubemapArray;
+
 void Renderer::Init()
 {
     glEnable(GL_BLEND);
@@ -68,7 +70,7 @@ void Renderer::Init()
          1.0f, -1.0f,  1.0f
     };
 
-    VertexBuffer buffer = new VertexBuffer(vertices, BufferLayout{ { "Position", BufferDataType::Vec3 } });
+    VertexBuffer* buffer = new VertexBuffer(vertices, BufferLayout{ { "Position", BufferDataType::Vec3 } });
     s_CubemapArray = new VertexArray(buffer);
 }
 
@@ -78,7 +80,7 @@ void Renderer::Clear(const glm::vec4& color)
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void Renderer::DrawIndexed(const VertexArray* vertex_array, uint32_t indices = 0)
+void Renderer::DrawIndexed(const VertexArray* vertex_array, uint32_t indices)
 {
     vertex_array->Bind();
     glDrawElements(GL_TRIANGLES, indices != 0 ? indices : vertex_array->GetIndexBuffer()->Count,

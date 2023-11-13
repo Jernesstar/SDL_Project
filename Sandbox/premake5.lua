@@ -34,8 +34,19 @@ project "Sandbox"
         "glad",
         "stb_image",
         "assimp",
-        "gdi32",
     }
 
     filter "system:windows"
         systemversion "latest"
+
+        links
+        {
+            "gdi32"
+        }
+
+    filter "system:linux"
+        links
+        {
+            "pthread",
+            "dl"
+        }

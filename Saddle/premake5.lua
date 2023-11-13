@@ -33,8 +33,7 @@ project "Saddle"
         "glad",
         "glfw",
         "stb_image",
-        "assimp",
-        "gdi32",
+        "assimp"
     }
 
     filter "system:windows"
