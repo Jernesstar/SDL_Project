@@ -25,16 +25,6 @@ project "Saddle"
         "%{Includes.imgui}/imgui",
         "%{Includes.assimp}"
     }
-    
-    links
-    {
-        "freetype",
-        "imgui",
-        "glad",
-        "glfw",
-        "stb_image",
-        "assimp"
-    }
 
     filter "system:windows"
         systemversion "latest"
