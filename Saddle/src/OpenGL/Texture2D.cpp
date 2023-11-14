@@ -44,6 +44,7 @@ Texture2D::~Texture2D() { glDeleteTextures(1, &m_TextureID); }
 
 void Texture2D::Bind(uint32_t slot)
 {
+    SADDLE_CORE_ASSERT(slot >= 0);
     m_Slot = slot;
     glBindTextureUnit(slot, m_TextureID);
 }

@@ -48,6 +48,12 @@ void Shader::SetFloat(const std::string& name, float _float)
     glUniform1f(location, _float);
 }
 
+void Shader::SetTexture(const std::string& name, Texture2D* texture)
+{
+    SADDLE_CORE_ASSERT(texture->GetSlot() >= 0);
+    SetInt(name, texture->GetSlot());
+}
+
 void Shader::SetVec2(const std::string& name, const glm::vec2& vec)
 {
     GLint location = glGetUniformLocation(m_ProgramID, name.c_str());
@@ -84,12 +90,6 @@ void Shader::SetMat4(const std::string& name, const glm::mat4& matrix)
     glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
 }
 
-void Shader::BindUniform(UniformBuffer* buffer)
-{
-    uint32_t index = glGetUniformBlockIndex(m_ProgramID, buffer->Name.c_str());
-    glUniformBlockBinding(m_ProgramID, index, buffer->Binding);
-}
-
 uint32_t GetShaderType(ShaderType type)
 {
     switch(type)
@@ -108,14 +108,16 @@ bool StringContains(const std::string& str, const std::string& sub_str) { return
 Shader::ShaderFile FindShaderFile(const std::string& path)
 {
     std::size_t dot = path.find_first_of('.');
-    std::string sub_str = path.substr(dot);
+    if(dot == std::string::npos)
+        SADDLE_CORE_ASSERT_ARGS(false, "%s is an incorrectly formatted file name. Accepted formats: example.glsl.vert, example.vert.glsl, example.vert", path.c_str());
 
+    std::string sub_str = path.substr(dot);
     if(StringContains(sub_str, "vert") || StringContains(sub_str, "vs")) return Shader::ShaderFile{ path, ShaderType::Vertex   };
     if(StringContains(sub_str, "frag") || StringContains(sub_str, "fs")) return Shader::ShaderFile{ path, ShaderType::Fragment };
     if(StringContains(sub_str, "geom") || StringContains(sub_str, "gs")) return Shader::ShaderFile{ path, ShaderType::Geometry };
     if(StringContains(sub_str, "comp") || StringContains(sub_str, "compute")) return Shader::ShaderFile{ path, ShaderType::Compute  };
 
-    SADDLE_CORE_ASSERT_ARGS(false, "File %s is of unknown shader type", path);
+    SADDLE_CORE_ASSERT_ARGS(false, "File %s is of unknown shader type", path.c_str());
     return Shader::ShaderFile{ "", ShaderType::Unknown };
 }
 
