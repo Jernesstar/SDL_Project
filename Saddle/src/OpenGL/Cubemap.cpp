@@ -42,10 +42,10 @@ Cubemap::Cubemap(const std::string& cubemap_folder)
     int width, height;
     for(auto& face : faces)
     {
-        unsigned char* data = Utils::ReadImage(face, width, height, true);
+        unsigned char* data = Utils::ReadImage(face.string(), width, height, true);
         if(data)
         {
-            glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + map[face.stem()], 0, GL_RGB, width,
+            glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + map[face.stem().string()], 0, GL_RGB, width,
                 height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
         }
         else

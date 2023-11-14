@@ -24,7 +24,7 @@ if "%arg%"=="vs" (
 )
 
 echo ----- Generating files for %print_target% -----
-vendor\premake\bin\premake5.exe %target%
+vendor\premake\bin\Windows\premake5.exe %target%
 echo --------------------------------
 
 popd

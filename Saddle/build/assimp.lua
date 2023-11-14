@@ -8,7 +8,6 @@ project "assimp"
 
     files
     {
-        "%{VendorPaths.assimp}/code/",
         -- "%{VendorPaths.assimp}/code/CApi/*.cpp",
         "%{VendorPaths.assimp}/code/Common/*.cpp",
         "%{VendorPaths.assimp}/code/Geometry/*.cpp",
