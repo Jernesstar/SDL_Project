@@ -3,7 +3,7 @@
 	url = https://github.com/Jernesstar/stb_image
 [submodule "Saddle/vendor/freetype"]
 	path = Saddle/vendor/freetype
-	url = https://github.com/Jernesstar/freetype
+	url = https://github.com/freetype/freetype.git
 [submodule "Saddle/vendor/glm"]
 	path = Saddle/vendor/glm
 	url = https://github.com/g-truc/glm.git
@@ -19,4 +19,4 @@
 	url = https://github.com/ocornut/imgui.git
 [submodule "Saddle/vendor/assimp"]
 	path = Saddle/vendor/assimp
-	url = https://github.com/Jernesstar/assimp.git
+	url = https://github.com/assimp/assimp.git

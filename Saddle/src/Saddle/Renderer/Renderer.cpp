@@ -10,6 +10,8 @@
 
 namespace Saddle {
 
+VertexArray* Renderer::s_CubemapArray;
+
 void Renderer::Init()
 {
     glEnable(GL_BLEND);
@@ -22,6 +24,54 @@ void Renderer::Init()
     glEnable(GL_DEPTH_TEST);
 
     Renderer2D::Init();
+
+    float vertices[] =
+    {
+        -1.0f,  1.0f, -1.0f,
+        -1.0f, -1.0f, -1.0f,
+         1.0f, -1.0f, -1.0f,
+         1.0f, -1.0f, -1.0f,
+         1.0f,  1.0f, -1.0f,
+        -1.0f,  1.0f, -1.0f,
+
+        -1.0f, -1.0f,  1.0f,
+        -1.0f, -1.0f, -1.0f,
+        -1.0f,  1.0f, -1.0f,
+        -1.0f,  1.0f, -1.0f,
+        -1.0f,  1.0f,  1.0f,
+        -1.0f, -1.0f,  1.0f,
+
+         1.0f, -1.0f, -1.0f,
+         1.0f, -1.0f,  1.0f,
+         1.0f,  1.0f,  1.0f,
+         1.0f,  1.0f,  1.0f,
+         1.0f,  1.0f, -1.0f,
+         1.0f, -1.0f, -1.0f,
+
+        -1.0f, -1.0f,  1.0f,
+        -1.0f,  1.0f,  1.0f,
+         1.0f,  1.0f,  1.0f,
+         1.0f,  1.0f,  1.0f,
+         1.0f, -1.0f,  1.0f,
+        -1.0f, -1.0f,  1.0f,
+
+        -1.0f,  1.0f, -1.0f,
+         1.0f,  1.0f, -1.0f,
+         1.0f,  1.0f,  1.0f,
+         1.0f,  1.0f,  1.0f,
+        -1.0f,  1.0f,  1.0f,
+        -1.0f,  1.0f, -1.0f,
+
+        -1.0f, -1.0f, -1.0f,
+        -1.0f, -1.0f,  1.0f,
+         1.0f, -1.0f, -1.0f,
+         1.0f, -1.0f, -1.0f,
+        -1.0f, -1.0f,  1.0f,
+         1.0f, -1.0f,  1.0f
+    };
+
+    VertexBuffer* buffer = new VertexBuffer(vertices, BufferLayout{ { "Position", BufferDataType::Vec3 } });
+    s_CubemapArray = new VertexArray(buffer);
 }
 
 void Renderer::Clear(const glm::vec4& color)
@@ -33,7 +83,8 @@ void Renderer::Clear(const glm::vec4& color)
 void Renderer::DrawIndexed(const VertexArray* vertex_array, uint32_t indices)
 {
     vertex_array->Bind();
-    glDrawElements(GL_TRIANGLES, indices != 0 ? indices : vertex_array->GetIndexBuffer()->Count, GL_UNSIGNED_INT, nullptr);
+    glDrawElements(GL_TRIANGLES, indices != 0 ? indices : vertex_array->GetIndexBuffer()->Count,
+        GL_UNSIGNED_INT, nullptr);
 }
 
 void Renderer::RenderMesh(Mesh* mesh)
@@ -47,14 +98,16 @@ void Renderer::RenderMesh(Mesh* mesh)
 
         mesh->m_Materials[material_index].Bind();
 
-        glDrawElementsBaseVertex(GL_TRIANGLES, sub_mesh.IndexCount, GL_UNSIGNED_INT, (void*)(sizeof(uint32_t) * sub_mesh.BaseIndex), sub_mesh.BaseVertex);
+        glDrawElementsBaseVertex(GL_TRIANGLES, sub_mesh.IndexCount, GL_UNSIGNED_INT,
+            (void*)(sizeof(uint32_t) * sub_mesh.BaseIndex), sub_mesh.BaseVertex);
     }
 }
 
-void Renderer::RenderCubemap(Cubemap* cubemap, const VertexArray* vertex_array)
+void Renderer::RenderCubemap(Cubemap* cubemap)
 {
     glDepthMask(GL_FALSE);
-    vertex_array->Bind();
+    s_CubemapArray->Bind();
+    glBindTexture(GL_TEXTURE_CUBE_MAP, cubemap->GetTextureID());
     glDrawArrays(GL_TRIANGLES, 0, 36);
     glDepthMask(GL_TRUE);
 }

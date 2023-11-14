@@ -7,7 +7,8 @@
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
 
-#include "Assert.h"
+#include "Saddle/Core/Assert.h"
+
 #include "Event.h"
 #include "KeyEvents.h"
 #include "MouseEvents.h"

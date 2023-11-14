@@ -33,7 +33,7 @@ TextureDemo::TextureDemo()
             Application::Close();
     });
 
-    this->Window.SetWindowIcon("Sandbox/assets/images/start_bg.png");
+    GetWindow().SetWindowIcon("Sandbox/assets/images/start_bg.png");
     controller.TranslationSpeed = 1.0f;
 
     entity.AddComponent<TextureComponent>("Sandbox/assets/images/apple.png");
@@ -44,7 +44,7 @@ void TextureDemo::OnUpdate(TimeStep ts)
 {
     Renderer::Clear({ 1, 1, 1, 1 });
 
-    glm::vec2 vec = this->Window.GetFrameBufferSize();
+    glm::vec2 vec = GetWindow().GetFrameBufferSize();
     camera.SetProjection(0.0f, vec.x, 0.0f, vec.y);
 
     Renderer2D::BeginScene(camera);

@@ -23,7 +23,7 @@ struct ApplicationCommandLineArgs {
 
 struct ApplicationSpecification {
     ApplicationCommandLineArgs CommandLineArgs;
-    WindowSpecification WindowSpecification;
+    Saddle::WindowSpecification WindowSpecification;
 
     ApplicationSpecification(
         ApplicationCommandLineArgs commandline_args = { }, 
@@ -39,12 +39,14 @@ public:
 
     virtual void OnUpdate(TimeStep ts) = 0;
 
-    Window& GetWindow() { return Window; }
+    Window& GetWindow() { return m_Window; }
     const ApplicationSpecification& GetSpecification() { return s_Specification; }
 
     static TimeStep GetTimeStep() { return s_TimeStep; }
 
 private:
+    Saddle::Window m_Window;
+
     inline static Application* s_Instance = nullptr;
     inline static ApplicationSpecification s_Specification;
     inline static TimePoint s_LastFrame{ Time::GetTime() };
@@ -54,9 +56,6 @@ private:
     static void Init(const ApplicationSpecification& specs = ApplicationSpecification());
     static void Init(const ApplicationCommandLineArgs& args, 
         const ApplicationSpecification& specs = ApplicationSpecification());
-
-protected:
-    Window Window;
 
 protected:
     Application(const ApplicationSpecification& specs = s_Specification);

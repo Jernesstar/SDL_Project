@@ -2,6 +2,7 @@
 
 #define GLFW_INCLUDE_NONE
 #include <glad/glad.h>
+#include <GLFW/glfw3.h>
 
 #include <imgui/imgui.h>
 #include <imgui/backends/imgui_impl_glfw.h>
@@ -17,7 +18,7 @@
 namespace Saddle {
 
 Application::Application(const ApplicationSpecification& specs)
-    : Window(specs.WindowSpecification)
+    : m_Window(specs.WindowSpecification)
 {
     SADDLE_CORE_ASSERT(!s_Instance, "Application already exists!");
     SADDLE_CORE_ASSERT(gladLoadGL(), "Glad could not load OpenGL");
@@ -30,7 +31,7 @@ Application::Application(const ApplicationSpecification& specs)
 }
 
 void Application::Init(const ApplicationSpecification& specs)
-{    
+{
     SADDLE_CORE_ASSERT(!s_Instance, "Application was constructed before calling Application::Init");
     SADDLE_CORE_ASSERT(glfwInit(), "Failed to initialize GLFW");
 
@@ -47,7 +48,7 @@ void Application::Init(const ApplicationCommandLineArgs& args, const Application
 
 void Application::Run()
 {
-    while(s_Instance->Window.IsOpen())
+    while(s_Instance->m_Window.IsOpen())
     {
         TimePoint time = Time::GetTime();
         TimeStep ts = time - s_LastFrame;
@@ -67,7 +68,7 @@ void Application::Run()
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
-        s_Instance->Window.Update();
+        s_Instance->m_Window.Update();
     }
 }
 
