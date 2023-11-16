@@ -49,15 +49,15 @@ private:
     };
 
     struct SpotLight {
+        float CutoffAngle;
+        float OuterCutoffAngle;
+
         glm::vec4 Position;
         glm::vec4 Direction;
 
         glm::vec4 Ambient;
         glm::vec4 Diffuse;
         glm::vec4 Specular;
-
-        float CutoffAngle;
-        float OuterCutoffAngle;
     };
 
     Vertex1 vertices[8] = 
@@ -193,7 +193,8 @@ private:
     PointLight pointlights[4];
     SpotLight spotlight;
 
-    UniformBuffer* spot_light;
+    UniformBuffer* vectors;
+    UniformBuffer* angles;
 };
 
 LightingDemo::LightingDemo()
@@ -272,7 +273,8 @@ LightingDemo::LightingDemo()
         spotlight.CutoffAngle = glm::radians(12.5f);
         spotlight.OuterCutoffAngle = glm::radians(15.0f);
 
-        spot_light = new UniformBuffer(1, sizeof(SpotLight), &spotlight);
+        vectors = new UniformBuffer(0, 2 * sizeof(glm::vec4));
+        angles = new UniformBuffer(1, 2 * sizeof(float));
     }
 }
 
@@ -282,7 +284,7 @@ void LightingDemo::OnUpdate(TimeStep ts)
     {
         ImGui::SliderFloat("Light.CutoffAngle", &spotlight.CutoffAngle, 0.0f, 3.14159265358979323846264338327950288419716939937510f);
         ImGui::SliderFloat("Light.OuterCutoffAngle", &spotlight.OuterCutoffAngle, 0.0f, 3.14159265358979323846264338327950288419716939937510f);
-        ImGui::ColorEdit3("Light.Diffuse", glm::value_ptr(spotlight.Diffuse));
+        ImGui::ColorEdit4("Light.Diffuse", glm::value_ptr(spotlight.Diffuse));
     }
     ImGui::End();
 
@@ -302,10 +304,13 @@ void LightingDemo::OnUpdate(TimeStep ts)
 
     cube_shader.Bind();
     {
-        spot_light->SetData(&spotlight);
-
         cube_shader.SetVec3("u_CameraPosition", camera.GetPosition());
         cube_shader.SetMat4("u_ViewProj", camera.GetViewProjection());
+
+        spotlight.Position = glm::vec4(camera.GetPosition(), 0.0f);
+        spotlight.Direction = glm::vec4(camera.GetDirection(), 0.0f);
+        vectors->SetData(&spotlight.Position);
+        angles->SetData(&spotlight.CutoffAngle);
 
         for(uint32_t i = 0; i < 4; i++)
         {

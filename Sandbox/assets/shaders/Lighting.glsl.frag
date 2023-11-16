@@ -46,15 +46,27 @@ struct PointLight {
 //     float OuterCutoffAngle;
 // };
 
-layout(binding = 1) uniform SpotLight
+// layout(binding = 1, std140) uniform SpotLight
+// {
+//     vec4 sPosition;
+//     vec4 sDirection;
+
+//     vec4 sAmbient;
+//     vec4 sDiffuse;
+//     vec4 sSpecular;
+
+//     float sCutoffAngle;
+//     float sOuterCutoffAngle;
+// };
+
+layout(std140, binding = 0) uniform Vectors
 {
     vec4 sPosition;
     vec4 sDirection;
+};
 
-    vec4 sAmbient;
-    vec4 sDiffuse;
-    vec4 sSpecular;
-
+layout(std140, binding = 1) uniform Angles
+{
     float sCutoffAngle;
     float sOuterCutoffAngle;
 };
@@ -83,20 +95,24 @@ vec3 CalcSpotLight(vec3 normal, vec3 view_dir)
     float cutoff = cos(sCutoffAngle);
     float outer = cos(sOuterCutoffAngle);
 
-    vec3 light_dir = normalize(v_FragPosition - sPosition);
+    vec3 light_dir = normalize(v_FragPosition - sPosition.xyz);
     vec3 reflect_dir = reflect(light_dir, normal);
     float diff = max(dot(normal, -light_dir), 0.0);
     float spec = pow(max(dot(view_dir, reflect_dir), 0.0), u_Material.Shininess);
 
-    float theta = dot(-light_dir, normalize(sDirection));
+    float theta = dot(-light_dir, normalize(sDirection.xyz));
     float epsilon = cutoff - outer;
     float intensity = clamp((theta - outer) / epsilon, 0.0, 1.0);
+
+    vec3 sAmbient = vec3(0.0, 0.0, 0.0);
+    vec3 sDiffuse = vec3(1.0, 1.0, 1.0);
+    vec3 sSpecular = vec3(0.0, 0.0, 0.0);
 
     vec3 ambient  = sAmbient  * 1.0  * vec3(texture(u_Material.Diffuse, v_TextureCoordinate));
     vec3 diffuse  = sDiffuse  * diff * vec3(texture(u_Material.Diffuse, v_TextureCoordinate));
     vec3 specular = sSpecular * spec * vec3(texture(u_Material.Specular, v_TextureCoordinate));
 
-    return ambient + (diffuse + specular) * intensity;
+    return vec3(1.0, intensity, intensity);
 }
 
 vec3 CalcPointLight(PointLight light, vec3 normal, vec3 view_dir)
