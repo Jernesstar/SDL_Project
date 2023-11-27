@@ -49,15 +49,11 @@ private:
     };
 
     struct SpotLight {
-        float CutoffAngle;
-        float OuterCutoffAngle;
-
         glm::vec4 Position;
         glm::vec4 Direction;
 
-        glm::vec4 Ambient;
-        glm::vec4 Diffuse;
-        glm::vec4 Specular;
+        float CutoffAngle;
+        float OuterCutoffAngle;
     };
 
     Vertex1 vertices[8] = 
@@ -265,10 +261,6 @@ LightingDemo::LightingDemo()
 
         spotlight.Position  = { 0.0f, 0.0f, 0.0f, 0.0f };
         spotlight.Direction = { 0.0f, 0.0f, 0.0f, 0.0f };
-        spotlight.Ambient   = { 1.0f, 1.0f, 1.0f, 0.0f };
-
-        spotlight.Diffuse   = { 1.0f, 1.0f, 1.0f, 0.0f };
-        spotlight.Specular  = { 1.0f, 1.0f, 1.0f, 0.0f };
 
         spotlight.CutoffAngle = glm::radians(12.5f);
         spotlight.OuterCutoffAngle = glm::radians(15.0f);
@@ -284,7 +276,6 @@ void LightingDemo::OnUpdate(TimeStep ts)
     {
         ImGui::SliderFloat("Light.CutoffAngle", &spotlight.CutoffAngle, 0.0f, 3.14159265358979323846264338327950288419716939937510f);
         ImGui::SliderFloat("Light.OuterCutoffAngle", &spotlight.OuterCutoffAngle, 0.0f, 3.14159265358979323846264338327950288419716939937510f);
-        ImGui::ColorEdit4("Light.Diffuse", glm::value_ptr(spotlight.Diffuse));
     }
     ImGui::End();
 

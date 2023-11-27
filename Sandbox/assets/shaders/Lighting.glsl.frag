@@ -97,22 +97,22 @@ vec3 CalcSpotLight(vec3 normal, vec3 view_dir)
 
     vec3 light_dir = normalize(v_FragPosition - sPosition.xyz);
     vec3 reflect_dir = reflect(light_dir, normal);
-    float diff = max(dot(normal, -light_dir), 0.0);
+    float diff = clamp(dot(normal, -light_dir), 0.0, 1.0);
     float spec = pow(max(dot(view_dir, reflect_dir), 0.0), u_Material.Shininess);
 
-    float theta = dot(-light_dir, normalize(sDirection.xyz));
+    float theta = dot(-light_dir, -normalize(sDirection.xyz));
     float epsilon = cutoff - outer;
     float intensity = clamp((theta - outer) / epsilon, 0.0, 1.0);
 
-    vec3 sAmbient = vec3(0.0, 0.0, 0.0);
+    vec3 sAmbient = vec3(1.0, 1.0, 1.0);
     vec3 sDiffuse = vec3(1.0, 1.0, 1.0);
-    vec3 sSpecular = vec3(0.0, 0.0, 0.0);
+    vec3 sSpecular = vec3(1.0, 1.0, 1.0);
 
     vec3 ambient  = sAmbient  * 1.0  * vec3(texture(u_Material.Diffuse, v_TextureCoordinate));
     vec3 diffuse  = sDiffuse  * diff * vec3(texture(u_Material.Diffuse, v_TextureCoordinate));
     vec3 specular = sSpecular * spec * vec3(texture(u_Material.Specular, v_TextureCoordinate));
 
-    return vec3(1.0, intensity, intensity);
+    return (diffuse + specular) * intensity;
 }
 
 vec3 CalcPointLight(PointLight light, vec3 normal, vec3 view_dir)
