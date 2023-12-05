@@ -19,6 +19,7 @@
 #include <OpenGL/IndexBuffer.h>
 #include <OpenGL/VertexArray.h>
 #include <OpenGL/Texture2D.h>
+#include <OpenGL/Cubemap.h>
 
 using namespace Saddle;
 
@@ -79,21 +80,13 @@ private:
     VertexArray* vertex_array = new VertexArray(vertex_buffer, index_buffer);
 
     Shader shader{ { "Sandbox/assets/shaders/Cube.glsl.frag", "Sandbox/assets/shaders/Cube.glsl.vert" } };
+    Shader cubemap_shader{ { "Sandbox/assets/shaders/Cubemap.glsl.frag", "Sandbox/assets/shaders/Cubemap.glsl.vert" } };
 
-    glm::vec2 vec{ GetWindow().GetFrameBufferSize() };
-    float ratio{ vec.x / vec.y };
-    glm::mat4 model{ 1.0f };
+    // Cubemap* skybox = new Cubemap("Sandbox/assets/cubemaps/skybox");
 
-    TransformComponent transform =
-    {
-        glm::vec3{ 0.0f, 0.0f, 0.0f }, 
-        glm::vec3{ 0.05f, 0.03f, 0.03f }, 
-        glm::vec3{ 1.0f, 1.0f, 1.0f }
-    };
-
-    OrthographicCamera camera{ -ratio, ratio, -1.0f, 1.0f };
-    StereographicCamera camera2{ 90.0f, 0.01f, 100.0f, 1600, 900 };
-    CameraController controller{ camera2 };
+    glm::ivec2 vec{ GetWindow().GetFrameBufferSize() };
+    StereographicCamera camera{ 90.0f, 0.01f, 100.0f, vec.x, vec.y };
+    CameraController controller{ camera };
 };
 
 CubeDemo::CubeDemo()
@@ -107,41 +100,25 @@ CubeDemo::CubeDemo()
     EventSystem::RegisterEventListener<WindowResizedEvent>(
     [this](const WindowResizedEvent& event)
     {
-        this->camera2.Resize(event.Width, event.Height);
+        this->camera.Resize(event.Width, event.Height);
     });
 
-    shader.Bind();
-
-    camera2.SetPosition({ 0.0f, 0.0f, 3.0f });
+    camera.SetPosition({ 0.0f, 0.0f, 3.0f });
     controller.RotationSpeed = 1.0f;
 }
 
 void CubeDemo::OnUpdate(TimeStep ts)
 {
-    ImGui::ShowDemoWindow();
-    ImGui::Begin("Vertices");
-    {
-        for(uint32_t i = 0; i < 8; i++)
-        {
-            ImGui::PushID(i);
-
-            ImGui::ColorEdit3("Vertex", glm::value_ptr(vertices[i].Color));
-            ImGui::SliderFloat3("Vertex", glm::value_ptr(vertices[i].Position), -5.0f, 5.0f);
-
-            ImGui::Separator();
-            ImGui::PopID();
-        }
-    }
-    ImGui::End();
-
     vertex_buffer->SetData(vertices);
 
-    // model *= transform.GetTransform();
     controller.OnUpdate(ts);
 
-    shader.SetMat4("u_Model", model);
-    shader.SetMat4("u_ViewProj", camera2.GetViewProjection());
-
     Renderer::Clear({ 0.f, 0.f, 0.f, 0.f });
+
+    // cubemap_shader.Bind();
+    // Renderer::RenderCubemap(skybox);
+    
+    shader.Bind();
+    shader.SetMat4("u_ViewProj", camera.GetViewProjection());
     Renderer::DrawIndexed(vertex_array);
 }
