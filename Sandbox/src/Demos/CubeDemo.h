@@ -82,7 +82,14 @@ private:
     Shader shader{ { "Sandbox/assets/shaders/Cube.glsl.frag", "Sandbox/assets/shaders/Cube.glsl.vert" } };
     Shader cubemap_shader{ { "Sandbox/assets/shaders/Cubemap.glsl.frag", "Sandbox/assets/shaders/Cubemap.glsl.vert" } };
 
-    // Cubemap* skybox = new Cubemap("Sandbox/assets/cubemaps/skybox");
+    Cubemap* skybox = new Cubemap({
+        "Sandbox/assets/cubemaps/skybox/right.jpg",
+        "Sandbox/assets/cubemaps/skybox/left.jpg",
+        "Sandbox/assets/cubemaps/skybox/top.jpg",
+        "Sandbox/assets/cubemaps/skybox/bottom.jpg",
+        "Sandbox/assets/cubemaps/skybox/front.jpg",
+        "Sandbox/assets/cubemaps/skybox/back.jpg",
+    });
 
     glm::ivec2 vec{ GetWindow().GetFrameBufferSize() };
     StereographicCamera camera{ 90.0f, 0.01f, 100.0f, vec.x, vec.y };
