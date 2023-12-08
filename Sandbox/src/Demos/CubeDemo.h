@@ -82,14 +82,7 @@ private:
     Shader shader{ { "Sandbox/assets/shaders/Cube.glsl.frag", "Sandbox/assets/shaders/Cube.glsl.vert" } };
     Shader cubemap_shader{ { "Sandbox/assets/shaders/Cubemap.glsl.frag", "Sandbox/assets/shaders/Cubemap.glsl.vert" } };
 
-    Cubemap* skybox = new Cubemap({
-        "Sandbox/assets/cubemaps/skybox/right.jpg",
-        "Sandbox/assets/cubemaps/skybox/left.jpg",
-        "Sandbox/assets/cubemaps/skybox/top.jpg",
-        "Sandbox/assets/cubemaps/skybox/bottom.jpg",
-        "Sandbox/assets/cubemaps/skybox/front.jpg",
-        "Sandbox/assets/cubemaps/skybox/back.jpg",
-    });
+    Cubemap* skybox = new Cubemap("Sandbox/assets/cubemaps/skybox");
 
     glm::ivec2 vec{ GetWindow().GetFrameBufferSize() };
     StereographicCamera camera{ 90.0f, 0.01f, 100.0f, vec.x, vec.y };
@@ -98,6 +91,7 @@ private:
 
 CubeDemo::CubeDemo()
 {
+    // glDisable(GL_CULL_FACE);
     EventSystem::RegisterEventListener<KeyPressedEvent>(
     [](const KeyPressedEvent& event)
     {
@@ -109,6 +103,9 @@ CubeDemo::CubeDemo()
     {
         this->camera.Resize(event.Width, event.Height);
     });
+
+    cubemap_shader.Bind();
+    cubemap_shader.SetInt("u_Skybox", 0);
 
     camera.SetPosition({ 0.0f, 0.0f, 3.0f });
     controller.RotationSpeed = 1.0f;
@@ -122,9 +119,10 @@ void CubeDemo::OnUpdate(TimeStep ts)
 
     Renderer::Clear({ 0.f, 0.f, 0.f, 0.f });
 
-    // cubemap_shader.Bind();
-    // Renderer::RenderCubemap(skybox);
-    
+    cubemap_shader.Bind();
+    cubemap_shader.SetMat4("u_ViewProj", camera.GetViewProjection());
+    Renderer::RenderCubemap(skybox);
+
     shader.Bind();
     shader.SetMat4("u_ViewProj", camera.GetViewProjection());
     Renderer::DrawIndexed(vertex_array);

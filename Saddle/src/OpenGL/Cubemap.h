@@ -14,8 +14,6 @@ public:
 
     void Bind() const;
 
-    uint32_t GetTextureID() const { return m_TextureID; }
-
 private:
     uint32_t m_TextureID;
 };
