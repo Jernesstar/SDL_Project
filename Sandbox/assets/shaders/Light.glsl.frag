@@ -2,7 +2,9 @@
 
 uniform vec3 u_LightColor;
 
+out vec4 FragColor;
+
 void main()
 {
-    gl_FragColor = vec4(u_LightColor, 1.0);
+    FragColor = vec4(u_LightColor, 1.0);
 }
