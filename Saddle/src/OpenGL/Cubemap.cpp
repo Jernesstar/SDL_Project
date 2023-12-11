@@ -74,6 +74,7 @@ Cubemap::Cubemap(const std::vector<std::string>& faces)
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 }
+
 void Cubemap::Bind() const
 {
     glBindTexture(GL_TEXTURE_CUBE_MAP, m_TextureID);

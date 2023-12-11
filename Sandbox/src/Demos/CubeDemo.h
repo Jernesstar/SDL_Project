@@ -80,7 +80,7 @@ private:
     VertexArray* vertex_array = new VertexArray(vertex_buffer, index_buffer);
 
     Shader shader{ { "Sandbox/assets/shaders/Cube.glsl.frag", "Sandbox/assets/shaders/Cube.glsl.vert" } };
-    Shader cubemap_shader{ { "Sandbox/assets/shaders/Cubemap.glsl.frag", "Sandbox/assets/shaders/Cubemap.glsl.vert" } };
+    Shader cubemap_shader{ { "Saddle/assets/shaders/Cubemap.glsl.frag", "Saddle/assets/shaders/Cubemap.glsl.vert" } };
 
     Cubemap* skybox = new Cubemap("Sandbox/assets/cubemaps/skybox");
 
@@ -91,7 +91,6 @@ private:
 
 CubeDemo::CubeDemo()
 {
-    // glDisable(GL_CULL_FACE);
     EventSystem::RegisterEventListener<KeyPressedEvent>(
     [](const KeyPressedEvent& event)
     {
@@ -113,8 +112,6 @@ CubeDemo::CubeDemo()
 
 void CubeDemo::OnUpdate(TimeStep ts)
 {
-    vertex_buffer->SetData(vertices);
-
     controller.OnUpdate(ts);
 
     Renderer::Clear({ 0.f, 0.f, 0.f, 0.f });

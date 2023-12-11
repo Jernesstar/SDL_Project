@@ -106,11 +106,9 @@ void Renderer::RenderMesh(Mesh* mesh)
 void Renderer::RenderCubemap(Cubemap* cubemap)
 {
     glDepthMask(GL_FALSE);
-
-    cubemap->Bind();
     s_CubemapArray->Bind();
+    cubemap->Bind();
     glDrawArrays(GL_TRIANGLES, 0, 36);
-
     glDepthMask(GL_TRUE);
 }
 
