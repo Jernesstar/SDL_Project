@@ -9,6 +9,7 @@
 #include <imgui/backends/imgui_impl_opengl3.h>
 
 #include "Assert.h"
+#include "Log.h"
 #include "Saddle/Events/EventSystem.h"
 #include "Saddle/Events/ApplicationEvents.h"
 #include "Saddle/Renderer/Renderer.h"

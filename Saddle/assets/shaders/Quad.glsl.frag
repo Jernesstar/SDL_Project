@@ -4,6 +4,8 @@ layout(location = 1) in vec4 v_Color;
 layout(location = 2) in vec2 v_TextureCoordinate;
 layout(location = 3) in flat int v_TextureIndex;
 
+out vec4 FragColor;
+
 layout(binding = 0) uniform sampler2D u_Textures[32];
 
 void main()
@@ -27,5 +29,5 @@ void main()
         color = texture(u_Textures[v_TextureIndex], v_TextureCoordinate);
     }
 
-    gl_FragColor = color;
+    FragColor = color;
 }
