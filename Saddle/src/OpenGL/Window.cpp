@@ -17,7 +17,8 @@ namespace Saddle {
 Window::Window(const WindowSpecification& specs)
     : m_Specs(specs)
 {
-    // Create a window with width and height, have it not be fullscreen and not share resources
+    glfwWindowHint(GLFW_SAMPLES, 4);
+
     m_Window = glfwCreateWindow(specs.Width, specs.Height, specs.Title.c_str(), nullptr, nullptr);
     SADDLE_CORE_ASSERT(m_Window, "Could not create the window");
 
