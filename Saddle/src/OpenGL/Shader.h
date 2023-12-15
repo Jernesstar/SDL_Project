@@ -45,6 +45,8 @@ public:
     void SetMat3(const std::string& name, const glm::mat3& mat);
     void SetMat4(const std::string& name, const glm::mat4& mat);
 
+    uint32_t GetID() const { return m_ProgramID; }
+
 private:
     uint32_t m_ProgramID;
 };
