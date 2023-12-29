@@ -10,13 +10,15 @@
 
 namespace Saddle {
 
+VertexBuffer* Renderer::s_CubemapBuffer;
 VertexArray* Renderer::s_CubemapArray;
 
 void Renderer::Init()
 {
-    glEnable(GL_DEPTH_TEST);
-    glEnable(GL_MULTISAMPLE);
-    glEnable(GL_FRAMEBUFFER_SRGB);
+    glEnable(GL_DEPTH_TEST); // Depth testing
+    glEnable(GL_MULTISAMPLE); // Smooth edges
+    glEnable(GL_FRAMEBUFFER_SRGB); // Gamma correction
+    glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS); // ???
 
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -25,9 +27,7 @@ void Renderer::Init()
     glFrontFace(GL_CCW);
     glCullFace(GL_BACK);
 
-    Renderer2D::Init();
-
-    float vertices[] =
+    float vertices[6 * 6 * 3] =
     {
         -1.0f,  1.0f, -1.0f,
         -1.0f, -1.0f, -1.0f,
@@ -72,8 +72,10 @@ void Renderer::Init()
          1.0f, -1.0f,  1.0f
     };
 
-    VertexBuffer* buffer = new VertexBuffer(vertices, BufferLayout{ { "Position", BufferDataType::Vec3 } });
-    s_CubemapArray = new VertexArray(buffer);
+    s_CubemapBuffer = new VertexBuffer(vertices, BufferLayout{ { "Position", BufferDataType::Vec3 } });
+    s_CubemapArray = new VertexArray(s_CubemapBuffer);
+
+    Renderer2D::Init();
 }
 
 void Renderer::Clear(const glm::vec4& color)
@@ -110,8 +112,8 @@ void Renderer::RenderCubemap(Cubemap* cubemap)
     glDepthFunc(GL_LEQUAL);
 
     glActiveTexture(GL_TEXTURE0);
-    s_CubemapArray->Bind();
     cubemap->Bind();
+    s_CubemapArray->Bind();
     glDrawArrays(GL_TRIANGLES, 0, 36);
 
     glDepthFunc(GL_LESS);

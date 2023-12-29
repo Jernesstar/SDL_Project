@@ -6,30 +6,32 @@
 	"customizations": {
 		"vscode": {
 			"extensions": [
-				"PKief.material-icon-theme"
+				"PKief.material-icon-theme",
+				"eamodio.gitlens"
 			]
 		}
 	},
+
 	"features": {
 		"ghcr.io/wxw-matt/devcontainer-features/command_runner:0": {},
 		"ghcr.io/devcontainers-contrib/features/apt-packages:1": {},
-		"ghcr.io/devcontainers/features/github-cli:1.0.9": {},
-		"ghcr.io/devcontainers/features/sshd:1": {
-			"version": "latest"
-		},
-		"desktop-lite": {
-			"password": "vscode",
-			"webPort": "6080",
-			"vncPort": "5901"
-		}
+		"ghcr.io/devcontainers/features/github-cli:1.0.11": {},
+		"ghcr.io/devcontainers/features/desktop-lite:1": {},
+		"ghcr.io/devcontainers/features/github-cli:1": {},
+		"ghcr.io/devcontainers/features/sshd:1": {}
 	},
+
 	"build": {
 		"dockerfile": "Dockerfile"
 	},
 
-	"runArgs": ["--init", "--shm-size=1g"],
-	"forwardPorts": [6080, 5901],
-	"overrideCommand": false,
+	"runArgs": ["--shm-size=1g"],
+	"forwardPorts": [6080],
+	"portsAttributes": {
+		"6080": {
+			"label": "desktop"
+		}
+	},
 
 	"remoteUser": "root"
 }

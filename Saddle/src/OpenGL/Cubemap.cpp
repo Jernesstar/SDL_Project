@@ -31,7 +31,8 @@ std::vector<std::filesystem::path> GetImagePaths(const std::string& folder)
 
 Cubemap::Cubemap(const std::string& cubemap_folder)
 {
-    glCreateTextures(GL_TEXTURE_CUBE_MAP, 1, &m_TextureID);
+    glGenTextures(1, &m_TextureID);
+    glBindTexture(GL_TEXTURE_CUBE_MAP, m_TextureID);
 
     std::vector<std::filesystem::path> faces = GetImagePaths(cubemap_folder);
     std::unordered_map<std::string, int> map =

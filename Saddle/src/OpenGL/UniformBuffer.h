@@ -9,8 +9,6 @@
 namespace Saddle {
 
 class UniformBuffer {
-
-
 public:
     const uint32_t Binding;
     const uint32_t Size;

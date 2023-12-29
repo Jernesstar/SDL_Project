@@ -23,6 +23,7 @@ public:
     static void RenderCubemap(Cubemap* cubemap);
 
 private:
+    static VertexBuffer* s_CubemapBuffer;
     static VertexArray* s_CubemapArray;
 
 private:

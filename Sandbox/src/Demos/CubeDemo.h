@@ -2,14 +2,10 @@
 
 #include <glm/vec3.hpp>
 #include <glm/mat4x4.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
-
-#include <imgui/imgui.h>
 
 #include <Saddle/Core/Application.h>
-#include <Saddle/ECS/Components.h>
 #include <Saddle/Renderer/Renderer.h>
+#include <Saddle/Renderer/Renderer2D.h>
 #include <Saddle/Renderer/OrthographicCamera.h>
 #include <Saddle/Renderer/StereographicCamera.h>
 #include <Saddle/Renderer/CameraController.h>
@@ -80,21 +76,17 @@ private:
     VertexArray* vertex_array = new VertexArray(vertex_buffer, index_buffer);
 
     Shader shader{ { "Sandbox/assets/shaders/Cube.glsl.frag", "Sandbox/assets/shaders/Cube.glsl.vert" } };
-    Shader cubemap_shader{ { "Saddle/assets/shaders/Cubemap.glsl.frag", "Saddle/assets/shaders/Cubemap.glsl.vert" } };
+    Shader cubemap_shader{ { "Sandbox/assets/shaders/Cubemap.glsl.frag", "Sandbox/assets/shaders/Cubemap.glsl.vert" } };
 
-    Cubemap* skybox;
+    Cubemap* skybox = new Cubemap("Sandbox/assets/cubemaps/skybox");
 
-    glm::ivec2 vec{ GetWindow().GetFrameBufferSize() };
+    glm::u32vec2 vec{ GetWindow().GetFrameBufferSize() };
     StereographicCamera camera{ 90.0f, 0.01f, 100.0f, vec.x, vec.y };
     CameraController controller{ camera };
-    uint32_t id;
 };
 
 CubeDemo::CubeDemo()
 {
-    glDisable(GL_CULL_FACE);
-    id = cubemap_shader.GetID();
-
     EventSystem::RegisterEventListener<KeyPressedEvent>(
     [](const KeyPressedEvent& event)
     {
@@ -111,11 +103,7 @@ CubeDemo::CubeDemo()
     controller.RotationSpeed = 1.0f;
 
     cubemap_shader.Bind();
-    skybox = new Cubemap("Sandbox/assets/cubemaps/skybox");
     cubemap_shader.SetInt("u_Skybox", 0);
-    glUniform1i(glGetUniformLocation(id, "skybox"), 0);
-
-    glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
 }
 
 void CubeDemo::OnUpdate(TimeStep ts)
@@ -124,12 +112,12 @@ void CubeDemo::OnUpdate(TimeStep ts)
 
     Renderer::Clear({ 0.f, 0.f, 0.f, 0.f });
 
-    cubemap_shader.Bind();
-    cubemap_shader.SetMat4("u_View", camera.GetView());
-    cubemap_shader.SetMat4("u_Proj", glm::mat4(glm::mat3(camera.GetView())));
-    Renderer::RenderCubemap(skybox);
-
     shader.Bind();
     shader.SetMat4("u_ViewProj", camera.GetViewProjection());
     Renderer::DrawIndexed(vertex_array);
+
+    cubemap_shader.Bind();
+    cubemap_shader.SetMat4("u_View", glm::mat4(glm::mat3(camera.GetView())));
+    cubemap_shader.SetMat4("u_Proj", camera.GetProjection());
+    Renderer::RenderCubemap(skybox);
 }

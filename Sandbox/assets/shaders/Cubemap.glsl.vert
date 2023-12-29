@@ -1,7 +1,7 @@
 #version 450 core
 
-uniform mat4 u_Proj;
 uniform mat4 u_View;
+uniform mat4 u_Proj;
 
 layout (location = 0) in vec3 a_VertexPosition;
 
