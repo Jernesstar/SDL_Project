@@ -4,23 +4,19 @@
 
 #include "BufferLayout.h"
 
-#include "Saddle/Core/Log.h"
+#include "Saddle/Core/Application.h"
 
 namespace Saddle {
 
+enum class AttachmentType { Texture, RenderBuffer };
+
 class FrameBuffer {
 public:
-    FrameBuffer(const void* data = nullptr)
-    {
-        glGenFramebuffers(1, &m_BufferID);
-        glBindFramebuffer(GL_FRAMEBUFFER, m_BufferID);
-    }
-
+    FrameBuffer(AttachmentType type, int width, int height);
     ~FrameBuffer() { glDeleteBuffers(1, &m_BufferID); }
 
-    void SetData(const void* data, uint32_t size = 0, uint32_t offset = 0)
-    {
-    }
+    void Bind() { glBindFramebuffer(GL_FRAMEBUFFER, m_BufferID); }
+    void Unbind() { glBindFramebuffer(GL_FRAMEBUFFER, 0); }
 
 private:
     uint32_t m_BufferID;

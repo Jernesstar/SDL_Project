@@ -5,9 +5,7 @@
 
 namespace Saddle {
 
-enum class BufferDataType {
-    Float, Int, Vec2, Vec3, Vec4, Mat2, Mat3, Mat4
-};
+enum class BufferDataType { Float, Int, Vec2, Vec3, Vec4, Mat2, Mat3, Mat4 };
 
 static uint32_t BufferElementSize(BufferDataType type)
 {

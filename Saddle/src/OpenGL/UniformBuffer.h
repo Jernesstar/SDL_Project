@@ -4,8 +4,6 @@
 
 #include "BufferLayout.h"
 
-#include "Saddle/Core/Log.h"
-
 namespace Saddle {
 
 class UniformBuffer {
