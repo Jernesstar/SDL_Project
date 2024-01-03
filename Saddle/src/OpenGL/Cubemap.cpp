@@ -42,8 +42,8 @@ Cubemap::Cubemap(const std::string& cubemap_folder)
 
     for(auto& face : faces)
     {
-        int width, height;
-        unsigned char* data = Utils::ReadImage(face.string().c_str(), width, height);
+        int width, height, bpp;
+        unsigned char* data = Utils::ReadImage(face.string(), width, height, bpp, 0, false);
         glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + map[face.stem().string()], 0, GL_RGB, width,
             height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
         stbi_image_free(data);
@@ -63,9 +63,9 @@ Cubemap::Cubemap(const std::vector<std::string>& faces)
 
     for(int i = 0; i < 6; i++)
     {
-        int width, height;
-        unsigned char* data = Utils::ReadImage(faces[i].c_str(), width, height);
-        glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+        int width, height, bpp;
+        unsigned char* data = Utils::ReadImage(faces[i], width, height, bpp, 0, false);
+        glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
         stbi_image_free(data);
     }
 

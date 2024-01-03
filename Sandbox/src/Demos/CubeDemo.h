@@ -81,7 +81,7 @@ private:
     Cubemap* skybox = new Cubemap("Sandbox/assets/cubemaps/skybox");
 
     glm::u32vec2 vec{ GetWindow().GetFrameBufferSize() };
-    StereographicCamera camera{ 90.0f, 0.01f, 100.0f, vec.x, vec.y };
+    StereographicCamera camera{ 90.0f, 0.1f, 100.0f, vec.x, vec.y };
     CameraController controller{ camera };
 };
 

@@ -46,11 +46,12 @@ project "assimp"
         "%{Includes.assimp}",
         "%{VendorPaths.assimp}",
         "%{VendorPaths.assimp}/code",
-        "%{VendorPaths.assimp}/contrib",
+        "%{VendorPaths.assimp}/contrib/",
         "%{VendorPaths.assimp}/contrib/unzip",
         "%{VendorPaths.assimp}/contrib/zip/src",
         "%{VendorPaths.assimp}/contrib/pugixml/src",
         "%{VendorPaths.assimp}/contrib/rapidjson/include",
+        "%{VendorPaths.assimp}/contrib/utf8cpp/source/",
         "%{VendorPaths.assimp}/contrib/utf8cpp/source/utf8",
         "%{VendorPaths.assimp}/contrib/openddlparser/include",
     }
