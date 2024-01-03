@@ -49,6 +49,8 @@ FrameBuffer::FrameBuffer(AttachmentSpecification specs)
     {
         
     }
+
+    SADDLE_CORE_ASSERT((glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE));
 }
 
 FrameBuffer::~FrameBuffer()
