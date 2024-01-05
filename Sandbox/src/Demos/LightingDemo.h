@@ -189,8 +189,7 @@ private:
     PointLight pointlights[4];
     SpotLight spotlight;
 
-    UniformBuffer* vectors;
-    UniformBuffer* angles;
+    UniformBuffer* spot_light;
 };
 
 LightingDemo::LightingDemo()
@@ -265,8 +264,7 @@ LightingDemo::LightingDemo()
         spotlight.CutoffAngle = glm::radians(12.5f);
         spotlight.OuterCutoffAngle = glm::radians(15.0f);
 
-        vectors = new UniformBuffer(0, 2 * sizeof(glm::vec4));
-        angles = new UniformBuffer(1, 2 * sizeof(float));
+        spot_light = new UniformBuffer(0, sizeof(SpotLight));
     }
 }
 
@@ -300,8 +298,7 @@ void LightingDemo::OnUpdate(TimeStep ts)
 
         spotlight.Position = glm::vec4(camera.GetPosition(), 0.0f);
         spotlight.Direction = glm::vec4(camera.GetDirection(), 0.0f);
-        vectors->SetData(&spotlight.Position);
-        angles->SetData(&spotlight.CutoffAngle);
+        spot_light->SetData(&spotlight);
 
         for(uint32_t i = 0; i < 4; i++)
         {

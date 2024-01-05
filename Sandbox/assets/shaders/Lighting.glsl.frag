@@ -34,39 +34,15 @@ struct PointLight {
     float Quadratic;
 };
 
-// struct SpotLight {
-//     vec3 Position;
-//     vec3 Direction;
-
-//     vec3 Ambient;
-//     vec3 Diffuse;
-//     vec3 Specular;
-
-//     float CutoffAngle;
-//     float OuterCutoffAngle;
-// };
-
-// layout(binding = 1, std140) uniform SpotLight
-// {
-//     vec4 sPosition;
-//     vec4 sDirection;
-
-//     vec4 sAmbient;
-//     vec4 sDiffuse;
-//     vec4 sSpecular;
-
-//     float sCutoffAngle;
-//     float sOuterCutoffAngle;
-// };
-
-layout(std140, binding = 0) uniform Vectors
+layout(binding = 0, std140) uniform SpotLight
 {
     vec4 sPosition;
     vec4 sDirection;
-};
 
-layout(std140, binding = 1) uniform Angles
-{
+    vec4 sAmbient;
+    vec4 sDiffuse;
+    vec4 sSpecular;
+
     float sCutoffAngle;
     float sOuterCutoffAngle;
 };
