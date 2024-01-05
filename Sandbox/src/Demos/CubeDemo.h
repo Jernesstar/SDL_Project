@@ -3,19 +3,19 @@
 #include <glm/vec3.hpp>
 #include <glm/mat4x4.hpp>
 
-#include <Saddle/Core/Application.h>
-#include <Saddle/Renderer/Renderer.h>
-#include <Saddle/Renderer/Renderer2D.h>
-#include <Saddle/Renderer/OrthographicCamera.h>
-#include <Saddle/Renderer/StereographicCamera.h>
-#include <Saddle/Renderer/CameraController.h>
-
 #include <OpenGL/Shader.h>
 #include <OpenGL/VertexBuffer.h>
 #include <OpenGL/IndexBuffer.h>
 #include <OpenGL/VertexArray.h>
 #include <OpenGL/Texture2D.h>
 #include <OpenGL/Cubemap.h>
+
+#include <Saddle/Core/Application.h>
+#include <Saddle/Renderer/Renderer.h>
+#include <Saddle/Renderer/Renderer2D.h>
+#include <Saddle/Renderer/OrthographicCamera.h>
+#include <Saddle/Renderer/StereographicCamera.h>
+#include <Saddle/Renderer/CameraController.h>
 
 using namespace Saddle;
 

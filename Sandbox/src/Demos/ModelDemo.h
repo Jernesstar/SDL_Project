@@ -1,12 +1,11 @@
-#include <Saddle/Core/Application.h>
+#include <OpenGL/Shader.h>
 
+#include <Saddle/Core/Application.h>
 #include <Saddle/Events/EventSystem.h>
 #include <Saddle/Renderer/Mesh.h>
 #include <Saddle/Renderer/StereographicCamera.h>
 #include <Saddle/Renderer/CameraController.h>
 #include <Saddle/Renderer/Renderer.h>
-
-#include <OpenGL/Shader.h>
 
 using namespace Saddle;
 

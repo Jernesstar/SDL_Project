@@ -1,5 +1,7 @@
 #include "FrameBuffer.h"
 
+#include <glad/glad.h>
+
 namespace Saddle
 {
 
@@ -7,7 +9,7 @@ FrameBuffer::FrameBuffer(AttachmentSpecification specs)
 {
     glGenFramebuffers(1, &m_BufferID);
     glGenTextures(1, &m_TextureID);
-    glGenRenderbuffers(1, &m_RenderBufferID);
+    glGenRenderbuffers(1, &m_RenderbufferID);
 
     switch(specs.Color)
     {
@@ -25,9 +27,9 @@ FrameBuffer::FrameBuffer(AttachmentSpecification specs)
 
     if(specs.Depth == AttachmentType::RenderBuffer && specs.Stencil == AttachmentType::RenderBuffer)
     {
-        glBindRenderbuffer(GL_RENDERBUFFER, m_RenderBufferID);
+        glBindRenderbuffer(GL_RENDERBUFFER, m_RenderbufferID);
         glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, specs.Width, specs.Height);
-        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, m_RenderBufferID);
+        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, m_RenderbufferID);
     }
 
     switch(specs.Depth)
@@ -47,7 +49,13 @@ FrameBuffer::FrameBuffer(AttachmentSpecification specs)
 
     switch(specs.Stencil)
     {
-        
+
+    }
+
+    if(specs.Color == AttachmentType::None)
+    {
+        glDrawBuffer(GL_NONE);
+        glReadBuffer(GL_NONE);
     }
 
     SADDLE_CORE_ASSERT((glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE));
@@ -56,8 +64,13 @@ FrameBuffer::FrameBuffer(AttachmentSpecification specs)
 FrameBuffer::~FrameBuffer()
 {
     glDeleteTextures(1, &m_TextureID);
-    glDeleteRenderbuffers(1, &m_RenderBufferID);
+    glDeleteRenderbuffers(1, &m_RenderbufferID);
     glDeleteBuffers(1, &m_BufferID);
 }
+
+void FrameBuffer::Bind() { glBindFramebuffer(GL_FRAMEBUFFER, m_BufferID); }
+void FrameBuffer::Unbind() { glBindFramebuffer(GL_FRAMEBUFFER, 0); }
+void FrameBuffer::BindTexture() { glBindTexture(GL_TEXTURE_2D, m_TextureID); }
+void FrameBuffer::BindRenderbuffer() { glBindRenderbuffer(GL_RENDERBUFFER, m_RenderbufferID); }
 
 }

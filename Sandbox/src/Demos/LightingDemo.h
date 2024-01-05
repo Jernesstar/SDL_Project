@@ -4,14 +4,14 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include <OpenGL/Shader.h>
+#include <OpenGL/UniformBuffer.h>
+
 #include <Saddle/Core/Application.h>
 #include <Saddle/Renderer/Renderer.h>
 #include <Saddle/Renderer/OrthographicCamera.h>
 #include <Saddle/Renderer/StereographicCamera.h>
 #include <Saddle/Renderer/CameraController.h>
-
-#include <OpenGL/Shader.h>
-#include <OpenGL/UniformBuffer.h>
 
 using namespace Saddle;
 
