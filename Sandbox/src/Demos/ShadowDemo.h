@@ -18,10 +18,18 @@ public:
     void OnUpdate(TimeStep ts) override;
 
 private:
+    Shader depth_shader{ { "Sandbox/assets/shaders/Shadow.glsl.vert", "Sandbox/assets/shaders/Shadow.glsl.frag" } };
     FrameBuffer* depth_map;
 
+    Texture2D wood{ "Sandbox/assets/images/wood.png" };
+
     StereographicCamera camera{ 90.0f, 0.1f, 100.0f, 1600, 900 };
+    OrthographicCamera light_transform;
+
     CameraController controller{ camera };
+
+    float near_plane = 1.0f, far_plane = 7.5f;
+    glm::mat4 mat;
 };
 
 ShadowDemo::ShadowDemo()
@@ -33,8 +41,14 @@ ShadowDemo::ShadowDemo()
             Application::Close();
     });
 
+    glm::mat4 light_projection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, near_plane, far_plane);
+    glm::mat4 light_view = glm::lookAt(glm::vec3(-2.0f, 4.0f, -1.0f),
+                                    glm::vec3(0.0f, 0.0f,  0.0f),
+                                    glm::vec3(0.0f, 1.0f,  0.0f));
+    mat = light_projection * light_view;
+
     depth_map = new FrameBuffer({
-        800, 1960, AttachmentType::None, AttachmentType::Texture, AttachmentType::None
+        800, 600, AttachmentType::None, AttachmentType::Texture, AttachmentType::None
     });
 
     camera.SetPosition({ 0.0f, 0.0f, 1.0f });
@@ -44,6 +58,30 @@ ShadowDemo::ShadowDemo()
 void ShadowDemo::OnUpdate(TimeStep ts)
 {
     controller.OnUpdate(ts);
+
+    depth_shader.Bind();
+    depth_shader.SetMat4("u_LightSpaceMatrix", mat);
+
+    glViewport(0, 0, 800, 600);
+    depth_map->Bind();
+    glClear(GL_DEPTH_BUFFER_BIT);
+    glActiveTexture(GL_TEXTURE0);
+    wood.Bind();
+    // renderScene(simpleDepthShader);
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+    // reset viewport
+    glViewport(0, 0, 800, 600);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    // render Depth map to quad for visual debugging
+    // ---------------------------------------------
+    // debugDepthQuad.use();
+    // debugDepthQuad.setFloat("near_plane", near_plane);
+    // debugDepthQuad.setFloat("far_plane", far_plane);
+    glActiveTexture(GL_TEXTURE0);
+    depth_map->BindTexture();
+    // renderQuad();
 
     Renderer::Clear({ 0.0f, 0.0f, 0.0f, 0.0f });
 }

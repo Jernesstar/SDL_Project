@@ -6,9 +6,11 @@
 
 namespace Saddle {
 
+class AttachmentSpecification;
+
 class FrameBuffer {
 public:
-    FrameBuffer(AttachmentSpecification specs);
+    FrameBuffer(const AttachmentSpecification& specs);
     ~FrameBuffer();
 
     void Bind();

@@ -5,7 +5,7 @@
 namespace Saddle
 {
 
-FrameBuffer::FrameBuffer(AttachmentSpecification specs)
+FrameBuffer::FrameBuffer(const AttachmentSpecification& specs)
 {
     glGenFramebuffers(1, &m_BufferID);
     glGenTextures(1, &m_TextureID);
@@ -59,6 +59,7 @@ FrameBuffer::FrameBuffer(AttachmentSpecification specs)
     }
 
     SADDLE_CORE_ASSERT((glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE));
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
 FrameBuffer::~FrameBuffer()

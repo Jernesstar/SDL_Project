@@ -95,8 +95,8 @@ uint32_t GetShaderType(ShaderType type)
     switch(type)
     {
         case ShaderType::Vertex:   return GL_VERTEX_SHADER;
-        case ShaderType::Fragment: return GL_FRAGMENT_SHADER;
         case ShaderType::Geometry: return GL_GEOMETRY_SHADER;
+        case ShaderType::Fragment: return GL_FRAGMENT_SHADER;
         case ShaderType::Compute:  return GL_COMPUTE_SHADER;
     }
 
@@ -112,10 +112,10 @@ Shader::ShaderFile FindShaderFile(const std::string& path)
         SADDLE_CORE_ASSERT_ARGS(false, "%s is an incorrectly formatted file name. Accepted formats: example.glsl.vert, example.vert.glsl, example.vert", path.c_str());
 
     std::string sub_str = path.substr(dot);
-    if(StringContains(sub_str, "vert") || StringContains(sub_str, "vs")) return Shader::ShaderFile{ path, ShaderType::Vertex   };
+    if(StringContains(sub_str, "vert") || StringContains(sub_str, "vs")) return Shader::ShaderFile{ path, ShaderType::Vertex };
     if(StringContains(sub_str, "geom") || StringContains(sub_str, "gs")) return Shader::ShaderFile{ path, ShaderType::Geometry };
     if(StringContains(sub_str, "frag") || StringContains(sub_str, "fs")) return Shader::ShaderFile{ path, ShaderType::Fragment };
-    if(StringContains(sub_str, "comp") || StringContains(sub_str, "compute")) return Shader::ShaderFile{ path, ShaderType::Compute  };
+    if(StringContains(sub_str, "comp") || StringContains(sub_str, "compute")) return Shader::ShaderFile{ path, ShaderType::Compute };
 
     SADDLE_CORE_ASSERT_ARGS(false, "File %s is of unknown shader type", path.c_str());
     return Shader::ShaderFile{ "", ShaderType::Unknown };
