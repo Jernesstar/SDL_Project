@@ -27,6 +27,7 @@ public:
 public:
     Shader(const std::vector<std::string>& paths);
     Shader(const std::initializer_list<ShaderFile>& files);
+    Shader(const std::string& folder_path, const std::string& name);
     ~Shader();
 
     void Bind() const;

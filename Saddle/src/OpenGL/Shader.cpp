@@ -31,6 +31,8 @@ Shader::Shader(const std::initializer_list<ShaderFile>& files)
     m_ProgramID = CreateProgram(files);
 }
 
+Shader::Shader()
+
 Shader::~Shader() { glDeleteProgram(m_ProgramID); }
 
 void Shader::Bind() const { glUseProgram(m_ProgramID); }

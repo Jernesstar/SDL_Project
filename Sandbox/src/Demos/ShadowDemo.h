@@ -18,7 +18,8 @@ public:
     void OnUpdate(TimeStep ts) override;
 
 private:
-    Shader depth_shader{ { "Sandbox/assets/shaders/Shadow.glsl.vert", "Sandbox/assets/shaders/Shadow.glsl.frag" } };
+    Shader depth_shader{ { "Sandbox/assets/shaders/Depth.glsl.vert", "Sandbox/assets/shaders/Depth.glsl.frag" } };
+    Shader shadow_shader{ { "Sandbox/assets/shaders/Shadow.glsl.vert", "Sandbox/assets/shaders/Shadow.glsl.frag" } };
     FrameBuffer* depth_map;
 
     Texture2D wood{ "Sandbox/assets/images/wood.png" };
