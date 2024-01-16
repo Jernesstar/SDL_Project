@@ -171,9 +171,23 @@ void Renderer2D::DrawEntity(Entity& entity, const glm::vec2& size)
 void Renderer2D::DrawText(const Text& text, const glm::mat4& transform)
 {
     const glm::vec4& color = text.GetColor();
-    for(const Text::CharacterQuad& ch : text.GetCharacters())
+    Font* font = text.GetFont();
+
+    float x = 0.0f;
+    glm::vec2 position;
+    for(auto& character : text.GetText())
     {
-        DrawQuad(ch, color, transform);
+        Font::CharacterQuad quad = font->GetQuad(character);
+        Font::Character ch = quad.Character;
+
+        float w = ch.Size.x;
+        float h = ch.Size.y;
+
+        position.x = x + ch.Bearing.x + 0.5f * w;
+        position.y = -(ch.Size.y - ch.Bearing.y) + 0.5f * h;
+
+        DrawQuad(quad, color, glm::translate(transform, position));
+        x += (ch.Advance >> 6);
     }
 }
 
@@ -254,7 +268,7 @@ void Renderer2D::DrawQuad(Texture2D* texture, const glm::mat4& transform)
     s_Data.QuadIndexCount += 6;
 }
 
-void Renderer2D::DrawQuad(const Text::CharacterQuad& ch, const glm::vec4& color, const glm::mat4& transform)
+void Renderer2D::DrawQuad(const Font::CharacterQuad& ch, const glm::vec4& color, const glm::mat4& transform)
 {
     if(s_Data.QuadIndexCount == Renderer2DData::MaxIndices || s_Data.TextureSlotIndex >= Renderer2DData::MaxTextureSlots
     || s_Data.TextSlotIndex < 0 || s_Data.TextureSlotIndex > s_Data.TextSlotIndex)

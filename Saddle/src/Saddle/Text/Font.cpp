@@ -55,15 +55,23 @@ void Font::UpdateCharacters()
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-        Character character =
+        CharacterQuad quad;
+        quad.Character = ch;
+        quad.Vertices[0] = { 0, 0 };
+        quad.Vertices[1] = { w, 0 };
+        quad.Vertices[2] = { w, h };
+        quad.Vertices[3] = { 0, h };
+
+        Character ch =
         {
             texture_id,
             glm::ivec2(w, h),
             glm::ivec2(m_Face->glyph->bitmap_left, m_Face->glyph->bitmap_top),
             (uint32_t)m_Face->glyph->advance.x
         };
-
-        m_Characters[c] = character;
+        
+        quad.Character = ch;
+        m_Quads[c] = quad;
     }
 }
 

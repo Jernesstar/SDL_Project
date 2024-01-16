@@ -24,6 +24,14 @@ private:
         uint32_t   Advance;   // Offset to advance to next glyph
     };
 
+    struct CharacterQuad {
+        Font::Character Character;
+        glm::vec2 Vertices[4];
+
+        void Bind(uint32_t slot) { glBindTextureUnit(slot, Character.TextureID); }
+        bool operator ==(const CharacterQuad& other) const { return this->Character.TextureID == other.Character.TextureID; }
+    };
+
 public:
     const std::string FontPath;
 
@@ -40,7 +48,7 @@ public:
 
     glm::vec2 GetSize(const std::string& text) const;
 
-    const Character& GetCharacter(char character) const
+    const CharacterQuad& GetQuad(char character) const
     {
         SADDLE_CORE_ASSERT_ARGS(m_Characters.find(character) != m_Characters.end(), "%s is not a valid character!", character);
         return m_Characters.at(character);
@@ -48,14 +56,12 @@ public:
 
 private:
     FT_Face m_Face;
-    std::unordered_map<char, Character> m_Characters;
+    std::unordered_map<char, CharacterQuad> m_Quads;
     
     void DeleteCharacters();
     void UpdateCharacters();
 
     inline static FT_Library s_FT;
-
-    friend class Text;
 };
 
 };

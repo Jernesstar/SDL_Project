@@ -75,14 +75,5 @@ void ShadowDemo::OnUpdate(TimeStep ts)
     glViewport(0, 0, 800, 600);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    // render Depth map to quad for visual debugging
-    // ---------------------------------------------
-    // debugDepthQuad.use();
-    // debugDepthQuad.setFloat("near_plane", near_plane);
-    // debugDepthQuad.setFloat("far_plane", far_plane);
-    glActiveTexture(GL_TEXTURE0);
-    depth_map->BindTexture();
-    // renderQuad();
-
     Renderer::Clear({ 0.0f, 0.0f, 0.0f, 0.0f });
 }
