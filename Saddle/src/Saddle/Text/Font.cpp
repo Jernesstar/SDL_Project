@@ -29,7 +29,7 @@ Font::~Font()
 void Font::DeleteCharacters()
 {
     for(const auto& [_, quad] : m_Quads)
-        glDeleteTextures(1, &quad.Character.TextureID);
+        delete quad;
 }
 
 void Font::UpdateCharacters()
@@ -55,23 +55,15 @@ void Font::UpdateCharacters()
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-        CharacterQuad quad;
-
         Character ch =
         {
             texture_id,
             glm::ivec2(w, h),
             glm::ivec2(m_Face->glyph->bitmap_left, m_Face->glyph->bitmap_top),
-            (uint32_t)m_Face->glyph->advance.x
+            (uint32_t)m_Face->glyph->advance.x >> 6
         };
 
-        quad.Character = ch;
-        quad.Vertices[0] = { 0, 0 };
-        quad.Vertices[1] = { w, 0 };
-        quad.Vertices[2] = { w, h };
-        quad.Vertices[3] = { 0, h };
-        
-        quad.Character = ch;
+        CharacterQuad* quad = new CharacterQuad(ch);
         m_Quads[c] = quad;
     }
 }
@@ -81,7 +73,7 @@ glm::vec2 Font::GetSize(const std::string& text) const
     float x = 0.0f, high_y = 0.0f;
     for(auto c = text.begin(); c != text.end(); c++)
     {
-        const Character& ch = GetQuad(*c).Character;
+        const Character& ch = GetQuad(*c)->GetCharacter();
 
         x += ch.Advance >> 6;
         high_y = std::max((float)high_y, (float)ch.Bearing.y);
