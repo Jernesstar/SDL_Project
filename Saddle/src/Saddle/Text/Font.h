@@ -50,8 +50,8 @@ public:
 
     const CharacterQuad& GetQuad(char character) const
     {
-        SADDLE_CORE_ASSERT_ARGS(m_Characters.find(character) != m_Characters.end(), "%s is not a valid character!", character);
-        return m_Characters.at(character);
+        SADDLE_CORE_ASSERT_ARGS(m_Quads.find(character) != m_Quads.end(), "%s is not a valid character!", character);
+        return m_Quads.at(character);
     };
 
 private:
@@ -62,6 +62,8 @@ private:
     void UpdateCharacters();
 
     inline static FT_Library s_FT;
+
+friend class Renderer2D;
 };
 
 };

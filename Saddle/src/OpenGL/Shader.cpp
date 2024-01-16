@@ -31,7 +31,10 @@ Shader::Shader(const std::initializer_list<ShaderFile>& files)
     m_ProgramID = CreateProgram(files);
 }
 
-Shader::Shader()
+Shader::Shader(const std::string& folder_path, const std::string& name)
+{
+    // TODO: Find all the different kinds shaders in the folder that have the same name
+}
 
 Shader::~Shader() { glDeleteProgram(m_ProgramID); }
 

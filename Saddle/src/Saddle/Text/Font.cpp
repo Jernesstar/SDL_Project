@@ -14,7 +14,7 @@ Font::Font(const std::string& font_path, uint32_t width, uint32_t height)
 
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
-    m_Characters.reserve(128);
+    m_Quads.reserve(128);
 
     SetSize(width, height);
 }
@@ -28,8 +28,8 @@ Font::~Font()
 
 void Font::DeleteCharacters()
 {
-    for(const auto& [_, ch] : m_Characters)
-        glDeleteTextures(1, &ch.TextureID);
+    for(const auto& [_, quad] : m_Quads)
+        glDeleteTextures(1, &quad.Character.TextureID);
 }
 
 void Font::UpdateCharacters()
@@ -56,11 +56,6 @@ void Font::UpdateCharacters()
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
         CharacterQuad quad;
-        quad.Character = ch;
-        quad.Vertices[0] = { 0, 0 };
-        quad.Vertices[1] = { w, 0 };
-        quad.Vertices[2] = { w, h };
-        quad.Vertices[3] = { 0, h };
 
         Character ch =
         {
@@ -69,6 +64,12 @@ void Font::UpdateCharacters()
             glm::ivec2(m_Face->glyph->bitmap_left, m_Face->glyph->bitmap_top),
             (uint32_t)m_Face->glyph->advance.x
         };
+
+        quad.Character = ch;
+        quad.Vertices[0] = { 0, 0 };
+        quad.Vertices[1] = { w, 0 };
+        quad.Vertices[2] = { w, h };
+        quad.Vertices[3] = { 0, h };
         
         quad.Character = ch;
         m_Quads[c] = quad;
@@ -80,7 +81,7 @@ glm::vec2 Font::GetSize(const std::string& text) const
     float x = 0.0f, high_y = 0.0f;
     for(auto c = text.begin(); c != text.end(); c++)
     {
-        const Character& ch = GetCharacter(*c);
+        const Character& ch = GetQuad(*c).Character;
 
         x += ch.Advance >> 6;
         high_y = std::max((float)high_y, (float)ch.Bearing.y);

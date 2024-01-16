@@ -29,7 +29,7 @@ public:
     static void DrawText(const Text& text, const glm::vec3& position, float scale = 1.0f);
     static void DrawText(const Text& text, const glm::vec2& position, float scale = 1.0f) { DrawText(text, glm::vec3(position, 0.0f), scale); }
 
-    static void DrawQuad(const Text::CharacterQuad& ch, const glm::vec4& color, const glm::mat4& transform);
+    static void DrawQuad(const Font::CharacterQuad& ch, const glm::vec4& color, const glm::mat4& transform);
     
     static void DrawQuad(const glm::vec4& color, const glm::mat4& transform);
     static void DrawQuad(const glm::vec4& color, const glm::vec3& position, const glm::vec2& size);

@@ -128,7 +128,7 @@ void Renderer2D::Flush()
         ((Texture2D*)s_Data.TextureSlots[i])->Bind(i);
 
     for(uint32_t i = s_Data.MaxTextureSlots - 1; i > s_Data.TextSlotIndex; i--)
-        ((Text::CharacterQuad*)s_Data.TextureSlots[i])->Bind(i);
+        ((Font::CharacterQuad*)s_Data.TextureSlots[i])->Bind(i);
 
     s_Data.QuadShader->Bind();
     s_Data.QuadShader->SetMat4("u_ViewProjMatrix", s_ViewProjMatrix);
@@ -171,10 +171,10 @@ void Renderer2D::DrawEntity(Entity& entity, const glm::vec2& size)
 void Renderer2D::DrawText(const Text& text, const glm::mat4& transform)
 {
     const glm::vec4& color = text.GetColor();
-    Font* font = text.GetFont();
+    const Font* font = text.GetFont();
 
     float x = 0.0f;
-    glm::vec2 position;
+    glm::vec3 position = { 0.0f, 0.0f, 0.0f };
     for(auto& character : text.GetText())
     {
         Font::CharacterQuad quad = font->GetQuad(character);
@@ -277,7 +277,7 @@ void Renderer2D::DrawQuad(const Font::CharacterQuad& ch, const glm::vec4& color,
     uint32_t text_index = 0;
     for(uint32_t i = s_Data.MaxTextureSlots - 1; i > s_Data.TextSlotIndex; i--)
     {
-        if(*(Text::CharacterQuad*)s_Data.TextureSlots[i] == ch)
+        if(*(Font::CharacterQuad*)s_Data.TextureSlots[i] == ch)
         {
             text_index = i;
             break;
