@@ -1,7 +1,5 @@
 #pragma once
 
-#include "BufferLayout.h"
-
 #include "Saddle/Core/Application.h"
 
 namespace Saddle {

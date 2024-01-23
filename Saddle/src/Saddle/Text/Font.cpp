@@ -70,8 +70,7 @@ void Font::UpdateCharacters()
         quad.Vertices[1] = { w, 0 };
         quad.Vertices[2] = { w, h };
         quad.Vertices[3] = { 0, h };
-        
-        quad.Character = ch;
+
         m_Quads[c] = quad;
     }
 }
