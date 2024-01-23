@@ -24,12 +24,30 @@ private:
         uint32_t   Advance;   // Offset to advance to next glyph
     };
 
-    struct CharacterQuad {
-        Font::Character Character;
-        glm::vec2 Vertices[4];
+    class CharacterQuad {
+    public:
+        CharacterQuad(Font::Character character)
+            : m_Character(character)
+        {
+            m_Vertices[0] = { 0, 0 };
+            m_Vertices[1] = { m_Character.Size.x, 0 };
+            m_Vertices[2] = { m_Character.Size.x, m_Character.Size.y };
+            m_Vertices[3] = { 0, m_Character.Size.y };
+        }
+        ~CharacterQuad() { glDeleteTextures(1, &m_Character.TextureID); }
 
-        void Bind(uint32_t slot) { glBindTextureUnit(slot, Character.TextureID); }
-        bool operator ==(const CharacterQuad& other) const { return this->Character.TextureID == other.Character.TextureID; }
+        const Font::Character GetCharacter() const { return m_Character; }
+        const glm::vec2 GetVertices(uint32_t i) const
+        {
+            SADDLE_CORE_ASSERT(i <= 4);
+            return m_Vertices[i];
+        }
+
+        void Bind(uint32_t slot) { glBindTextureUnit(slot, m_Character.TextureID); }
+
+    private:
+        Font::Character m_Character;
+        glm::vec2 m_Vertices[4];
     };
 
 public:
@@ -48,7 +66,7 @@ public:
 
     glm::vec2 GetSize(const std::string& text) const;
 
-    const CharacterQuad& GetQuad(char character) const
+    const CharacterQuad* GetQuad(char character) const
     {
         SADDLE_CORE_ASSERT_ARGS(m_Quads.find(character) != m_Quads.end(), "%s is not a valid character!", character);
         return m_Quads.at(character);
@@ -56,14 +74,14 @@ public:
 
 private:
     FT_Face m_Face;
-    std::unordered_map<char, CharacterQuad> m_Quads;
+    std::unordered_map<char, CharacterQuad*> m_Quads;
     
     void DeleteCharacters();
     void UpdateCharacters();
 
     inline static FT_Library s_FT;
 
-friend class Renderer2D;
+    friend class Renderer2D;
 };
 
 };

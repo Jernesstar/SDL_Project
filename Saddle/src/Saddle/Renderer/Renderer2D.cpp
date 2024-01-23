@@ -177,17 +177,17 @@ void Renderer2D::DrawText(const Text& text, const glm::mat4& transform)
     glm::vec3 position = { 0.0f, 0.0f, 0.0f };
     for(auto& character : text.GetText())
     {
-        Font::CharacterQuad quad = font->GetQuad(character);
-        Font::Character ch = quad.Character;
+        const Font::CharacterQuad* quad = font->GetQuad(character);
+        Font::Character ch = quad->GetCharacter();
 
         float w = ch.Size.x;
         float h = ch.Size.y;
 
         position.x = x + ch.Bearing.x + 0.5f * w;
-        position.y = -(ch.Size.y - ch.Bearing.y) + 0.5f * h;
+        position.y = -(h - ch.Bearing.y) + 0.5f * h;
 
         DrawQuad(quad, color, glm::translate(transform, position));
-        x += (ch.Advance >> 6);
+        x += ch.Advance;
     }
 }
 
@@ -268,7 +268,7 @@ void Renderer2D::DrawQuad(Texture2D* texture, const glm::mat4& transform)
     s_Data.QuadIndexCount += 6;
 }
 
-void Renderer2D::DrawQuad(const Font::CharacterQuad& ch, const glm::vec4& color, const glm::mat4& transform)
+void Renderer2D::DrawQuad(const Font::CharacterQuad* ch, const glm::vec4& color, const glm::mat4& transform)
 {
     if(s_Data.QuadIndexCount == Renderer2DData::MaxIndices || s_Data.TextureSlotIndex >= Renderer2DData::MaxTextureSlots
     || s_Data.TextSlotIndex < 0 || s_Data.TextureSlotIndex > s_Data.TextSlotIndex)
@@ -277,7 +277,7 @@ void Renderer2D::DrawQuad(const Font::CharacterQuad& ch, const glm::vec4& color,
     uint32_t text_index = 0;
     for(uint32_t i = s_Data.MaxTextureSlots - 1; i > s_Data.TextSlotIndex; i--)
     {
-        if(*(Font::CharacterQuad*)s_Data.TextureSlots[i] == ch)
+        if((Font::CharacterQuad*)s_Data.TextureSlots[i] == ch)
         {
             text_index = i;
             break;
@@ -287,12 +287,12 @@ void Renderer2D::DrawQuad(const Font::CharacterQuad& ch, const glm::vec4& color,
     if(text_index == 0)
     {
         text_index = s_Data.TextSlotIndex;
-        s_Data.TextureSlots[s_Data.TextSlotIndex--] = (void*)&ch;
+        s_Data.TextureSlots[s_Data.TextSlotIndex--] = (void*)ch;
     }
 
     for(uint32_t i = 0; i < 4; i++)
     {
-        s_Data.QuadVertexBufferPtr->Position = transform * glm::vec4(ch.Vertices[i], 0.0f, 1.0f);
+        s_Data.QuadVertexBufferPtr->Position = transform * glm::vec4(ch->GetVertices(i), 0.0f, 1.0f);
         s_Data.QuadVertexBufferPtr->Color = color;
         s_Data.QuadVertexBufferPtr->TextureCoordinate = s_Data.TextCoords[i];
         s_Data.QuadVertexBufferPtr->TextureIndex = (int32_t)text_index;
