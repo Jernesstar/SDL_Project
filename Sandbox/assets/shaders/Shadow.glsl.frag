@@ -14,10 +14,10 @@ uniform sampler2D shadowMap;
 uniform vec3 lightPos;
 uniform vec3 viewPos;
 
-float ShadowCalculation(vec4 fragPosLightSpace)
-{
-    [...]
-}
+// float ShadowCalculation(vec4 fragPosLightSpace)
+// {
+//     [...]
+// }
 
 void main()
 {           

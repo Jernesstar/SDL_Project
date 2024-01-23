@@ -6,6 +6,7 @@
 #include "Demos/FontDemo.h"
 #include "Demos/LightingDemo.h"
 #include "Demos/ModelDemo.h"
+#include "Demos/ShadowDemo.h"
 #include "Demos/TextureDemo.h"
 #include "Snake/Game.h"
 
@@ -26,6 +27,8 @@ Application* CreateApplication(const ApplicationCommandLineArgs& args)
             return new LightingDemo();
         if(project == "Model")
             return new ModelDemo();
+        if(project == "Shadow")
+            return new ShadowDemo();
         if(project == "Texture")
             return new TextureDemo();
         if(project == "Snake")
